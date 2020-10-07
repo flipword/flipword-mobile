@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/ui/layout.dart';
 import 'package:flutter_flip_card/ui/pages/add_word.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
@@ -18,13 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(),
-      routes: <String, WidgetBuilder> {
-        HomePage.routeName: (BuildContext context) => const HomePage(),
-        ListWordPage.routeName : (BuildContext context) => const ListWordPage(),
-        AddWordPage.routeName : (BuildContext context) => const AddWordPage(),
-        ProfilePage.routeName : (BuildContext context) => const ProfilePage()
-      },
+      home: Layout()
     );
   }
 }
