@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/router.dart';
+import 'package:flutter_flip_card/router/router.dart';
 import 'package:flutter_flip_card/ui/components/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/components/button/square_button.dart';
 import 'package:flutter_flip_card/ui/pages/add_word.dart';
+import 'package:flutter_flip_card/ui/themes/theme.dart';
 
 class Layout extends StatefulWidget {
 
@@ -16,34 +17,32 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   int _selectedIndex = 0;
 
   @override
-  Widget build(BuildContext context) => MaterialApp(
-    home: Scaffold(
+  Widget build(BuildContext context) => Scaffold(
       body: _buildBody(),
       floatingActionButton: new SquareButton(
         icon: Icon(
             Icons.add,
-            color: Colors.black,
+            color: Theme.of(context).iconTheme.color,
             size: 30,
         ),
-        backgroundColor: Color.fromARGB(255, 94, 177, 191),
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: () {navigatorKey.currentState.pushNamed(AddWordPage.routeName);}
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-      bottomNavigationBar: _buildBottomNavigationBar(context),
-    ),
+      bottomNavigationBar: _buildBottomNavigationBar(context)
   );
 
   Widget _buildBody() =>
       MaterialApp(
           navigatorKey: navigatorKey,
+          theme: MyTheme.defaultTheme,
           onGenerateRoute: (route) => Router.generateRoute(route)
       );
 
   Widget _buildBottomNavigationBar(context) => FABBottomAppBar(
-    color: Colors.black,
-    backgroundColor: Colors.white,
-    selectedColor: Color.fromARGB(255, 247, 239, 153),
+    iconColor: Theme.of(context).iconTheme.color,
+    backgroundColor: Theme.of(context).bottomAppBarColor,
     notchedShape: CircularNotchedRectangle(),
     onTabSelected: _onItemTapped,
     items: [

@@ -11,7 +11,7 @@ class FABBottomAppBar extends StatefulWidget {
     this.height: 60.0,
     this.iconSize: 30.0,
     this.backgroundColor,
-    this.color,
+    this.iconColor,
     this.selectedColor,
     this.notchedShape,
     this.onTabSelected,
@@ -22,7 +22,7 @@ class FABBottomAppBar extends StatefulWidget {
   final double height;
   final double iconSize;
   final Color backgroundColor;
-  final Color color;
+  final Color iconColor;
   final Color selectedColor;
   final NotchedShape notchedShape;
   final ValueChanged<int> onTabSelected;
@@ -83,7 +83,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<int> onPressed,
   }) {
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.color;
+    Color color = _selectedIndex == index ? widget.selectedColor : widget.iconColor;
     return Expanded(
       child: SizedBox(
         height: widget.height,

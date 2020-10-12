@@ -7,13 +7,15 @@ class ListWordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'List word',
-        style: new TextStyle(
-            fontWeight: FontWeight.w500,
-            fontSize: 25.0
+    return Scaffold(
+      body: Center(
+        child: Text(
+          'List word',
+          style: new TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 25.0
           ),
+        ),
       ),
     );
   }

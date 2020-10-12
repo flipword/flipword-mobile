@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/ui/layout.dart';
-import 'package:flutter_flip_card/ui/pages/add_word.dart';
-import 'package:flutter_flip_card/ui/pages/home.dart';
-import 'package:flutter_flip_card/ui/pages/list_word.dart';
-import 'package:flutter_flip_card/ui/pages/profile.dart';
+import 'package:flutter_flip_card/ui/themes/theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -14,12 +11,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Layout()
+      title: 'FlipWord',
+      theme: MyTheme.defaultTheme,
+      home: Layout(),
     );
   }
 }
