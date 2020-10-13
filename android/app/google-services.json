@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "186673725150",
+    "firebase_url": "https://flutter-flip-card.firebaseio.com",
+    "project_id": "flutter-flip-card",
+    "storage_bucket": "flutter-flip-card.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:186673725150:android:47a8b7de436135c9f30c4f",
+        "android_client_info": {
+          "package_name": "com.flutter_flip_card"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "186673725150-3pp0c7kj8k4t1nkrqgpdhoni9oa3hvdv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter_flip_card",
+            "certificate_hash": "c7417a634c793440bd139192886e8a969af8c8d2"
+          }
+        },
+        {
+          "client_id": "186673725150-e76bpftg3lj6gvnf151vvhhl6qk4f5n8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPpBex5VqL1RDP_GWcX6Tz2eymlSSyUEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "186673725150-e76bpftg3lj6gvnf151vvhhl6qk4f5n8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
