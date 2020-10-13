@@ -1,8 +1,10 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/ui/layout.dart';
 import 'package:flutter_flip_card/ui/themes/theme.dart';
 
 void main() {
+  Firebase.initializeApp();
   runApp(MyApp());
 }
 
