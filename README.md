@@ -19,3 +19,8 @@ samples, guidance on mobile development, and a full API reference.
 
 Regenerate app icon:
 $> flutter packages pub run flutter_launcher_icons:main
+
+## Naming convention 
+
+* Branch name: kebab-case
+* Commit label: gitmoji => https://gitmoji.carloscuesta.me/
