@@ -12,7 +12,7 @@ class DioHelper{
   static final DioHelper _instance = DioHelper._privateConstructor();
   static DioHelper get instance => _instance;
 
-  Future<dynamic> get(String route, [Map<String, dynamic> parametres]) async {
+  Future<dynamic> post(String route, [Map<String, dynamic> parametres]) async {
     dynamic responseJson;
     try {
       final response = await dio.post(route, queryParameters: parametres);
