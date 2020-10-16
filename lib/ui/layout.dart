@@ -3,6 +3,7 @@ import 'package:flutter_flip_card/router/router.dart';
 import 'package:flutter_flip_card/ui/components/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/components/button/square_button.dart';
 import 'package:flutter_flip_card/ui/pages/add_word.dart';
+import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/themes/theme.dart';
 
 class Layout extends StatefulWidget {
@@ -18,6 +19,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
 
   @override
   Widget build(BuildContext context) => Scaffold(
+      appBar: AppBar(),
       body: _buildBody(),
       floatingActionButton: new SquareButton(
         icon: Icon(
@@ -26,19 +28,20 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
             size: 30,
         ),
         backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {navigatorKey.currentState.pushNamed(AddWordPage.routeName);}
+        onPressed: () {_onFloatingButtonTapped();}
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
       bottomNavigationBar: _buildBottomNavigationBar(context)
   );
 
-  Widget _buildBody() =>
-      MaterialApp(
-          navigatorKey: navigatorKey,
-          theme: MyTheme.defaultTheme,
-          onGenerateRoute: (route) => Router.generateRoute(route)
-      );
+  Widget _buildBody() => Text(
+    'List word',
+    style: new TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 25.0
+    ),
+  );
 
   Widget _buildBottomNavigationBar(context) => FABBottomAppBar(
     iconColor: Theme.of(context).iconTheme.color,
@@ -46,7 +49,9 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     notchedShape: CircularNotchedRectangle(),
     onTabSelected: _onItemTapped,
     items: [
+      FABBottomAppBarItem(iconData: Icons.home),
       FABBottomAppBarItem(iconData: Icons.filter_none),
+      FABBottomAppBarItem(iconData: Icons.settings),
       FABBottomAppBarItem(iconData: Icons.person_outline),
     ],
   );
@@ -56,5 +61,9 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
       _selectedIndex = routeIndex;
       navigatorKey.currentState.pushNamed(Router.routes[routeIndex]);
     });
+  }
+
+  void _onFloatingButtonTapped(){
+    navigatorKey.currentState.pushNamed(AddWordPage.routeName);
   }
 }

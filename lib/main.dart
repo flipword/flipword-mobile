@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'FlipWord',
-      theme: MyTheme.defaultTheme,
-      home: Layout(),
+        title: 'FlipWord',
+        theme: MyTheme.defaultTheme,
+        home: Layout()
     );
   }
 }
