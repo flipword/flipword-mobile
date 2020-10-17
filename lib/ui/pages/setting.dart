@@ -8,15 +8,15 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          'List word',
-          style: new TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 25.0
-          ),
-        ),
-      ),
+        body: Center(
+            child: Text(
+              'Setting',
+              style: new TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 25.0
+              ),
+            )
+        )
     );
   }
 }

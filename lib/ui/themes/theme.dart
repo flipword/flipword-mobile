@@ -26,6 +26,10 @@ class MyTheme {
       backgroundColor: Background,
       iconTheme: base.iconTheme.copyWith(
         color: IconColor
+      ),
+      appBarTheme: base.appBarTheme.copyWith(
+        color: Transparent,
+        elevation: 0
       )
     );
   }
