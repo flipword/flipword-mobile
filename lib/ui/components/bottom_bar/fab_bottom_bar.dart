@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 
+class FABBottomAppBarItemRouting {
+  FABBottomAppBarItemRouting({@required this.index, @required this.routeName});
+
+  int index;
+  String routeName;
+}
+
 class FABBottomAppBarItem {
-  FABBottomAppBarItem({this.iconData});
+  FABBottomAppBarItem({@required this.iconData, @required this.routeName});
+
   IconData iconData;
+  String routeName;
 }
 
 class FABBottomAppBar extends StatefulWidget {
@@ -25,7 +34,7 @@ class FABBottomAppBar extends StatefulWidget {
   final Color iconColor;
   final Color selectedColor;
   final NotchedShape notchedShape;
-  final ValueChanged<int> onTabSelected;
+  final ValueChanged<String> onTabSelected;
 
   @override
   State<StatefulWidget> createState() => FABBottomAppBarState();
@@ -34,10 +43,10 @@ class FABBottomAppBar extends StatefulWidget {
 class FABBottomAppBarState extends State<FABBottomAppBar> {
   int _selectedIndex = 0;
 
-  _updateIndex(int index) {
-    widget.onTabSelected(index);
+  _updateRoute(FABBottomAppBarItemRouting routing) {
+    widget.onTabSelected(routing.routeName);
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = routing.index;
     });
   }
 
@@ -47,7 +56,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
       return _buildTabItem(
         item: widget.items[index],
         index: index,
-        onPressed: _updateIndex,
+        onPressed: _updateRoute,
       );
     });
     items.insert(items.length >> 1, _buildMiddleTabItem());
@@ -81,8 +90,9 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
   Widget _buildTabItem({
     FABBottomAppBarItem item,
     int index,
-    ValueChanged<int> onPressed,
+    ValueChanged<FABBottomAppBarItemRouting> onPressed,
   }) {
+    FABBottomAppBarItemRouting routing = FABBottomAppBarItemRouting(index: index, routeName: item.routeName);
     Color color = _selectedIndex == index ? widget.selectedColor : widget.iconColor;
     return Expanded(
       child: SizedBox(
@@ -90,7 +100,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => onPressed(index),
+            onTap: () => onPressed(routing),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,

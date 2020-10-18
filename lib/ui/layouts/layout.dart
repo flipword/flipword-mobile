@@ -4,7 +4,9 @@ import 'package:flutter_flip_card/ui/components/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/components/button/square_button.dart';
 import 'package:flutter_flip_card/ui/pages/add_word.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
-import 'package:flutter_flip_card/ui/themes/theme.dart';
+import 'package:flutter_flip_card/ui/pages/list_word.dart';
+import 'package:flutter_flip_card/ui/pages/profile.dart';
+import 'package:flutter_flip_card/ui/pages/setting.dart';
 
 class Layout extends StatefulWidget {
 
@@ -15,12 +17,11 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
 
   var navigatorKey = GlobalKey<NavigatorState>();
-  int _selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(),
-      body: _buildBody(),
+      body: _buildBody(context),
       floatingActionButton: new SquareButton(
         icon: Icon(
             Icons.add,
@@ -35,31 +36,29 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
       bottomNavigationBar: _buildBottomNavigationBar(context)
   );
 
-  Widget _buildBody() => Text(
-    'List word',
-    style: new TextStyle(
-        fontWeight: FontWeight.w500,
-        fontSize: 25.0
-    ),
+  Widget _buildBody(context) => Navigator(
+      key: navigatorKey,
+      initialRoute: HomePage.routeName,
+      onGenerateRoute: (route) => Router.generateRoute(route),
   );
-
+  
   Widget _buildBottomNavigationBar(context) => FABBottomAppBar(
     iconColor: Theme.of(context).iconTheme.color,
     backgroundColor: Theme.of(context).bottomAppBarColor,
+    selectedColor: Theme.of(context).accentColor,
     notchedShape: CircularNotchedRectangle(),
     onTabSelected: _onItemTapped,
     items: [
-      FABBottomAppBarItem(iconData: Icons.home),
-      FABBottomAppBarItem(iconData: Icons.filter_none),
-      FABBottomAppBarItem(iconData: Icons.settings),
-      FABBottomAppBarItem(iconData: Icons.person_outline),
+      FABBottomAppBarItem(iconData: Icons.home, routeName: HomePage.routeName),
+      FABBottomAppBarItem(iconData: Icons.list , routeName: ListWordPage.routeName),
+      FABBottomAppBarItem(iconData: Icons.settings, routeName: SettingPage.routeName),
+      FABBottomAppBarItem(iconData: Icons.person_outline, routeName: ProfilePage.routeName),
     ],
   );
 
-  void _onItemTapped(int routeIndex) {
+  void _onItemTapped(String routeName) {
     setState(() {
-      _selectedIndex = routeIndex;
-      navigatorKey.currentState.pushNamed(Router.routes[routeIndex]);
+      navigatorKey.currentState.pushNamed(routeName);
     });
   }
 
