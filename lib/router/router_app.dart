@@ -5,7 +5,7 @@ import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
 import 'package:flutter_flip_card/ui/pages/setting.dart';
 
-class Router {
+class RouterApp {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.routeName:
