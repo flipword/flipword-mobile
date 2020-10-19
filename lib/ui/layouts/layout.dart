@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/router/router.dart';
+import 'package:flutter_flip_card/router/router_app.dart';
 import 'package:flutter_flip_card/ui/components/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/components/button/square_button.dart';
 import 'package:flutter_flip_card/ui/pages/add_word.dart';
