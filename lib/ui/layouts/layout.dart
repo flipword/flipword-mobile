@@ -39,7 +39,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   Widget _buildBody(context) => Navigator(
       key: navigatorKey,
       initialRoute: HomePage.routeName,
-      onGenerateRoute: (route) => Router.generateRoute(route),
+      onGenerateRoute: (route) => RouterApp.generateRoute(route)
   );
   
   Widget _buildBottomNavigationBar(context) => FABBottomAppBar(
