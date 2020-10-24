@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class Firestore {
   FirebaseFirestore firestore;
@@ -7,6 +6,7 @@ class Firestore {
   Firestore._privateConstructor(){
     firestore ??= FirebaseFirestore.instance;
   }
+
   static final Firestore _instance = Firestore._privateConstructor();
   static Firestore get instance => _instance;
 

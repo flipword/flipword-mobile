@@ -1,5 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/translate_helper.dart';
+import 'package:flutter_flip_card/data/entities/Dictionnaire.dart';
+import 'package:flutter_flip_card/service/firebaseServices/firebase_auth_service.dart';
 import 'package:flutter_flip_card/service/language_service.dart';
 import 'package:flutter_flip_card/ui/components/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/components/button/square_button.dart';
@@ -15,6 +19,9 @@ class AddWord extends StatefulWidget {
 
 class _State extends State<AddWord> {
   LanguageService _languageService = LanguageService.instance;
+  Firestore _firebaseFirestore = Firestore.instance;
+  FirebaseAuthService _authService = FirebaseAuthService.instance;
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -150,7 +157,7 @@ class _State extends State<AddWord> {
                           width: 90,
                           icon: Icons.save,
                           text: 'Save',
-                          onPressed: () {_translateWord();},
+                          onPressed: () {_saveWord();},
                         ),
                         SizedBox(height: 5)
                       ]),
@@ -173,6 +180,21 @@ class _State extends State<AddWord> {
     // TODO: msg informatif success/error
     var word = await  TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord);
     _controller.text = word;
+  }
+
+  void _saveWord() async {
+    List<String> langs = <String>[_languageService.foreignLanguage.id,_languageService.nativeLanguage.id];
+    langs.sort();
+    String ref = langs[0]+'-'+langs[1];
+    User user = _authService.getUser();
+    Word data = Word(
+        langue1: baseLanguage.label,
+        word1: baseWord ,
+        langue2: translateLanguage.label,
+        word2: _controller.text ,
+        score: 0
+    );
+    _firebaseFirestore.getCollection(user.uid).doc(ref).set(data.toJson());
   }
 
   void _updateBaseWord(value) {
