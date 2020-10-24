@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/router/router_app.dart';
+import 'package:flutter_flip_card/service/language_service.dart';
+import 'package:flutter_flip_card/ui/components/add_word.dart';
 import 'package:flutter_flip_card/ui/components/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/components/button/square_button.dart';
-import 'package:flutter_flip_card/ui/pages/add_word.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
@@ -15,8 +16,11 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
+  OverlayEntry _overlayEntry;
 
+  var displayOverlay = false;
   var navigatorKey = GlobalKey<NavigatorState>();
+  LanguageService languageService = LanguageService.instance;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -36,11 +40,13 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
       bottomNavigationBar: _buildBottomNavigationBar(context)
   );
 
-  Widget _buildBody(context) => Navigator(
+  Widget _buildBody(context) {
+    return Navigator(
       key: navigatorKey,
       initialRoute: HomePage.routeName,
       onGenerateRoute: (route) => RouterApp.generateRoute(route)
-  );
+    );
+  }
   
   Widget _buildBottomNavigationBar(context) => FABBottomAppBar(
     iconColor: Theme.of(context).iconTheme.color,
@@ -57,12 +63,26 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   );
 
   void _onItemTapped(String routeName) {
+    if(displayOverlay) {
+      this._overlayEntry.remove();
+      this.displayOverlay = false;
+    }
     setState(() {
       navigatorKey.currentState.pushNamed(routeName);
     });
   }
 
   void _onFloatingButtonTapped(){
-    navigatorKey.currentState.pushNamed(AddWordPage.routeName);
+    if(!this.displayOverlay) {
+      this._overlayEntry = this._createOverlayEntry();
+      Overlay.of(context).insert(this._overlayEntry);
+      this.displayOverlay = true;
+    }
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+        builder: (context) => AddWord()
+    );
   }
 }

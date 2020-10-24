@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/ui/pages/add_word.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
@@ -16,8 +15,6 @@ class RouterApp {
         return MaterialPageRoute(builder: (_) => SettingPage());
       case ProfilePage.routeName:
         return MaterialPageRoute(builder: (_) => ProfilePage());
-      case AddWordPage.routeName:
-        return MaterialPageRoute(builder: (_) => AddWordPage());
       default:
         return MaterialPageRoute(builder: (_) => HomePage());
     }

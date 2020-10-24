@@ -21,7 +21,7 @@ class MyTheme {
       ),
       bottomAppBarColor: NavBarColor,
       scaffoldBackgroundColor: Background,
-      cardColor: Background,
+      cardColor: CardColor,
       textSelectionColor: PrimaryColorLight,
       backgroundColor: Background,
       iconTheme: base.iconTheme.copyWith(
