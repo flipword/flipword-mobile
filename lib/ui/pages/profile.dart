@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/service/firebaseServices/firebase_auth_service.dart';
-import 'package:flutter_flip_card/ui/components/profil/status.dart';
 
 
 class ProfilePage extends StatefulWidget  {
@@ -13,7 +12,6 @@ class ProfilePageState extends State<ProfilePage>{
 
 
   static FirebaseAuthService firebaseAuthService = FirebaseAuthService.instance;
-  StatusProfil test = StatusProfil();
   String status;
   String effect;
 
