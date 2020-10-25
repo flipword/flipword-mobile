@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image:  fluttersdk/fluttersdk
+      image:  cirrusci/flutter
 
     steps:
     - uses: actions/checkout@v2
