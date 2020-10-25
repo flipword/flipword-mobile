@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Firestore {
+class FirestoreService {
   FirebaseFirestore firestore;
 
-  Firestore._privateConstructor(){
+  FirestoreService._privateConstructor(){
     firestore ??= FirebaseFirestore.instance;
   }
 
-  static final Firestore _instance = Firestore._privateConstructor();
-  static Firestore get instance => _instance;
+  static final FirestoreService _instance = FirestoreService._privateConstructor();
+  static FirestoreService get instance => _instance;
 
   CollectionReference getCollection(String collectionName) => firestore.collection(collectionName);
 
