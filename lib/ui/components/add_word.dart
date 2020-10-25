@@ -185,6 +185,7 @@ class _State extends State<AddWord> {
   void _saveWord() async {
     List<String> langs = <String>[_languageService.foreignLanguage.id,_languageService.nativeLanguage.id];
     langs.sort();
+    // La ref sera id-id des language trier par l'ordre alphabetic
     String ref = langs[0]+'-'+langs[1];
     User user = _authService.getUser();
     Word data = Word(
@@ -194,7 +195,11 @@ class _State extends State<AddWord> {
         word2: _controller.text ,
         score: 0
     );
-    _firebaseFirestore.getCollection(user.uid).doc(ref).set(data.toJson());
+    _firebaseFirestore.getCollection(user.uid)
+        .doc('dictionary')
+        .collection(ref)
+        .doc()
+        .set(data.toJson());
   }
 
   void _updateBaseWord(value) {
