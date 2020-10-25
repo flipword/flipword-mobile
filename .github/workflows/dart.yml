@@ -46,6 +46,8 @@ jobs:
             key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
               restore-keys: |
                 ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Test
+        run: flutter docteur
 
 
 
