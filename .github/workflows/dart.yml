@@ -36,15 +36,16 @@ jobs:
       image:  cirrusci/flutter
 
     steps:
+      - uses: actions/checkout@v2
       - name: Cache
-      uses: actions/cache@v2
-      env:
-        cache-name: cache-pub
-      with:
-        path: ~/.dart_tool
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pub
+        with:
+          path: ~/.dart_tool
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: Test
         run: flutter docteur
