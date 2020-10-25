@@ -30,13 +30,12 @@ jobs:
           ${{ runner.os }}-build-${{ env.cache-name }}-
 
   test:
-    needs: build
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-      container:
-        image:  cirrusci/flutter
+    container:
+      image:  cirrusci/flutter
 
-      steps:
+    steps:
       - name: Cache
       uses: actions/cache@v2
       env:
