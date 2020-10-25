@@ -35,6 +35,8 @@ jobs:
     container:
       image:  cirrusci/flutter
 
+    needs: build
+
     steps:
       - uses: actions/checkout@v2
       - name: Cache
@@ -48,7 +50,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
       - name: Test
-        run: flutter docteur
+        run: flutter test
 
 
 
