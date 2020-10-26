@@ -28,30 +28,25 @@ jobs:
         with:
           path: |
             **/.dart_tool
-            /opt/hostedtoolcache/jdk/12.0.2/x64
-            /opt/hostedtoolcache/flutter/1.22.0-stable/x64
-          key: build-${{ hashFiles('**/pubspec.lock') }}-V6
+          key: build-${{ hashFiles('**/pubspec.lock') }}-V7
 
   test:
     runs-on: ubuntu-latest
-    env:
-      JAVA_HOME_12.0.2_x64: /opt/hostedtoolcache/jdk/12.0.2/x64
-      JAVA_HOME: /opt/hostedtoolcache/jdk/12.0.2/x64
-      JAVA_HOME_12_0_2_X64: /opt/hostedtoolcache/jdk/12.0.2/x64
-      FLUTTER_HOME: /opt/hostedtoolcache/flutter/1.22.0-stable/x64
-#    container:
-#      image: cirrusci/flutter
     needs: build
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.22.0'
       - name: Restore Cache
         uses: actions/cache@v2
         with:
           path: |
             **/.dart_tool
-            /opt/hostedtoolcache/jdk/12.0.2/x64
-            /opt/hostedtoolcache/flutter/1.22.0-stable/x64
-          key: build-${{ hashFiles('**/pubspec.lock') }}-V6
+          key: build-${{ hashFiles('**/pubspec.lock') }}-V7
 #      - name: Install dependencies
 #        run: flutter pub get
       - name: lint
