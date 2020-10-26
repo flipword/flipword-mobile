@@ -21,42 +21,10 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: flutter pub get
-  #    - name: Run tests
-  #      run: pub run test
-      - name: Save Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/.dart_tool/**
-            **/.flutter-plugins
-            **/.flutter-flip-card
-            **/.packages
-          key: build-${{ hashFiles('**/pubspec.lock') }}-V8
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
-        with:
-          java-version: '12.x'
-      - uses: subosito/flutter-action@v1
-        with:
-          flutter-version: '1.22.0'
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            **/.dart_tool/**
-            **/.flutter-plugins
-            **/.flutter-flip-card
-            **/.packages
-          key: build-${{ hashFiles('**/pubspec.lock') }}-V8
-#      - name: Install dependencies
-#        run: flutter pub get
       - name: lint
         run: dartanalyzer lib
+
+
 
 
 
