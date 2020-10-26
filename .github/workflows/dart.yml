@@ -31,7 +31,7 @@ jobs:
               $(JAVA_HOME_12JAVA_HOME)
               $(JAVA_HOME_12_0_2_X64)
               $(FLUTTER_HOME)
-          key: build-${{ hashFiles('**/pubspec.lock') }}-2
+          key: build-${{ hashFiles('**/pubspec.lock') }}-3
 
   test:
     runs-on: ubuntu-latest
@@ -46,7 +46,7 @@ jobs:
             $(JAVA_HOME_12JAVA_HOME)
             $(JAVA_HOME_12_0_2_X64)
             $(FLUTTER_HOME)
-          key: build-${{ hashFiles('**/pubspec.lock') }}-2
+          key: build-${{ hashFiles('**/pubspec.lock') }}-3
 #      - name: Install dependencies
 #        run: flutter pub get
       - name: lint
