@@ -23,7 +23,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
+        key: build-${{ hashFiles('**/pubspec.lock') }}
 
   test:
     runs-on: ubuntu-latest
@@ -35,13 +35,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Cache
+      - name: Restore Cache
         uses: actions/cache@v2
-        env:
-          cache-name: cache-pub
         with:
           path: ./
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
+          key: build-${{ hashFiles('**/pubspec.lock') }}
 
       - name: lint
         run: dartanalyzer lib
