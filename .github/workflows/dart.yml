@@ -35,12 +35,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Restore Cache
-        uses: actions/cache@v2
-        with:
-          path: ./
-          key: build-${{ hashFiles('**/pubspec.lock') }}-1
-
+#      - name: Restore Cache
+#        uses: actions/cache@v2
+#        with:
+#          path: ./
+#          key: build-${{ hashFiles('**/pubspec.lock') }}-1
+      - name: Install dependencies
+        run: flutter pub get
       - name: lint
         run: dartanalyzer lib
 
