@@ -175,13 +175,13 @@ class _State extends State<AddWord> {
     _controller.text = word;
   }
 
-  void _updateBaseWord(value) {
+  void _updateBaseWord(String value) {
     setState(() {
       baseWord = value;
     });
   }
 
-  void _updateTranslateWord(value) {
+  void _updateTranslateWord(String value) {
     setState(() {
       translateWord = value;
     });

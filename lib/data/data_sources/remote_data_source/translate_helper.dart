@@ -22,7 +22,7 @@ class TranslateHelper{
       'to': to,
       'api-version': '3.0'
     };
-    final data = [{'Text': word}];
+    final List<Map<String, String>> data = [{'Text': word}];
     try {
       final responseJson = await dio.post('translate', queryParameters: parameters, data: data);
       response = TranslateResponse.fromJson(responseJson.data).translations.single.text;

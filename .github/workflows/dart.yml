@@ -19,15 +19,11 @@ jobs:
       run: flutter pub get
 #    - name: Run tests
 #      run: pub run test
-    - name: Cache
+    - name: Save Cache
       uses: actions/cache@v2
-      env:
-        cache-name: cache-pub
       with:
-        path: ~/.dart_tool
+        path: ./
         key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
 
   test:
     runs-on: ubuntu-latest
@@ -44,13 +40,11 @@ jobs:
         env:
           cache-name: cache-pub
         with:
-          path: ~/.dart_tool
+          path: ./
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/pubspec.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
 
-      - name: Test
-        run: flutter test
+      - name: lint
+        run: dartanalyzer lib
 
 
 
