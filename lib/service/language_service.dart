@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
 
 class LanguageService {
+
+  LanguageService._privateConstructor();
 
   var nativeLanguage = Language(id:'fr', label: 'Français');
   var foreignLanguage = Language(id:'en', label: 'Anglais');
 
-  LanguageService._privateConstructor();
-
-  static final LanguageService _instance = LanguageService._privateConstructor();
+  static final LanguageService _instance = LanguageService
+      ._privateConstructor();
   static LanguageService get instance => _instance;
 
 }

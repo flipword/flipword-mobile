@@ -17,15 +17,15 @@ class FABBottomAppBarItem {
 class FABBottomAppBar extends StatefulWidget {
   FABBottomAppBar({
     this.items,
-    this.height: 60.0,
-    this.iconSize: 30.0,
+    this.height = 60.0,
+    this.iconSize = 30.0,
     this.backgroundColor,
     this.iconColor,
     this.selectedColor,
     this.notchedShape,
     this.onTabSelected,
   }) {
-    assert(this.items.length == 2 || this.items.length == 4);
+    assert(items.length == 2 || items.length == 4);
   }
   final List<FABBottomAppBarItem> items;
   final double height;
@@ -43,7 +43,7 @@ class FABBottomAppBar extends StatefulWidget {
 class FABBottomAppBarState extends State<FABBottomAppBar> {
   int _selectedIndex = 0;
 
-  _updateRoute(FABBottomAppBarItemRouting routing) {
+ void _updateRoute(FABBottomAppBarItemRouting routing) {
     widget.onTabSelected(routing.routeName);
     setState(() {
       _selectedIndex = routing.index;
@@ -62,13 +62,12 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     items.insert(items.length >> 1, _buildMiddleTabItem());
 
     return BottomAppBar(
+      color: widget.backgroundColor,
       //shape: widget.notchedShape,
       child: Row(
-        mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: items,
       ),
-      color: widget.backgroundColor,
     );
   }
 
@@ -92,8 +91,12 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<FABBottomAppBarItemRouting> onPressed,
   }) {
-    FABBottomAppBarItemRouting routing = FABBottomAppBarItemRouting(index: index, routeName: item.routeName);
-    Color color = _selectedIndex == index ? widget.selectedColor : widget.iconColor;
+    FABBottomAppBarItemRouting routing = FABBottomAppBarItemRouting(
+        index: index,
+        routeName: item.routeName);
+    final Color color = _selectedIndex == index ?
+    widget.selectedColor
+        : widget.iconColor;
     return Expanded(
       child: SizedBox(
         height: widget.height,

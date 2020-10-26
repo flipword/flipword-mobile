@@ -11,7 +11,7 @@ linter:
     always_put_required_named_parameters_first: false
 
     # Util classes are awesome!
-    avoid_classes_with_only_static_members: false
+    avoid_classes_with_only_static_members: true
 
 
     # ------ Enable individual rules ------ #
@@ -25,13 +25,13 @@ linter:
 
     # The new tabs vs. spaces. Choose wisely
     prefer_single_quotes: true
-    prefer_double_quotes: true
+    prefer_double_quotes: false
 
     # Good packages document everything
-    public_member_api_docs: true
+    public_member_api_docs: false
 
     # Blindly follow the Flutter code style, which prefers types everywhere
-    always_specify_types: true
+    always_specify_types: false
 
     # Back to the 80s
     lines_longer_than_80_chars: true

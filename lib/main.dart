@@ -10,10 +10,8 @@ void main()  {
 }
 
 class MyApp extends StatelessWidget {
-  var navigatorKey = GlobalKey<NavigatorState>();
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   // This widget is the root of your application.
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +36,9 @@ class MyApp extends StatelessWidget {
             );
           }
 
-          // Otherwise, show something whilst waiting for initialization to complete
-          return CircularProgressIndicator();
+          // Otherwise, show something whilst
+          // waiting for initialization to complete
+          return const CircularProgressIndicator();
         },
 
 

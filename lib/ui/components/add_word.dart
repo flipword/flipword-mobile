@@ -24,7 +24,7 @@ class _State extends State<AddWord> {
   Language baseLanguage;
   Language translateLanguage;
   TextEditingController _controller;
-  var screenSize;
+  double screenSize;
 
 
   @override
@@ -54,7 +54,7 @@ class _State extends State<AddWord> {
                       Container(
                           width: 500,
                           height: 90,
-                          padding: EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -83,9 +83,9 @@ class _State extends State<AddWord> {
                       ),
                       Container(
                         width: 250,
-                        padding: EdgeInsets.only(left:10, right: 10),
+                        padding: const EdgeInsets.only(left:10, right: 10),
                         height: 40,
-                        margin: EdgeInsets.only(top: 88),
+                        margin: const EdgeInsets.only(top: 88),
                         decoration: _getBoxDecoration(),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -93,19 +93,19 @@ class _State extends State<AddWord> {
                             Expanded(
 
                               child: Container(
-                                child: Text(baseLanguage.label),
                                 alignment: Alignment.center,
+                                child: Text(baseLanguage.label),
                               )
                             ),
                             Expanded(
                                 child: Container(
+                                  alignment: Alignment.center,
                                   child : FlatButton.icon(
-                                    label: Text(''),
-                                    icon: Icon(Icons.swap_horiz),
+                                    label: const Text(''),
+                                    icon: const Icon(Icons.swap_horiz),
                                     textColor: Colors.black,
                                     onPressed: () => {_reverseLanguage()}
                                   ),
-                                  alignment: Alignment.center,
                                 ),
                             ),
                             Expanded(
@@ -139,20 +139,22 @@ class _State extends State<AddWord> {
                           width: 45.0,
                           height: 45.0,
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         WordInput(
                             controller: _controller,
                             label: translateLanguage.label,
-                            onWordChanged: (value) => {_updateTranslateWord(value)},
+                            onWordChanged: (value) => {
+                              _updateTranslateWord(value)
+                            },
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         IconTextButton(
                           width: 90,
                           icon: Icons.save,
                           text: 'Save',
                           onPressed: () {_translateWord();},
                         ),
-                        SizedBox(height: 5)
+                        const SizedBox(height: 5)
                       ]),
                 )
               ]
@@ -172,7 +174,7 @@ class _State extends State<AddWord> {
   void _translateWord() async {
     // TODO: msg informatif success/error
     var word = await  TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord);
-    _controller.text = word;
+    _controller.text = word.toString();
   }
 
   void _updateBaseWord(String value) {

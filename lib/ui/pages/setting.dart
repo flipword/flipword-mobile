@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
 class SettingPage extends StatelessWidget {
-  static const String routeName = '/setting';
-
   const SettingPage({Key key}) : super(key: key);
+  static const String routeName = '/setting';
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: Center(
             child: Text(
               'Setting',
-              style: new TextStyle(
+              style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 25.0
               ),

@@ -1,9 +1,9 @@
 class Word {
+  Word({this.id, this.fr, this.en});
+
   final int id;
   final String fr;
   final String en;
-
-  Word({this.id, this.fr, this.en});
 
   Map<String, dynamic> toMap() {
     return {

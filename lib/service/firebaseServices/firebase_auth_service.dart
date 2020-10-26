@@ -3,15 +3,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
 
-  FirebaseAuth auth;
-  bool _state = false;
-
-
   FirebaseAuthService._privateConstructor(){
     auth ??= FirebaseAuth.instance;
   }
 
-  static final FirebaseAuthService _instance = FirebaseAuthService._privateConstructor();
+  FirebaseAuth auth;
+  bool _state = false;
+
+  static final FirebaseAuthService _instance = FirebaseAuthService
+      ._privateConstructor();
   static FirebaseAuthService get instance => _instance;
 
   bool authState() {
@@ -37,7 +37,8 @@ class FirebaseAuthService {
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = await googleUser
+        .authentication;
 
     // Create a new credential
     final OAuthCredential credential = GoogleAuthProvider.credential(

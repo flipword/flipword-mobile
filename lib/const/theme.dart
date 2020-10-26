@@ -8,27 +8,27 @@ class MyTheme {
     final ThemeData base = ThemeData.light();
 
     return base.copyWith(
-      accentColor: SecondaryColor,
+      accentColor: secondaryColor,
       accentColorBrightness: Brightness.dark,
 
-      primaryColor: PrimaryColor,
-      primaryColorDark: PrimaryColorDark,
-      primaryColorLight: PrimaryColorLight,
+      primaryColor: primaryColor,
+      primaryColorDark: primaryColorDark,
+      primaryColorLight: primaryColorLight,
       primaryColorBrightness: Brightness.dark,
       buttonTheme: base.buttonTheme.copyWith(
-        buttonColor: SecondaryColor,
+        buttonColor: secondaryColor,
         textTheme: ButtonTextTheme.primary,
       ),
-      bottomAppBarColor: NavBarColor,
-      scaffoldBackgroundColor: Background,
-      cardColor: CardColor,
-      textSelectionColor: PrimaryColorLight,
-      backgroundColor: Background,
+      bottomAppBarColor: navBarColor,
+      scaffoldBackgroundColor: background,
+      cardColor: cardColor,
+      textSelectionColor: primaryColorLight,
+      backgroundColor: background,
       iconTheme: base.iconTheme.copyWith(
-        color: IconColor
+        color: iconColor
       ),
       appBarTheme: base.appBarTheme.copyWith(
-        color: Transparent,
+        color: transparent,
         elevation: 0
       )
     );
