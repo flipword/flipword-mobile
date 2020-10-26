@@ -48,7 +48,10 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            **/.dart_tool
+            **/.dart_tool/**
+            **/.flutter-plugins
+            **/.flutter-flip-card
+            **/.packages
           key: build-${{ hashFiles('**/pubspec.lock') }}-V8
 #      - name: Install dependencies
 #        run: flutter pub get
