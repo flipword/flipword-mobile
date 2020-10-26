@@ -18,25 +18,20 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '1.9.1+hotfix.6'
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-      run: flutter pub get
-#    - name: Run tests
-#      run: pub run test
-    - name: Save Cache
-      uses: actions/cache@v2
-      with:
-        path: ./
-        key: build-${{ hashFiles('**/pubspec.lock') }}-1
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: flutter pub get
+  #    - name: Run tests
+  #      run: pub run test
+      - name: Save Cache
+        uses: actions/cache@v2
+        with:
+          path: ./
+          key: build-${{ hashFiles('**/pubspec.lock') }}-1
 
   test:
     runs-on: ubuntu-latest
-
-    container:
-      image:  cirrusci/flutter
-
     needs: build
-
     steps:
       - uses: actions/checkout@v2
       - name: Restore Cache
