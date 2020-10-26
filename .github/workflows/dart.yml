@@ -28,10 +28,8 @@ jobs:
         with:
           path: |
               **/.dart_tool
-              $(JAVA_HOME_12JAVA_HOME)
-              $(JAVA_HOME_12_0_2_X64)
-              $(FLUTTER_HOME)
-          key: build-${{ hashFiles('**/pubspec.lock') }}-3
+              /opt/hostedtoolcache/
+          key: build-${{ hashFiles('**/pubspec.lock') }}-4
 
   test:
     runs-on: ubuntu-latest
@@ -43,10 +41,8 @@ jobs:
         with:
           path: |
             **/.dart_tool
-            $(JAVA_HOME_12JAVA_HOME)
-            $(JAVA_HOME_12_0_2_X64)
-            $(FLUTTER_HOME)
-          key: build-${{ hashFiles('**/pubspec.lock') }}-3
+            /opt/hostedtoolcache/
+          key: build-${{ hashFiles('**/pubspec.lock') }}-4
 #      - name: Install dependencies
 #        run: flutter pub get
       - name: lint
