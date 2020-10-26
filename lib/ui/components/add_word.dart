@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_service.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/translate_helper.dart';
-import 'package:flutter_flip_card/data/entities/Dictionnaire.dart';
+import 'package:flutter_flip_card/data/entities/dictionary.dart';
 import 'package:flutter_flip_card/service/firebaseServices/firebase_auth_service.dart';
 import 'package:flutter_flip_card/service/language_service.dart';
 import 'package:flutter_flip_card/ui/components/button/icon_text_button.dart';
@@ -188,7 +188,7 @@ class _State extends State<AddWord> {
     // La ref sera id-id des language trier par l'ordre alphabetic
     String ref = langs[0]+'-'+langs[1];
     User user = _authService.getUser();
-    Word data = Word(
+    Dictionary data = Dictionary(
         langue1: baseLanguage.label,
         word1: baseWord ,
         langue2: translateLanguage.label,
