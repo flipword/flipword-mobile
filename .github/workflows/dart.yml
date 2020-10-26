@@ -23,8 +23,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ./
-        key: build-${{ hashFiles('**/pubspec.lock') }}
-        restore-key: pub-1
+        key: build-${{ hashFiles('**/pubspec.lock') }}-1
 
   test:
     runs-on: ubuntu-latest
@@ -40,8 +39,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ./
-          key: build-${{ hashFiles('**/pubspec.lock') }}
-          restore-key: pub-1
+          key: build-${{ hashFiles('**/pubspec.lock') }}-1
 
       - name: lint
         run: dartanalyzer lib
