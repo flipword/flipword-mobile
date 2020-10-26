@@ -10,6 +10,8 @@ class LanguageService {
   static final LanguageService _instance = LanguageService._privateConstructor();
   static LanguageService get instance => _instance;
 
+  String  getRef()  => nativeLanguage.id+foreignLanguage.id;
+
 }
 
 class Language {

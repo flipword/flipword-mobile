@@ -26,7 +26,7 @@ class _State extends State<ListWordPage> {
     return Scaffold(
       body: Center(
         child: FutureBuilder(
-          future: _firebaseFirestore.getDicoCollection().get(),
+          future: _firebaseFirestore.getDictionaryCollection().get(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
             if(snapshot.connectionState == ConnectionState.done){
               String r = "";
