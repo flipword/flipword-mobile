@@ -55,7 +55,7 @@ class ProfilePageState extends State<ProfilePage>{
                 textTheme: Theme.of(context).buttonTheme.textTheme,
                 color: Theme.of(context).primaryColor,
                 onPressed: () { logout(); },
-                child: Text('logout'),
+                child: Text('Logout'),
               ),
         ])
       ),

@@ -6,9 +6,11 @@ class FirebaseAuthService {
   FirebaseAuth auth;
   bool _state = false;
 
-
   FirebaseAuthService._privateConstructor(){
     auth ??= FirebaseAuth.instance;
+    if(auth.currentUser == null){
+       auth.signInAnonymously();
+    }
   }
 
   static final FirebaseAuthService _instance = FirebaseAuthService._privateConstructor();
@@ -29,6 +31,7 @@ class FirebaseAuthService {
 
   Future<void> logout() async {
     await auth.signOut();
+    await auth.signInAnonymously();
   }
 
   Future<void> signInWithGoogle() async {
@@ -46,7 +49,14 @@ class FirebaseAuthService {
     );
 
     // Once signed in, return the UserCredential
-    await auth.signInWithCredential(credential);
+    await auth
+        .currentUser
+        .linkWithCredential(credential)
+        .catchError(
+            (onError) {
+              auth.currentUser.delete();
+              auth.signInWithCredential(credential);
+            });
     return;
   }
 

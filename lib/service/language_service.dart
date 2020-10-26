@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 class LanguageService {
 
   var nativeLanguage = Language(id:'fr', label: 'Français');
