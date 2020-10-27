@@ -1,15 +1,17 @@
 class Word {
-  final int id;
-  final String fr;
-  final String en;
+  String word;
+  String languageId;
+  Word({this.word, this.languageId});
 
-  Word({this.id, this.fr, this.en});
+  Word.fromJson(Map<String, dynamic> json) {
+    word = json['$word'];
+    languageId = json['$languageId'];
+  }
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'fr': fr,
-      'en': en,
-    };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['$word'] = this.word;
+    data['$languageId'] = this.languageId;
+    return data;
   }
 }
