@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/services/firebase_auth_service.dart';
+import 'package:flutter_flip_card/services/auth_service.dart';
 
 
 class ProfilePage extends StatefulWidget  {
@@ -11,7 +11,7 @@ class ProfilePage extends StatefulWidget  {
 class ProfilePageState extends State<ProfilePage>{
 
 
-  static FirebaseAuthService firebaseAuthService = FirebaseAuthService.instance;
+  static AuthService firebaseAuthService = AuthService.instance;
   String status;
   String effect;
 

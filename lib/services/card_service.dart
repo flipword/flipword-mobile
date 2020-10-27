@@ -3,7 +3,7 @@ import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firest
 import 'package:flutter_flip_card/data/entities/card.dart';
 import 'package:flutter_flip_card/data/entities/word.dart';
 
-import 'firebase_auth_service.dart';
+import 'auth_service.dart';
 import 'language_service.dart';
 
 class CardService {
@@ -11,7 +11,7 @@ class CardService {
 
   //TODO: Injection de dépendance
   FirestoreDictionaryRepository _repository;
-  FirebaseAuthService _authService = FirebaseAuthService.instance;
+  AuthService _authService = AuthService.instance;
   LanguageService _languageService = LanguageService.instance;
 
   CardService._privateConstructor();
