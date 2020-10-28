@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 
-class Firestore {
-  FirebaseFirestore firestore;
+class FirestoreHelper {
+  FirebaseFirestore _firestore;
 
-  Firestore._privateConstructor(){
-    firestore ??= FirebaseFirestore.instance;
+  FirestoreHelper._privateConstructor(){
+    _firestore ??= FirebaseFirestore.instance;
   }
-  static final Firestore _instance = Firestore._privateConstructor();
-  static Firestore get instance => _instance;
 
-  CollectionReference getCollection(String collectionName) => firestore.collection(collectionName);
+  static final FirestoreHelper _instance = FirestoreHelper._privateConstructor();
+  static FirestoreHelper get instance => _instance;
+
+  CollectionReference getCollection(String collectionName) => _firestore.collection(collectionName);
 
   Future<DocumentSnapshot> getDocumentById(String collectionName, String id) => getCollection(collectionName).doc(id).get();
 

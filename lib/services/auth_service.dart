@@ -1,18 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class FirebaseAuthService {
+class AuthService {
 
   FirebaseAuth auth;
   bool _state = false;
 
-
-  FirebaseAuthService._privateConstructor(){
+  AuthService._privateConstructor(){
     auth ??= FirebaseAuth.instance;
+    if(auth.currentUser == null){
+       auth.signInAnonymously();
+    }
   }
 
-  static final FirebaseAuthService _instance = FirebaseAuthService._privateConstructor();
-  static FirebaseAuthService get instance => _instance;
+  static final AuthService _instance = AuthService._privateConstructor();
+  static AuthService get instance => _instance;
 
   bool authState() {
     auth.authStateChanges().listen((User user) {
@@ -29,6 +31,7 @@ class FirebaseAuthService {
 
   Future<void> logout() async {
     await auth.signOut();
+    await auth.signInAnonymously();
   }
 
   Future<void> signInWithGoogle() async {
@@ -46,7 +49,14 @@ class FirebaseAuthService {
     );
 
     // Once signed in, return the UserCredential
-    await auth.signInWithCredential(credential);
+    await auth
+        .currentUser
+        .linkWithCredential(credential)
+        .catchError(
+            (onError) {
+              auth.currentUser.delete();
+              auth.signInWithCredential(credential);
+            });
     return;
   }
 

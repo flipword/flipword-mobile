@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/data/data_sources/remote_data_source/translate_helper.dart';
-import 'package:flutter_flip_card/service/language_service.dart';
-import 'package:flutter_flip_card/ui/components/button/icon_text_button.dart';
-import 'package:flutter_flip_card/ui/components/button/square_button.dart';
-import 'package:flutter_flip_card/ui/components/input/word_input.dart';
+import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
+import 'package:flutter_flip_card/data/entities/word.dart';
+import 'package:flutter_flip_card/services/card_service.dart';
+import 'package:flutter_flip_card/services/language_service.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
+import 'package:flutter_flip_card/ui/widgets/words/word_input.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_flip_card/data/entities/card.dart' as entityCard;
 
 class AddWord extends StatefulWidget {
   @override
@@ -15,12 +18,15 @@ class AddWord extends StatefulWidget {
 
 class _State extends State<AddWord> {
   LanguageService _languageService = LanguageService.instance;
+  CardService _cardService = CardService.instance;
+
+
 
   final _formKey = GlobalKey<FormState>();
 
   final String googleTranslateAsset = 'assets/google-translate.svg';
-  var baseWord = '';
-  var translateWord = '';
+  Word baseWord;
+  Word translateWord;
   Language baseLanguage;
   Language translateLanguage;
   TextEditingController _controller;
@@ -31,7 +37,10 @@ class _State extends State<AddWord> {
   void initState() {
     baseLanguage = _languageService.nativeLanguage;
     translateLanguage = _languageService.foreignLanguage;
+
     _controller = TextEditingController();
+    baseWord = Word(word: '', languageId: baseLanguage.id);
+    translateWord = Word(word: '', languageId: translateLanguage.id);
     super.initState();
   }
 
@@ -150,7 +159,7 @@ class _State extends State<AddWord> {
                           width: 90,
                           icon: Icons.save,
                           text: 'Save',
-                          onPressed: () {_translateWord();},
+                          onPressed: () {_saveCard();},
                         ),
                         SizedBox(height: 5)
                       ]),
@@ -170,20 +179,24 @@ class _State extends State<AddWord> {
   }
 
   void _translateWord() async {
-    // TODO: msg informatif success/error
-    var word = await  TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord);
-    _controller.text = word;
+    // TODO: msg informatif success/error + loading
+    translateWord.word = await  TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
+    _controller.text = translateWord.word;
+  }
+
+  void _saveCard() {
+    _cardService.insertCard(baseWord, translateWord);
   }
 
   void _updateBaseWord(value) {
     setState(() {
-      baseWord = value;
+      baseWord.word = value;
     });
   }
 
   void _updateTranslateWord(value) {
     setState(() {
-      translateWord = value;
+      translateWord.word = value;
     });
   }
 
