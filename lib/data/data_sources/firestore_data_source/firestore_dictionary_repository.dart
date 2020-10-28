@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_helper.dart';
 
 class FirestoreDictionaryRepository {
-  FirestoreHelper _firestoreHelper;
+  FirestoreHelper _firestoreHelper = FirestoreHelper.instance;
 
   FirestoreDictionaryRepository._privateConstructor();
 

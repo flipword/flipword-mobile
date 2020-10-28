@@ -10,7 +10,7 @@ class CardService {
   static const dictionary = 'dictionary';
 
   //TODO: Injection de dépendance
-  FirestoreDictionaryRepository _repository;
+  FirestoreDictionaryRepository _repository = FirestoreDictionaryRepository.instance;
   AuthService _authService = AuthService.instance;
   LanguageService _languageService = LanguageService.instance;
 

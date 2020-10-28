@@ -180,8 +180,8 @@ class _State extends State<AddWord> {
 
   void _translateWord() async {
     // TODO: msg informatif success/error + loading
-    var word = await  TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
-    _controller.text = word;
+    translateWord.word = await  TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
+    _controller.text = translateWord.word;
   }
 
   void _saveCard() {
