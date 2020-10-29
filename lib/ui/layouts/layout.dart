@@ -48,24 +48,32 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     );
   }
   
-  Widget _buildBottomNavigationBar(context) => FABBottomAppBar(
+  Widget _buildBottomNavigationBar(BuildContext context) => FABBottomAppBar(
     iconColor: Theme.of(context).iconTheme.color,
     backgroundColor: Theme.of(context).bottomAppBarColor,
     selectedColor: Theme.of(context).accentColor,
-    notchedShape: CircularNotchedRectangle(),
+    notchedShape: const CircularNotchedRectangle(),
     onTabSelected: _onItemTapped,
     items: [
-      FABBottomAppBarItem(iconData: Icons.home, routeName: HomePage.routeName),
-      FABBottomAppBarItem(iconData: Icons.list , routeName: ListWordPage.routeName),
-      FABBottomAppBarItem(iconData: Icons.settings, routeName: SettingPage.routeName),
-      FABBottomAppBarItem(iconData: Icons.person_outline, routeName: ProfilePage.routeName),
+      FABBottomAppBarItem(
+          iconData: Icons.home,
+          routeName: HomePage.routeName),
+      FABBottomAppBarItem(
+          iconData: Icons.list ,
+          routeName: ListWordPage.routeName),
+      FABBottomAppBarItem(
+          iconData: Icons.settings,
+          routeName: SettingPage.routeName),
+      FABBottomAppBarItem(
+          iconData: Icons.person_outline,
+          routeName: ProfilePage.routeName),
     ],
   );
 
   void _onItemTapped(String routeName) {
     if(displayOverlay) {
-      this._overlayEntry.remove();
-      this.displayOverlay = false;
+      _overlayEntry.remove();
+      displayOverlay = false;
     }
     setState(() {
       navigatorKey.currentState.pushNamed(routeName);
@@ -73,10 +81,10 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   }
 
   void _onFloatingButtonTapped(){
-    if(!this.displayOverlay) {
-      this._overlayEntry = this._createOverlayEntry();
-      Overlay.of(context).insert(this._overlayEntry);
-      this.displayOverlay = true;
+    if(!displayOverlay) {
+      _overlayEntry = _createOverlayEntry();
+      Overlay.of(context).insert(_overlayEntry);
+      displayOverlay = true;
     }
   }
 

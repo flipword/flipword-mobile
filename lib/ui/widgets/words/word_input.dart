@@ -41,35 +41,36 @@ class _WordInputState extends State<WordInput> {
             ],
           ),
           Container(
+              decoration: BoxDecoration (
+                color: Theme.of(context).cardColor,
+                borderRadius: const BorderRadius.all(
+                    const Radius.circular(15.0)),
+                boxShadow: [
+                  const BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 3.0), //(x,y)
+                    blurRadius: 2,
+                  ),
+                ]
+              ),
+
               child: TextFormField(
                 controller: widget.controller,
                 readOnly: widget.readOnly,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20),
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.only(top: 30, bottom: 30),
+                  contentPadding:  const EdgeInsets.only(top: 30, bottom: 30),
                   border: InputBorder.none,
                   hintText: widget.hintText,
                 ),
                 onChanged: (value) => {_onWordChanged(value)},
-              ),
-              decoration: BoxDecoration (
-                color: Theme.of(context).cardColor,
-                borderRadius: new BorderRadius.all(new Radius.circular(15.0)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    offset: Offset(0.0, 3.0), //(x,y)
-                    blurRadius: 2,
-                  ),
-                ]
-              )
-          )
+              ),          )
         ]
     );
   }
 
-  void _onWordChanged(value) {
+  void _onWordChanged(String value) {
     widget.onWordChanged(value);
   }
 }

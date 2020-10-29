@@ -8,15 +8,15 @@ class RouterApp {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case HomePage.routeName:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => const HomePage());
       case ListWordPage.routeName:
         return MaterialPageRoute(builder: (_) => ListWordPage());
       case SettingPage.routeName:
-        return MaterialPageRoute(builder: (_) => SettingPage());
+        return MaterialPageRoute(builder: (_) => const SettingPage());
       case ProfilePage.routeName:
         return MaterialPageRoute(builder: (_) => ProfilePage());
       default:
-        return MaterialPageRoute(builder: (_) => HomePage());
+        return MaterialPageRoute(builder: (_) => const HomePage());
     }
   }
 }

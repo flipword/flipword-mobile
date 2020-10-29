@@ -3,19 +3,18 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 class DioHelper{
-  Dio dio;
-
   DioHelper._privateConstructor(){
     dio ??=Dio(BaseOptions(baseUrl: 'https://api.cognitive.microsofttranslator.com/'));
     dio.options.headers['Ocp-Apim-Subscription-Key'] = 'f17d36bddd844b1baa37940586038d3e';
-    dio.options.headers["Ocp-Apim-Subscription-Region"] = 'francecentral';
+    dio.options.headers['Ocp-Apim-Subscription-Region'] = 'francecentral';
   }
+
+  Dio dio;
 
   static final DioHelper _instance = DioHelper._privateConstructor();
   static DioHelper get instance => _instance;
 
   Future<dynamic> translate(String from, String to, String word) async {
-    var responseJson;
     var response;
     final Map<String, String> parameters = {
       'from': from,
@@ -36,29 +35,29 @@ class DioHelper{
 }
 
 class TranslateResponse {
-  List<Translations> translations;
-
   TranslateResponse({this.translations});
-
-  TranslateResponse.fromJson(List<dynamic> jsonList) {
+  
+  TranslateResponse.fromJson(dynamic jsonList) {
     final json = jsonList.single;
     if (json['translations'] != null) {
-      translations = new List<Translations>();
+      translations = <Translations>[];
       json['translations'].forEach((v) {
-        translations.add(new Translations.fromJson(v));
+        translations.add(Translations.fromJson(v));
       });
     }
   }
+
+  List<Translations> translations;
 }
 
 class Translations {
-  String text;
-  String to;
-
   Translations({this.text, this.to});
 
-  Translations.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
-    to = json['to'];
+  Translations.fromJson(dynamic json) {
+    text = json['text'] as String;
+    to = json['to'] as String;
   }
+
+  String text;
+  String to;
 }

@@ -1,5 +1,7 @@
 # flutter_flip_card
 
+![GitHaction badge](https://github.com/acroquelois/flutter-flip-card/workflows/.github/workflows/dart.yml/badge.svg)
+
 A new Flutter application.
 
 ## Getting Started

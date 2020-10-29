@@ -23,11 +23,12 @@ class CardService {
     _repository.getUserDictionary(dictionary, _authService.getUser().uid).collection(_languageService.getRef());
 
   void insertCard(Word baseWord, Word translateWord) {
-    var card;
-    if(baseWord.languageId == _languageService.nativeLanguage.id)
-      card = new Card(nativeWord: baseWord, foreignWord: translateWord);
-    else
-      card =  new Card(nativeWord: translateWord, foreignWord: baseWord);
+    Card card;
+    if(baseWord.languageId == _languageService.nativeLanguage.id) {
+      card = Card(nativeWord: baseWord, foreignWord: translateWord);
+    } else {
+      card =  Card(nativeWord: translateWord, foreignWord: baseWord);
+    }
     getCardCollection().add(card.toJson());
   }
 }

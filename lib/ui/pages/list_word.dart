@@ -12,7 +12,7 @@ class ListWordPage extends StatefulWidget {
 }
 
 class _State extends State<ListWordPage> {
-  CardService _cardService = CardService.instance;
+  final CardService _cardService = CardService.instance;
 
 
 
@@ -25,24 +25,20 @@ class _State extends State<ListWordPage> {
       body: Center(
         child: FutureBuilder(
           future: _cardService.getCardCollection().get(),
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+          builder: (
+              BuildContext context,
+              AsyncSnapshot<QuerySnapshot> snapshot
+              ){
             if(snapshot.connectionState == ConnectionState.done){
-              String r = "";
+              String r = '';
               snapshot.data.docs.forEach((element) {
-                r += '\n'+element.data().toString();
+                r += '\n${element.data()}';
               });
               return Text(r);
             }else{
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }},
         ),
-        // child: Text(
-        //   'List word',
-        //   style: new TextStyle(
-        //       fontWeight: FontWeight.w500,
-        //       fontSize: 25.0
-        //   ),
-        // ),
       ),
     );
   }

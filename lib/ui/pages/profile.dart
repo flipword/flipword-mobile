@@ -16,7 +16,7 @@ class ProfilePageState extends State<ProfilePage>{
   String effect;
 
   Future<String> checkStatus() async {
-    User user =  firebaseAuthService.getUser();
+    final User user =  firebaseAuthService.getUser();
     if( user != null){
       return user.uid;
     }
@@ -36,12 +36,12 @@ class ProfilePageState extends State<ProfilePage>{
                   if(snapshot.connectionState == ConnectionState.done){
                     if(snapshot.hasData){
                       status = snapshot.data;
-                      return new Text('$status');
+                      return Text('$status');
                     } else {
-                      return new Text('problemme');
+                      return const Text('problemme');
                     }
                   }else{
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                 }}
               )
             ),
@@ -49,13 +49,13 @@ class ProfilePageState extends State<ProfilePage>{
                 textTheme: Theme.of(context).buttonTheme.textTheme,
                 color: Theme.of(context).primaryColor,
                 onPressed: () { login(); },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
               RaisedButton(
                 textTheme: Theme.of(context).buttonTheme.textTheme,
                 color: Theme.of(context).primaryColor,
                 onPressed: () { logout(); },
-                child: Text('Logout'),
+                child: const Text('Logout'),
               ),
         ])
       ),
@@ -63,14 +63,14 @@ class ProfilePageState extends State<ProfilePage>{
   }
 
   void logout(){
-    firebaseAuthService.logout().then((value) => this.setState(() {
+    firebaseAuthService.logout().then((value) => setState(() {
       checkStatus().then((value) => status = value);
     }));
 
   }
 
   void login(){
-    firebaseAuthService.signInWithGoogle().then((value) => this.setState(() {
+    firebaseAuthService.signInWithGoogle().then((value) => setState(() {
       checkStatus().then( (value) =>  status = value
       );
     }));
