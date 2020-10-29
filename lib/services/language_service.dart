@@ -1,14 +1,14 @@
-
 class LanguageService {
-
-  LanguageService._privateConstructor();
 
   var nativeLanguage = Language(id:'fr', label: 'Français');
   var foreignLanguage = Language(id:'en', label: 'Anglais');
 
-  static final LanguageService _instance = LanguageService
-      ._privateConstructor();
+  LanguageService._privateConstructor();
+
+  static final LanguageService _instance = LanguageService._privateConstructor();
   static LanguageService get instance => _instance;
+
+  String  getRef()  => nativeLanguage.id+'-'+foreignLanguage.id;
 
 }
 

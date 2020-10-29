@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/router/router_app.dart';
-import 'package:flutter_flip_card/service/language_service.dart';
-import 'package:flutter_flip_card/ui/components/add_word.dart';
-import 'package:flutter_flip_card/ui/components/bottom_bar/fab_bottom_bar.dart';
-import 'package:flutter_flip_card/ui/components/button/square_button.dart';
+import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
 import 'package:flutter_flip_card/ui/pages/setting.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/bottom_bar/fab_bottom_bar.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
+import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
 
 class Layout extends StatefulWidget {
 

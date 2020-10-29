@@ -24,8 +24,8 @@ class TranslateHelper {
       TranslateHelper._privateConstructor();
   static TranslateHelper get instance => _instance;
 
-  Future<dynamic> translate(String from, String to, String word) async {
-    dynamic response;
+  Future<String> translate(String from, String to, String word) async {
+    String response;
     final Map<String, String> parameters = {
       'from': from,
       'to': to,
