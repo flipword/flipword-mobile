@@ -7,6 +7,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_flip_card/data/entities/card.dart' as entity;
 
+
 class ListWordPage extends StatefulWidget {
   static const String routeName = '/list';
 
@@ -19,7 +20,9 @@ class _ListWordPageState extends State<ListWordPage> {
   @override
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
-    _cardList.getCards();
+    if(_cardList.list.value.isEmpty) {
+      _cardList.fetchCard();
+    }
     super.initState();
   }
   @override
@@ -27,7 +30,6 @@ class _ListWordPageState extends State<ListWordPage> {
     final future = _cardList.list;
     Widget _widgetDisplayed;
     return Observer(
-        // ignore: missing_return
         builder: (_) {
           int _extraindex = -2;
           switch (future.status) {
@@ -42,7 +44,7 @@ class _ListWordPageState extends State<ListWordPage> {
                   body: RefreshIndicator(
                     onRefresh: _refresh,
                     child: ListView.builder(
-                      itemCount: (_cardList.length % 2 == 0 ? _cardList.length / 2 : _cardList.length ~/ 2 + 1).toInt(),
+                      itemCount: (future.value.length % 2 == 0 ? future.value.length / 2 : future.value.length ~/ 2 + 1).toInt(),
                       itemBuilder: (context, index) {
                         _extraindex += 2;
                         return Container(
@@ -59,7 +61,7 @@ class _ListWordPageState extends State<ListWordPage> {
                                 ),
                                 const SizedBox(width: 10),
                                 Expanded(
-                                    child: _extraindex + 1 < _cardList.length ? CardWord(
+                                    child: _extraindex + 1 < future.value.length ? CardWord(
                                       nativeWord: cards[_extraindex+1].nativeWord.word,
                                       foreignWord: cards[_extraindex+1].foreignWord.word
                                       ) : const SizedBox()
@@ -85,6 +87,5 @@ class _ListWordPageState extends State<ListWordPage> {
         }
     );
   }
-
   Future _refresh() => _cardList.fetchCard();
 }

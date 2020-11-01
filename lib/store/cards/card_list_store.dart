@@ -10,16 +10,12 @@ abstract class _CardListStore with Store {
   final CardService _cardService = CardService.instance;
 
   @observable
-  ObservableFuture<List<entity.Card>> list;
+  ObservableFuture<List<entity.Card>> list = ObservableFuture.value(<entity.Card>[]);
 
   @computed
-  int get length =>
-      list.value.length;
+  int get length => list.value.length;
+
   @action
   Future fetchCard() =>
     list = ObservableFuture(_cardService.getListCard().then((values) =>values));
-
-  void getCards() {
-    fetchCard();
-  }
 }
