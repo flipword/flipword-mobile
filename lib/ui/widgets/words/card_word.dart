@@ -23,6 +23,7 @@ class CardWord extends StatelessWidget {
               child: Text(
                 nativeWord,
                 textAlign: TextAlign.center,
+                style: TextStyle(color: Theme.of(context).cardColor),
               ),
             )
         ),
