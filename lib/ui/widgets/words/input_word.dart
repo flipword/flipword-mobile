@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WordInput extends StatefulWidget {
-  WordInput({Key key, @required this.label, this.hintText = '', this.readOnly = false, this.onWordChanged, this.controller}): super(key: key);
+class InputWord extends StatefulWidget {
+  InputWord({Key key, @required this.label, this.hintText = '', this.readOnly = false, this.onWordChanged, this.controller}): super(key: key);
 
   final String label;
   final String hintText;
@@ -11,10 +11,10 @@ class WordInput extends StatefulWidget {
   final TextEditingController controller;
 
   @override
-  _WordInputState createState() => _WordInputState();
+  _InputWordState createState() => _InputWordState();
 }
 
-class _WordInputState extends State<WordInput> {
+class _InputWordState extends State<InputWord> {
 
   @override
   Widget build(BuildContext context) {

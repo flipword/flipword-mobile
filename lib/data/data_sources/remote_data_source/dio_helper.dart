@@ -36,7 +36,7 @@ class DioHelper{
 
 class TranslateResponse {
   TranslateResponse({this.translations});
-  
+
   TranslateResponse.fromJson(dynamic jsonList) {
     final json = jsonList.single;
     if (json['translations'] != null) {

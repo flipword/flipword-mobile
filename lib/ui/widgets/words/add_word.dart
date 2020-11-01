@@ -5,9 +5,9 @@ import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
-import 'package:flutter_flip_card/ui/widgets/words/word_input.dart';
+import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_flip_card/data/entities/card.dart' as entityCard;
+
 
 class AddWord extends StatefulWidget {
   @override
@@ -132,7 +132,7 @@ class _State extends State<AddWord> {
                   child: Column(
                       children: <Widget>[
                         const SizedBox(height: 10),
-                        WordInput(
+                        InputWord(
                             label: baseLanguage.label,
                             hintText: 'Enter your world',
                             onWordChanged: (value) => {_updateBaseWord(value)} ,
@@ -148,7 +148,7 @@ class _State extends State<AddWord> {
                           height: 45.0,
                         ),
                         const SizedBox(height: 5),
-                        WordInput(
+                        InputWord(
                             controller: _controller,
                             label: translateLanguage.label,
                             onWordChanged: (value) => {
@@ -202,7 +202,8 @@ class _State extends State<AddWord> {
   }
 
   BoxDecoration _getBoxDecoration() =>
-      BoxDecoration(color: Theme.of(context).primaryColor,
+      BoxDecoration(
+        color: Theme.of(context).primaryColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),

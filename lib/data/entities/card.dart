@@ -1,12 +1,16 @@
 import 'package:flutter_flip_card/data/entities/word.dart';
+import 'package:flutter_flip_card/services/language_service.dart';
 
 class Card {
+  final LanguageService _languageService = LanguageService.instance;
+
   Card({this.nativeWord, this.foreignWord, this.score = 0});
 
-  Card.fromJson(Map<String, dynamic> json)
-      : nativeWord = json['nativeWord'] as Word,
-        foreignWord = json['foreignWord'] as Word,
-        score = json['score'] as int;
+  Card.fromJson(Map<String, dynamic> json) {
+    nativeWord = Word(word: json['nativeWord'] as String, languageId: _languageService.nativeLanguage.id);
+    foreignWord = Word(word: json['foreignWord'] as String, languageId: _languageService.foreignLanguage.id);
+    score = json['score'] as int;
+  }
 
   Word nativeWord;
   Word foreignWord;
