@@ -179,7 +179,7 @@ class _State extends State<AddWord> {
     });
   }
 
-  void _translateWord() async {
+  Future _translateWord() async {
     // TODO: msg informatif success/error + loading
     translateWord.word = await TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
     _controller.text = translateWord.word;

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class SquareButton extends StatelessWidget {
-  SquareButton({Key key, this.icon, this.backgroundColor, this.width = 60.0 , this.height = 60.0, @required this.onPressed} ): super(key: key);
+  const SquareButton({Key key, this.icon, this.backgroundColor, this.width = 60.0 , this.height = 60.0, @required this.onPressed} ): super(key: key);
 
   final Icon icon;
   final Color backgroundColor;
@@ -14,19 +14,19 @@ class SquareButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      child: new RotationTransition(
-          turns: new AlwaysStoppedAnimation(45 / 360),
-          child: new RawMaterialButton(
+      child: RotationTransition(
+          turns: const AlwaysStoppedAnimation(45 / 360),
+          child: RawMaterialButton(
             fillColor: backgroundColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
             ),
             elevation: 10.0,
-            child: new RotationTransition(
-              turns: new AlwaysStoppedAnimation(-45 / 360),
+            onPressed: (){ onPressed(); },
+            child: RotationTransition(
+              turns: const AlwaysStoppedAnimation(-45 / 360),
               child: icon
             ),
-            onPressed: (){ onPressed(); },
           )
       )
     );

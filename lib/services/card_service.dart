@@ -1,8 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_dictionary_repository.dart';
-import 'package:flutter_flip_card/data/entities/card.dart' as entity;
 import 'package:flutter_flip_card/data/entities/word.dart';
+import 'package:flutter_flip_card/data/entities/card.dart' as entity;
 
 import 'auth_service.dart';
 import 'language_service.dart';

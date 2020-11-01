@@ -18,15 +18,15 @@ class Layout extends StatefulWidget {
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   OverlayEntry _overlayEntry;
 
-  var displayOverlay = false;
-  var navigatorKey = GlobalKey<NavigatorState>();
+  bool displayOverlay = false;
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   LanguageService languageService = LanguageService.instance;
 
   @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(),
       body: _buildBody(context),
-      floatingActionButton: new SquareButton(
+      floatingActionButton: SquareButton(
         icon: Icon(
             Icons.add,
             color: Theme.of(context).iconTheme.color,
