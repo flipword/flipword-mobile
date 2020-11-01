@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class WordInput extends StatefulWidget {
-  WordInput({Key key, @required this.label, this.hintText = '', this.readOnly = false, this.onWordChanged, this.controller}): super(key: key);
+class InputWord extends StatefulWidget {
+  const InputWord({Key key, @required this.label, this.hintText = '', this.readOnly = false, this.onWordChanged, this.controller}): super(key: key);
 
   final String label;
   final String hintText;
@@ -11,10 +11,10 @@ class WordInput extends StatefulWidget {
   final TextEditingController controller;
 
   @override
-  _WordInputState createState() => _WordInputState();
+  _InputWordState createState() => _InputWordState();
 }
 
-class _WordInputState extends State<WordInput> {
+class _InputWordState extends State<InputWord> {
 
   @override
   Widget build(BuildContext context) {
@@ -23,18 +23,21 @@ class _WordInputState extends State<WordInput> {
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20),
                 child: Container(
+                    decoration: BoxDecoration (
+                        color: Theme.of(context).cardColor,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(8.0),
+                            topRight: Radius.circular(8.0)
+                        ),
+                    ),
                     child: Padding(
-                      padding: EdgeInsets.only(left: 8, right: 8),
+                      padding: const EdgeInsets.only(left: 8, right: 8),
                       child: Text(
                           widget.label,
                           textAlign: TextAlign.center
                       ),
-                    ),
-                    decoration: BoxDecoration (
-                        color: Theme.of(context).cardColor,
-                        borderRadius: new BorderRadius.only(topLeft: new Radius.circular(8.0), topRight: new Radius.circular(8.0)),
                     ),
                 ),
               )
@@ -43,8 +46,7 @@ class _WordInputState extends State<WordInput> {
           Container(
               decoration: BoxDecoration (
                 color: Theme.of(context).cardColor,
-                borderRadius: const BorderRadius.all(
-                    const Radius.circular(15.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
                 boxShadow: [
                   const BoxShadow(
                     color: Colors.grey,
@@ -58,7 +60,7 @@ class _WordInputState extends State<WordInput> {
                 controller: widget.controller,
                 readOnly: widget.readOnly,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
                 decoration: InputDecoration(
                   contentPadding:  const EdgeInsets.only(top: 30, bottom: 30),
                   border: InputBorder.none,

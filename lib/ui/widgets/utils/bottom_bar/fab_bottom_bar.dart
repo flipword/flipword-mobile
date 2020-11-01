@@ -52,7 +52,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> items = List.generate(widget.items.length, (int index) {
+    final List<Widget> items = List.generate(widget.items.length, (int index) {
       return _buildTabItem(
         item: widget.items[index],
         index: index,
@@ -91,7 +91,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<FABBottomAppBarItemRouting> onPressed,
   }) {
-    FABBottomAppBarItemRouting routing = FABBottomAppBarItemRouting(
+    final FABBottomAppBarItemRouting routing = FABBottomAppBarItemRouting(
         index: index,
         routeName: item.routeName);
     final Color color = _selectedIndex == index ?
