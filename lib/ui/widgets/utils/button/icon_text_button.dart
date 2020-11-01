@@ -19,7 +19,9 @@ class IconTextButton extends StatelessWidget {
     return Container(
         width: width,
         child: MaterialButton(
+          splashColor: Theme.of(context).accentColor,
           elevation: 10.0,
+          highlightElevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0),
           ),
@@ -30,13 +32,16 @@ class IconTextButton extends StatelessWidget {
               right: 10.0,
               bottom: 5.0,
               left: 10.0),
-          child: Row( // Replace with a Row for horizontal icon + text
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Icon(icon, size: 30),
-              Text(this.text)
-            ],
-          ),
+          child:
+            Opacity(
+              opacity: 0.7,
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(text),
+                    Icon(icon, size: 30)
+                  ]),
+            )
         )
     );
   }
