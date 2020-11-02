@@ -14,19 +14,24 @@ class SquareButton extends StatelessWidget {
     return Container(
       width: width,
       height: height,
-      child: new RotationTransition(
-          turns: new AlwaysStoppedAnimation(45 / 360),
-          child: new RawMaterialButton(
+      child: RotationTransition(
+          turns: AlwaysStoppedAnimation(45 / 360),
+          child: RawMaterialButton(
             fillColor: backgroundColor,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
             ),
+            splashColor: Theme.of(context).accentColor,
             elevation: 10.0,
-            child: new RotationTransition(
-              turns: new AlwaysStoppedAnimation(-45 / 360),
-              child: icon
-            ),
+            highlightElevation: 0,
             onPressed: (){ onPressed(); },
+            child: RotationTransition(
+              turns: AlwaysStoppedAnimation(-45 / 360),
+              child: Opacity(
+                opacity: 0.7,
+                child: icon,
+              )
+            ),
           )
       )
     );
