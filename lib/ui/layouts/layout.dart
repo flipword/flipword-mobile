@@ -16,6 +16,7 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
+  final FocusNode _focusNode = FocusNode();
   OverlayEntry _overlayEntry;
 
   bool displayOverlay = false;
@@ -23,9 +24,19 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   LanguageService languageService = LanguageService.instance;
 
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => {
+      Overlay.of(context).insert(_createOverlayEntry())
+    });
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) => Scaffold(
       appBar: AppBar(),
-      body: _buildBody(context),
+      body: GestureDetector(
+        onTap: _closeOverlay,
+        child: _buildBody(context),
+      ),
       floatingActionButton: SquareButton(
         icon: Icon(
             Icons.add,
@@ -71,26 +82,37 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   );
 
   void _onItemTapped(String routeName) {
-    if(displayOverlay) {
-      _overlayEntry.remove();
-      displayOverlay = false;
-    }
+    _closeOverlay();
     setState(() {
       navigatorKey.currentState.pushNamed(routeName);
     });
   }
 
   void _onFloatingButtonTapped(){
-    if(!displayOverlay) {
-      _overlayEntry = _createOverlayEntry();
-      Overlay.of(context).insert(_overlayEntry);
+      _openOverlay();
+  }
+
+  void _closeOverlay() {
+    Overlay.of(context).setState(() {
+      displayOverlay = false;
+    });
+  }
+
+  void _openOverlay() {
+    Overlay.of(context).setState(() {
       displayOverlay = true;
-    }
+    });
   }
 
   OverlayEntry _createOverlayEntry() {
+    final screenSize = MediaQuery.of(context).size.height;
     return OverlayEntry(
-        builder: (context) => AddWord()
+        builder: (context) => AnimatedPositioned(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOutSine,
+            bottom: displayOverlay ? 260 : screenSize ,
+            child: AddWord(),
+        )
     );
   }
 }

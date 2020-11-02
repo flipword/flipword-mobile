@@ -47,7 +47,7 @@ class _State extends State<AddWord> {
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size.width;
-    return Positioned(
+    return SizedBox(
       width: screenSize,
       child: Material(
           color: Theme
@@ -132,10 +132,13 @@ class _State extends State<AddWord> {
                   child: Column(
                       children: <Widget>[
                         const SizedBox(height: 10),
-                        InputWord(
+                        Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: InputWord(
                             label: baseLanguage.label,
                             hintText: 'Enter your world',
                             onWordChanged: (value) => {_updateBaseWord(value)} ,
+                          ),
                         ),
                         const SizedBox(height: 15),
                         SquareButton(
@@ -148,12 +151,15 @@ class _State extends State<AddWord> {
                           height: 45.0,
                         ),
                         const SizedBox(height: 5),
-                        InputWord(
-                            controller: _controller,
-                            label: translateLanguage.label,
-                            onWordChanged: (value) => {
-                              _updateTranslateWord(value)
-                            },
+                        Container(
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: InputWord(
+                              controller: _controller,
+                              label: translateLanguage.label,
+                              onWordChanged: (value) => {
+                                _updateTranslateWord(value)
+                              },
+                            )
                         ),
                         const SizedBox(height: 5),
                         IconTextButton(
@@ -187,6 +193,8 @@ class _State extends State<AddWord> {
 
   void _saveCard() {
     _cardService.insertCard(baseWord, translateWord);
+    baseWord.word = '';
+    translateWord.word = '';
   }
 
   void _updateBaseWord(String value) {
