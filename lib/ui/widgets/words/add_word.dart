@@ -3,11 +3,12 @@ import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_trans
 import 'package:flutter_flip_card/data/entities/word.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
+import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/word_input.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_flip_card/data/entities/card.dart' as entityCard;
+
 
 class AddWord extends StatefulWidget {
   @override
@@ -19,6 +20,7 @@ class AddWord extends StatefulWidget {
 class _State extends State<AddWord> {
   final LanguageService _languageService = LanguageService.instance;
   final CardService _cardService = CardService.instance;
+  final ToastService _toastService = ToastService.instance;
 
 
 
@@ -142,7 +144,11 @@ class _State extends State<AddWord> {
                         ),
                         const SizedBox(height: 15),
                         SquareButton(
-                          onPressed: () {_translateWord();},
+                          onPressed: () {
+                            _translateWord()
+                                .then((value) => _toastService.toastValidate('Word translate'))
+                                .catchError((onError) => _toastService.toastError('Error on translate word'));
+                            },
                           icon: const Icon(Icons.g_translate, size: 30),
                           backgroundColor: Theme
                               .of(context)
@@ -185,14 +191,17 @@ class _State extends State<AddWord> {
     });
   }
 
-  void _translateWord() async {
+  Future<void> _translateWord() async {
     // TODO: msg informatif success/error + loading
     translateWord.word = await TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
     _controller.text = translateWord.word;
+    return;
   }
 
   void _saveCard() {
-    _cardService.insertCard(baseWord, translateWord);
+    _cardService.insertCard(baseWord, translateWord)
+        .then((value) => _toastService.toastValidate('Word save'))
+        .catchError((onError) => _toastService.toastError('Error on insert card'));
   }
 
   void _updateBaseWord(String value) {
