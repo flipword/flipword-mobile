@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_dictionary_repository.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
 import 'package:flutter_flip_card/data/entities/word.dart';
+import 'package:flutter_flip_card/services/toast_service.dart';
 
 import 'auth_service.dart';
 import 'language_service.dart';
@@ -13,6 +14,7 @@ class CardService {
   FirestoreDictionaryRepository _repository = FirestoreDictionaryRepository.instance;
   AuthService _authService = AuthService.instance;
   LanguageService _languageService = LanguageService.instance;
+  ToastService toastService = ToastService.instance;
 
   CardService._privateConstructor();
 
@@ -22,13 +24,16 @@ class CardService {
   CollectionReference getCardCollection() =>
     _repository.getUserDictionary(dictionary, _authService.getUser().uid).collection(_languageService.getRef());
 
-  void insertCard(Word baseWord, Word translateWord) {
+  void insertCard(Word baseWord, Word translateWord)  {
     Card card;
     if(baseWord.languageId == _languageService.nativeLanguage.id) {
       card = Card(nativeWord: baseWord, foreignWord: translateWord);
     } else {
       card =  Card(nativeWord: translateWord, foreignWord: baseWord);
     }
-    getCardCollection().add(card.toJson());
+    getCardCollection()
+        .add(card.toJson())
+        .then((value) => toastService.toastValidate('Word save'))
+        .catchError((onError) => toastService.toastError('Error on insert card'));
   }
 }
