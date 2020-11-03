@@ -37,6 +37,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
         onTap: _closeOverlay,
         child: _buildBody(context),
       ),
+      // TODO: Refacto Fab button
       floatingActionButton: SquareButton(
         icon: Icon(
             Icons.add,
@@ -55,7 +56,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     return Navigator(
       key: navigatorKey,
       initialRoute: HomePage.routeName,
-      onGenerateRoute: (route) => RouterApp.generateRoute(route)
+      onGenerateRoute: RouterApp.generateRoute
     );
   }
   

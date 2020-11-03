@@ -2,16 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
-
-  FirebaseAuth auth;
-  bool _state = false;
-
   AuthService._privateConstructor(){
     auth ??= FirebaseAuth.instance;
     if(auth.currentUser == null){
-       auth.signInAnonymously();
+      auth.signInAnonymously();
     }
   }
+
+  FirebaseAuth auth;
+  bool _state = false;
 
   static final AuthService _instance = AuthService._privateConstructor();
   static AuthService get instance => _instance;
