@@ -15,8 +15,8 @@ class DioHelper{
   static DioHelper get instance => _instance;
 
   Future<dynamic> translate(String from, String to, String word) async {
-    var response;
-    final Map<String, String> parameters = {
+    String response;
+    final parameters = <String, String>{
       'from': from,
       'to': to,
       'api-version': '3.0'

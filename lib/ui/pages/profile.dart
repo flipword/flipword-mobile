@@ -9,16 +9,18 @@ class ProfilePage extends StatefulWidget {
 class ProfilePageState extends State<ProfilePage> {
   static AuthService firebaseAuthService = AuthService.instance;
 
-  String userID;
+  String userName;
   String effet;
   bool conection;
 
   Future<bool> checkStatus() async {
     final user = firebaseAuthService.getUser();
-    userID = user.uid;
+
     if(user.isAnonymous){
+      userName = 'Anonymous';
       return true;
     } else {
+      userName = user.email;
       return false;
     }
   }
@@ -39,7 +41,7 @@ class ProfilePageState extends State<ProfilePage> {
                   }
                   return Column(
                     children: [
-                      Text(userID),
+                      Text(userName),
                       RaisedButton(
                         textTheme: Theme.of(context).buttonTheme.textTheme,
                         color: Theme.of(context).primaryColor,
