@@ -28,10 +28,10 @@ class _ListWordPageState extends State<ListWordPage> {
   @override
   Widget build(BuildContext context) {
     final future = _cardList.list;
+    final screenSize = MediaQuery.of(context).size.width;
     Widget _widgetDisplayed;
     return Observer(
         builder: (_) {
-          int _extraindex = -2;
           switch (future.status) {
             case FutureStatus.pending:
               _widgetDisplayed = const Center(
@@ -43,34 +43,18 @@ class _ListWordPageState extends State<ListWordPage> {
               _widgetDisplayed = Scaffold(
                   body: RefreshIndicator(
                     onRefresh: _refresh,
-                    child: ListView.builder(
-                      itemCount: (future.value.length % 2 == 0 ? future.value.length / 2 : future.value.length ~/ 2 + 1).toInt(),
-                      itemBuilder: (context, index) {
-                        _extraindex += 2;
-                        return Container(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const SizedBox(width: 10),
-                                Expanded(
-                                  child: CardWord(
-                                      nativeWord: cards[_extraindex].nativeWord.word,
-                                      foreignWord: cards[_extraindex].foreignWord.word
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                Expanded(
-                                    child: _extraindex + 1 < future.value.length ? CardWord(
-                                      nativeWord: cards[_extraindex+1].nativeWord.word,
-                                      foreignWord: cards[_extraindex+1].foreignWord.word
-                                      ) : const SizedBox()
-                                ),
-                                const SizedBox(width: 10)
-                              ],
-                            )
-                        );
-                      },
+                    child: GridView.count(
+                        padding: const EdgeInsets.all(10),
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 5,
+                        childAspectRatio: ((screenSize-50)/2) / 80,
+                        crossAxisCount: 2,
+                        semanticChildCount: 10,
+                        children: List.generate(future.value.length, (index) => CardWord(
+                              nativeWord: cards[index].nativeWord.word,
+                              foreignWord: cards[index].foreignWord.word
+                          )
+                        )
                     ),
                   )
               );
