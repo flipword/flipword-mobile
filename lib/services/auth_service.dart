@@ -3,48 +3,38 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
 
-  FirebaseAuth auth;
-  bool _state = false;
-
   AuthService._privateConstructor(){
     auth ??= FirebaseAuth.instance;
     if(auth.currentUser == null){
-       auth.signInAnonymously();
+      auth.signInAnonymously();
     }
   }
+
+  FirebaseAuth auth;
 
   static final AuthService _instance = AuthService._privateConstructor();
   static AuthService get instance => _instance;
 
-  bool authState() {
-    auth.authStateChanges().listen((User user) {
-      if (user == null){
-        _state = false;
-      } else {
-        _state = true;
-      }});
-
-     return _state;
-  }
-
   User getUser () => auth.currentUser;
+
+
 
   Future<void> logout() async {
     await auth.signOut();
     await auth.signInAnonymously();
+    return;
   }
 
   Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
 
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    final googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication googleAuth = await googleUser
+    final googleAuth = await googleUser
         .authentication;
 
     // Create a new credential
-    final OAuthCredential credential = GoogleAuthProvider.credential(
+    final credential = GoogleAuthProvider.credential(
       accessToken: googleAuth.accessToken,
       idToken: googleAuth.idToken,
     );
@@ -54,9 +44,9 @@ class AuthService {
         .currentUser
         .linkWithCredential(credential)
         .catchError(
-            (onError) {
-              auth.currentUser.delete();
-              auth.signInWithCredential(credential);
+            (onError) async {
+              await auth.currentUser.delete();
+              await auth.signInWithCredential(credential);
             });
     return;
   }
