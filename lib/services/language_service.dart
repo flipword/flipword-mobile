@@ -1,14 +1,13 @@
 class LanguageService {
-
-  var nativeLanguage = Language(id:'fr', label: 'Français');
-  var foreignLanguage = Language(id:'en', label: 'Anglais');
-
   LanguageService._privateConstructor();
+
+  Language nativeLanguage = Language(id:'fr', label: 'Français');
+  Language foreignLanguage = Language(id:'en', label: 'Anglais');
 
   static final LanguageService _instance = LanguageService._privateConstructor();
   static LanguageService get instance => _instance;
 
-  String  getRef()  => nativeLanguage.id+'-'+foreignLanguage.id;
+  String  getRef()  => '${nativeLanguage.id}-${foreignLanguage.id}';
 
 }
 
