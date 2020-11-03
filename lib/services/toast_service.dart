@@ -15,7 +15,7 @@ class ToastService {
         timeInSecForIosWeb: 1,
         backgroundColor: color,
         textColor: Colors.white,
-        fontSize: 16.0
+        fontSize: 16
     );
   }
 
