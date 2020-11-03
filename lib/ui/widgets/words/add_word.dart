@@ -5,9 +5,9 @@ import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
-import 'package:flutter_flip_card/ui/widgets/words/word_input.dart';
+import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:flutter_flip_card/data/entities/card.dart' as entityCard;
+
 
 class AddWord extends StatefulWidget {
   @override
@@ -25,11 +25,10 @@ class _State extends State<AddWord> {
   final _formKey = GlobalKey<FormState>();
 
   final String googleTranslateAsset = 'assets/google-translate.svg';
-  Word baseWord;
-  Word translateWord;
   Language baseLanguage;
   Language translateLanguage;
-  TextEditingController _controller;
+  TextEditingController _baseWordController;
+  TextEditingController _translateWordController;
   double screenSize;
 
 
@@ -38,9 +37,8 @@ class _State extends State<AddWord> {
     baseLanguage = _languageService.nativeLanguage;
     translateLanguage = _languageService.foreignLanguage;
 
-    _controller = TextEditingController();
-    baseWord = Word(word: '', languageId: baseLanguage.id);
-    translateWord = Word(word: '', languageId: translateLanguage.id);
+    _baseWordController = TextEditingController();
+    _translateWordController = TextEditingController();
     super.initState();
   }
 
@@ -88,7 +86,8 @@ class _State extends State<AddWord> {
                                 ),
                               )
                             ],
-                          ),                      ),
+                          ),
+                      ),
                       Container(
                         width: 250,
                         padding: const EdgeInsets.only(left:10, right: 10),
@@ -134,10 +133,10 @@ class _State extends State<AddWord> {
                         const SizedBox(height: 10),
                         Container(
                           padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: WordInput(
+                          child: InputWord(
+                            controller: _baseWordController,
                             label: baseLanguage.label,
                             hintText: 'Enter your world',
-                            onWordChanged: (value) => {_updateBaseWord(value)} ,
                           ),
                         ),
                         const SizedBox(height: 15),
@@ -153,12 +152,9 @@ class _State extends State<AddWord> {
                         const SizedBox(height: 5),
                         Container(
                             padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: WordInput(
-                              controller: _controller,
+                            child: InputWord(
+                              controller: _translateWordController,
                               label: translateLanguage.label,
-                              onWordChanged: (value) => {
-                                _updateTranslateWord(value)
-                              },
                             )
                         ),
                         const SizedBox(height: 5),
@@ -185,30 +181,22 @@ class _State extends State<AddWord> {
     });
   }
 
-  void _translateWord() async {
+  Future _translateWord() async {
     // TODO: msg informatif success/error + loading
-    translateWord.word = await TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
-    _controller.text = translateWord.word;
+    _translateWordController.text = await TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, _baseWordController.text);
   }
 
   void _saveCard() {
+    final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
+    final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
     _cardService.insertCard(baseWord, translateWord);
-  }
-
-  void _updateBaseWord(String value) {
-    setState(() {
-      baseWord.word = value;
-    });
-  }
-
-  void _updateTranslateWord(String value) {
-    setState(() {
-      translateWord.word = value;
-    });
+    _baseWordController.text = '';
+    _translateWordController.text = '';
   }
 
   BoxDecoration _getBoxDecoration() =>
-      BoxDecoration(color: Theme.of(context).primaryColor,
+      BoxDecoration(
+        color: Theme.of(context).primaryColor,
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(30),
           bottomRight: Radius.circular(30),

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FirestoreHelper {
-  FirebaseFirestore _firestore;
-
   FirestoreHelper._privateConstructor(){
     _firestore ??= FirebaseFirestore.instance;
   }
+
+  FirebaseFirestore _firestore;
 
   static final FirestoreHelper _instance = FirestoreHelper._privateConstructor();
   static FirestoreHelper get instance => _instance;
@@ -16,5 +16,5 @@ class FirestoreHelper {
 
   Future<void> insertDocument(String collectionName, Map<String, dynamic> object) => getCollection(collectionName).add(object);
 
-  deleteDocument(String collectionName, String id) => getCollection(collectionName).doc(id).delete();
+  Future<void> deleteDocument(String collectionName, String id) => getCollection(collectionName).doc(id).delete();
 }

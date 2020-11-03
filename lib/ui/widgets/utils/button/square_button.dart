@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 class SquareButton extends StatelessWidget {
-  SquareButton({Key key, this.icon, this.backgroundColor, this.width = 60.0 , this.height = 60.0, @required this.onPressed} ): super(key: key);
+  const SquareButton({Key key, this.icon, this.backgroundColor, this.width = 60.0 , this.height = 60.0, @required this.onPressed} ): super(key: key);
 
   final Icon icon;
   final Color backgroundColor;

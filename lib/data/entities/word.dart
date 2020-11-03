@@ -1,5 +1,6 @@
 class Word {
+  Word({this.word, this.languageId});
+
   String word;
   String languageId;
-  Word({this.word, this.languageId});
 }

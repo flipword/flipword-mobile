@@ -15,7 +15,7 @@ class DioHelper{
   static DioHelper get instance => _instance;
 
   Future<dynamic> translate(String from, String to, String word) async {
-    var response;
+    String response;
     final Map<String, String> parameters = {
       'from': from,
       'to': to,
@@ -36,7 +36,7 @@ class DioHelper{
 
 class TranslateResponse {
   TranslateResponse({this.translations});
-  
+
   TranslateResponse.fromJson(dynamic jsonList) {
     final json = jsonList.single;
     if (json['translations'] != null) {

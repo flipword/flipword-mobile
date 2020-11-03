@@ -29,22 +29,20 @@ class ProfilePageState extends State<ProfilePage>{
       body: Center(
         child: Column(
             children:  <Widget> [
-            Container(
-              child: FutureBuilder(
+            FutureBuilder(
                 future: checkStatus(),
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot){
                   if(snapshot.connectionState == ConnectionState.done){
                     if(snapshot.hasData){
                       status = snapshot.data;
-                      return Text('$status');
+                      return Text(status);
                     } else {
-                      return const Text('problemme');
+                      return const Text('probleme');
                     }
                   }else{
                     return const CircularProgressIndicator();
                 }}
-              )
-            ),
+              ),
               RaisedButton(
                 textTheme: Theme.of(context).buttonTheme.textTheme,
                 color: Theme.of(context).primaryColor,
