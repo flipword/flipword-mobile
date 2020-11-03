@@ -144,11 +144,7 @@ class _State extends State<AddWord> {
                         ),
                         const SizedBox(height: 15),
                         SquareButton(
-                          onPressed: () {
-                            _translateWord()
-                                .then((value) => _toastService.toastValidate('Word translate'))
-                                .catchError((onError) => _toastService.toastError('Error on translate word'));
-                            },
+                          onPressed: () {_translateWord();},
                           icon: const Icon(Icons.g_translate, size: 30),
                           backgroundColor: Theme
                               .of(context)
@@ -191,11 +187,19 @@ class _State extends State<AddWord> {
     });
   }
 
-  Future<void> _translateWord() async {
-    // TODO: msg informatif success/error + loading
-    translateWord.word = await TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, baseWord.word);
-    _controller.text = translateWord.word;
-    return;
+  void _translateWord()  {
+
+    TranslateHelper.instance.translate(
+        baseLanguage.id,
+        translateLanguage.id,
+        baseWord.word
+    ).then((value) {
+          translateWord.word = value;
+          _controller.text = value;
+          _toastService.toastValidate('Word Translate');
+    })
+    .catchError((onError) => _toastService.toastError('Error on translate word'));
+
   }
 
   void _saveCard() {
