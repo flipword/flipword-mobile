@@ -33,7 +33,7 @@ dependencies:
   flutter_mobx: ^1.1.0
   mobx: ^1.2.1
   provider: ^4.3.2
-
+  pedantic: ^1.9.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
