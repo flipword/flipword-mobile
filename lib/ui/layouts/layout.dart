@@ -56,7 +56,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     return Navigator(
       key: navigatorKey,
       initialRoute: HomePage.routeName,
-      onGenerateRoute: (route) => RouterApp.generateRoute(route)
+      onGenerateRoute: RouterApp.generateRoute
     );
   }
   

@@ -22,14 +22,17 @@ class CardService {
   CollectionReference getCardCollection() =>
       _repository.getUserDictionary(dictionary, _authService.getUser().uid).collection(_languageService.getRef());
 
-  void insertCard(Word baseWord, Word translateWord) {
+  Future<void> insertCard(Word baseWord, Word translateWord)  async {
     entity.Card card;
     if(baseWord.languageId == _languageService.nativeLanguage.id) {
       card = entity.Card(nativeWord: baseWord, foreignWord: translateWord);
     } else {
       card =  entity.Card(nativeWord: translateWord, foreignWord: baseWord);
     }
-    getCardCollection().add(card.toJson());
+    await getCardCollection()
+        .add(card.toJson());
+
+    return;
   }
 
   Future<List<entity.Card>> getListCard() async {

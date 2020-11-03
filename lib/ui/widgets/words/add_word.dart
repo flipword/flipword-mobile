@@ -3,6 +3,7 @@ import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_trans
 import 'package:flutter_flip_card/data/entities/word.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
+import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
@@ -19,6 +20,7 @@ class AddWord extends StatefulWidget {
 class _State extends State<AddWord> {
   final LanguageService _languageService = LanguageService.instance;
   final CardService _cardService = CardService.instance;
+  final ToastService _toastService = ToastService.instance;
 
 
 
@@ -181,17 +183,30 @@ class _State extends State<AddWord> {
     });
   }
 
-  Future _translateWord() async {
-    // TODO: msg informatif success/error + loading
-    _translateWordController.text = await TranslateHelper.instance.translate(baseLanguage.id, translateLanguage.id, _baseWordController.text);
+  void _translateWord()  {
+
+    TranslateHelper.instance.translate(
+        baseLanguage.id,
+        translateLanguage.id,
+        _baseWordController.text
+    ).then((value) {
+      _translateWordController.text = value;
+    })
+    .catchError((onError) => _toastService.toastError('Error on translate word'));
+
   }
 
   void _saveCard() {
-    final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
-    final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
-    _cardService.insertCard(baseWord, translateWord);
-    _baseWordController.text = '';
-    _translateWordController.text = '';
+    try {
+      final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
+      final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
+      _cardService.insertCard(baseWord, translateWord);
+      _baseWordController.text = '';
+      _translateWordController.text = '';
+      _toastService.toastValidate('Word save');
+    } catch (e) {
+      _toastService.toastError('Error on insert card');
+    }
   }
 
   BoxDecoration _getBoxDecoration() =>
