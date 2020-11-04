@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash.dart';
+import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/services/auth_service.dart';
-import 'package:flutter_flip_card/ui/widgets/profil/profil_ofline.dart';
+import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -51,9 +51,9 @@ class ProfilePageState extends State<ProfilePage> {
                                 ConnectionState.done) {
                               conection = snapshot.data;
                               if (conection) {
-                                return ProfilOfline();
+                                return ProfileOffline();
                               } else {
-                                return ProfilOnligne();
+                                return ProfileOnline();
                               }
                             } else {
                               return const CircularProgressIndicator();

@@ -1,13 +1,13 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash.dart';
+import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 
 import 'package:flutter_flip_card/services/auth_service.dart';
 
-class ProfilOnligne extends StatelessWidget {
+class ProfileOnline extends StatelessWidget {
 
-  ProfilOnligne({Key key}) : super(key: key);
+  ProfileOnline({Key key}) : super(key: key);
   static RobohashHelper robohashHelper = RobohashHelper.instance;
   static AuthService firebaseAuthService = AuthService.instance;
 
@@ -39,7 +39,6 @@ class ProfilOnligne extends StatelessWidget {
                 )
             )
         ),
-
       ],
     );
   }
