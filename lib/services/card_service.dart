@@ -23,6 +23,9 @@ class CardService {
       _repository.getUserDictionary(dictionary, _authService.getUser().uid).collection(_languageService.getRef());
 
   Future<void> insertCard(Word baseWord, Word translateWord)  async {
+    if(baseWord.word.isEmpty || translateWord.word.isEmpty) {
+      throw Exception();
+    }
     entity.Card card;
     if(baseWord.languageId == _languageService.nativeLanguage.id) {
       card = entity.Card(nativeWord: baseWord, foreignWord: translateWord);

@@ -184,23 +184,26 @@ class _State extends State<AddWord> {
   }
 
   void _translateWord()  {
-
-    TranslateHelper.instance.translate(
-        baseLanguage.id,
-        translateLanguage.id,
-        _baseWordController.text
-    ).then((value) {
-      _translateWordController.text = value;
-    })
-    .catchError((onError) => _toastService.toastError('Error on translate word'));
+    if(_baseWordController.text.isEmpty){
+      _toastService.toastError('No word to translate');
+    }else{
+      TranslateHelper.instance.translate(
+          baseLanguage.id,
+          translateLanguage.id,
+          _baseWordController.text
+      ).then((value) {
+        _translateWordController.text = value;
+      })
+          .catchError((onError) => _toastService.toastError('Error on translate word'));
+    }
 
   }
 
-  void _saveCard() {
+  Future<void> _saveCard() async {
     try {
       final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
       final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
-      _cardService.insertCard(baseWord, translateWord);
+      await _cardService.insertCard(baseWord, translateWord);
       _baseWordController.text = '';
       _translateWordController.text = '';
       _toastService.toastValidate('Word save');
