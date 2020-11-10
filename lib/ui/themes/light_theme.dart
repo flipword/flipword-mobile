@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/colors.dart';
 
 // ignore: avoid_classes_with_only_static_members
-class MyTheme {
+class LightTheme {
   static final ThemeData defaultTheme = _buildTheme();
 
   static ThemeData _buildTheme() {
-    final ThemeData base = ThemeData.light();
+    final base = ThemeData.light();
 
     return base.copyWith(
       accentColor: secondaryColor,
@@ -26,7 +26,7 @@ class MyTheme {
       textSelectionColor: primaryColorLight,
       backgroundColor: background,
       iconTheme: base.iconTheme.copyWith(
-        color: iconColor
+        color: blackColor
       ),
       appBarTheme: base.appBarTheme.copyWith(
         color: transparent,

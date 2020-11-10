@@ -17,7 +17,6 @@ class Layout extends StatefulWidget {
 
 class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   final FocusNode _focusNode = FocusNode();
-  OverlayEntry _overlayEntry;
 
   bool displayOverlay = false;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -39,9 +38,8 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
       ),
       // TODO: Refacto Fab button
       floatingActionButton: SquareButton(
-        icon: Icon(
+        icon: const Icon(
             Icons.add,
-            color: Theme.of(context).iconTheme.color,
             size: 30,
         ),
         backgroundColor: Theme.of(context).primaryColor,

@@ -21,7 +21,6 @@ class SquareButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5.0),
             ),
-            splashColor: Theme.of(context).accentColor,
             elevation: 10.0,
             highlightElevation: 0,
             onPressed: (){ onPressed(); },
