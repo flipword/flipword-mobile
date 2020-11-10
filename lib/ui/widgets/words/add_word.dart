@@ -201,12 +201,16 @@ class _State extends State<AddWord> {
 
   Future<void> _saveCard() async {
     try {
-      final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
-      final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
-      await _cardService.insertCard(baseWord, translateWord);
-      _baseWordController.text = '';
-      _translateWordController.text = '';
-      _toastService.toastValidate('Word save');
+      if(_baseWordController.text.isEmpty || _translateWordController.text.isEmpty) {
+        _toastService.toastError('Please enter a word');
+      }else{
+        final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
+        final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
+        await _cardService.insertCard(baseWord, translateWord);
+        _baseWordController.text = '';
+        _translateWordController.text = '';
+        _toastService.toastValidate('Word save');
+      }
     } catch (e) {
       _toastService.toastError('Error on insert card');
     }
