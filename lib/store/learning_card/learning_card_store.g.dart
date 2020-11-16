@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'card_list_store.dart';
+part of 'learning_card_store.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,15 +8,15 @@ part of 'card_list_store.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
-mixin _$CardListStore on _CardListStore, Store {
+mixin _$LearningCardStore on _LearningCardStore, Store {
   Computed<int> _$lengthComputed;
 
   @override
   int get length => (_$lengthComputed ??=
-          Computed<int>(() => super.length, name: '_CardListStore.length'))
+          Computed<int>(() => super.length, name: '_LearningCardStore.length'))
       .value;
 
-  final _$listAtom = Atom(name: '_CardListStore.list');
+  final _$listAtom = Atom(name: '_LearningCardStore.list');
 
   @override
   ObservableFuture<List<entity.Card>> get list {
@@ -31,17 +31,17 @@ mixin _$CardListStore on _CardListStore, Store {
     });
   }
 
-  final _$_CardListStoreActionController =
-      ActionController(name: '_CardListStore');
+  final _$_LearningCardStoreActionController =
+      ActionController(name: '_LearningCardStore');
 
   @override
-  Future<void> fetchCard() {
-    final _$actionInfo = _$_CardListStoreActionController.startAction(
-        name: '_CardListStore.fetchCard');
+  Future<dynamic> fetchCard() {
+    final _$actionInfo = _$_LearningCardStoreActionController.startAction(
+        name: '_LearningCardStore.fetchCard');
     try {
       return super.fetchCard();
     } finally {
-      _$_CardListStoreActionController.endAction(_$actionInfo);
+      _$_LearningCardStoreActionController.endAction(_$actionInfo);
     }
   }
 

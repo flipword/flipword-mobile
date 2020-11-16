@@ -1,12 +1,12 @@
-import 'package:mobx/mobx.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/data/entities/card.dart' as entity;
+import 'package:mobx/mobx.dart';
 
-part 'card_list_store.g.dart';
+part 'learning_card_store.g.dart';
 
-class CardListStore = _CardListStore with _$CardListStore;
+class LearningCardStore = _LearningCardStore with _$LearningCardStore;
 
-abstract class _CardListStore with Store {
+abstract class _LearningCardStore with Store {
   final CardService _cardService = CardService.instance;
 
   @observable
@@ -17,5 +17,11 @@ abstract class _CardListStore with Store {
 
   @action
   Future<void> fetchCard() =>
-    list = ObservableFuture(_cardService.getListCard().then((values) =>values));
+      list = ObservableFuture(_cardService.getListCard().then((values) =>values));
+
+
+  Future<void> deleteFirstWord() async {
+    list = ObservableFuture(_cardService.getListCard());
+  }
+
 }
