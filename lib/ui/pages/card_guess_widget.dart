@@ -11,6 +11,8 @@ class CardGuessWidget extends StatefulWidget {
 
 class _CardGuessWidgetState extends State<CardGuessWidget> {
   LearningCardStore _learningCardList;
+  static  String wordFind = "le mot a deviner";
+  static const String wordFound = "le mot trouvé";
 
   void initState() {
     _learningCardList = Provider.of<LearningCardStore>(context, listen: false);
@@ -22,12 +24,19 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-          children: []/*List.generate(_learningCardList.length, (index) => CardWord(
+    return Container(
+      child : Row(
+        children :[
+          Text(wordFind),
+          IconButton(
+            icon: Icon(Icons.question_answer),
+              onPressed: () { })
+          ,]
+          /*children: List.generate(_learningCardList.length, (index) => CardWord(
               nativeWord: _learningCardList.list.result[index].nativeWord.word,
               foreignWord: _learningCardList.list.result[index].foreignWord.word
           ))*/
+
       )
     );
   }

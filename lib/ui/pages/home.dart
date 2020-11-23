@@ -40,8 +40,8 @@ class _HomePageState extends State<HomePage> {
             )*/
           children: [
             /* WIP : J'ai décidé de créer un widget spécifique our afficher la carte du mot a deviner*/
-            //CardGuessWidget(),
-            GuessButton()
+            CardGuessWidget(),
+            //GuessButton()
           ],
         )
     );
