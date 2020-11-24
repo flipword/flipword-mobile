@@ -13,13 +13,13 @@ void main()  {
   const env = 'dev';
   switch(env){
     case 'dev':
-      Constanante.setEnvironement(Environement.DEV);
+      Constanants.setEnvironement(Environement.DEV);
       break;
     case 'staging':
-      Constanante.setEnvironement(Environement.STAGING);
+      Constanants.setEnvironement(Environement.STAGING);
       break;
     case 'prod':
-      Constanante.setEnvironement(Environement.PROD);
+      Constanants.setEnvironement(Environement.PROD);
       break;
   }
 

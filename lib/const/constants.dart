@@ -1,6 +1,6 @@
 enum Environement {DEV,STAGING, PROD}
 
-class Constanante {
+class Constanants {
   static Map<String, dynamic> _config;
   static void setEnvironement(Environement environement){
     switch(environement){
@@ -15,7 +15,7 @@ class Constanante {
         break;
     }
   }
-  
+
   static dynamic get wereAmIURL => _config[_Config.WERE_AM_I];
   static bool get isDebuggable => _config[_Config.IS_DEBUGGABLE];
 
