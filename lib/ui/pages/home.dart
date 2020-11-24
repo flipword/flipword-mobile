@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _index = 0;
+  bool _found = false;
+  bool _finished = false;
   /*LearningCardStore _learningCardList;
 
   @override
@@ -53,17 +55,28 @@ class _HomePageState extends State<HomePage> {
 
   void increaseCounter() {
     setState(() {
-      print("LOG: [_HomePageState] increaseCounter : j'incremente  " + _index.toString());
+      print("LOG: [_HomePageState] increaseCounter : je met a true");
+      _found = false;
       _index += 1;
+      if (_index >= _cardList.length) {
+        print("LOG: [_HomePageState] increaseCounter: ATTENTION");
+        _index -= 1;
+        _finished = true;
+      }
     });
   }
-
+  void discoverWord() {
+    setState(() {
+      print("LOG: [_HomePageState] discoverWord : je met a false et j'incremente  " + _index.toString());
+      _found = true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Row (
+        body: Column (
             children: [
-              Column(
+              Row(
           children: List.generate(_cardList.length, (index) => CardWord(
                 nativeWord: _cardList.list.result[index].nativeWord.word,
                 foreignWord: _cardList.list.result[index].foreignWord.word
@@ -72,9 +85,20 @@ class _HomePageState extends State<HomePage> {
         ),
               Text(_cardList.list.result[_index].nativeWord.word),
               Text(_cardList.list.result[_index].foreignWord.word),
-              IconButton(
-                icon: Icon(Icons.question_answer_outlined), onPressed: () { increaseCounter(); }),
-              Text('$_index')
+              if (!_found) IconButton(
+                icon: Icon(Icons.question_answer_outlined), onPressed: () { discoverWord(); }),
+              Text('$_index'),
+              Text((() {
+                if (_found) {
+                  return _cardList.list.result[_index].nativeWord.word;
+                }
+                else {
+                  return "???";
+                }
+              })()),
+              if (_found) IconButton(
+                  icon: Icon(Icons.arrow_forward_rounded), onPressed: () { increaseCounter(); }),
+              if (_finished) Text("C'est fini !!!")
     ]
     )
     )
