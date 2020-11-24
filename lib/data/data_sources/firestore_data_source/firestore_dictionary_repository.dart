@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_helper.dart';
+import 'package:flutter_flip_card/data/entities/firebase_user_profil.dart';
 
 class FirestoreDictionaryRepository {
   FirestoreDictionaryRepository._privateConstructor();
@@ -11,4 +12,6 @@ class FirestoreDictionaryRepository {
 
   DocumentReference getUserDictionary(String collectionName, String userId) =>
       _firestoreHelper.getCollection(collectionName).doc(userId);
+
+
 }
