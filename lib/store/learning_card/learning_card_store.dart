@@ -20,8 +20,8 @@ abstract class _LearningCardStore with Store {
       list = ObservableFuture(_cardService.getListCard().then((values) =>values));
 
 
-  Future<void> deleteFirstWord() async {
+  /*Future<void> deleteFirstWord() async {
     list = ObservableFuture(_cardService.getListCard());
-  }
+  }*/
 
 }

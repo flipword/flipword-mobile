@@ -14,11 +14,15 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
   static  String wordFind = "le mot a deviner";
   static const String wordFound = "le mot trouvé";
 
+  @override
   void initState() {
+    print("LOG: [_CardGuessWidgetState] inistate : start");
     _learningCardList = Provider.of<LearningCardStore>(context, listen: false);
     if(_learningCardList.list.value.isEmpty) {
       //_learningCardList.fetchCard();
+      print("LOG: [_CardGuessWidgetState] inistate : la liste est vide");
     }
+    print("LOG: [_CardGuessWidgetState] inistate : fin");
     super.initState();
   }
 

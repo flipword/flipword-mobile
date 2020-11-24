@@ -19,31 +19,65 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  LearningCardStore _learningCardList;
+  int _index = 0;
+  /*LearningCardStore _learningCardList;
 
+  @override
   void initState() {
+    print("LOG: [_HomePageState] inistate : start");
     _learningCardList = Provider.of<LearningCardStore>(context, listen: false);
     if(_learningCardList.list.value.isEmpty) {
-      //_learningCardList.fetchCard();
+      print("LOG: [_HomePageState] inistate : la liste est vide, je vais 'fetch'");
+      _learningCardList.fetchCard();
     }
+    print("LOG: [_HomePageState] inistate : fin");
     super.initState();
+  }*/
+  //TODO je teste avec le _cardList alors qu'on avait vu d'utiliser un second store our cette artie,
+  // mais le store ne marche pas encore...
+  CardListStore _cardList;
+
+  var listCard = null;
+  @override
+  void initState() {
+    print("LOG: [_HomePageState] inistate : start");
+    _cardList = Provider.of<CardListStore>(context, listen: false);
+    if(_cardList.list.value.isEmpty) {
+      print("LOG: [_HomePageState] inistate : la liste est vide, je vais 'fetch'");
+      _cardList.fetchCard();
+      print("LOG: [_HomePageState] inistate : " + _cardList.length.toString());
+    }
+    print("LOG: [_HomePageState] inistate : fin");
+    super.initState();
+  }
+
+  void increaseCounter() {
+    setState(() {
+      print("LOG: [_HomePageState] increaseCounter : j'incremente  " + _index.toString());
+      _index += 1;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-          /*children: List.generate(_learningCardList.length, (index) => CardWord(
-                nativeWord: _learningCardList.list.result[index].nativeWord.word,
-                foreignWord: _learningCardList.list.result[index].foreignWord.word
+        body: Row (
+            children: [
+              Column(
+          children: List.generate(_cardList.length, (index) => CardWord(
+                nativeWord: _cardList.list.result[index].nativeWord.word,
+                foreignWord: _cardList.list.result[index].foreignWord.word
               )
-            )*/
-          children: [
-            /* WIP : J'ai décidé de créer un widget spécifique our afficher la carte du mot a deviner*/
-            CardGuessWidget(),
-            //GuessButton()
-          ],
-        )
-    );
+            )
+        ),
+              Text(_cardList.list.result[_index].nativeWord.word),
+              Text(_cardList.list.result[_index].foreignWord.word),
+              IconButton(
+                icon: Icon(Icons.question_answer_outlined), onPressed: () { increaseCounter(); }),
+              Text('$_index')
+    ]
+    )
+    )
+    ;
   }
 }
