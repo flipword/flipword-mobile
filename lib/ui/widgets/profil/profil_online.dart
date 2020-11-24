@@ -34,7 +34,7 @@ class ProfileOnline extends StatelessWidget {
             child: Text(
                 email,
                 style: const TextStyle(
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.bold,
                 fontSize: 30
                 )
             )

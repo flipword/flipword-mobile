@@ -47,7 +47,8 @@ class AuthService {
             (onError) async {
               await auth.currentUser.delete();
               await auth.signInWithCredential(credential);
-            });
+            })
+        .whenComplete(() => null);
     return;
   }
 
