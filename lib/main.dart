@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +9,20 @@ import 'ui/themes/theme.dart';
 
 
 void main()  {
+
+  const env = 'dev';
+  switch(env){
+    case 'dev':
+      Constanante.setEnvironement(Environement.DEV);
+      break;
+    case 'staging':
+      Constanante.setEnvironement(Environement.STAGING);
+      break;
+    case 'prod':
+      Constanante.setEnvironement(Environement.PROD);
+      break;
+  }
+
   runApp(MyApp());
 }
 
