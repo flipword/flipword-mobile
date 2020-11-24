@@ -13,18 +13,20 @@ class DarkTheme {
         accentColorBrightness: Brightness.dark,
 
         primaryColor: primaryColor,
-        primaryColorDark: primaryColorDark,
-        primaryColorLight: primaryColorLight,
         primaryColorBrightness: Brightness.dark,
         buttonTheme: base.buttonTheme.copyWith(
-          buttonColor: secondaryColor, 
+          buttonColor: secondaryColorDark,
           textTheme: ButtonTextTheme.primary,
         ),
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(
+            color: blackColor,
+          ),
+        ),
         bottomAppBarColor: navBarColor,
-        scaffoldBackgroundColor: background,
+        scaffoldBackgroundColor: backgroundDark,
         cardColor: cardColor,
-        textSelectionColor: primaryColorLight,
-        backgroundColor: background,
+        backgroundColor: backgroundDark,
         iconTheme: base.iconTheme.copyWith(
             color: blackColor
         ),
