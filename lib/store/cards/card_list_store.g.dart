@@ -15,6 +15,28 @@ mixin _$CardListStore on _CardListStore, Store {
   int get length => (_$lengthComputed ??=
           Computed<int>(() => super.length, name: '_CardListStore.length'))
       .value;
+  Computed<bool> _$isFinishedComputed;
+
+  @override
+  bool get isFinished =>
+      (_$isFinishedComputed ??= Computed<bool>(() => super.isFinished,
+              name: '_CardListStore.isFinished'))
+          .value;
+
+  final _$curentIndexAtom = Atom(name: '_CardListStore.curentIndex');
+
+  @override
+  ObservableFuture<int> get curentIndex {
+    _$curentIndexAtom.reportRead();
+    return super.curentIndex;
+  }
+
+  @override
+  set curentIndex(ObservableFuture<int> value) {
+    _$curentIndexAtom.reportWrite(value, super.curentIndex, () {
+      super.curentIndex = value;
+    });
+  }
 
   final _$listAtom = Atom(name: '_CardListStore.list');
 
@@ -48,8 +70,10 @@ mixin _$CardListStore on _CardListStore, Store {
   @override
   String toString() {
     return '''
+curentIndex: ${curentIndex},
 list: ${list},
-length: ${length}
+length: ${length},
+isFinished: ${isFinished}
     ''';
   }
 }

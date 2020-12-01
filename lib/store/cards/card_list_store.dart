@@ -10,12 +10,22 @@ abstract class _CardListStore with Store {
   final CardService _cardService = CardService.instance;
 
   @observable
+  ObservableFuture<int> curentIndex = ObservableFuture.value(0);
+
+  @observable
   ObservableFuture<List<entity.Card>> list = ObservableFuture.value(<entity.Card>[]);
 
   @computed
   int get length => list.value.length;
 
+  //a refactor dans le code de la home page
+  @computed
+  bool get isFinished => curentIndex.value == list.value.length-1;
+
   @action
   Future<void> fetchCard() =>
     list = ObservableFuture(_cardService.getListCard().then((values) =>values));
+
+
+
 }

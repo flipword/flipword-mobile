@@ -10,6 +10,9 @@ abstract class _LearningCardStore with Store {
   final CardService _cardService = CardService.instance;
 
   @observable
+  ObservableFuture<int> curentIndex = ObservableFuture.value(0);
+
+  @observable
   ObservableFuture<List<entity.Card>> list = ObservableFuture.value(<entity.Card>[]);
 
   @computed
@@ -18,7 +21,6 @@ abstract class _LearningCardStore with Store {
   @action
   Future<void> fetchCard() =>
       list = ObservableFuture(_cardService.getListCard().then((values) =>values));
-
 
   /*Future<void> deleteFirstWord() async {
     list = ObservableFuture(_cardService.getListCard());

@@ -18,37 +18,27 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   int _index = 0;
   bool _found = false;
   bool _finished = false;
-  /*LearningCardStore _learningCardList;
 
-  @override
-  void initState() {
-    print("LOG: [_HomePageState] inistate : start");
-    _learningCardList = Provider.of<LearningCardStore>(context, listen: false);
-    if(_learningCardList.list.value.isEmpty) {
-      print("LOG: [_HomePageState] inistate : la liste est vide, je vais 'fetch'");
-      _learningCardList.fetchCard();
-    }
-    print("LOG: [_HomePageState] inistate : fin");
-    super.initState();
-  }*/
-  //TODO je teste avec le _cardList alors qu'on avait vu d'utiliser un second store our cette artie,
-  // mais le store ne marche pas encore...
+  //TODO je teste avec le _cardList alors qu'on avait vu d'utiliser un second store our cette partie,
+  // mais le second store ne marche pas encore...
   CardListStore _cardList;
 
   var listCard = null;
   @override
   void initState() {
     print("LOG: [_HomePageState] inistate : start");
+
     _cardList = Provider.of<CardListStore>(context, listen: false);
-    if(_cardList.list.value.isEmpty) {
+    if (_cardList.list.value.isEmpty) {
       print("LOG: [_HomePageState] inistate : la liste est vide, je vais 'fetch'");
       _cardList.fetchCard();
       print("LOG: [_HomePageState] inistate : " + _cardList.length.toString());
     }
+    _index = _cardList.curentIndex.value;
     print("LOG: [_HomePageState] inistate : fin");
     super.initState();
   }
@@ -63,45 +53,67 @@ class _HomePageState extends State<HomePage> {
         _index -= 1;
         _finished = true;
       }
+      _cardList.curentIndex = ObservableFuture.value(_index);
     });
   }
+
+  void resetIndex() {
+    setState(() {
+      _cardList.curentIndex = ObservableFuture.value(0);
+      _index = 0;
+      _found = false;
+      _finished = false;
+      print("LOG: [_HomePageState] resetIndex: Reset");
+    });
+  }
+
   void discoverWord() {
     setState(() {
-      print("LOG: [_HomePageState] discoverWord : je met a false et j'incremente  " + _index.toString());
+      print(
+          "LOG: [_HomePageState] discoverWord : je met a false et j'incremente  " +
+              _index.toString());
       _found = true;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column (
-            children: [
-              Row(
-          children: List.generate(_cardList.length, (index) => CardWord(
-                nativeWord: _cardList.list.result[index].nativeWord.word,
-                foreignWord: _cardList.list.result[index].foreignWord.word
-              )
-            )
-        ),
-              Text(_cardList.list.result[_index].nativeWord.word),
-              Text(_cardList.list.result[_index].foreignWord.word),
-              if (!_found) IconButton(
-                icon: Icon(Icons.question_answer_outlined), onPressed: () { discoverWord(); }),
-              Text('$_index'),
-              Text((() {
-                if (_found) {
-                  return _cardList.list.result[_index].nativeWord.word;
-                }
-                else {
-                  return "???";
-                }
-              })()),
-              if (_found) IconButton(
-                  icon: Icon(Icons.arrow_forward_rounded), onPressed: () { increaseCounter(); }),
-              if (_finished) Text("C'est fini !!!")
-    ]
-    )
-    )
-    ;
+        body: Column(children: [
+      /*Row(
+          children: List.generate(
+              _cardList.length,
+              (index) => CardWord(
+                  nativeWord: _cardList.list.result[index].nativeWord.word,
+                  foreignWord: _cardList.list.result[index].foreignWord.word))),*/
+      //Text(_cardList.list.result[_index].nativeWord.word),
+      Text(_cardList.list.result[_cardList.curentIndex.value].foreignWord.word),
+      if (!_found)
+        IconButton(
+            icon: Icon(Icons.question_answer_outlined),
+            onPressed: () {
+              discoverWord();
+            }),
+      Text('$_cardList.curentIndex.value'),
+      Text((() {
+        if (_found) {
+          return _cardList.list.result[_cardList.curentIndex.value].nativeWord.word;
+        } else {
+          return "???";
+        }
+      })()),
+      if (_found)
+        IconButton(
+            icon: Icon(Icons.arrow_forward_rounded),
+            onPressed: () {
+              increaseCounter();
+            }),
+      if (_cardList.isFinished)
+        IconButton(
+            icon: Icon(Icons.restore),
+            onPressed: () {
+              resetIndex();
+            })
+    ]));
   }
 }

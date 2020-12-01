@@ -16,6 +16,21 @@ mixin _$LearningCardStore on _LearningCardStore, Store {
           Computed<int>(() => super.length, name: '_LearningCardStore.length'))
       .value;
 
+  final _$curentIndexAtom = Atom(name: '_LearningCardStore.curentIndex');
+
+  @override
+  ObservableFuture<int> get curentIndex {
+    _$curentIndexAtom.reportRead();
+    return super.curentIndex;
+  }
+
+  @override
+  set curentIndex(ObservableFuture<int> value) {
+    _$curentIndexAtom.reportWrite(value, super.curentIndex, () {
+      super.curentIndex = value;
+    });
+  }
+
   final _$listAtom = Atom(name: '_LearningCardStore.list');
 
   @override
@@ -35,7 +50,7 @@ mixin _$LearningCardStore on _LearningCardStore, Store {
       ActionController(name: '_LearningCardStore');
 
   @override
-  Future<dynamic> fetchCard() {
+  Future<void> fetchCard() {
     final _$actionInfo = _$_LearningCardStoreActionController.startAction(
         name: '_LearningCardStore.fetchCard');
     try {
@@ -48,6 +63,7 @@ mixin _$LearningCardStore on _LearningCardStore, Store {
   @override
   String toString() {
     return '''
+curentIndex: ${curentIndex},
 list: ${list},
 length: ${length}
     ''';
