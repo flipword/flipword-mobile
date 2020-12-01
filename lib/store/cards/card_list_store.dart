@@ -18,7 +18,6 @@ abstract class _CardListStore with Store {
   @computed
   int get length => list.value.length;
 
-  //a refactor dans le code de la home page
   @computed
   bool get isFinished => curentIndex.value == list.value.length-1;
 

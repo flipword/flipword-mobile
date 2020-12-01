@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
-import 'package:flutter_flip_card/ui/widgets/utils/button/guess_button.dart';
-import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
-import 'package:flutter_flip_card/ui/widgets/words/learning_card_word.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_flip_card/data/entities/card.dart' as entity;
-import 'package:flutter_flip_card/store/learning_card/learning_card_store.dart';
-
-import 'card_guess_widget.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -19,26 +12,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
-  int _index = 0;
   bool _found = false;
-  bool _finished = false;
-
-  //TODO je teste avec le _cardList alors qu'on avait vu d'utiliser un second store our cette partie,
-  // mais le second store ne marche pas encore...
   CardListStore _cardList;
 
   var listCard = null;
   @override
   void initState() {
     print("LOG: [_HomePageState] inistate : start");
-
     _cardList = Provider.of<CardListStore>(context, listen: false);
     if (_cardList.list.value.isEmpty) {
       print("LOG: [_HomePageState] inistate : la liste est vide, je vais 'fetch'");
       _cardList.fetchCard();
       print("LOG: [_HomePageState] inistate : " + _cardList.length.toString());
     }
-    _index = _cardList.curentIndex.value;
     print("LOG: [_HomePageState] inistate : fin");
     super.initState();
   }
@@ -47,31 +33,26 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     setState(() {
       print("LOG: [_HomePageState] increaseCounter : je met a true");
       _found = false;
-      _index += 1;
-      if (_index >= _cardList.length) {
+      if (_cardList.isFinished) {
         print("LOG: [_HomePageState] increaseCounter: ATTENTION");
-        _index -= 1;
-        _finished = true;
+      } else {
+        _cardList.curentIndex =
+            ObservableFuture.value(_cardList.curentIndex.value + 1);
       }
-      _cardList.curentIndex = ObservableFuture.value(_index);
     });
   }
 
   void resetIndex() {
     setState(() {
       _cardList.curentIndex = ObservableFuture.value(0);
-      _index = 0;
       _found = false;
-      _finished = false;
       print("LOG: [_HomePageState] resetIndex: Reset");
     });
   }
 
   void discoverWord() {
     setState(() {
-      print(
-          "LOG: [_HomePageState] discoverWord : je met a false et j'incremente  " +
-              _index.toString());
+      print("LOG: [_HomePageState] discoverWord : je met a false et j'incremente  " + _cardList.curentIndex.value.toString());
       _found = true;
     });
   }
@@ -79,41 +60,38 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(children: [
-      /*Row(
-          children: List.generate(
-              _cardList.length,
-              (index) => CardWord(
-                  nativeWord: _cardList.list.result[index].nativeWord.word,
-                  foreignWord: _cardList.list.result[index].foreignWord.word))),*/
-      //Text(_cardList.list.result[_index].nativeWord.word),
-      Text(_cardList.list.result[_cardList.curentIndex.value].foreignWord.word),
-      if (!_found)
-        IconButton(
-            icon: Icon(Icons.question_answer_outlined),
-            onPressed: () {
-              discoverWord();
-            }),
-      Text('$_cardList.curentIndex.value'),
-      Text((() {
-        if (_found) {
-          return _cardList.list.result[_cardList.curentIndex.value].nativeWord.word;
-        } else {
-          return "???";
-        }
-      })()),
-      if (_found)
-        IconButton(
-            icon: Icon(Icons.arrow_forward_rounded),
-            onPressed: () {
-              increaseCounter();
-            }),
-      if (_cardList.isFinished)
-        IconButton(
-            icon: Icon(Icons.restore),
-            onPressed: () {
-              resetIndex();
-            })
-    ]));
+        body: Column(
+            children: [
+              Text(_cardList.list.result[_cardList.curentIndex.value].foreignWord.word),
+              if (!_found)
+                IconButton(
+                    icon: Icon(Icons.question_answer_outlined),
+                    onPressed: () {
+                      discoverWord();
+                    }),
+              Text('$_cardList.curentIndex.value'),
+              Text((() {
+                if (_found && !_cardList.isFinished) {
+                  return _cardList.list.result[_cardList.curentIndex.value].nativeWord.word;
+                } else {
+                  return "???";
+                }
+              })()),
+              if (_found && !_cardList.isFinished)
+                IconButton(
+                    icon: Icon(Icons.arrow_forward_rounded),
+                    onPressed: () {
+                      increaseCounter();
+                    }),
+              if (_cardList.isFinished)
+                IconButton(
+                    icon: Icon(Icons.restore),
+                    onPressed: () {
+                      resetIndex();
+                    }
+                    )
+            ]
+        )
+    );
   }
 }
