@@ -83,7 +83,9 @@ class _HomePageState extends State<HomePage> {
                 Scaffold(
                 body: Column(
                     children: [
-                      Text(_cardList.list.result[_cardList.curentIndex.value].foreignWord.word),
+                      Text(
+                          _cardList.list.result[_cardList.curentIndex.value].foreignWord.word,
+                      ),
                       if (!_found)
                         IconButton(
                             icon: Icon(Icons.question_answer_outlined),
