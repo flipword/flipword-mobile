@@ -19,28 +19,20 @@ class _HomePageState extends State<HomePage> {
   var listCard = null;
   @override
   void initState() {
-    print("LOG: [_HomePageState] inistate : start");
     _cardList = Provider.of<CardListStore>(context, listen: false);
     _cardList.list.status;
     if (_cardList.list.status == FutureStatus.fulfilled) {
       if (_cardList.list.value.isEmpty) {
-        print(
-            "LOG: [_HomePageState] inistate : la liste est vide, je vais 'fetch'");
         _cardList.fetchCard();
-        print(
-            "LOG: [_HomePageState] inistate : " + _cardList.length.toString());
       }
-      print("LOG: [_HomePageState] inistate : fin");
     }
     super.initState();
   }
 
   void increaseCounter() {
     setState(() {
-      print("LOG: [_HomePageState] increaseCounter : je met a true");
       _found = false;
       if (_cardList.isFinished) {
-        print("LOG: [_HomePageState] increaseCounter: ATTENTION");
       } else {
         _cardList.curentIndex =
             ObservableFuture.value(_cardList.curentIndex.value + 1);
@@ -52,13 +44,11 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _cardList.curentIndex = ObservableFuture.value(0);
       _found = false;
-      print("LOG: [_HomePageState] resetIndex: Reset");
     });
   }
 
   void discoverWord() {
     setState(() {
-      print("LOG: [_HomePageState] discoverWord : je met a false et j'incremente  " + _cardList.curentIndex.value.toString());
       _found = true;
     });
   }
