@@ -108,8 +108,8 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     return OverlayEntry(
         builder: (context) => AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOutSine,
-            bottom: displayOverlay ? 260 : screenSize ,
+            curve: Curves.easeOutCubic,
+            top: displayOverlay ? 0 : -screenSize,
             child: AddWord(),
         )
     );
