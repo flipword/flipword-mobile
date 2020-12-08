@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  bool _found = false;
+  //bool _found = false;
   CardListStore _cardListStore;
 
   var listCard = null;
@@ -28,7 +28,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  void increaseCounter() {
+  // ici créer une action dans le store
+  /*void increaseCounter() {
     setState(() {
       _found = false;
       if (_cardListStore.isFinished) {
@@ -37,20 +38,21 @@ class _HomePageState extends State<HomePage> {
             ObservableFuture.value(_cardListStore.curentIndex.value + 1);
       }
     });
-  }
+  }*/
 
-  void resetIndex() {
+  /*void resetIndex() {
     setState(() {
       _cardListStore.curentIndex = ObservableFuture.value(0);
       _found = false;
     });
-  }
+  }*/
 
-  void discoverWord() {
+  /*void discoverWord() {
     setState(() {
-      _found = true;
+      //_found = true;
+      _cardListStore.showWord();
     });
-  }
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -75,31 +77,35 @@ class _HomePageState extends State<HomePage> {
                       Text(
                           _cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,
                       ),
-                      if (!_found)
+                      if (!_cardListStore.isFound.value)
                         IconButton(
                             icon: Icon(Icons.question_answer_outlined),
                             onPressed: () {
-                              discoverWord();
+                              //_cardListStore.showWord();
+                              //discoverWord();
+                              _cardListStore.actionOnCard();
                             }),
                       Text(_cardListStore.curentIndex.value.toString()),
                       Text((() {
-                        if (_found && !_cardListStore.isFinished) {
+                        if (_cardListStore.isFound.value && !_cardListStore.isFinished) {
                           return _cardListStore.list.result[_cardListStore.curentIndex.value].nativeWord.word;
                         } else {
                           return "???";
                         }
                       })()),
-                      if (_found && !_cardListStore.isFinished)
+                      if (_cardListStore.isFound.value && !_cardListStore.isFinished)
                         IconButton(
                             icon: Icon(Icons.arrow_forward_rounded),
                             onPressed: () {
-                              increaseCounter();
+                              _cardListStore.actionOnCard();
+                              //increaseCounter();
                             }),
                       if (_cardListStore.isFinished)
                         IconButton(
                             icon: Icon(Icons.restore),
                             onPressed: () {
-                              resetIndex();
+                              //resetIndex();
+                              _cardListStore.resetIndex();
                             }
                         )
                     ]
@@ -110,7 +116,5 @@ class _HomePageState extends State<HomePage> {
         return _widgetDisplayed;
       }
     );
-
-    /*return ;*/
   }
 }
