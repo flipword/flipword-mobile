@@ -31,6 +31,13 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
+  #PODs for firebase
+  # add pods for any other desired Firebase products
+  # https://firebase.google.com/docs/ios/setup#available-pods
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Firestore'
+  
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
