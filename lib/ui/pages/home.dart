@@ -14,16 +14,15 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool _found = false;
-  CardListStore _cardList;
+  CardListStore _cardListStore;
 
   var listCard = null;
   @override
   void initState() {
-    _cardList = Provider.of<CardListStore>(context, listen: false);
-    _cardList.list.status;
-    if (_cardList.list.status == FutureStatus.fulfilled) {
-      if (_cardList.list.value.isEmpty) {
-        _cardList.fetchCard();
+    _cardListStore = Provider.of<CardListStore>(context, listen: false);
+    if (_cardListStore.list.status == FutureStatus.fulfilled) {
+      if (_cardListStore.list.value.isEmpty) {
+        _cardListStore.fetchCard();
       }
     }
     super.initState();
@@ -32,17 +31,17 @@ class _HomePageState extends State<HomePage> {
   void increaseCounter() {
     setState(() {
       _found = false;
-      if (_cardList.isFinished) {
+      if (_cardListStore.isFinished) {
       } else {
-        _cardList.curentIndex =
-            ObservableFuture.value(_cardList.curentIndex.value + 1);
+        _cardListStore.curentIndex =
+            ObservableFuture.value(_cardListStore.curentIndex.value + 1);
       }
     });
   }
 
   void resetIndex() {
     setState(() {
-      _cardList.curentIndex = ObservableFuture.value(0);
+      _cardListStore.curentIndex = ObservableFuture.value(0);
       _found = false;
     });
   }
@@ -55,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final future = _cardList.list;
+    final future = _cardListStore.list;
     Widget _widgetDisplayed;
     return Observer(
       builder: (_) {
@@ -74,7 +73,7 @@ class _HomePageState extends State<HomePage> {
                 body: Column(
                     children: [
                       Text(
-                          _cardList.list.result[_cardList.curentIndex.value].foreignWord.word,
+                          _cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,
                       ),
                       if (!_found)
                         IconButton(
@@ -82,21 +81,21 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               discoverWord();
                             }),
-                      Text(_cardList.curentIndex.value.toString()),
+                      Text(_cardListStore.curentIndex.value.toString()),
                       Text((() {
-                        if (_found && !_cardList.isFinished) {
-                          return _cardList.list.result[_cardList.curentIndex.value].nativeWord.word;
+                        if (_found && !_cardListStore.isFinished) {
+                          return _cardListStore.list.result[_cardListStore.curentIndex.value].nativeWord.word;
                         } else {
                           return "???";
                         }
                       })()),
-                      if (_found && !_cardList.isFinished)
+                      if (_found && !_cardListStore.isFinished)
                         IconButton(
                             icon: Icon(Icons.arrow_forward_rounded),
                             onPressed: () {
                               increaseCounter();
                             }),
-                      if (_cardList.isFinished)
+                      if (_cardListStore.isFinished)
                         IconButton(
                             icon: Icon(Icons.restore),
                             onPressed: () {
