@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 
+/*
+* Ce sera le widget sécifique our l'affichage du mot
+*
+* */
+
 class CardGuessWidget extends StatefulWidget {
   @override
   _CardGuessWidgetState createState() => _CardGuessWidgetState();
