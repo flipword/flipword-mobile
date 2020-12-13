@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
 import 'package:provider/provider.dart';
 import 'ui/themes/theme.dart';
@@ -19,7 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          Provider<CardListStore>(create: (_) => CardListStore(),)
+          Provider<CardListStore>(create: (_) => CardListStore()),
+          Provider<ProfilStore>(create: (_) => ProfilStore())
         ],
         child: FutureBuilder(
           future: Firebase.initializeApp(),

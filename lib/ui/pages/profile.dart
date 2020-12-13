@@ -4,98 +4,70 @@ import 'package:flutter_flip_card/services/auth_service.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = '/profile';
-  ProfilePageState createState() => ProfilePageState();
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class ProfilePageState extends State<ProfilePage> {
-  static AuthService firebaseAuthService = AuthService.instance;
-  static RobohashHelper robohashHelper = RobohashHelper.instance;
+class _ProfilePageState extends State<ProfilePage> {
+
+  ProfilStore _profilStore;
+  final firebaseAuthService = AuthService.instance;
 
   String userName;
   FileImage image;
   bool conection;
   String effet;
 
-  Future<bool> checkStatus() async {
-    final user = firebaseAuthService.getUser();
-    if (user.isAnonymous) {
-      return true;
-    } else {
-      return false;
-    }
+  @override
+  void initState(){
+
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
+    _profilStore = Provider.of<ProfilStore>(context, listen: false);
+    Widget _widgetDisplayed;
     return Scaffold(
-      body: Center(
-          child: MultiProvider(
-            providers: [
-              Provider<ProfilStore>(
-                create: (_)=> ProfilStore(),
-              )
-            ],
-              future: checkStatus(),
-              builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  conection = snapshot.data;
-                  if (conection) {
-                    effet = 'Login';
-                  } else {
-                    effet = 'Logout';
-                  }
-                  return Column(
+      body: Observer(
+        builder: (_){
+              if(_profilStore.courantProfil.isConnecter) {
+                _widgetDisplayed =Scaffold(
+                    body: Column(
                     children: [
-                      FutureBuilder(
-                          future: checkStatus(),
-                          builder: (BuildContext context,
-                              AsyncSnapshot<bool> snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.done) {
-                              conection = snapshot.data;
-                              if (conection) {
-                                return ProfileOffline();
-                              } else {
-                                return ProfileOnline();
-                              }
-                            } else {
-                              return const CircularProgressIndicator();
-                            }
-                          }),
+                      ProfileOnline(),
+                      RaisedButton(
+                      textTheme: Theme.of(context).buttonTheme.textTheme,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: _profilStore.logout,
+                        child: const Text('logout'),
+                      )
+                    ]
+                    )
+                );
+              }else{
+                _widgetDisplayed =Scaffold(
+                    body: Column(
+                    children: [
+                      ProfileOffline(),
                       RaisedButton(
                         textTheme: Theme.of(context).buttonTheme.textTheme,
                         color: Theme.of(context).primaryColor,
-                        onPressed: () {
-                          if (conection) {
-                            login();
-                          } else {
-                            logout();
-                          }
-                        },
-                        child: Text(effet),
-                      ),
-                    ],
-                  );
-                } else {
-                  return const CircularProgressIndicator();
-                }
-              })),
-    );
-  }
+                        onPressed: _profilStore.login,
+                        child: const Text('login'),)
+                    ]
+                ));
+              }
+          return _widgetDisplayed;
+        },
+    ));}
 
-  void logout() {
-    firebaseAuthService
-        .logout()
-        .then((value) => checkStatus().then((value) => setState(() => {})));
-  }
-
-  void login() {
-    firebaseAuthService
-        .signInWithGoogle()
-        .then((value) => checkStatus().then((value) => setState(() => {})));
-  }
 }

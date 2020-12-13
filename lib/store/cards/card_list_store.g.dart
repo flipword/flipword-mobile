@@ -19,13 +19,13 @@ mixin _$CardListStore on _CardListStore, Store {
   final _$listAtom = Atom(name: '_CardListStore.list');
 
   @override
-  ObservableFuture<List<entity.Card>> get list {
+  ObservableFuture<List<entity.CardEntity>> get list {
     _$listAtom.reportRead();
     return super.list;
   }
 
   @override
-  set list(ObservableFuture<List<entity.Card>> value) {
+  set list(ObservableFuture<List<entity.CardEntity>> value) {
     _$listAtom.reportWrite(value, super.list, () {
       super.list = value;
     });

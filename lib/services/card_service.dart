@@ -23,11 +23,11 @@ class CardService {
       _repository.getUserDictionary(dictionary, _authService.getUser().uid).collection(_languageService.getRef());
 
   Future<void> insertCard(Word baseWord, Word translateWord)  async {
-    entity.Card card;
+    entity.CardEntity card;
     if(baseWord.languageId == _languageService.nativeLanguage.id) {
-      card = entity.Card(nativeWord: baseWord, foreignWord: translateWord);
+      card = entity.CardEntity(nativeWord: baseWord, foreignWord: translateWord);
     } else {
-      card =  entity.Card(nativeWord: translateWord, foreignWord: baseWord);
+      card =  entity.CardEntity(nativeWord: translateWord, foreignWord: baseWord);
     }
     await getCardCollection()
         .add(card.toJson());
@@ -35,10 +35,10 @@ class CardService {
     return;
   }
 
-  Future<List<entity.Card>> getListCard() async {
+  Future<List<entity.CardEntity>> getListCard() async {
     final response = await getCardCollection().get();
     return response.docs.map((element) {
-      return entity.Card.fromJson(element.data());
+      return entity.CardEntity.fromJson(element.data());
     }).toList();
 
   }

@@ -10,7 +10,7 @@ abstract class _CardListStore with Store {
   final CardService _cardService = CardService.instance;
 
   @observable
-  ObservableFuture<List<entity.Card>> list = ObservableFuture.value(<entity.Card>[]);
+  ObservableFuture<List<entity.CardEntity>> list = ObservableFuture.value(<entity.CardEntity>[]);
 
   @computed
   int get length => list.value.length;

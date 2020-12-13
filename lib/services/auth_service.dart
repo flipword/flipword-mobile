@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/entities/firebase_user_profil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 
 class AuthService {
 
@@ -9,22 +10,41 @@ class AuthService {
     _auth ??= FirebaseAuth.instance;
     if(_auth.currentUser == null){
       _auth.signInAnonymously();
+
+    }
+
+    if(_auth.currentUser.isAnonymous){
+      _courantProfil = FirebaseUserProfil()
+        ..uid = _auth.currentUser.uid
+        ..isConnecter = false;
+    }else {
+      final now = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+      _courantProfil = FirebaseUserProfil()
+        ..email = _auth.currentUser.email
+        ..name = _auth.currentUser.displayName
+        ..lastConnection = now
+        ..uid = _auth.currentUser.uid
+        ..isConnecter = true;
     }
   }
 
+  FirebaseUserProfil _courantProfil;
   FirebaseAuth _auth;
   final FirestoreUserProfilRepository _firestoreUserProfilRepository = FirestoreUserProfilRepository.instance;
 
   static final AuthService _instance = AuthService._privateConstructor();
   static AuthService get instance => _instance;
 
-  User getUser () => _auth.currentUser;
+  FirebaseUserProfil getUser () => _courantProfil;
 
 
 
   Future<void> logout() async {
     await _auth.signOut();
     await _auth.signInAnonymously();
+    _courantProfil = FirebaseUserProfil()
+      ..uid = _auth.currentUser.uid
+      ..isConnecter = false;
     return;
   }
 
@@ -51,11 +71,16 @@ class AuthService {
               await _auth.currentUser.delete();
               await _auth.signInWithCredential(credential);
             });
-    final profil = FirebaseUserProfil()
+
+    final now = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
+    _courantProfil
       ..email = _auth.currentUser.email
-      ..name = _auth.currentUser.displayName;
+      ..name = _auth.currentUser.displayName
+      ..lastConnection = now
+      ..uid = _auth.currentUser.uid
+      ..isConnecter = true;
     await _firestoreUserProfilRepository
-        .getUserProfilCollection(_auth.currentUser.uid).set(profil.toJson());
+        .getUserProfilCollection(_courantProfil.uid).set(_courantProfil.toJson());
 
     return;
   }
