@@ -5,12 +5,10 @@ import 'package:flutter_flip_card/data/entities/firebase_user_profil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
-
 class AuthService {
-
-  AuthService._privateConstructor()  {
+  AuthService._privateConstructor() {
     _auth ??= FirebaseAuth.instance;
-    if(_auth.currentUser == null){
+    if (_auth.currentUser == null) {
       _auth.signInAnonymously();
     }
     updateCourantUser();
@@ -18,35 +16,35 @@ class AuthService {
 
   UserProfil _courantProfil;
   FirebaseAuth _auth;
-  final FirestoreUserProfilRepository _firestoreUserProfilRepository = FirestoreUserProfilRepository.instance;
+  final FirestoreUserProfilRepository _firestoreUserProfilRepository =
+      FirestoreUserProfilRepository.instance;
   static final AuthService _instance = AuthService._privateConstructor();
   static AuthService get instance => _instance;
 
   final RobohashHelper robohashHelper = RobohashHelper.instance;
 
-  UserProfil getUser () => _courantProfil;
+  UserProfil getUser() => _courantProfil;
 
   Future<void> updateCourantUser() async {
     _courantProfil ??= UserProfil();
-    if(_auth.currentUser.isAnonymous){
+    if (_auth.currentUser.isAnonymous) {
       _courantProfil
         ..uid = _auth.currentUser.uid
         ..isConnecter = false
         ..name = null
         ..email = null
         ..lastConnection = null;
-    }else {
-    _courantProfil
-      ..email = _auth.currentUser.email
-      ..name = _auth.currentUser.displayName
-      ..lastConnection = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())
-      ..uid = _auth.currentUser.uid
-      ..isConnecter = true;
+    } else {
+      _courantProfil
+        ..email = _auth.currentUser.email
+        ..name = _auth.currentUser.displayName
+        ..lastConnection = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())
+        ..uid = _auth.currentUser.uid
+        ..isConnecter = true;
 
-    await robohashHelper
-        .getAvatare(_courantProfil.email)
-        .then((value) => _courantProfil.fileImage = value);
-
+      await robohashHelper
+          .getAvatare(_courantProfil.email)
+          .then((value) => _courantProfil.fileImage = value);
     }
     return;
   }
@@ -59,12 +57,10 @@ class AuthService {
   }
 
   Future<UserProfil> signInWithGoogle() async {
-
     final googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final googleAuth = await googleUser
-        .authentication;
+    final googleAuth = await googleUser.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -73,22 +69,19 @@ class AuthService {
     );
 
     // Once signed in, return the UserCredential
-    await _auth
-        .currentUser
+    await _auth.currentUser
         .linkWithCredential(credential)
-        .catchError(
-            (onError) async {
-              await _auth.currentUser.delete();
-              await _auth.signInWithCredential(credential);
-            });
+        .catchError((onError) async {
+      await _auth.currentUser.delete();
+      await _auth.signInWithCredential(credential);
+    });
 
     await updateCourantUser();
 
     await _firestoreUserProfilRepository
-        .getUserProfilCollection(_courantProfil.uid).set(_courantProfil.toJson());
+        .getUserProfilCollection(_courantProfil.uid)
+        .set(_courantProfil.toJson());
 
     return _courantProfil;
   }
-
-
 }
