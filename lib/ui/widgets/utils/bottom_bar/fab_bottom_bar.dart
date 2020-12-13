@@ -15,6 +15,7 @@ class FABBottomAppBarItem {
 }
 
 class FABBottomAppBar extends StatefulWidget {
+
   FABBottomAppBar({
     this.items,
     this.height = 60.0,
@@ -23,7 +24,7 @@ class FABBottomAppBar extends StatefulWidget {
     this.iconColor,
     this.selectedColor,
     this.notchedShape,
-    this.onTabSelected,
+    this.onTabSelected
   }) {
     assert(items.length == 2 || items.length == 4);
   }
@@ -52,7 +53,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> items = List.generate(widget.items.length, (int index) {
+    final items = List<Widget>.generate(widget.items.length, (int index) {
       return _buildTabItem(
         item: widget.items[index],
         index: index,
@@ -91,10 +92,10 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     int index,
     ValueChanged<FABBottomAppBarItemRouting> onPressed,
   }) {
-    final FABBottomAppBarItemRouting routing = FABBottomAppBarItemRouting(
+    final routing = FABBottomAppBarItemRouting(
         index: index,
         routeName: item.routeName);
-    final Color color = _selectedIndex == index ?
+    final color = _selectedIndex == index ?
     widget.selectedColor
         : widget.iconColor;
     return Expanded(

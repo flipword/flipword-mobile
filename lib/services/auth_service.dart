@@ -33,7 +33,6 @@ class AuthService {
         ..uid = _auth.currentUser.uid
         ..isConnecter = false
         ..name = null
-        ..learned_word = null
         ..email = null
         ..lastConnection = null;
     }else {

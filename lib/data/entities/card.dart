@@ -17,7 +17,7 @@ class CardEntity {
   int score;
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final data = <String, dynamic>{};
     data['nativeWord'] = nativeWord.word;
     data['foreignWord'] = foreignWord.word;
     data['score'] = score;

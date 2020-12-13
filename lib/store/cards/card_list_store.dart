@@ -16,6 +16,6 @@ abstract class _CardListStore with Store {
   int get length => list.value.length;
 
   @action
-  Future fetchCard() =>
+  Future<void> fetchCard() =>
     list = ObservableFuture(_cardService.getListCard().then((values) =>values));
 }
