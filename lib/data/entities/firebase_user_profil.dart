@@ -16,6 +16,7 @@ class UserProfil {
   bool isConnecter;
   String uid;
   FileImage fileImage;
+  int learned_word;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

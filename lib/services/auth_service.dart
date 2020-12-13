@@ -5,6 +5,7 @@ import 'package:flutter_flip_card/data/entities/firebase_user_profil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 
+
 class AuthService {
 
   AuthService._privateConstructor()  {
@@ -30,6 +31,7 @@ class AuthService {
       robohashHelper
           .getAvatare(_courantProfil.email)
           .then((value) => _courantProfil.fileImage = value);
+
     }
   }
 
@@ -39,7 +41,7 @@ class AuthService {
   static final AuthService _instance = AuthService._privateConstructor();
   static AuthService get instance => _instance;
 
-  static RobohashHelper robohashHelper = RobohashHelper.instance;
+  final RobohashHelper robohashHelper = RobohashHelper.instance;
 
   UserProfil getUser () => _courantProfil;
 
