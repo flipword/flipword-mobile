@@ -17,11 +17,11 @@ class FirestoreUserProfilRepository {
   DocumentReference getUserProfilCollection(String userId) =>
       _firestoreHelper.getCollection('UserProfil').doc(userId);
 
-  Future<FirebaseUserProfil> getUserProfil() async {
-    FirebaseUserProfil firestoreUserProfilRepository;
+  Future<UserProfil> getUserProfil() async {
+    UserProfil firestoreUserProfilRepository;
     await getUserProfilCollection(firebaseAuthService.getUser().uid)
         .get().then((value) => {
-      firestoreUserProfilRepository = FirebaseUserProfil.fromJson(value.data())
+      firestoreUserProfilRepository = UserProfil.fromJson(value.data())
     });
     return firestoreUserProfilRepository;
   }

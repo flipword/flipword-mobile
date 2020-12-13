@@ -12,13 +12,13 @@ mixin _$ProfilStore on _ProfilStore, Store {
   final _$courantProfilAtom = Atom(name: '_ProfilStore.courantProfil');
 
   @override
-  FirebaseUserProfil get courantProfil {
+  UserProfil get courantProfil {
     _$courantProfilAtom.reportRead();
     return super.courantProfil;
   }
 
   @override
-  set courantProfil(FirebaseUserProfil value) {
+  set courantProfil(UserProfil value) {
     _$courantProfilAtom.reportWrite(value, super.courantProfil, () {
       super.courantProfil = value;
     });

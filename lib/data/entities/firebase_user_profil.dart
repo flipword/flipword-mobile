@@ -1,8 +1,10 @@
-class FirebaseUserProfil {
+import 'package:flutter/cupertino.dart';
 
-  FirebaseUserProfil( {this.email, this.name, this.lastConnection});
+class UserProfil {
 
-  FirebaseUserProfil.fromJson(Map<String, dynamic> json) {
+  UserProfil( {this.email, this.name, this.lastConnection});
+
+  UserProfil.fromJson(Map<String, dynamic> json) {
     email = json['email'];
     name = json['name'];
     lastConnection = json['lastConnection'];
@@ -13,6 +15,7 @@ class FirebaseUserProfil {
   String lastConnection;
   bool isConnecter;
   String uid;
+  FileImage fileImage;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

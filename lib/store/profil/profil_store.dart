@@ -12,7 +12,7 @@ abstract class _ProfilStore with Store {
 
 
   @observable
-   FirebaseUserProfil courantProfil = AuthService.instance.getUser();
+   UserProfil courantProfil = AuthService.instance.getUser();
 
   @action
   void logout() {
