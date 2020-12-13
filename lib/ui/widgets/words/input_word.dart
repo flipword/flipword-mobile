@@ -60,7 +60,11 @@ class _InputWordState extends State<InputWord> {
                 controller: widget.controller,
                 readOnly: widget.readOnly,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 20),
+                style: const TextStyle(
+                    fontSize: 20,
+                    // TODO: utiliser le thème
+                    color: Colors.black
+                ),
                 decoration: InputDecoration(
                   contentPadding:  const EdgeInsets.only(top: 30, bottom: 30),
                   border: InputBorder.none,

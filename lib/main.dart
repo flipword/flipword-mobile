@@ -1,14 +1,30 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
+import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
-import 'ui/themes/theme.dart';
+import 'ui/themes/light_theme.dart';
 
 
 
 void main()  {
+
+  const env = 'dev';
+  switch(env){
+    case 'dev':
+      Constanants.setEnvironement(Environement.DEV);
+      break;
+    case 'staging':
+      Constanants.setEnvironement(Environement.STAGING);
+      break;
+    case 'prod':
+      Constanants.setEnvironement(Environement.PROD);
+      break;
+  }
+
   runApp(MyApp());
 }
 
@@ -30,19 +46,11 @@ class MyApp extends StatelessWidget {
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
             // Check for errors
-            if (snapshot.hasError) {
+            if (snapshot.hasError || (snapshot.connectionState == ConnectionState.done)) {
               return MaterialApp(
                   title: 'FlipWord',
-                  theme: MyTheme.defaultTheme,
-                  home: Layout()
-              );
-            }
-
-            // Once complete, show your application
-            if (snapshot.connectionState == ConnectionState.done) {
-              return  MaterialApp(
-                  title: 'FlipWord',
-                  theme: MyTheme.defaultTheme,
+                  theme: LightTheme.defaultTheme,
+                  darkTheme: DarkTheme.defaultTheme,
                   home: Layout()
               );
             }

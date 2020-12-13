@@ -19,8 +19,10 @@ class IconTextButton extends StatelessWidget {
     return Container(
         width: width,
         child: MaterialButton(
+
           splashColor: Theme.of(context).accentColor,
           elevation: 10,
+
           highlightElevation: 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5),
