@@ -46,12 +46,17 @@ class _ProfilePageState extends State<ProfilePage> {
           _widgetDisplayed = Scaffold(
               body: Column(children: [
             ProfileOffline(),
-                RaisedButton(
-                  textTheme: Theme.of(context).buttonTheme.textTheme,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: _profilStore.login,
-                  child: const Text('Login or Sing in with Google'),
-                )
+            RaisedButton(
+                textTheme: Theme.of(context).buttonTheme.textTheme,
+                color: Theme.of(context).primaryColor,
+                onPressed: _profilStore.login,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.account_circle),
+                    Text('Login or Sing in with Google')
+                  ],
+                ))
           ]));
         }
         return _widgetDisplayed;
