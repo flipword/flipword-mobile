@@ -12,27 +12,8 @@ class AuthService {
     _auth ??= FirebaseAuth.instance;
     if(_auth.currentUser == null){
       _auth.signInAnonymously();
-
     }
-
-    if(_auth.currentUser.isAnonymous){
-      _courantProfil = UserProfil()
-        ..uid = _auth.currentUser.uid
-        ..isConnecter = false;
-    }else {
-      final now = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
-      _courantProfil = UserProfil()
-        ..email = _auth.currentUser.email
-        ..name = _auth.currentUser.displayName
-        ..lastConnection = now
-        ..uid = _auth.currentUser.uid
-        ..isConnecter = true;
-
-      robohashHelper
-          .getAvatare(_courantProfil.email)
-          .then((value) => _courantProfil.fileImage = value);
-
-    }
+    updateCourantUser();
   }
 
   UserProfil _courantProfil;
@@ -45,18 +26,40 @@ class AuthService {
 
   UserProfil getUser () => _courantProfil;
 
-
-
-  Future<void> logout() async {
-    await _auth.signOut();
-    await _auth.signInAnonymously();
-    _courantProfil = UserProfil()
+  Future<void> updateCourantUser() async {
+    _courantProfil ??= UserProfil();
+    if(_auth.currentUser.isAnonymous){
+      _courantProfil
+        ..uid = _auth.currentUser.uid
+        ..isConnecter = false
+        ..name = null
+        ..learned_word = null
+        ..email = null
+        ..lastConnection = null;
+    }else {
+    _courantProfil
+      ..email = _auth.currentUser.email
+      ..name = _auth.currentUser.displayName
+      ..lastConnection = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())
       ..uid = _auth.currentUser.uid
-      ..isConnecter = false;
+      ..isConnecter = true;
+
+    await robohashHelper
+        .getAvatare(_courantProfil.email)
+        .then((value) => _courantProfil.fileImage = value);
+
+    }
     return;
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<UserProfil> logout() async {
+    await _auth.signOut();
+    await _auth.signInAnonymously();
+    await updateCourantUser();
+    return _courantProfil;
+  }
+
+  Future<UserProfil> signInWithGoogle() async {
 
     final googleUser = await GoogleSignIn().signIn();
 
@@ -80,22 +83,12 @@ class AuthService {
               await _auth.signInWithCredential(credential);
             });
 
-    final now = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now());
-    _courantProfil
-      ..email = _auth.currentUser.email
-      ..name = _auth.currentUser.displayName
-      ..lastConnection = now
-      ..uid = _auth.currentUser.uid
-      ..isConnecter = true;
-
-    await robohashHelper
-        .getAvatare(_courantProfil.email)
-        .then((value) => _courantProfil.fileImage = value);
+    await updateCourantUser();
 
     await _firestoreUserProfilRepository
         .getUserProfilCollection(_courantProfil.uid).set(_courantProfil.toJson());
 
-    return;
+    return _courantProfil;
   }
 
 

@@ -18,13 +18,13 @@ abstract class _ProfilStore with Store {
   void logout() {
     AuthService.instance
         .logout()
-        .then((value) =>  courantProfil = AuthService.instance.getUser());
+        .then((value) =>  courantProfil = value);
   }
 
   void login() {
     AuthService.instance
         .signInWithGoogle()
-        .then((value) =>  courantProfil = AuthService.instance.getUser());
+        .then((value) =>  courantProfil = value);
   }
 
 }
