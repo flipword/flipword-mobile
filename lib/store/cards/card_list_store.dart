@@ -15,6 +15,8 @@ abstract class _CardListStore with Store {
   @observable
   ObservableFuture<bool> isFound = ObservableFuture.value(false);
 
+  @observable
+  ObservableValue<bool> found = Observable<bool>(false);
 
   @observable
   ObservableFuture<List<entity.Card>> list = ObservableFuture.value(<entity.Card>[]);
@@ -29,6 +31,7 @@ abstract class _CardListStore with Store {
   void resetIndex() {
     curentIndex = ObservableFuture.value(0);
     isFound = ObservableFuture.value(false);
+    found = Observable<bool>(false);
   }
 
   @action
@@ -39,13 +42,14 @@ abstract class _CardListStore with Store {
   void actionOnCard() {
     if (isFound.value) {
         isFound = ObservableFuture.value(false);
-      if (!isFinished) {
-        curentIndex = ObservableFuture.value(curentIndex.value + 1);
-      }
+        found = Observable<bool>(false);
+        if (!isFinished) {
+          curentIndex = ObservableFuture.value(curentIndex.value + 1);
+        }
     } else
       {
         isFound = ObservableFuture.value(true);
-        curentIndex = ObservableFuture.value(curentIndex.value + 0);
+        found = Observable<bool>(true);
       }
   }
 

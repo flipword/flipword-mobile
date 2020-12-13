@@ -13,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //bool _found = false;
   CardListStore _cardListStore;
 
   var listCard = null;
@@ -28,31 +27,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  // ici créer une action dans le store
-  /*void increaseCounter() {
-    setState(() {
-      _found = false;
-      if (_cardListStore.isFinished) {
-      } else {
-        _cardListStore.curentIndex =
-            ObservableFuture.value(_cardListStore.curentIndex.value + 1);
-      }
-    });
-  }*/
-
-  /*void resetIndex() {
-    setState(() {
-      _cardListStore.curentIndex = ObservableFuture.value(0);
-      _found = false;
-    });
-  }*/
-
-  /*void discoverWord() {
-    setState(() {
-      //_found = true;
-      _cardListStore.showWord();
-    });
-  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +42,13 @@ class _HomePageState extends State<HomePage> {
             break;
           case FutureStatus.rejected:
             // TODO: Handle this case.
+            _widgetDisplayed =
+                Scaffold(
+                  body: Column(
+                    children: [
+                      Icon(Icons.warning_amber_outlined),
+                      Text("An error occured : the connection was rejected")
+                ]));
             break;
           case FutureStatus.fulfilled:
             _widgetDisplayed =
@@ -77,34 +58,30 @@ class _HomePageState extends State<HomePage> {
                       Text(
                           _cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,
                       ),
-                      if (!_cardListStore.isFound.value)
+                      if (!_cardListStore.found.value)
                         IconButton(
                             icon: Icon(Icons.question_answer_outlined),
                             onPressed: () {
-                              //_cardListStore.showWord();
-                              //discoverWord();
                               _cardListStore.actionOnCard();
                             }),
                       Text(_cardListStore.curentIndex.value.toString()),
                       Text((() {
-                        if (_cardListStore.isFound.value && !_cardListStore.isFinished) {
+                        if (_cardListStore.found.value) {
                           return _cardListStore.list.result[_cardListStore.curentIndex.value].nativeWord.word;
                         } else {
                           return "???";
                         }
                       })()),
-                      if (_cardListStore.isFound.value && !_cardListStore.isFinished)
+                      if (!_cardListStore.isFinished  && _cardListStore.found.value )
                         IconButton(
                             icon: Icon(Icons.arrow_forward_rounded),
                             onPressed: () {
                               _cardListStore.actionOnCard();
-                              //increaseCounter();
                             }),
-                      if (_cardListStore.isFinished)
+                      if (_cardListStore.isFinished  && _cardListStore.found.value)
                         IconButton(
                             icon: Icon(Icons.restore),
                             onPressed: () {
-                              //resetIndex();
                               _cardListStore.resetIndex();
                             }
                         )
