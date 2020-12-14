@@ -35,6 +35,7 @@ dependencies:
   provider: ^4.3.2
   fluttertoast: ^7.1.1
   pedantic: ^1.9.0
+  device_preview: ^0.4.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

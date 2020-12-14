@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/constants.dart';
@@ -11,7 +12,7 @@ import 'ui/themes/light_theme.dart';
 
 void main()  {
 
-  const env = 'dev';
+  const env =  String.fromEnvironment('ENV', defaultValue: 'dev');
   switch(env){
     case 'dev':
       Constanants.setEnvironement(Environement.DEV);
@@ -24,7 +25,7 @@ void main()  {
       break;
   }
 
-  runApp(MyApp());
+  runApp(DevicePreview(builder: (context) => MyApp(), enabled: Constanants.isDebuggable,));
 }
 
 class MyApp extends StatelessWidget {
