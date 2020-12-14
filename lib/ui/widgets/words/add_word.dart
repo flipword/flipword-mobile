@@ -11,6 +11,9 @@ import 'package:flutter_svg/svg.dart';
 
 
 class AddWord extends StatefulWidget {
+
+  const AddWord({Key key}) : super(key: key);
+
   @override
   _State createState() => _State();
 
@@ -53,8 +56,8 @@ class _State extends State<AddWord> {
           color: Theme
               .of(context)
               .backgroundColor,
-          elevation: 4.0,
-          borderRadius: BorderRadius.circular(30.0),
+          elevation: 4,
+          borderRadius: BorderRadius.circular(30),
           child: Column(
               children: [
                 Stack(
@@ -148,8 +151,8 @@ class _State extends State<AddWord> {
                           backgroundColor: Theme
                               .of(context)
                               .primaryColor,
-                          width: 45.0,
-                          height: 45.0,
+                          width: 45,
+                          height: 45,
                         ),
                         const SizedBox(height: 5),
                         Container(
@@ -226,7 +229,7 @@ class _State extends State<AddWord> {
         boxShadow: [
           const BoxShadow(
             color: Colors.grey,
-            offset: Offset(0.0, 3.0), //(x,y)
+            offset: Offset(0, 3), //(x,y)
             blurRadius: 2,
           ),
         ],

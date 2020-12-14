@@ -28,8 +28,8 @@ class _InputWordState extends State<InputWord> {
                     decoration: BoxDecoration (
                         color: Theme.of(context).cardColor,
                         borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(8.0),
-                            topRight: Radius.circular(8.0)
+                            topLeft: Radius.circular(8),
+                            topRight: Radius.circular(8)
                         ),
                     ),
                     child: Padding(
@@ -46,11 +46,11 @@ class _InputWordState extends State<InputWord> {
           Container(
               decoration: BoxDecoration (
                 color: Theme.of(context).cardColor,
-                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                borderRadius: const BorderRadius.all(Radius.circular(15)),
                 boxShadow: [
                   const BoxShadow(
                     color: Colors.grey,
-                    offset: Offset(0.0, 3.0),
+                    offset: Offset(0, 3), //(x,y)
                     blurRadius: 2,
                   ),
                 ]

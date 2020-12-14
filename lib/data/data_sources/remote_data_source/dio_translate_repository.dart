@@ -26,12 +26,12 @@ class TranslateHelper {
 
   Future<String> translate(String from, String to, String word) async {
     String response;
-    final Map<String, String> parameters = {
+    final parameters = <String, String>{
       'from': from,
       'to': to,
       'api-version': '3.0'
     };
-    final List<Map<String, String>> data = [
+    final data = <Map<String, String>>[
       {'Text': word}
     ];
     try {
