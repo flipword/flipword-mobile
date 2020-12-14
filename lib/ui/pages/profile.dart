@@ -1,76 +1,66 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/services/auth_service.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
+import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
+import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
-
-class ProfilePage extends StatefulWidget  {
+class ProfilePage extends StatefulWidget {
   static const String routeName = '/profile';
-  ProfilePageState createState() => ProfilePageState();
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class ProfilePageState extends State<ProfilePage>{
+class _ProfilePageState extends State<ProfilePage> {
+  ProfilStore _profilStore;
+  final firebaseAuthService = AuthService.instance;
 
-
-  static AuthService firebaseAuthService = AuthService.instance;
-  String status;
-  String effect;
-
-  Future<String> checkStatus() async {
-    final User user =  firebaseAuthService.getUser();
-    if( user != null){
-      return user.uid;
-    }
-    return  'non co';
-  }
+  String userName;
+  FileImage image;
+  bool conection;
+  String effet;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-            children:  <Widget> [
-            FutureBuilder(
-                future: checkStatus(),
-                builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-                  if(snapshot.connectionState == ConnectionState.done){
-                    if(snapshot.hasData){
-                      status = snapshot.data;
-                      return Text(status);
-                    } else {
-                      return const Text('probleme');
-                    }
-                  }else{
-                    return const CircularProgressIndicator();
-                }}
-              ),
-              RaisedButton(
+    _profilStore = Provider.of<ProfilStore>(context, listen: false);
+    Widget _widgetDisplayed;
+    return Scaffold(body: Observer(
+      builder: (_) {
+        if (_profilStore.courantProfil.isConnecter) {
+          _widgetDisplayed = Scaffold(
+              body: Column(children: [
+            ProfileOnline(),
+            RaisedButton(
+              textTheme: Theme.of(context).buttonTheme.textTheme,
+              color: Theme.of(context).primaryColor,
+              onPressed: _profilStore.logout,
+              child: const Text('Logout'),
+            )
+          ]));
+        } else {
+          _widgetDisplayed = Scaffold(
+              body: Column(children: [
+            ProfileOffline(),
+            RaisedButton(
                 textTheme: Theme.of(context).buttonTheme.textTheme,
                 color: Theme.of(context).primaryColor,
-                onPressed: () { login(); },
-                child: const Text('Login'),
-              ),
-              RaisedButton(
-                textTheme: Theme.of(context).buttonTheme.textTheme,
-                color: Theme.of(context).primaryColor,
-                onPressed: () { logout(); },
-                child: const Text('Logout'),
-              ),
-        ])
-      ),
-    );
-  }
-
-  void logout(){
-    firebaseAuthService.logout().then((value) => setState(() {
-      checkStatus().then((value) => status = value);
-    }));
-
-  }
-
-  void login(){
-    firebaseAuthService.signInWithGoogle().then((value) => setState(() {
-      checkStatus().then( (value) =>  status = value
-      );
-    }));
+                onPressed: _profilStore.login,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.account_circle),
+                    Text('Login or Sing in with Google')
+                  ],
+                ))
+          ]));
+        }
+        return _widgetDisplayed;
+      },
+    ));
   }
 }

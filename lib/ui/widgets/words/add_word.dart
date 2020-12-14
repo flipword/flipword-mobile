@@ -11,6 +11,9 @@ import 'package:flutter_svg/svg.dart';
 
 
 class AddWord extends StatefulWidget {
+
+  const AddWord({Key key}) : super(key: key);
+
   @override
   _State createState() => _State();
 
@@ -53,8 +56,8 @@ class _State extends State<AddWord> {
           color: Theme
               .of(context)
               .backgroundColor,
-          elevation: 4.0,
-          borderRadius: BorderRadius.circular(30.0),
+          elevation: 4,
+          borderRadius: BorderRadius.circular(30),
           child: Column(
               children: [
                 Stack(
@@ -148,8 +151,8 @@ class _State extends State<AddWord> {
                           backgroundColor: Theme
                               .of(context)
                               .primaryColor,
-                          width: 45.0,
-                          height: 45.0,
+                          width: 45,
+                          height: 45,
                         ),
                         const SizedBox(height: 5),
                         Container(
@@ -184,26 +187,33 @@ class _State extends State<AddWord> {
   }
 
   void _translateWord()  {
-
-    TranslateHelper.instance.translate(
-        baseLanguage.id,
-        translateLanguage.id,
-        _baseWordController.text
-    ).then((value) {
-      _translateWordController.text = value;
-    })
-    .catchError((onError) => _toastService.toastError('Error on translate word'));
+    if(_baseWordController.text.isEmpty){
+      _toastService.toastError('No word to translate');
+    }else{
+      TranslateHelper.instance.translate(
+          baseLanguage.id,
+          translateLanguage.id,
+          _baseWordController.text
+      ).then((value) {
+        _translateWordController.text = value;
+      })
+          .catchError((onError) => _toastService.toastError('Error on translate word'));
+    }
 
   }
 
-  void _saveCard() {
+  Future<void> _saveCard() async {
     try {
-      final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
-      final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
-      _cardService.insertCard(baseWord, translateWord);
-      _baseWordController.text = '';
-      _translateWordController.text = '';
-      _toastService.toastValidate('Word save');
+      if(_baseWordController.text.isEmpty || _translateWordController.text.isEmpty) {
+        _toastService.toastError('Please enter a word');
+      }else{
+        final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
+        final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
+        await _cardService.insertCard(baseWord, translateWord);
+        _baseWordController.text = '';
+        _translateWordController.text = '';
+        _toastService.toastValidate('Word save');
+      }
     } catch (e) {
       _toastService.toastError('Error on insert card');
     }
@@ -219,7 +229,7 @@ class _State extends State<AddWord> {
         boxShadow: [
           const BoxShadow(
             color: Colors.grey,
-            offset: Offset(0.0, 3.0), //(x,y)
+            offset: Offset(0, 3), //(x,y)
             blurRadius: 2,
           ),
         ],

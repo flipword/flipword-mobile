@@ -1,43 +1,57 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
+import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
-import 'ui/themes/theme.dart';
+import 'ui/themes/light_theme.dart';
 
 
 
 void main()  {
-  runApp(MyApp());
+
+  const env =  String.fromEnvironment('ENV', defaultValue: 'dev');
+  switch(env){
+    case 'dev':
+      Constanants.setEnvironement(Environement.DEV);
+      break;
+    case 'staging':
+      Constanants.setEnvironement(Environement.STAGING);
+      break;
+    case 'prod':
+      Constanants.setEnvironement(Environement.PROD);
+      break;
+  }
+
+  runApp(DevicePreview(builder: (context) => MyApp(), enabled: Constanants.isDebuggable,));
 }
 
 class MyApp extends StatelessWidget {
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  MyApp({Key key}) : super(key: key);
+
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          Provider<CardListStore>(create: (_) => CardListStore(),)
+          Provider<CardListStore>(create: (_) => CardListStore()),
+          Provider<ProfilStore>(create: (_) => ProfilStore())
         ],
         child: FutureBuilder(
           future: Firebase.initializeApp(),
           builder: (context, snapshot) {
             // Check for errors
-            if (snapshot.hasError) {
+            if (snapshot.hasError || (snapshot.connectionState == ConnectionState.done)) {
               return MaterialApp(
                   title: 'FlipWord',
-                  theme: MyTheme.defaultTheme,
-                  home: Layout()
-              );
-            }
-
-            // Once complete, show your application
-            if (snapshot.connectionState == ConnectionState.done) {
-              return  MaterialApp(
-                  title: 'FlipWord',
-                  theme: MyTheme.defaultTheme,
+                  theme: LightTheme.defaultTheme,
+                  darkTheme: DarkTheme.defaultTheme,
                   home: Layout()
               );
             }

@@ -19,19 +19,21 @@ class IconTextButton extends StatelessWidget {
     return Container(
         width: width,
         child: MaterialButton(
+
           splashColor: Theme.of(context).accentColor,
-          elevation: 10.0,
+          elevation: 10,
+
           highlightElevation: 0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
+            borderRadius: BorderRadius.circular(5),
           ),
           onPressed: () => {onPressed()},
           color: Theme.of(context).primaryColor,
           padding: const EdgeInsets.only(
-              top:5.0,
-              right: 10.0,
-              bottom: 5.0,
-              left: 10.0),
+              top:5,
+              right: 10,
+              bottom: 5,
+              left: 10),
           child:
             Opacity(
               opacity: 0.7,

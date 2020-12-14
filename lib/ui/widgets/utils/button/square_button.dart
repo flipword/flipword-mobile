@@ -15,18 +15,18 @@ class SquareButton extends StatelessWidget {
       width: width,
       height: height,
       child: RotationTransition(
-          turns: AlwaysStoppedAnimation(45 / 360),
+          turns: const AlwaysStoppedAnimation(45 / 360),
           child: RawMaterialButton(
             fillColor: backgroundColor,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0),
+                borderRadius: BorderRadius.circular(5),
             ),
             splashColor: Theme.of(context).accentColor,
-            elevation: 10.0,
+            elevation: 10,
             highlightElevation: 0,
-            onPressed: (){ onPressed(); },
+            onPressed: onPressed,
             child: RotationTransition(
-              turns: AlwaysStoppedAnimation(-45 / 360),
+              turns: const AlwaysStoppedAnimation(-45 / 360),
               child: Opacity(
                 opacity: 0.7,
                 child: icon,
