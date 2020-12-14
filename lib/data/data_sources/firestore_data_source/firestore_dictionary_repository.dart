@@ -11,4 +11,6 @@ class FirestoreDictionaryRepository {
 
   DocumentReference getUserDictionary(String collectionName, String userId) =>
       _firestoreHelper.getCollection(collectionName).doc(userId);
+
+
 }

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
 import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
@@ -29,14 +30,18 @@ void main()  {
 }
 
 class MyApp extends StatelessWidget {
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  MyApp({Key key}) : super(key: key);
+
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          Provider<CardListStore>(create: (_) => CardListStore(),)
+          Provider<CardListStore>(create: (_) => CardListStore()),
+          Provider<ProfilStore>(create: (_) => ProfilStore())
         ],
         child: FutureBuilder(
           future: Firebase.initializeApp(),

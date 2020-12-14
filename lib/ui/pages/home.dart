@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
           'Home',
           style:  TextStyle(
             fontWeight: FontWeight.w500,
-            fontSize: 25.0
+            fontSize: 25
           ),
         )
       )

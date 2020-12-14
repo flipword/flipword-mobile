@@ -17,4 +17,7 @@ class FirestoreHelper {
   Future<void> insertDocument(String collectionName, Map<String, dynamic> object) => getCollection(collectionName).add(object);
 
   Future<void> deleteDocument(String collectionName, String id) => getCollection(collectionName).doc(id).delete();
+
+
+
 }

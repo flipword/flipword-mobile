@@ -39,7 +39,7 @@ class _ListWordPageState extends State<ListWordPage> {
               );
               break;
             case FutureStatus.fulfilled:
-              final List<entity.Card> cards = future.result as List<entity.Card>;
+              final List<entity.CardEntity> cards = future.result as List<entity.CardEntity>;
               _widgetDisplayed = Scaffold(
                   body: RefreshIndicator(
                     onRefresh: _refresh,
