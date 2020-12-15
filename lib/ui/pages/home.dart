@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   CardListStore _cardListStore;
 
-  var listCard;
   @override
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
@@ -45,8 +44,8 @@ class _HomePageState extends State<HomePage> {
                 Scaffold(
                   body: Column(
                     children: [
-                      const Icon(Icons.warning_amber_outlined),
-                      const Text('An error occured : the connection was rejected')
+                      Icon(Icons.warning_amber_outlined),
+                      Text('An error occured : the connection was rejected')
                 ]));
             break;
           case FutureStatus.fulfilled:
@@ -68,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                         if (_cardListStore.found.value) {
                           return _cardListStore.list.result[_cardListStore.curentIndex.value].nativeWord.word;
                         } else {
-                          return "???";
+                          return '???';
                         }
                       })()),
                       if (!_cardListStore.isFinished  && _cardListStore.found.value )
