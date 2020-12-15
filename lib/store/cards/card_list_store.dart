@@ -1,3 +1,4 @@
+import 'package:flutter_flip_card/data/entities/card.dart';
 import 'package:mobx/mobx.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/data/entities/card.dart' as entity;
@@ -19,7 +20,7 @@ abstract class _CardListStore with Store {
   ObservableValue<bool> found = Observable<bool>(false);
 
   @observable
-  ObservableFuture<List<entity.Card>> list = ObservableFuture.value(<entity.Card>[]);
+  ObservableFuture<List<CardEntity>> list = ObservableFuture.value(<CardEntity>[]);
 
   @computed
   int get length => list.value.length;

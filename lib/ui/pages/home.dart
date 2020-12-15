@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   CardListStore _cardListStore;
 
-  var listCard = null;
+  var listCard;
   @override
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
@@ -45,8 +45,8 @@ class _HomePageState extends State<HomePage> {
                 Scaffold(
                   body: Column(
                     children: [
-                      Icon(Icons.warning_amber_outlined),
-                      Text("An error occured : the connection was rejected")
+                      const Icon(Icons.warning_amber_outlined),
+                      const Text('An error occured : the connection was rejected')
                 ]));
             break;
           case FutureStatus.fulfilled:
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       if (!_cardListStore.found.value)
                         IconButton(
-                            icon: Icon(Icons.question_answer_outlined),
+                            icon: const Icon(Icons.question_answer_outlined),
                             onPressed: () {
                               _cardListStore.actionOnCard();
                             }),
