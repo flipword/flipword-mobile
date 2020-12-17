@@ -42,28 +42,59 @@ class _ProfileOnline extends State<ProfileOnline> {
           );
           break;
         case FutureStatus.fulfilled:
-          _widgetDisplayed = Card(
-              margin: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  CircleAvatar(
+          _widgetDisplayed = Stack(
+            children: [
+              Card(
+                  margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 150),
+                  child: Column(
+                    children: [
+                      Container(
+                          padding: const EdgeInsets.only(left: 20, right: 20, top: 40),
+                          child: Text('Email : ${userProfil.email}',
+                              style: const TextStyle(fontSize: 20))),
+                      Container(
+                          padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+                          child: Text('Username : ${userProfil.name == '' ? 'no username': userProfil.name }',
+                              style: const TextStyle(fontSize: 20))),
+                      Container(
+                        padding: const EdgeInsets.only(
+                            right: 40,
+                            left: 40,
+                            top: 15,
+                            bottom: 20
+                        ),
+                        child: CardWord(
+                            nativeWord: 'Learned words',
+                            foreignWord: _cardList.length.toString()
+                        ),
+                      )
+                    ],
+                  )
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 190,
+                  height: 190,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context)?.cardColor,
+                  ),
+                )
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 5),
+                  child: CircleAvatar(
                     backgroundColor: Theme.of(context).primaryColor,
                     radius: 90,
                     backgroundImage: userProfil.fileImage,
                   ),
-                  Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Text('email : ${userProfil.email}',
-                          style: const TextStyle(fontSize: 20))),
-                  Container(
-                      padding: const EdgeInsets.all(20),
-                      child: Text('name : ${userProfil.name}',
-                          style: const TextStyle(fontSize: 20))),
-                  CardWord(
-                      nativeWord: 'learned word',
-                      foreignWord: _cardList.length.toString())
-                ],
-              ));
+               )
+              ),
+            ],
+          );
           break;
         case FutureStatus.rejected:
           _widgetDisplayed = const Center(
