@@ -46,6 +46,9 @@ class _ProfileOnline extends State<ProfileOnline> {
             children: [
               Card(
                   margin: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 150),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
                   child: Column(
                     children: [
                       Container(
