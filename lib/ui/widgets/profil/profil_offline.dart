@@ -15,7 +15,11 @@ class ProfileOffline extends StatelessWidget {
       margin: const EdgeInsets.all(20),
       child: Container(
           padding: const EdgeInsets.all(20),
-          child: Text(text)
+          child: Text(text,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          )
       ),
     );
   }
