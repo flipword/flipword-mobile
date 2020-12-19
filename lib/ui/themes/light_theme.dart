@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/colors.dart';
 
+import '../../const/colors.dart';
+
 // ignore: avoid_classes_with_only_static_members
 class LightTheme {
   static final ThemeData defaultTheme = _buildTheme();
@@ -33,7 +35,8 @@ class LightTheme {
       appBarTheme: base.appBarTheme.copyWith(
         color: transparent,
         elevation: 0
-      )
+      ),
+      errorColor: negativeColor
     );
   }
 }

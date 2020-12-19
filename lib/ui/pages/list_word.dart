@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/data/entities/card.dart';
+import 'package:flutter_flip_card/data/entities/word.dart';
+import 'package:flutter_flip_card/services/card_service.dart';
+import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
+import 'package:flutter_flip_card/ui/widgets/words/detail_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +22,9 @@ class ListWordPage extends StatefulWidget {
 
 class _ListWordPageState extends State<ListWordPage> {
   CardListStore _cardList;
+  final CardService _cardService = CardService.instance;
+  final ToastService _toastService = ToastService.instance;
+
   @override
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
@@ -50,9 +58,15 @@ class _ListWordPageState extends State<ListWordPage> {
                         childAspectRatio: ((screenSize-50)/2) / 80,
                         crossAxisCount: 2,
                         semanticChildCount: 10,
-                        children: List.generate(future.value.length, (index) => CardWord(
-                              nativeWord: cards[index].nativeWord.word,
-                              foreignWord: cards[index].foreignWord.word
+                        children: List.generate(future.value.length, (index) =>
+                          GestureDetector(
+                            onTap: () => {
+                              _showModal(cards[index])
+                            },
+                            child: CardWord(
+                                nativeWord: cards[index].nativeWord.word,
+                                foreignWord: cards[index].foreignWord.word
+                            ),
                           )
                         )
                     ),
@@ -72,4 +86,23 @@ class _ListWordPageState extends State<ListWordPage> {
     );
   }
   Future _refresh() => _cardList.fetchCard();
+
+  void _showModal(CardEntity card) {
+    showDialog(
+      context: context,
+      builder: (_) => Dialog(
+            shape: RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.circular(20)), //this right here
+            child: DetailWord(card: card, onDelete: _deleteWord)
+        )
+    );
+  }
+
+  void _deleteWord(String id){
+    _cardService.deleteCard(id)
+        .then((value) => {_toastService.toastValidate('Card delete with success')})
+        .catchError((onError) => {_toastService.toastError('Error on deleting card')})
+        .whenComplete(() => Navigator.of(context, rootNavigator: true).pop());
+  }
 }

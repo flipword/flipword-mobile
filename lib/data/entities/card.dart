@@ -12,6 +12,7 @@ class CardEntity {
   
   final LanguageService _languageService = LanguageService.instance;
 
+  String id;
   Word nativeWord;
   Word foreignWord;
   int score;
@@ -21,6 +22,7 @@ class CardEntity {
     data['nativeWord'] = nativeWord.word;
     data['foreignWord'] = foreignWord.word;
     data['score'] = score;
+    data['id'] = id;
     return data;
   }
 }
