@@ -36,7 +36,7 @@ class _ListWordPageState extends State<ListWordPage> {
   @override
   Widget build(BuildContext context) {
     final future = _cardList.list;
-    final screenSize = MediaQuery.of(context).size.width;
+    final screenSize = MediaQuery.of(context).size;
     Widget _widgetDisplayed;
     return Observer(
         builder: (_) {
@@ -55,7 +55,7 @@ class _ListWordPageState extends State<ListWordPage> {
                         padding: const EdgeInsets.all(10),
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 5,
-                        childAspectRatio: ((screenSize-50)/2) / 80,
+                        childAspectRatio: _calculElementDisplay(screenSize),
                         crossAxisCount: 2,
                         semanticChildCount: 10,
                         children: List.generate(future.value.length, (index) =>
@@ -87,6 +87,22 @@ class _ListWordPageState extends State<ListWordPage> {
   }
   Future _refresh() => _cardList.fetchCard();
 
+
+  double _calculElementDisplay(screenSize){
+    if(screenSize.height > 1000) {
+      return 3;
+    }
+    else if(screenSize.height > 800) {
+      return 2.5;
+    }
+    else if(screenSize.height > 600) {
+      return 2;
+    }
+    else{
+      return 1.5;
+    }
+  }
+
   void _showModal(CardEntity card) {
     showDialog(
       context: context,
@@ -104,5 +120,6 @@ class _ListWordPageState extends State<ListWordPage> {
         .then((value) => {_toastService.toastValidate('Card delete with success')})
         .catchError((onError) => {_toastService.toastError('Error on deleting card')})
         .whenComplete(() => Navigator.of(context, rootNavigator: true).pop());
+
   }
 }

@@ -50,6 +50,9 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasError || (snapshot.connectionState == ConnectionState.done)) {
               return MaterialApp(
                   title: 'FlipWord',
+                  // Initialize media query for preview builder
+                  locale: DevicePreview.of(context).locale,
+                  builder: DevicePreview.appBuilder,
                   theme: LightTheme.defaultTheme,
                   darkTheme: DarkTheme.defaultTheme,
                   home: Layout()

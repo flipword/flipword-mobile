@@ -34,14 +34,14 @@ class _ProfilePageState extends State<ProfilePage> {
         if (_profilStore.courantProfil.isConnecter) {
           _widgetDisplayed = Scaffold(
               body: Column(children: [
-            const ProfileOnline(),
-            RaisedButton(
-              textTheme: Theme.of(context).buttonTheme.textTheme,
-              color: Theme.of(context).primaryColor,
-              onPressed: _profilStore.logout,
-              child: const Text('Logout'),
-            )
-          ]));
+                const ProfileOnline(),
+                RaisedButton(
+                  textTheme: Theme.of(context).buttonTheme.textTheme,
+                  color: Theme.of(context).primaryColor,
+                  onPressed: _profilStore.logout,
+                  child: const Text('Logout'),
+                )
+              ]));
         } else {
           _widgetDisplayed = Scaffold(
               body: Column(children: [
