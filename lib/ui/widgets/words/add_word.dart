@@ -207,7 +207,7 @@ class _State extends State<AddWord> {
       if(_baseWordController.text.isEmpty || _translateWordController.text.isEmpty) {
         _toastService.toastError('Please enter a word');
       }else{
-        final baseWord = Word(word: _baseWordController.text, languageId: baseLanguage.id);
+        final baseWord = Word(word: _formatWord(_baseWordController.text), languageId: baseLanguage.id);
         final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
@@ -234,4 +234,8 @@ class _State extends State<AddWord> {
           ),
         ],
       );
+
+  String _formatWord(String word){
+    return '${word[0].toUpperCase()}${word.substring(1)}';
+  }
 }
