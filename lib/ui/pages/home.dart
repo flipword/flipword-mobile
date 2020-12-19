@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
+import 'package:flutter_flip_card/ui/widgets/words/card_guess_widget.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -51,8 +53,30 @@ class _HomePageState extends State<HomePage> {
           case FutureStatus.fulfilled:
             _widgetDisplayed =
                 Scaffold(
-                body: Column(
+                body: Center(
+                  child: Column(
                     children: [
+                      CardGuessWidget(),
+                      if (_cardListStore.isFinished  && _cardListStore.found.value)
+                        SquareButton(
+                          onPressed: () {_cardListStore.resetIndex();},
+                          icon: const Icon(Icons.restore, size: 30),
+                          backgroundColor: Theme
+                              .of(context)
+                              .primaryColor,
+                          width: 45,
+                          height: 45,
+                        )
+                       else
+                      SquareButton(
+                        onPressed: () {_cardListStore.actionOnCard();},
+                        icon: const Icon(Icons.open_in_new, size: 30),
+                        backgroundColor: Theme
+                            .of(context)
+                            .primaryColorDark,
+                        width: 45,
+                        height: 45,
+                      ),
                       Text(
                           _cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,
                       ),
@@ -84,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                             }
                         )
                     ]
-                )
+                ))
             );
             break;
         }
