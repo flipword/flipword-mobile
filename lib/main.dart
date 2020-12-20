@@ -60,6 +60,7 @@ class MyApp extends StatelessWidget {
                 ),
               );
             }
+            // Todo: voir pour enlever cette material app(nécessaire pour le scafold sinon erreur)
             return MaterialApp(
                 title: 'LoadingScreen',
                 locale: DevicePreview.of(context).locale,
