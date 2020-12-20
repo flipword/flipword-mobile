@@ -4,10 +4,12 @@ import 'package:flutter_flip_card/data/entities/word.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
+import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 
 class AddWord extends StatefulWidget {
@@ -30,6 +32,7 @@ class _State extends State<AddWord> {
   final _formKey = GlobalKey<FormState>();
 
   final String googleTranslateAsset = 'assets/google-translate.svg';
+  CardListStore _cardListStore;
   Language baseLanguage;
   Language translateLanguage;
   TextEditingController _baseWordController;
@@ -44,6 +47,7 @@ class _State extends State<AddWord> {
 
     _baseWordController = TextEditingController();
     _translateWordController = TextEditingController();
+    _cardListStore = Provider.of<CardListStore>(context, listen: false);
     super.initState();
   }
 
@@ -208,11 +212,13 @@ class _State extends State<AddWord> {
         _toastService.toastError('Please enter a word');
       }else{
         final baseWord = Word(word: _formatWord(_baseWordController.text), languageId: baseLanguage.id);
-        final translateWord = Word(word: _translateWordController.text, languageId: translateLanguage.id);
+        final translateWord = Word(word: _formatWord(_translateWordController.text), languageId: translateLanguage.id);
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
         _translateWordController.text = '';
         _toastService.toastValidate('Word save');
+        await _cardListStore.fetchCard();
+
       }
     } catch (e) {
       _toastService.toastError('Error on insert card');

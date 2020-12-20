@@ -18,21 +18,15 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
-    if (_cardListStore.list.status == FutureStatus.fulfilled) {
-      if (_cardListStore.list.value.isEmpty) {
-        _cardListStore.fetchCard();
-      }
-    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final future = _cardListStore.list;
     Widget _widgetDisplayed;
     return Observer(
       builder: (_) {
-        switch (future.status) {
+        switch (_cardListStore.list.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(
               child: CircularProgressIndicator(),
@@ -44,14 +38,18 @@ class _HomePageState extends State<HomePage> {
                 Scaffold(
                   body: Column(
                     children: [
-                      Icon(Icons.warning_amber_outlined),
-                      Text('An error occured : the connection was rejected')
+                      const Icon(Icons.warning_amber_outlined),
+                      const Text('An error occured : the connection was rejected')
                 ]));
             break;
           case FutureStatus.fulfilled:
             _widgetDisplayed =
                 Scaffold(
-                body: Column(
+                body: _cardListStore.length == 0 ?
+                const Center(
+                  child: Text('No word'),
+                ) :
+                Column(
                     children: [
                       Text(
                           _cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,
@@ -72,13 +70,13 @@ class _HomePageState extends State<HomePage> {
                       })()),
                       if (!_cardListStore.isFinished  && _cardListStore.found.value )
                         IconButton(
-                            icon: Icon(Icons.arrow_forward_rounded),
+                            icon: const Icon(Icons.arrow_forward_rounded),
                             onPressed: () {
                               _cardListStore.actionOnCard();
                             }),
                       if (_cardListStore.isFinished  && _cardListStore.found.value)
                         IconButton(
-                            icon: Icon(Icons.restore),
+                            icon: const Icon(Icons.restore),
                             onPressed: () {
                               _cardListStore.resetIndex();
                             }
