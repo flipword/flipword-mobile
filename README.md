@@ -19,8 +19,11 @@ samples, guidance on mobile development, and a full API reference.
 
 ## Command
 
-Regenerate app icon:
+Generate app icon:
 $> flutter packages pub run flutter_launcher_icons:main
+
+Generate store file:
+$> flutter packages pub run build_runner build --delete-conflicting-outputs
 
 ## Naming convention 
 
