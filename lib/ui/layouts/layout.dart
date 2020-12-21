@@ -22,7 +22,6 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
   bool displayOverlay = false;
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   LanguageService languageService = LanguageService.instance;
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) => {
@@ -31,88 +30,90 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     super.initState();
   }
   @override
-  Widget build(BuildContext context) => Scaffold(
-      appBar: AppBar(),
-      body: GestureDetector(
-        onTap: _closeOverlay,
-        child: _buildBody(context),
-      ),
-      // TODO: Refacto Fab button
-      floatingActionButton: SquareButton(
-        icon: const Icon(
-            Icons.add,
-            size: 30,
+  Widget build(BuildContext context){
+    return Scaffold(
+        appBar: AppBar(),
+        body: GestureDetector(
+          onTap: _closeOverlay,
+          child: _buildBody(context)
         ),
-        backgroundColor: Theme.of(context).primaryColor,
-        onPressed: () {_onFloatingButtonTapped();}
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // TODO: Refacto Fab button
+        floatingActionButton: SquareButton(
+            icon: const Icon(
+              Icons.add,
+              size: 30,
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () {_onFloatingButtonTapped();}
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
-      bottomNavigationBar: _buildBottomNavigationBar(context)
-  );
-
-  Widget _buildBody(context) {
-    return Navigator(
-      key: navigatorKey,
-      initialRoute: HomePage.routeName,
-      onGenerateRoute: RouterApp.generateRoute
+        bottomNavigationBar: _buildBottomNavigationBar(context)
     );
   }
-  
-  Widget _buildBottomNavigationBar(BuildContext context) => FABBottomAppBar(
-    iconColor: Theme.of(context).iconTheme.color,
-    backgroundColor: Theme.of(context).bottomAppBarColor,
-    selectedColor: Theme.of(context).accentColor,
-    notchedShape: const CircularNotchedRectangle(),
-    onTabSelected: _onItemTapped,
-    items: [
-      FABBottomAppBarItem(
-          iconData: Icons.home,
-          routeName: HomePage.routeName),
-      FABBottomAppBarItem(
-          iconData: Icons.list ,
-          routeName: ListWordPage.routeName),
-      FABBottomAppBarItem(
-          iconData: Icons.settings,
-          routeName: SettingPage.routeName),
-      FABBottomAppBarItem(
-          iconData: Icons.person_outline,
-          routeName: ProfilePage.routeName),
-    ],
-  );
 
-  void _onItemTapped(String routeName) {
-    _closeOverlay();
-    setState(() {
-      navigatorKey.currentState.pushNamed(routeName);
-    });
-  }
+    Widget _buildBody(context) {
+      return Navigator(
+          key: navigatorKey,
+          initialRoute: HomePage.routeName,
+          onGenerateRoute: RouterApp.generateRoute
+      );
+    }
 
-  void _onFloatingButtonTapped(){
+    Widget _buildBottomNavigationBar(BuildContext context) => FABBottomAppBar(
+      iconColor: Theme.of(context).iconTheme.color,
+      backgroundColor: Theme.of(context).bottomAppBarColor,
+      selectedColor: Theme.of(context).accentColor,
+      notchedShape: const CircularNotchedRectangle(),
+      onTabSelected: _onItemTapped,
+      items: [
+        FABBottomAppBarItem(
+            iconData: Icons.home,
+            routeName: HomePage.routeName),
+        FABBottomAppBarItem(
+            iconData: Icons.list ,
+            routeName: ListWordPage.routeName),
+        FABBottomAppBarItem(
+            iconData: Icons.settings,
+            routeName: SettingPage.routeName),
+        FABBottomAppBarItem(
+            iconData: Icons.person_outline,
+            routeName: ProfilePage.routeName),
+      ],
+    );
+
+    void _onItemTapped(String routeName) {
+      _closeOverlay();
+      setState(() {
+        navigatorKey.currentState.pushNamed(routeName);
+      });
+    }
+
+    void _onFloatingButtonTapped(){
       _openOverlay();
-  }
+    }
 
-  void _closeOverlay() {
-    Overlay.of(context).setState(() {
-      displayOverlay = false;
-    });
-  }
+    void _closeOverlay() {
+      Overlay.of(context).setState(() {
+        displayOverlay = false;
+      });
+    }
 
-  void _openOverlay() {
-    Overlay.of(context).setState(() {
-      displayOverlay = true;
-    });
-  }
+    void _openOverlay() {
+      Overlay.of(context).setState(() {
+        displayOverlay = true;
+      });
+    }
 
-  OverlayEntry _createOverlayEntry() {
-    final screenSize = MediaQuery.of(context).size.height;
-    return OverlayEntry(
-        builder: (context) => AnimatedPositioned(
+    OverlayEntry _createOverlayEntry() {
+      final screenSize = MediaQuery.of(context).size.height;
+      return OverlayEntry(
+          builder: (context) => AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeOutCubic,
             top: displayOverlay ? 0 : -screenSize,
-            child: AddWord(),
-        )
-    );
-  }
+            child: AddWord(onDragUp: _closeOverlay),
+          )
+      );
+    }
 }

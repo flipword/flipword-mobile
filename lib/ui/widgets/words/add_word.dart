@@ -14,8 +14,9 @@ import 'package:provider/provider.dart';
 
 class AddWord extends StatefulWidget {
 
-  const AddWord({Key key}) : super(key: key);
+  const AddWord({Key key, this.onDragUp}) : super(key: key);
 
+  final VoidCallback onDragUp;
   @override
   _State createState() => _State();
 
@@ -37,6 +38,7 @@ class _State extends State<AddWord> {
   TextEditingController _baseWordController;
   TextEditingController _translateWordController;
   double screenSize;
+  double dragStartPosition;
 
 
   @override
@@ -53,132 +55,135 @@ class _State extends State<AddWord> {
   @override
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size.width;
-    return SizedBox(
-      width: screenSize,
-      child: Material(
-          color: Theme
-              .of(context)
-              .backgroundColor,
-          elevation: 4,
-          borderRadius: BorderRadius.circular(30),
-          child: Column(
-              children: [
-                Stack(
-                    alignment: Alignment.topCenter,
-                    children: [
-                      Container(
-                          width: 500,
-                          height: 90,
-                          padding: const EdgeInsets.all(10),
-                          decoration: _getBoxDecoration(),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SvgPicture.asset(
-                                  googleTranslateAsset, height: 35, width: 35),
-                              const SizedBox(width: 5),
-                              const Text(
-                                'Google',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 30
-                                ),
-                              ),
-                              const Text(
-                                'Translate',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 30
-                                ),
-                              )
-                            ],
-                          ),
-                      ),
-                      Container(
-                        width: 250,
-                        padding: const EdgeInsets.only(left:10, right: 10),
-                        height: 40,
-                        margin: const EdgeInsets.only(top: 88),
-                        decoration: _getBoxDecoration(),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Expanded(
-
-                              child: Container(
-                                alignment: Alignment.center,
-                                child: Text(baseLanguage.label),
-                              )
-                            ),
-                            Expanded(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child : FlatButton.icon(
-                                    label: const Text(''),
-                                    icon: const Icon(Icons.swap_horiz),
-                                    textColor: Colors.black,
-                                    onPressed: () => {_reverseLanguage()}
+    return GestureDetector(
+        onVerticalDragEnd: _onDragStop,
+        child: SizedBox(
+          width: screenSize,
+          child: Material(
+              color: Theme
+                  .of(context)
+                  .backgroundColor,
+              elevation: 4,
+              borderRadius: BorderRadius.circular(30),
+              child: Column(
+                  children: [
+                    Stack(
+                        alignment: Alignment.topCenter,
+                        children: [
+                          Container(
+                              width: 500,
+                              height: 90,
+                              padding: const EdgeInsets.all(10),
+                              decoration: _getBoxDecoration(),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                      googleTranslateAsset, height: 35, width: 35),
+                                  const SizedBox(width: 5),
+                                  const Text(
+                                    'Google',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 30
+                                    ),
                                   ),
-                                ),
-                            ),
-                            Expanded(
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(translateLanguage.label),
-                                )
-                            )
-                          ],
-                        ),
-                      )
-                    ]
-                ),
-                Form(
-                  key: _formKey,
-                  child: Column(
-                      children: <Widget>[
-                        const SizedBox(height: 10),
-                        Container(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: InputWord(
-                            controller: _baseWordController,
-                            label: baseLanguage.label,
-                            hintText: 'Enter your world',
+                                  const Text(
+                                    'Translate',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w300,
+                                        fontSize: 30
+                                    ),
+                                  )
+                                ],
+                              ),
                           ),
-                        ),
-                        const SizedBox(height: 15),
-                        SquareButton(
-                          key: _mybuttonState,
-                          onPressed: () {_translateWord();},
-                          icon: const Icon(Icons.g_translate, size: 30),
-                          backgroundColor: Theme
-                              .of(context)
-                              .primaryColor,
-                          width: 45,
-                          height: 45,
-                        ),
-                        const SizedBox(height: 5),
-                        Container(
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: InputWord(
-                              controller: _translateWordController,
-                              label: translateLanguage.label,
-                            )
-                        ),
-                        const SizedBox(height: 5),
-                        IconTextButton(
-                          width: 90,
-                          icon: Icons.save,
-                          text: 'Save',
-                          onPressed: () {_saveCard();},
-                        ),
-                        const SizedBox(height: 5)
-                      ]),
-                )
-              ]
-          )
-      ),
+                          Container(
+                            width: 250,
+                            padding: const EdgeInsets.only(left:10, right: 10),
+                            height: 40,
+                            margin: const EdgeInsets.only(top: 88),
+                            decoration: _getBoxDecoration(),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(
+
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    child: Text(baseLanguage.label),
+                                  )
+                                ),
+                                Expanded(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child : FlatButton.icon(
+                                        label: const Text(''),
+                                        icon: const Icon(Icons.swap_horiz),
+                                        textColor: Colors.black,
+                                        onPressed: () => {_reverseLanguage()}
+                                      ),
+                                    ),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Text(translateLanguage.label),
+                                    )
+                                )
+                              ],
+                            ),
+                          )
+                        ]
+                    ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                          children: <Widget>[
+                            const SizedBox(height: 10),
+                            Container(
+                              padding: const EdgeInsets.only(left: 10, right: 10),
+                              child: InputWord(
+                                controller: _baseWordController,
+                                label: baseLanguage.label,
+                                hintText: 'Enter your world',
+                              ),
+                            ),
+                            const SizedBox(height: 15),
+                            SquareButton(
+                              key: _mybuttonState,
+                              onPressed: () {_translateWord();},
+                              icon: const Icon(Icons.g_translate, size: 30),
+                              backgroundColor: Theme
+                                  .of(context)
+                                  .primaryColor,
+                              width: 45,
+                              height: 45,
+                            ),
+                            const SizedBox(height: 5),
+                            Container(
+                                padding: const EdgeInsets.only(left: 10, right: 10),
+                                child: InputWord(
+                                  controller: _translateWordController,
+                                  label: translateLanguage.label,
+                                )
+                            ),
+                            const SizedBox(height: 5),
+                            IconTextButton(
+                              width: 90,
+                              icon: Icons.save,
+                              text: 'Save',
+                              onPressed: () {_saveCard();},
+                            ),
+                            const SizedBox(height: 5)
+                          ]),
+                    )
+                  ]
+              )
+          ),
+      )
     );
   }
 
@@ -243,5 +248,11 @@ class _State extends State<AddWord> {
 
   String _formatWord(String word){
     return '${word[0].toUpperCase()}${word.substring(1)}';
+  }
+
+  void _onDragStop(DragEndDetails dragUpdateDetails) {
+    if(dragUpdateDetails.velocity.pixelsPerSecond.dy < 0) {
+      widget.onDragUp();
+    }
   }
 }
