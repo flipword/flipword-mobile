@@ -33,37 +33,55 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key key}) : super(key: key);
 
+  CardListStore _cardListStore;
+  ProfilStore _profilStore;
+
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-        providers: [
-          Provider<CardListStore>(create: (_) => CardListStore()),
-          Provider<ProfilStore>(create: (_) => ProfilStore())
-        ],
-        child: FutureBuilder(
-          future: Firebase.initializeApp(),
+    return FutureBuilder(
+          future: _initApp(context),
           builder: (context, snapshot) {
-            // Check for errors
             if (snapshot.hasError || (snapshot.connectionState == ConnectionState.done)) {
-              return MaterialApp(
-                  title: 'FlipWord',
-                  // Initialize media query for preview builder
-                  locale: DevicePreview.of(context).locale,
-                  builder: DevicePreview.appBuilder,
-                  theme: LightTheme.defaultTheme,
-                  darkTheme: DarkTheme.defaultTheme,
-                  home: Layout()
+              return MultiProvider(
+                  providers: [
+                    Provider<CardListStore>(create: (_) => _cardListStore),
+                    Provider<ProfilStore>(create: (_) => _profilStore)
+                  ],
+                child: MaterialApp(
+                    title: 'FlipWord',
+                    // Initialize media query for preview builder
+                    locale: DevicePreview.of(context).locale,
+                    builder: DevicePreview.appBuilder,
+                    theme: LightTheme.defaultTheme,
+                    darkTheme: DarkTheme.defaultTheme,
+                    home: Layout()
+                ),
               );
             }
-
-            // Otherwise, show something whilst
-            // waiting for initialization to complete
-            return const CircularProgressIndicator();
+            // Todo: voir pour enlever cette material app(nécessaire pour le scafold sinon erreur)
+            return MaterialApp(
+                title: 'LoadingScreen',
+                locale: DevicePreview.of(context).locale,
+                builder: DevicePreview.appBuilder,
+                theme: LightTheme.defaultTheme,
+                darkTheme: DarkTheme.defaultTheme,
+                home: const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+            );
           },
-        ),
     );
+  }
+
+  Future<void> _initApp(context) async{
+    await Firebase.initializeApp();
+    _cardListStore = CardListStore();
+    _profilStore = ProfilStore();
+    await _profilStore.loadProfil();
+    await _cardListStore.fetchCard();
   }
 }

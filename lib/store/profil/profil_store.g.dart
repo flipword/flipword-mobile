@@ -12,13 +12,13 @@ mixin _$ProfilStore on _ProfilStore, Store {
   final _$courantProfilAtom = Atom(name: '_ProfilStore.courantProfil');
 
   @override
-  UserProfil get courantProfil {
+  ObservableFuture<UserProfil> get courantProfil {
     _$courantProfilAtom.reportRead();
     return super.courantProfil;
   }
 
   @override
-  set courantProfil(UserProfil value) {
+  set courantProfil(ObservableFuture<UserProfil> value) {
     _$courantProfilAtom.reportWrite(value, super.courantProfil, () {
       super.courantProfil = value;
     });
@@ -27,11 +27,33 @@ mixin _$ProfilStore on _ProfilStore, Store {
   final _$_ProfilStoreActionController = ActionController(name: '_ProfilStore');
 
   @override
-  void logout() {
+  Future<void> loadProfil() {
+    final _$actionInfo = _$_ProfilStoreActionController.startAction(
+        name: '_ProfilStore.loadProfil');
+    try {
+      return super.loadProfil();
+    } finally {
+      _$_ProfilStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> logout() {
     final _$actionInfo =
         _$_ProfilStoreActionController.startAction(name: '_ProfilStore.logout');
     try {
       return super.logout();
+    } finally {
+      _$_ProfilStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> login() {
+    final _$actionInfo =
+        _$_ProfilStoreActionController.startAction(name: '_ProfilStore.login');
+    try {
+      return super.login();
     } finally {
       _$_ProfilStoreActionController.endAction(_$actionInfo);
     }

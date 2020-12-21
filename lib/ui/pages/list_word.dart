@@ -10,7 +10,6 @@ import 'package:flutter_flip_card/ui/widgets/words/detail_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_flip_card/data/entities/card.dart' as entity;
 
 
 class ListWordPage extends StatefulWidget {
@@ -28,64 +27,70 @@ class _ListWordPageState extends State<ListWordPage> {
   @override
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
-    if(_cardList.list.value.isEmpty) {
-      _cardList.fetchCard();
-    }
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    final future = _cardList.list;
     final screenSize = MediaQuery.of(context).size;
     Widget _widgetDisplayed;
-    return Observer(
-        builder: (_) {
-          switch (future.status) {
-            case FutureStatus.pending:
-              _widgetDisplayed = const Center(
-                child: CircularProgressIndicator(),
-              );
-              break;
-            case FutureStatus.fulfilled:
-              final List<entity.CardEntity> cards = future.result as List<entity.CardEntity>;
-              _widgetDisplayed = Scaffold(
-                  body: RefreshIndicator(
-                    onRefresh: _refresh,
-                    child: GridView.count(
-                        padding: const EdgeInsets.all(10),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: _calculElementDisplay(screenSize),
-                        crossAxisCount: 2,
-                        semanticChildCount: 10,
-                        children: List.generate(future.value.length, (index) =>
-                          GestureDetector(
-                            onTap: () => {
-                              _showModal(cards[index])
-                            },
-                            child: CardWord(
-                                nativeWord: cards[index].nativeWord.word,
-                                foreignWord: cards[index].foreignWord.word
-                            ),
+    return RefreshIndicator(
+      onRefresh: _refresh,
+      child: Observer(
+          builder: (_) {
+            switch (_cardList.list.status) {
+              case FutureStatus.pending:
+                _widgetDisplayed = const Center(
+                  child: CircularProgressIndicator(),
+                );
+                break;
+              case FutureStatus.fulfilled:
+                _widgetDisplayed =
+                    Scaffold(
+                        body: _cardList.length == 0 ?
+                          GridView.count(
+                              crossAxisCount: 1,
+                              children: [
+                                const Center(
+                                  child: Text('No word'),
+                                )
+                              ]
                           )
-                        )
-                    ),
-                  )
-              );
-              break;
-            case FutureStatus.rejected:
-              _widgetDisplayed = const Center(
-                  child: Text(
-                  'Fail',
-                  textAlign: TextAlign.center,
-              ));
-              break;
+                            :
+                          GridView.count(
+                              padding: const EdgeInsets.all(10),
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 5,
+                              childAspectRatio: _calculElementDisplay(screenSize),
+                              crossAxisCount: 2,
+                              semanticChildCount: 10,
+                              children: List.generate(_cardList.length, (index) =>
+                                  GestureDetector(
+                                    onTap: () => {
+                                      _showModal(_cardList.list.result[index])
+                                    },
+                                    child: CardWord(
+                                        nativeWord: _cardList.list.result[index].nativeWord.word,
+                                        foreignWord: _cardList.list.result[index].foreignWord.word
+                                    ),
+                                  )
+                              )
+                          )
+                    );
+                break;
+              case FutureStatus.rejected:
+                _widgetDisplayed = const Center(
+                    child: Text(
+                      'Fail',
+                      textAlign: TextAlign.center,
+                    ));
+                break;
+            }
+            return _widgetDisplayed;
           }
-          return _widgetDisplayed;
-        }
+      ),
     );
   }
-  Future _refresh() => _cardList.fetchCard();
+  Future<void> _refresh() => _cardList.fetchCard();
 
 
   double _calculElementDisplay(screenSize){
@@ -120,6 +125,7 @@ class _ListWordPageState extends State<ListWordPage> {
         .then((value) => {_toastService.toastValidate('Card delete with success')})
         .catchError((onError) => {_toastService.toastError('Error on deleting card')})
         .whenComplete(() => Navigator.of(context, rootNavigator: true).pop());
+    _cardList.fetchCard();
 
   }
 }
