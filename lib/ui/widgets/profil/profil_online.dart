@@ -54,9 +54,10 @@ class _ProfileOnline extends State<ProfileOnline> {
                                 top: 15,
                                 bottom: 20
                             ),
+                            // TODO: Ajouter la récuperation de donnée depuis firestore
                             child: CardWord(
                                 nativeWord: 'Learned words',
-                                foreignWord: '15'
+                                foreignWord: 'En travaux'
                             ),
                           )
                         ],
