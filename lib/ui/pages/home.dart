@@ -77,17 +77,15 @@ class _HomePageState extends State<HomePage> {
                         width: 45,
                         height: 45,
                       ),
-                      Text(
-                          _cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,
-                      ),
-                      if (!_cardListStore.found.value)
+                      //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word,),
+                      /*if (!_cardListStore.found.value)
                         IconButton(
                             icon: const Icon(Icons.question_answer_outlined),
                             onPressed: () {
                               _cardListStore.actionOnCard();
-                            }),
-                      Text(_cardListStore.curentIndex.value.toString()),
-                      Text((() {
+                            }),*/
+                      //Text(_cardListStore.curentIndex.value.toString()),
+                      /*Text((() {
                         if (_cardListStore.found.value) {
                           return _cardListStore.list.result[_cardListStore.curentIndex.value].nativeWord.word;
                         } else {
@@ -106,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                             onPressed: () {
                               _cardListStore.resetIndex();
                             }
-                        )
+                        )*/
                     ]
                 ))
             );

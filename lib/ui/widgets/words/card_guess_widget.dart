@@ -1,6 +1,6 @@
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
   CardListStore _cardListStore;
   bool isFound = false;
 
-  static  String wordFind = 'le mot a deviner';
+  static String wordFind = 'le mot a deviner';
   static const String wordFound = 'le mot trouvé';
 
   @override
@@ -40,26 +40,79 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child : Column(
-        children :[
-          Text(wordFind, style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.w400
-          )),
-          Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
-          Text((() {
+    Widget _widgetDisplayed;
+    return Observer(
+        builder: (_) {
           if (_cardListStore.found.value) {
-           return(_cardListStore.list.result[_cardListStore.curentIndex.value].nativeWord.word);
-          }
-          else {
-            return('????');
-          }})()),
-          IconButton(
-            icon: Icon(Icons.question_answer),
-              onPressed: () { }
+          _widgetDisplayed = Container(
+              height: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 2,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .height / 2,
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
+                    width: 8,
+                  ),
+                  borderRadius: BorderRadius.circular(12)
+              ),
+
+              child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("foreign 2: " +
+                        _cardListStore.list.result[_cardListStore
+                            .curentIndex.value].foreignWord.word, style: TextStyle(
+                        fontSize: 26,
+
+                        fontWeight: FontWeight.w400
+                    )),
+                    //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
+                  ]
               )
-        ]
-    ));
+          );
+          }
+            else {
+              _widgetDisplayed = Container(
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 2,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 2,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme
+                            .of(context)
+                            .primaryColor,
+                        width: 8,
+                      ),
+                      borderRadius: BorderRadius.circular(12)
+                  ),
+
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("native 2 : " +
+                            _cardListStore.list.result[_cardListStore
+                                .curentIndex.value].nativeWord.word, style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w400
+                        )),
+                        //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
+                      ]
+                  )
+              );
+            }
+          return _widgetDisplayed;
+        });
   }
 }
