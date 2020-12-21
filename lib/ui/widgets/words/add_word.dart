@@ -27,8 +27,7 @@ class _State extends State<AddWord> {
   final CardService _cardService = CardService.instance;
   final ToastService _toastService = ToastService.instance;
 
-
-
+  final GlobalKey<SquareButtonState> _mybuttonState = GlobalKey<SquareButtonState>();
   final _formKey = GlobalKey<FormState>();
 
   final String googleTranslateAsset = 'assets/google-translate.svg';
@@ -150,6 +149,7 @@ class _State extends State<AddWord> {
                         ),
                         const SizedBox(height: 15),
                         SquareButton(
+                          key: _mybuttonState,
                           onPressed: () {_translateWord();},
                           icon: const Icon(Icons.g_translate, size: 30),
                           backgroundColor: Theme
@@ -194,16 +194,16 @@ class _State extends State<AddWord> {
     if(_baseWordController.text.isEmpty){
       _toastService.toastError('No word to translate');
     }else{
+      _mybuttonState.currentState.changeLoadingState();
       TranslateHelper.instance.translate(
           baseLanguage.id,
           translateLanguage.id,
           _baseWordController.text
-      ).then((value) {
-        _translateWordController.text = value;
-      })
-          .catchError((onError) => _toastService.toastError('Error on translate word'));
+      )
+          .then((value) {_translateWordController.text = value;})
+          .catchError((onError) => _toastService.toastError('Error on translate word'))
+          .whenComplete(() => _mybuttonState.currentState.changeLoadingState());
     }
-
   }
 
   Future<void> _saveCard() async {
