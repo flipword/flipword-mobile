@@ -43,7 +43,7 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
     Widget _widgetDisplayed;
     return Observer(
         builder: (_) {
-          if (_cardListStore.found.value) {
+          if (!_cardListStore.found.value) {
           _widgetDisplayed = Container(
               height: MediaQuery
                   .of(context)
@@ -66,7 +66,7 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("foreign 2: " +
+                    Text("foreign : " +
                         _cardListStore.list.result[_cardListStore
                             .curentIndex.value].foreignWord.word, style: TextStyle(
                         fontSize: 26,
@@ -101,7 +101,7 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("native 2 : " +
+                        Text("native : " +
                             _cardListStore.list.result[_cardListStore
                                 .curentIndex.value].nativeWord.word, style: TextStyle(
                             fontSize: 26,
