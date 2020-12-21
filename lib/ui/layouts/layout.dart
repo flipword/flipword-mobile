@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/router/router_app.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
+import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
@@ -8,25 +9,29 @@ import 'package:flutter_flip_card/ui/pages/setting.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
+import 'package:provider/provider.dart';
 
 class Layout extends StatefulWidget {
 
   @override
-  _LayoutState createState() => _LayoutState();
+  LayoutState createState() => LayoutState();
 }
 
-class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
+class LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
 
-  final FocusNode _focusNode = FocusNode();
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
+  InterfaceStore _interfaceStore;
   bool displayOverlay = false;
-  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   LanguageService languageService = LanguageService.instance;
+  double dragOffset;
   @override
   void initState() {
+    _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     WidgetsBinding.instance.addPostFrameCallback((_) => {
       Overlay.of(context).insert(_createOverlayEntry())
     });
+    dragOffset = 50;
     super.initState();
   }
   @override
@@ -35,7 +40,7 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
         appBar: AppBar(),
         body: GestureDetector(
           onTap: _closeOverlay,
-          child: _buildBody(context)
+          child: _buildBody(context),
         ),
         // TODO: Refacto Fab button
         floatingActionButton: SquareButton(
@@ -95,15 +100,23 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
 
     void _closeOverlay() {
       Overlay.of(context).setState(() {
-        displayOverlay = false;
+        _interfaceStore.closeOverlay();
       });
     }
 
     void _openOverlay() {
       Overlay.of(context).setState(() {
-        displayOverlay = true;
+        _interfaceStore.openOverlay();
       });
     }
+
+  void _updateOverlay(double dragCount){
+      dragOffset += dragCount;
+      print('drag offset: $dragOffset');
+      if(dragOffset < 0 ){
+        _closeOverlay();
+      }
+  }
 
     OverlayEntry _createOverlayEntry() {
       final screenSize = MediaQuery.of(context).size.height;
@@ -111,8 +124,8 @@ class _LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
           builder: (context) => AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeOutCubic,
-            top: displayOverlay ? 0 : -screenSize,
-            child: AddWord(onDragUp: _closeOverlay),
+            top: _interfaceStore.overlayIsDisplayed.value ? 0 : -screenSize,
+            child: AddWord(onDragUp: _updateOverlay),
           )
       );
     }

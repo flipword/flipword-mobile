@@ -53,5 +53,4 @@ abstract class _CardListStore with Store {
         found = Observable<bool>(true);
       }
   }
-
 }

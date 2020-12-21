@@ -16,7 +16,7 @@ class AddWord extends StatefulWidget {
 
   const AddWord({Key key, this.onDragUp}) : super(key: key);
 
-  final VoidCallback onDragUp;
+  final ValueChanged<double> onDragUp;
   @override
   _State createState() => _State();
 
@@ -56,7 +56,7 @@ class _State extends State<AddWord> {
   Widget build(BuildContext context) {
     screenSize = MediaQuery.of(context).size.width;
     return GestureDetector(
-        onVerticalDragEnd: _onDragStop,
+        onVerticalDragUpdate: _onDragStop,
         child: SizedBox(
           width: screenSize,
           child: Material(
@@ -250,9 +250,10 @@ class _State extends State<AddWord> {
     return '${word[0].toUpperCase()}${word.substring(1)}';
   }
 
-  void _onDragStop(DragEndDetails dragUpdateDetails) {
-    if(dragUpdateDetails.velocity.pixelsPerSecond.dy < 0) {
-      widget.onDragUp();
+  void _onDragStop(DragUpdateDetails dragUpdateDetails) {
+    final dragCount = dragUpdateDetails.delta.dy;
+    if(dragCount < 0){
+      widget.onDragUp(dragCount);
     }
   }
 }
