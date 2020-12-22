@@ -25,8 +25,46 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
     });
   }
 
+  final _$addingPopupOffsetAtom =
+      Atom(name: '_InterfaceStore.addingPopupOffset');
+
+  @override
+  ObservableValue<double> get addingPopupOffset {
+    _$addingPopupOffsetAtom.reportRead();
+    return super.addingPopupOffset;
+  }
+
+  @override
+  set addingPopupOffset(ObservableValue<double> value) {
+    _$addingPopupOffsetAtom.reportWrite(value, super.addingPopupOffset, () {
+      super.addingPopupOffset = value;
+    });
+  }
+
   final _$_InterfaceStoreActionController =
       ActionController(name: '_InterfaceStore');
+
+  @override
+  void updateAddingPopupOffset(double offset) {
+    final _$actionInfo = _$_InterfaceStoreActionController.startAction(
+        name: '_InterfaceStore.updateAddingPopupOffset');
+    try {
+      return super.updateAddingPopupOffset(offset);
+    } finally {
+      _$_InterfaceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void resetAddingPopupOffset() {
+    final _$actionInfo = _$_InterfaceStoreActionController.startAction(
+        name: '_InterfaceStore.resetAddingPopupOffset');
+    try {
+      return super.resetAddingPopupOffset();
+    } finally {
+      _$_InterfaceStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void closeOverlay() {
@@ -53,7 +91,8 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   @override
   String toString() {
     return '''
-overlayIsDisplayed: ${overlayIsDisplayed}
+overlayIsDisplayed: ${overlayIsDisplayed},
+addingPopupOffset: ${addingPopupOffset}
     ''';
   }
 }

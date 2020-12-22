@@ -52,6 +52,7 @@ class ListWordPageState extends State<ListWordPage> {
                         body: _cardList.length == 0 ?
                           GridView.count(
                               crossAxisCount: 1,
+                              physics: _interfaceStore.overlayIsDisplayed.value ? const BouncingScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                               children: [
                                 const Center(
                                   child: Text('No word'),
@@ -65,6 +66,7 @@ class ListWordPageState extends State<ListWordPage> {
                               mainAxisSpacing: 5,
                               childAspectRatio: _calculElementDisplay(screenSize),
                               crossAxisCount: 2,
+                              physics: _interfaceStore.overlayIsDisplayed.value ? const BouncingScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                               semanticChildCount: 10,
                               children: List.generate(_cardList.length, (index) =>
                                   IgnorePointer(

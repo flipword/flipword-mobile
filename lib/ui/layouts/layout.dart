@@ -39,7 +39,8 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     return Scaffold(
         appBar: AppBar(),
         body: GestureDetector(
-          onTap: _closeOverlay,
+          onVerticalDragUpdate: _updateOverlay,
+          onVerticalDragEnd: _onDragEnd,
           child: _buildBody(context),
         ),
         // TODO: Refacto Fab button
@@ -100,32 +101,45 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
 
     void _closeOverlay() {
       Overlay.of(context).setState(() {
-        _interfaceStore.closeOverlay();
+        _interfaceStore
+          ..closeOverlay()
+          ..resetAddingPopupOffset();
       });
     }
 
     void _openOverlay() {
       Overlay.of(context).setState(() {
-        _interfaceStore.openOverlay();
+        _interfaceStore
+          ..openOverlay()
+          ..resetAddingPopupOffset();
       });
     }
 
-  void _updateOverlay(double dragCount){
-      dragOffset += dragCount;
-      print('drag offset: $dragOffset');
-      if(dragOffset < 0 ){
+  void _updateOverlay(DragUpdateDetails dragOffset){
+      print('drag offset: ${dragOffset.delta.dy}');
+      if(_interfaceStore.overlayIsDisplayed.value){
+        Overlay.of(context).setState(() {
+          _interfaceStore.updateAddingPopupOffset(dragOffset.delta.dy);
+        });
+      }
+  }
+
+  void _onDragEnd(DragEndDetails dragEnd){
+      if(dragEnd.velocity.pixelsPerSecond.dy < 0){
         _closeOverlay();
+      } else{
+        _openOverlay();
       }
   }
 
     OverlayEntry _createOverlayEntry() {
-      final screenSize = MediaQuery.of(context).size.height;
+      final screenHeight = MediaQuery.of(context).size.height;
       return OverlayEntry(
           builder: (context) => AnimatedPositioned(
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeOutCubic,
-            top: _interfaceStore.overlayIsDisplayed.value ? 0 : -screenSize,
-            child: AddWord(onDragUp: _updateOverlay),
+            top: _interfaceStore.overlayIsDisplayed.value ? _interfaceStore.addingPopupOffset.value : -screenHeight,
+            child: AddWord(onDragUp: _updateOverlay, onDragEnd: _onDragEnd),
           )
       );
     }

@@ -14,9 +14,10 @@ import 'package:provider/provider.dart';
 
 class AddWord extends StatefulWidget {
 
-  const AddWord({Key key, this.onDragUp}) : super(key: key);
+  const AddWord({Key key, this.onDragUp, this.onDragEnd}) : super(key: key);
 
-  final ValueChanged<double> onDragUp;
+  final ValueChanged<DragUpdateDetails> onDragUp;
+  final ValueChanged<DragEndDetails> onDragEnd;
   @override
   _State createState() => _State();
 
@@ -38,7 +39,6 @@ class _State extends State<AddWord> {
   TextEditingController _baseWordController;
   TextEditingController _translateWordController;
   double screenSize;
-  double dragStartPosition;
 
 
   @override
@@ -57,6 +57,7 @@ class _State extends State<AddWord> {
     screenSize = MediaQuery.of(context).size.width;
     return GestureDetector(
         onVerticalDragUpdate: _onDragStop,
+        onVerticalDragEnd: _onDragEnd,
         child: SizedBox(
           width: screenSize,
           child: Material(
@@ -251,9 +252,10 @@ class _State extends State<AddWord> {
   }
 
   void _onDragStop(DragUpdateDetails dragUpdateDetails) {
-    final dragCount = dragUpdateDetails.delta.dy;
-    if(dragCount < 0){
-      widget.onDragUp(dragCount);
-    }
+    widget.onDragUp(dragUpdateDetails);
+  }
+
+  void _onDragEnd(DragEndDetails dragEndDetails) {
+    widget.onDragEnd(dragEndDetails);
   }
 }
