@@ -39,6 +39,7 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     return Scaffold(
         appBar: AppBar(),
         body: GestureDetector(
+          onTap: _closeOverlay,
           onVerticalDragUpdate: _updateOverlay,
           onVerticalDragEnd: _onDragEnd,
           child: _buildBody(context),
