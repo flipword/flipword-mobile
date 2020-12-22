@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
 import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
@@ -35,11 +36,13 @@ class MyApp extends StatelessWidget {
 
   CardListStore _cardListStore;
   ProfilStore _profilStore;
+  InterfaceStore _interfaceStore;
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder(
           future: _initApp(context),
           builder: (context, snapshot) {
@@ -47,7 +50,8 @@ class MyApp extends StatelessWidget {
               return MultiProvider(
                   providers: [
                     Provider<CardListStore>(create: (_) => _cardListStore),
-                    Provider<ProfilStore>(create: (_) => _profilStore)
+                    Provider<ProfilStore>(create: (_) => _profilStore),
+                    Provider<InterfaceStore>(create: (_) => _interfaceStore)
                   ],
                 child: MaterialApp(
                     title: 'FlipWord',
@@ -81,6 +85,7 @@ class MyApp extends StatelessWidget {
     await Firebase.initializeApp();
     _cardListStore = CardListStore();
     _profilStore = ProfilStore();
+    _interfaceStore = InterfaceStore();
     await _profilStore.loadProfil();
     await _cardListStore.fetchCard();
   }

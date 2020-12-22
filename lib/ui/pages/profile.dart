@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/services/auth_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
@@ -20,6 +21,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   ProfilStore _profilStore;
   CardListStore _cardListStore;
+  InterfaceStore _interfaceStore;
 
   String userName;
   FileImage image;
@@ -29,6 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     _profilStore = Provider.of<ProfilStore>(context, listen: false);
+    _cardListStore = Provider.of<CardListStore>(context, listen: false);
+    _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     super.initState();
   }
   @override
@@ -51,7 +55,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     RaisedButton(
                       textTheme: Theme.of(context).buttonTheme.textTheme,
                       color: Theme.of(context).primaryColor,
-                      onPressed: _logout,
+                      onPressed: _interfaceStore.overlayIsDisplayed.value ? null : _logout,
                       child: const Text('Logout'),
                     )
                   ]));

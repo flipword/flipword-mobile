@@ -5,6 +5,7 @@ import 'package:flutter_flip_card/data/entities/word.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 import 'package:flutter_flip_card/ui/widgets/words/detail_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,17 +17,19 @@ class ListWordPage extends StatefulWidget {
   static const String routeName = '/list';
 
   @override
-  _ListWordPageState createState() => _ListWordPageState();
+  ListWordPageState createState() => ListWordPageState();
 }
 
-class _ListWordPageState extends State<ListWordPage> {
+class ListWordPageState extends State<ListWordPage> {
   CardListStore _cardList;
+  InterfaceStore _interfaceStore;
   final CardService _cardService = CardService.instance;
   final ToastService _toastService = ToastService.instance;
 
   @override
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
+    _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     super.initState();
   }
   @override
@@ -49,6 +52,7 @@ class _ListWordPageState extends State<ListWordPage> {
                         body: _cardList.length == 0 ?
                           GridView.count(
                               crossAxisCount: 1,
+                              physics: _interfaceStore.overlayIsDisplayed.value ? const BouncingScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                               children: [
                                 const Center(
                                   child: Text('No word'),
@@ -62,15 +66,19 @@ class _ListWordPageState extends State<ListWordPage> {
                               mainAxisSpacing: 5,
                               childAspectRatio: _calculElementDisplay(screenSize),
                               crossAxisCount: 2,
+                              physics: _interfaceStore.overlayIsDisplayed.value ? const BouncingScrollPhysics() : const AlwaysScrollableScrollPhysics(),
                               semanticChildCount: 10,
                               children: List.generate(_cardList.length, (index) =>
-                                  GestureDetector(
-                                    onTap: () => {
-                                      _showModal(_cardList.list.result[index])
-                                    },
-                                    child: CardWord(
-                                        nativeWord: _cardList.list.result[index].nativeWord.word,
-                                        foreignWord: _cardList.list.result[index].foreignWord.word
+                                  IgnorePointer(
+                                    ignoring: _interfaceStore.overlayIsDisplayed.value,
+                                    child: GestureDetector(
+                                      onTap: () => {
+                                        _showModal(_cardList.list.result[index])
+                                      },
+                                      child: CardWord(
+                                          nativeWord: _cardList.list.result[index].nativeWord.word,
+                                          foreignWord: _cardList.list.result[index].foreignWord.word
+                                      ),
                                     ),
                                   )
                               )
