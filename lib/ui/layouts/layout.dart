@@ -117,7 +117,6 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin{
     }
 
   void _updateOverlay(DragUpdateDetails dragOffset){
-      print('drag offset: ${dragOffset.delta.dy}');
       if(_interfaceStore.overlayIsDisplayed.value){
         Overlay.of(context).setState(() {
           _interfaceStore.updateAddingPopupOffset(dragOffset.delta.dy);
