@@ -52,6 +52,7 @@ abstract class _CardListStore with Store {
         isFound = ObservableFuture.value(true);
         found = Observable<bool>(true);
       }
+
   }
 
 }

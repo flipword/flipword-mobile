@@ -57,7 +57,34 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     children: [
                       CardGuessWidget(),
-                      if (_cardListStore.isFinished  && _cardListStore.found.value)
+                      /*if (_cardListStore.found.value)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                          SquareButton(
+                              onPressed: () {_cardListStore.actionOnCard();},
+                              icon: const Icon(Icons.check, size: 30),
+                              backgroundColor: Theme
+                                  .of(context)
+                                  .primaryColor,
+                              width: 45,
+                              height: 45,
+                            ), SquareButton(
+                              onPressed: () {_cardListStore.actionOnCard();},
+                              icon: const Icon(Icons.clear, size: 30),
+                              backgroundColor: Theme
+                                  .of(context)
+                                  .primaryColor,
+                              width: 45,
+                              height: 45,
+                            )
+                          ],
+                        )*/
+                      if (!_cardListStore.found.value)
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                      if (_cardListStore.found.value && _cardListStore.isFinished)
                         SquareButton(
                           onPressed: () {_cardListStore.resetIndex();},
                           icon: const Icon(Icons.restore, size: 30),
@@ -77,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                         width: 45,
                         height: 45,
                       )
+                        ])
                     ]
                 ))
             );
