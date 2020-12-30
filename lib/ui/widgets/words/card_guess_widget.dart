@@ -42,135 +42,107 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
   @override
   Widget build(BuildContext context) {
     Widget _widgetDisplayed;
-    return Observer(
-        builder: (_) {
-          //here we print the word to find
-          if (!_cardListStore.found.value) {
-          _widgetDisplayed =
+    return Observer(builder: (_) {
+      //here we print the word to find
+      if (!_cardListStore.found.value) {
+        _widgetDisplayed = Container(
+            width: MediaQuery.of(context).size.height / 3,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Container(
-              height: MediaQuery
-                  .of(context)
-                  .size
-                  .height/3,
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                        height: MediaQuery
-                            .of(context)
-                            .size
-                            .height/2,
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 2,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme
-                                  .of(context)
-                                  .primaryColor,
-                              width: 8,
-                            ),
-                            borderRadius: BorderRadius.circular(12)
-                        ),
-                        child:
-                    Text("foreign : " +
-                        _cardListStore.list.result[_cardListStore
-                            .curentIndex.value].foreignWord.word, style: TextStyle(
-                        fontSize: 26,
-
-                        fontWeight: FontWeight.w400
-                    ))),
-          Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            SquareButton(
-                      onPressed: () {_cardListStore.actionOnCard();},
-                      icon: const Icon(Icons.open_in_new, size: 30),
-                      backgroundColor: Theme
-                          .of(context)
-                          .primaryColorDark,
-                      width: 45,
-                      height: 45,
-                    ),
-            SquareButton(
-              onPressed: () {_cardListStore.actionOnCard();},
-              icon: const Icon(Icons.open_in_new, size: 30),
-              backgroundColor: Theme
-                  .of(context)
-                  .primaryColorDark,
-              width: 45,
-              height: 45,
-            )
-                    //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
-                  ]
-              )
-                  ])
-          );
-          }
-            else {
-              //here we display the word found
-              _widgetDisplayed = Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .height / 2,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                  Container(
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height / 2,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width  / 2,
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width / 2,
                   decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme
-                            .of(context)
-                            .primaryColor,
+                        color: Theme.of(context).primaryColor,
                         width: 8,
                       ),
-                      borderRadius: BorderRadius.circular(12)
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Text(
+                      "foreign : " +
+                          _cardListStore
+                              .list
+                              .result[_cardListStore.curentIndex.value]
+                              .foreignWord
+                              .word,
+                      style: TextStyle(
+                          fontSize: 26, fontWeight: FontWeight.w400))),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        if (_cardListStore.isFinished)
+                          SquareButton(
+                            onPressed: () {_cardListStore.resetIndex();},
+                            icon: const Icon(Icons.restore, size: 30),
+                            backgroundColor: Theme
+                                .of(context)
+                                .primaryColor,
+                            width: 45,
+                            height: 45,
+                          )
+                        else
+                          SquareButton(
+                            onPressed: () {_cardListStore.actionOnCard();},
+                            icon: const Icon(Icons.open_in_new, size: 30),
+                            backgroundColor: Theme
+                                .of(context)
+                                .primaryColorDark,
+                            width: 45,
+                            height: 45,
+                          )
+                      ])
+            ]));
+      } else {
+        //here we display the word found
+        _widgetDisplayed = Container(
+            width: MediaQuery.of(context).size.height / 3,
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Container(
+                  height: MediaQuery.of(context).size.height / 2,
+                  width: MediaQuery.of(context).size.width / 2,
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 8,
+                      ),
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Text(
+                      "native : " +
+                          _cardListStore
+                              .list
+                              .result[_cardListStore.curentIndex.value]
+                              .nativeWord
+                              .word,
+                      style: TextStyle(
+                          fontSize: 26, fontWeight: FontWeight.w400))),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SquareButton(
+                    onPressed: () {
+                      _cardListStore.actionOnCard();
+                    },
+                    icon: const Icon(Icons.check, size: 30),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    width: 45,
+                    height: 45,
                   ),
-                  child:
-                        Text("native : " +
-                            _cardListStore.list.result[_cardListStore
-                                .curentIndex.value].nativeWord.word, style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w400
-                        ))),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            SquareButton(
-                              onPressed: () {_cardListStore.actionOnCard();},
-                              icon: const Icon(Icons.check, size: 30),
-                              backgroundColor: Theme
-                                  .of(context)
-                                  .primaryColor,
-                              width: 45,
-                              height: 45,
-                            ), SquareButton(
-                              onPressed: () {_cardListStore.actionOnCard();},
-                              icon: const Icon(Icons.clear, size: 30),
-                              backgroundColor: Theme
-                                  .of(context)
-                                  .primaryColor,
-                              width: 45,
-                              height: 45,
-                            )
-                          ],
-                        )
-                        //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
-                      ]
+                  SquareButton(
+                    onPressed: () {
+                      _cardListStore.actionOnCard();
+                    },
+                    icon: const Icon(Icons.clear, size: 30),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    width: 45,
+                    height: 45,
                   )
-              );
-            }
-          return _widgetDisplayed;
-        });
+                ],
+              )
+              //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
+            ]));
+      }
+      return _widgetDisplayed;
+    });
   }
 }

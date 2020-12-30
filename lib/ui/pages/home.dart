@@ -53,10 +53,12 @@ class _HomePageState extends State<HomePage> {
           case FutureStatus.fulfilled:
             _widgetDisplayed =
                 Scaffold(
+                  resizeToAvoidBottomPadding: false,
                 body: Center(
                   child: Column(
                     children: [
-                      CardGuessWidget(),
+                        CardGuessWidget()
+
                       /*if (_cardListStore.found.value)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -80,31 +82,6 @@ class _HomePageState extends State<HomePage> {
                             )
                           ],
                         )*/
-                      if (!_cardListStore.found.value)
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                      if (_cardListStore.found.value && _cardListStore.isFinished)
-                        SquareButton(
-                          onPressed: () {_cardListStore.resetIndex();},
-                          icon: const Icon(Icons.restore, size: 30),
-                          backgroundColor: Theme
-                              .of(context)
-                              .primaryColor,
-                          width: 45,
-                          height: 45,
-                        )
-                       else
-                      SquareButton(
-                        onPressed: () {_cardListStore.actionOnCard();},
-                        icon: const Icon(Icons.open_in_new, size: 30),
-                        backgroundColor: Theme
-                            .of(context)
-                            .primaryColorDark,
-                        width: 45,
-                        height: 45,
-                      )
-                        ])
                     ]
                 ))
             );
