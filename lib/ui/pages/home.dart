@@ -59,29 +59,6 @@ class _HomePageState extends State<HomePage> {
                     children: [
                         CardGuessWidget()
 
-                      /*if (_cardListStore.found.value)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                          SquareButton(
-                              onPressed: () {_cardListStore.actionOnCard();},
-                              icon: const Icon(Icons.check, size: 30),
-                              backgroundColor: Theme
-                                  .of(context)
-                                  .primaryColor,
-                              width: 45,
-                              height: 45,
-                            ), SquareButton(
-                              onPressed: () {_cardListStore.actionOnCard();},
-                              icon: const Icon(Icons.clear, size: 30),
-                              backgroundColor: Theme
-                                  .of(context)
-                                  .primaryColor,
-                              width: 45,
-                              height: 45,
-                            )
-                          ],
-                        )*/
                     ]
                 ))
             );

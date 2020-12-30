@@ -139,7 +139,6 @@ class _CardGuessWidgetState extends State<CardGuessWidget> {
                   )
                 ],
               )
-              //Text(_cardListStore.list.result[_cardListStore.curentIndex.value].foreignWord.word, textAlign: TextAlign.left),
             ]));
       }
       return _widgetDisplayed;
