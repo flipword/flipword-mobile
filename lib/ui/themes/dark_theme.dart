@@ -11,7 +11,6 @@ class DarkTheme {
     return base.copyWith(
         accentColor: secondaryColor,
         accentColorBrightness: Brightness.dark,
-
         primaryColor: primaryColor,
         primaryColorBrightness: Brightness.dark,
         buttonTheme: base.buttonTheme.copyWith(
@@ -27,14 +26,11 @@ class DarkTheme {
         scaffoldBackgroundColor: backgroundDark,
         cardColor: cardColor,
         backgroundColor: backgroundDark,
-        iconTheme: base.iconTheme.copyWith(
-            color: blackColor
-        ),
+        iconTheme: base.iconTheme.copyWith(color: blackColor),
         splashColor: secondaryColor,
-        appBarTheme: base.appBarTheme.copyWith(
-            color: transparent,
-            elevation: 0
-        )
-    );
+        appBarTheme:
+            base.appBarTheme.copyWith(color: transparent, elevation: 0),
+        errorColor: negativeColor,
+        indicatorColor: positiveColor);
   }
 }
