@@ -53,7 +53,6 @@ class _HomePageState extends State<HomePage> {
                   child: Column(children: [
                 Center(
                     child: Text(
-                  // ignore: unnecessary_string_interpolations
                   '${_endOfSerie ? 'Click to restart' : _revealState ? "Is it ok ?" : "Try to guess :"}',
                   style: const TextStyle(
                       fontWeight: FontWeight.w400, fontSize: 20),
