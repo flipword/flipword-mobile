@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/services/auth_service.dart';
+import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
@@ -18,7 +20,8 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   ProfilStore _profilStore;
-  final firebaseAuthService = AuthService.instance;
+  CardListStore _cardListStore;
+  InterfaceStore _interfaceStore;
 
   String userName;
   FileImage image;
@@ -26,41 +29,72 @@ class _ProfilePageState extends State<ProfilePage> {
   String effet;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     _profilStore = Provider.of<ProfilStore>(context, listen: false);
+    _cardListStore = Provider.of<CardListStore>(context, listen: false);
+    _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
     Widget _widgetDisplayed;
-    return Scaffold(body: Observer(
+    return
+      Scaffold(body: Observer(
       builder: (_) {
-        if (_profilStore.courantProfil.isConnecter) {
-          _widgetDisplayed = Scaffold(
-              body: Column(children: [
-                const ProfileOnline(),
-                RaisedButton(
-                  textTheme: Theme.of(context).buttonTheme.textTheme,
-                  color: Theme.of(context).primaryColor,
-                  onPressed: _profilStore.logout,
-                  child: const Text('Logout'),
-                )
-              ]));
-        } else {
-          _widgetDisplayed = Scaffold(
-              body: Column(children: [
-            ProfileOffline(),
-            RaisedButton(
-                textTheme: Theme.of(context).buttonTheme.textTheme,
-                color: Theme.of(context).primaryColor,
-                onPressed: _profilStore.login,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.account_circle),
-                    Text('Login or Sing in with Google')
-                  ],
-                ))
-          ]));
+        switch (_profilStore.courantProfil.status) {
+          case FutureStatus.pending:
+            _widgetDisplayed = const Center(
+              child: CircularProgressIndicator(),
+            );
+            break;
+          case FutureStatus.fulfilled:
+            if (_profilStore.courantProfil.value.isConnecter) {
+              _widgetDisplayed = Scaffold(
+                  body: Column(children: [
+                    const ProfileOnline(),
+                    RaisedButton(
+                      textTheme: Theme.of(context).buttonTheme.textTheme,
+                      color: Theme.of(context).primaryColor,
+                      onPressed: _interfaceStore.overlayIsDisplayed.value ? null : _logout,
+                      child: const Text('Logout'),
+                    )
+                  ]));
+            } else {
+              _widgetDisplayed = Scaffold(
+                  body: Column(children: [
+                    ProfileOffline(),
+                    RaisedButton(
+                        textTheme: Theme.of(context).buttonTheme.textTheme,
+                        color: Theme.of(context).primaryColor,
+                        onPressed: _login,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.account_circle),
+                            const Text('Login or Sing in with Google')
+                          ],
+                        ))
+                  ]));
+            }
+            break;
+          case FutureStatus.rejected:
+            _widgetDisplayed = const Center(
+                child: Text(
+                  'Fail',
+                  textAlign: TextAlign.center,
+                ));
+            break;
         }
         return _widgetDisplayed;
-      },
-    ));
+     },
+   ));
+  }
+
+  void _login(){
+    _profilStore.login().then((value) => _cardListStore.fetchCard());
+  }
+
+  void _logout(){
+    _profilStore.logout().then((value) => _cardListStore.fetchCard());
   }
 }

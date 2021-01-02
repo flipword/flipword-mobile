@@ -8,10 +8,6 @@ import 'package:intl/intl.dart';
 class AuthService {
   AuthService._privateConstructor() {
     _auth ??= FirebaseAuth.instance;
-    if (_auth.currentUser == null) {
-      _auth.signInAnonymously();
-    }
-    updateCourantUser();
   }
 
   UserProfil _courantProfil;
@@ -25,7 +21,10 @@ class AuthService {
 
   UserProfil getUser() => _courantProfil;
 
-  Future<void> updateCourantUser() async {
+  Future<UserProfil> updateCourantUser() async {
+    if (_auth.currentUser == null) {
+      await _auth.signInAnonymously();
+    }
     _courantProfil ??= UserProfil();
     if (_auth.currentUser.isAnonymous) {
       _courantProfil
@@ -45,8 +44,8 @@ class AuthService {
       await robohashHelper
           .getAvatare(_courantProfil.email)
           .then((value) => _courantProfil.fileImage = value);
-    }
-    return;
+  }
+    return _courantProfil;
   }
 
   Future<UserProfil> logout() async {

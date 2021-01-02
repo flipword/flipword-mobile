@@ -54,5 +54,4 @@ abstract class _CardListStore with Store {
       }
 
   }
-
 }

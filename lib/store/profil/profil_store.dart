@@ -10,21 +10,18 @@ class ProfilStore = _ProfilStore with _$ProfilStore;
 
 abstract class _ProfilStore with Store {
 
-
   @observable
-   UserProfil courantProfil = AuthService.instance.getUser();
+  ObservableFuture<UserProfil> courantProfil = ObservableFuture.value(null);
 
   @action
-  void logout() {
-    AuthService.instance
-        .logout()
-        .then((value) =>  courantProfil = value);
-  }
+  Future<void> loadProfil() =>
+    courantProfil = ObservableFuture(AuthService.instance.updateCourantUser().then((value) => value));
 
-  void login() {
-    AuthService.instance
-        .signInWithGoogle()
-        .then((value) =>  courantProfil = value);
-  }
+  @action
+  Future<void> logout() =>
+      courantProfil = ObservableFuture(AuthService.instance.logout().then((value) => value));
 
+  @action
+  Future<void> login() =>
+      courantProfil = ObservableFuture(AuthService.instance.signInWithGoogle().then((value) => value));
 }
