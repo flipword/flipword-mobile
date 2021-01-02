@@ -25,6 +25,7 @@ abstract class _CardListStore with Store {
 
   @action
   void resetIndex() {
+    fetchCard();
     curentIndex = ObservableFuture.value(0);
   }
 
@@ -33,12 +34,14 @@ abstract class _CardListStore with Store {
       ObservableFuture(_cardService.getListCard().then((values) => values));
 
   @action
-  void wordFinded() {
+  void wordFinded(CardEntity card) {
+    _cardService.updateCardView(card, true);
     _skipWord();
   }
 
   @action
-  void wordMissed() {
+  void wordMissed(CardEntity card) {
+    _cardService.updateCardView(card, false);
     _skipWord();
   }
 

@@ -79,22 +79,22 @@ mixin _$CardListStore on _CardListStore, Store {
   }
 
   @override
-  void wordFinded() {
+  void wordFinded(entity.CardEntity card) {
     final _$actionInfo = _$_CardListStoreActionController.startAction(
         name: '_CardListStore.wordFinded');
     try {
-      return super.wordFinded();
+      return super.wordFinded(card);
     } finally {
       _$_CardListStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void wordMissed() {
+  void wordMissed(entity.CardEntity card) {
     final _$actionInfo = _$_CardListStoreActionController.startAction(
         name: '_CardListStore.wordMissed');
     try {
-      return super.wordMissed();
+      return super.wordMissed(card);
     } finally {
       _$_CardListStoreActionController.endAction(_$actionInfo);
     }

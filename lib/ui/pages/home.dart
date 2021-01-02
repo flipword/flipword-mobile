@@ -47,116 +47,124 @@ class _HomePageState extends State<HomePage> {
           ]));
           break;
         case FutureStatus.fulfilled:
-          _widgetDisplayed = Scaffold(
-              resizeToAvoidBottomPadding: false,
-              body: Center(
-                  child: Column(children: [
-                Center(
-                    child: Text(
-                  '${_endOfSerie ? 'Click to restart' : _revealState ? "Is it ok ?" : "Try to guess :"}',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w400, fontSize: 20),
-                )),
-                SizedBox(
-                    height: MediaQuery.of(context).size.height < 600 ? 5 : 20),
-                FlipCard(
-                  key: cardKey,
-                  flipOnTouch: false,
-                  front: Container(
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: (MediaQuery.of(context).size.width / 100) * 70,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          const BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(2, 3), //(x,y)
-                            blurRadius: 2,
+          if (_cardListStore.length != 0) {
+            _widgetDisplayed = Scaffold(
+                resizeToAvoidBottomPadding: false,
+                body: Center(
+                    child: Column(children: [
+                  Center(
+                      child: Text(
+                    '${_endOfSerie ? 'Click to restart' : _revealState ? "Is it ok ?" : "Try to guess :"}',
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w400, fontSize: 20),
+                  )),
+                  SizedBox(
+                      height:
+                          MediaQuery.of(context).size.height < 600 ? 5 : 20),
+                  FlipCard(
+                    key: cardKey,
+                    flipOnTouch: false,
+                    front: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: (MediaQuery.of(context).size.width / 100) * 70,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            const BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(2, 3), //(x,y)
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            _cardListStore
+                                .list
+                                .result[_cardListStore.curentIndex.value]
+                                .foreignWord
+                                .word,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 25),
                           ),
-                        ],
-                      ),
-                      child: Center(
-                        child: Text(
+                        )),
+                    back: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: (MediaQuery.of(context).size.width / 100) * 70,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            const BoxShadow(
+                              color: Colors.grey,
+                              offset: Offset(2, 3), //(x,y)
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                            child: Text(
                           _cardListStore
                               .list
                               .result[_cardListStore.curentIndex.value]
-                              .foreignWord
+                              .nativeWord
                               .word,
                           style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 25),
+                        ))),
+                  ),
+                  SizedBox(
+                      height:
+                          MediaQuery.of(context).size.height < 600 ? 20 : 45),
+                  if (_endOfSerie)
+                    SquareButton(
+                      onPressed: _restartSerie,
+                      icon: const Icon(Icons.restore, size: 30),
+                      backgroundColor: Theme.of(context).cardColor,
+                      borderColor: Theme.of(context).primaryColor,
+                      width: _getButtonSize(),
+                      height: _getButtonSize(),
+                    )
+                  else if (_revealState)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        SquareButton(
+                          onPressed: _errorFind,
+                          icon: const Icon(Icons.clear, size: 30),
+                          backgroundColor: Theme.of(context).cardColor,
+                          borderColor: Theme.of(context).errorColor,
+                          width: _getButtonSize(),
+                          height: _getButtonSize(),
                         ),
-                      )),
-                  back: Container(
-                      height: MediaQuery.of(context).size.height / 2,
-                      width: (MediaQuery.of(context).size.width / 100) * 70,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).cardColor,
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                        boxShadow: [
-                          const BoxShadow(
-                            color: Colors.grey,
-                            offset: Offset(2, 3), //(x,y)
-                            blurRadius: 2,
-                          ),
-                        ],
-                      ),
-                      child: Center(
-                          child: Text(
-                        _cardListStore
-                            .list
-                            .result[_cardListStore.curentIndex.value]
-                            .nativeWord
-                            .word,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.w500, fontSize: 25),
-                      ))),
-                ),
-                SizedBox(
-                    height: MediaQuery.of(context).size.height < 600 ? 20 : 45),
-                if (_endOfSerie)
-                  SquareButton(
-                    onPressed: _restartSerie,
-                    icon: const Icon(Icons.restore, size: 30),
-                    backgroundColor: Theme.of(context).cardColor,
-                    borderColor: Theme.of(context).primaryColor,
-                    width: _getButtonSize(),
-                    height: _getButtonSize(),
-                  )
-                else if (_revealState)
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SquareButton(
-                        onPressed: _successFind,
-                        icon: const Icon(Icons.clear, size: 30),
-                        backgroundColor: Theme.of(context).cardColor,
-                        borderColor: Theme.of(context).errorColor,
-                        width: _getButtonSize(),
-                        height: _getButtonSize(),
-                      ),
-                      SquareButton(
-                        onPressed: _errorFind,
-                        icon: const Icon(Icons.check, size: 30),
-                        backgroundColor: Theme.of(context).cardColor,
-                        borderColor: Theme.of(context).indicatorColor,
-                        width: _getButtonSize(),
-                        height: _getButtonSize(),
-                      )
-                    ],
-                  )
-                else
-                  SquareButton(
-                    onPressed: _revealWord,
-                    icon: const Icon(Icons.remove_red_eye, size: 30),
-                    backgroundColor: Theme.of(context).cardColor,
-                    borderColor: Theme.of(context).primaryColor,
-                    width: _getButtonSize(),
-                    height: _getButtonSize(),
-                  )
-              ])));
+                        SquareButton(
+                          onPressed: _successFind,
+                          icon: const Icon(Icons.check, size: 30),
+                          backgroundColor: Theme.of(context).cardColor,
+                          borderColor: Theme.of(context).indicatorColor,
+                          width: _getButtonSize(),
+                          height: _getButtonSize(),
+                        )
+                      ],
+                    )
+                  else
+                    SquareButton(
+                      onPressed: _revealWord,
+                      icon: const Icon(Icons.remove_red_eye, size: 30),
+                      backgroundColor: Theme.of(context).cardColor,
+                      borderColor: Theme.of(context).primaryColor,
+                      width: _getButtonSize(),
+                      height: _getButtonSize(),
+                    )
+                ])));
+          } else {
+            _widgetDisplayed = const Center(
+              child: Text('No word'),
+            );
+          }
       }
       return _widgetDisplayed;
     });
@@ -171,7 +179,6 @@ class _HomePageState extends State<HomePage> {
 
   void _successFind() {
     if (!_cardListStore.isFinished) {
-      _cardListStore.wordFinded();
       setState(() {
         _revealState = false;
       });
@@ -180,11 +187,12 @@ class _HomePageState extends State<HomePage> {
         _endOfSerie = true;
       });
     }
+    _cardListStore.wordFinded(
+        _cardListStore.list.value[_cardListStore.curentIndex.value]);
   }
 
   void _errorFind() {
     if (!_cardListStore.isFinished) {
-      _cardListStore.wordMissed();
       setState(() {
         _revealState = false;
       });
@@ -193,6 +201,8 @@ class _HomePageState extends State<HomePage> {
         _endOfSerie = true;
       });
     }
+    _cardListStore.wordMissed(
+        _cardListStore.list.value[_cardListStore.curentIndex.value]);
   }
 
   void _restartSerie() {
