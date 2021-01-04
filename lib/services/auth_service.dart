@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
@@ -34,21 +35,11 @@ class AuthService {
         ..email = null
         ..lastConnection = null;
     } else {
-      final user = await _firestoreUserProfilRepository
-          .getUserProfilCollection(_auth.currentUser.uid)
-          .get()
-          .then((value) => UserProfil.fromJson(value.data()));
-      _courantProfil
-        ..email = _auth.currentUser.email
-        ..name = _auth.currentUser.displayName
-        ..lastConnection = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())
-        ..uid = _auth.currentUser.uid
-        ..isConnecter = true
-        ..nbWordLearned = user.nbWordLearned;
-
+      _courantProfil = _userFromAuthUser();
       await robohashHelper
           .getAvatare(_courantProfil.email)
           .then((value) => _courantProfil.fileImage = value);
+      await updateNbWordLearned();
     }
     return _courantProfil;
   }
@@ -57,7 +48,7 @@ class AuthService {
     await _firestoreUserProfilRepository
         .getUserProfilCollection(_courantProfil.uid)
         .update({'nbWordLearned': _courantProfil.nbWordLearned + 1});
-    await updateCourantUser();
+    await updateNbWordLearned();
   }
 
   Future<UserProfil> logout() async {
@@ -65,6 +56,14 @@ class AuthService {
     await _auth.signInAnonymously();
     await updateCourantUser();
     return _courantProfil;
+  }
+
+  Future<void> updateNbWordLearned() async {
+    return _firestoreUserProfilRepository
+        .getUserProfilCollection(_auth.currentUser.uid)
+        .get()
+        .then((value) => _courantProfil.nbWordLearned =
+            UserProfil.fromJson(value.data()).nbWordLearned ?? 0);
   }
 
   Future<UserProfil> signInWithGoogle() async {
@@ -86,8 +85,19 @@ class AuthService {
       await _auth.currentUser.delete();
       await _auth.signInWithCredential(credential);
     });
-
+    await _firestoreUserProfilRepository
+        .getUserProfilCollection(_auth.currentUser.uid)
+        .set({'uid': _auth.currentUser.uid}, SetOptions(merge: true));
     await updateCourantUser();
     return _courantProfil;
+  }
+
+  UserProfil _userFromAuthUser() {
+    return UserProfil()
+      ..email = _auth.currentUser.email
+      ..name = _auth.currentUser.displayName
+      ..lastConnection = DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())
+      ..uid = _auth.currentUser.uid
+      ..isConnecter = true;
   }
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class UserProfil {
-  UserProfil(
-      {this.email, this.name, this.lastConnection, this.nbWordLearned = 0});
+  UserProfil({this.email, this.name, this.lastConnection, this.nbWordLearned});
 
   UserProfil.fromJson(Map<String, dynamic> json) {
     email = json['email'];
