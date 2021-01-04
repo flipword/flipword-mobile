@@ -38,36 +38,6 @@ mixin _$CardListStore on _CardListStore, Store {
     });
   }
 
-  final _$isFoundAtom = Atom(name: '_CardListStore.isFound');
-
-  @override
-  ObservableFuture<bool> get isFound {
-    _$isFoundAtom.reportRead();
-    return super.isFound;
-  }
-
-  @override
-  set isFound(ObservableFuture<bool> value) {
-    _$isFoundAtom.reportWrite(value, super.isFound, () {
-      super.isFound = value;
-    });
-  }
-
-  final _$foundAtom = Atom(name: '_CardListStore.found');
-
-  @override
-  ObservableValue<bool> get found {
-    _$foundAtom.reportRead();
-    return super.found;
-  }
-
-  @override
-  set found(ObservableValue<bool> value) {
-    _$foundAtom.reportWrite(value, super.found, () {
-      super.found = value;
-    });
-  }
-
   final _$listAtom = Atom(name: '_CardListStore.list');
 
   @override
@@ -109,11 +79,22 @@ mixin _$CardListStore on _CardListStore, Store {
   }
 
   @override
-  void actionOnCard() {
+  void wordFinded(entity.CardEntity card) {
     final _$actionInfo = _$_CardListStoreActionController.startAction(
-        name: '_CardListStore.actionOnCard');
+        name: '_CardListStore.wordFinded');
     try {
-      return super.actionOnCard();
+      return super.wordFinded(card);
+    } finally {
+      _$_CardListStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void wordMissed(entity.CardEntity card) {
+    final _$actionInfo = _$_CardListStoreActionController.startAction(
+        name: '_CardListStore.wordMissed');
+    try {
+      return super.wordMissed(card);
     } finally {
       _$_CardListStoreActionController.endAction(_$actionInfo);
     }
@@ -123,8 +104,6 @@ mixin _$CardListStore on _CardListStore, Store {
   String toString() {
     return '''
 curentIndex: ${curentIndex},
-isFound: ${isFound},
-found: ${found},
 list: ${list},
 length: ${length},
 isFinished: ${isFinished}

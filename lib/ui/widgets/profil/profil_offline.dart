@@ -2,11 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfileOffline extends StatelessWidget {
-
   final text = 'If you log in to the app, your '
-      'will hace access to features '
+      'will have access to features '
       'not available in offline mode :\n'
-      '* Sync between device\n'
+      '* sync between device\n'
       '* profile statistics';
 
   @override
@@ -15,12 +14,12 @@ class ProfileOffline extends StatelessWidget {
       margin: const EdgeInsets.all(20),
       child: Container(
           padding: const EdgeInsets.all(20),
-          child: Text(text,
+          child: Text(
+            text,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
             ),
-          )
-      ),
+          )),
     );
   }
 }

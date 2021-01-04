@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
 class SquareButton extends StatefulWidget {
-  const SquareButton({Key key, this.icon, this.backgroundColor, this.width = 60.0 , this.height = 60.0, this.loadingStatement = false, @required this.onPressed} ): super(key: key);
+  const SquareButton(
+      {Key key,
+      this.icon,
+      this.borderColor,
+      this.backgroundColor,
+      this.width = 60.0,
+      this.height = 60.0,
+      this.loadingStatement = false,
+      @required this.onPressed})
+      : super(key: key);
 
   final Icon icon;
   final Color backgroundColor;
+  final Color borderColor;
   final VoidCallback onPressed;
-  final double width ;
+  final double width;
   final double height;
   final bool loadingStatement;
   @override
@@ -20,6 +30,7 @@ class SquareButtonState extends State<SquareButton> {
     loading = widget.loadingStatement;
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -30,29 +41,28 @@ class SquareButtonState extends State<SquareButton> {
             child: RawMaterialButton(
               fillColor: widget.backgroundColor,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5),
-              ),
-              splashColor: Theme.of(context).accentColor,
+                  borderRadius: BorderRadius.circular(5),
+                  side: BorderSide(
+                      width: 2,
+                      color: widget.borderColor ?? widget.backgroundColor)),
+              splashColor: Theme.of(context).backgroundColor,
               elevation: 10,
               highlightElevation: 0,
               onPressed: widget.onPressed,
-              child: loading ?
-              CircularProgressIndicator(
-                backgroundColor: Theme.of(context).cardColor,
-              )
-                  :
-              RotationTransition(
-                  turns: const AlwaysStoppedAnimation(-45 / 360), child: Opacity(
-                opacity: 0.7,
-                child: widget.icon,
-              )
-              ),
-            )
-        )
-    );
+              child: loading
+                  ? CircularProgressIndicator(
+                      backgroundColor: Theme.of(context).cardColor,
+                    )
+                  : RotationTransition(
+                      turns: const AlwaysStoppedAnimation(-45 / 360),
+                      child: Opacity(
+                        opacity: 0.7,
+                        child: widget.icon,
+                      )),
+            )));
   }
 
-  void changeLoadingState(){
+  void changeLoadingState() {
     setState(() {
       loading = !loading;
     });

@@ -281,6 +281,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.10.11"
+  flip_card:
+    dependency: "direct main"
+    description:
+      name: flip_card
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.4.4"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -560,7 +567,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.4+4"
-
   path_provider_platform_interface:
     dependency: transitive
     description:
@@ -803,7 +809,6 @@ packages:
       name: win32
       url: "https://pub.dartlang.org"
     source: hosted
-
     version: "1.7.4"
   xdg_directories:
     dependency: transitive
@@ -827,5 +832,5 @@ packages:
     source: hosted
     version: "2.2.1"
 sdks:
-  dart: ">=2.10.0 <=2.11.0-176.0.dev"
+  dart: ">=2.10.0 <2.11.0"
   flutter: ">=1.18.0-6.0.pre <2.0.0"
