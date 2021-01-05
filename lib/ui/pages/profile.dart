@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
-import 'package:flutter_flip_card/services/auth_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
-import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -35,11 +32,12 @@ class _ProfilePageState extends State<ProfilePage> {
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Widget _widgetDisplayed;
-    return
-      Scaffold(body: Observer(
+    final height = MediaQuery.of(context).size.height;
+    return Scaffold(body: Observer(
       builder: (_) {
         switch (_profilStore.courantProfil.status) {
           case FutureStatus.pending:
@@ -51,50 +49,52 @@ class _ProfilePageState extends State<ProfilePage> {
             if (_profilStore.courantProfil.value.isConnecter) {
               _widgetDisplayed = Scaffold(
                   body: Column(children: [
-                    const ProfileOnline(),
-                    RaisedButton(
-                      textTheme: Theme.of(context).buttonTheme.textTheme,
-                      color: Theme.of(context).primaryColor,
-                      onPressed: _interfaceStore.overlayIsDisplayed.value ? null : _logout,
-                      child: const Text('Logout'),
-                    )
-                  ]));
+                SizedBox(height: height / 10),
+                const ProfileOnline(),
+                RaisedButton(
+                  textTheme: Theme.of(context).buttonTheme.textTheme,
+                  color: Theme.of(context).primaryColor,
+                  onPressed:
+                      _interfaceStore.overlayIsDisplayed.value ? null : _logout,
+                  child: const Text('Logout'),
+                )
+              ]));
             } else {
               _widgetDisplayed = Scaffold(
                   body: Column(children: [
-                    ProfileOffline(),
-                    RaisedButton(
-                        textTheme: Theme.of(context).buttonTheme.textTheme,
-                        color: Theme.of(context).primaryColor,
-                        onPressed: _login,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.account_circle),
-                            const Text('Login or Sing in with Google')
-                          ],
-                        ))
-                  ]));
+                ProfileOffline(),
+                RaisedButton(
+                    textTheme: Theme.of(context).buttonTheme.textTheme,
+                    color: Theme.of(context).primaryColor,
+                    onPressed: _login,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.account_circle),
+                        const Text('Login or Sing in with Google')
+                      ],
+                    ))
+              ]));
             }
             break;
           case FutureStatus.rejected:
             _widgetDisplayed = const Center(
                 child: Text(
-                  'Fail',
-                  textAlign: TextAlign.center,
-                ));
+              'Fail',
+              textAlign: TextAlign.center,
+            ));
             break;
         }
         return _widgetDisplayed;
-     },
-   ));
+      },
+    ));
   }
 
-  void _login(){
+  void _login() {
     _profilStore.login().then((value) => _cardListStore.fetchCard());
   }
 
-  void _logout(){
+  void _logout() {
     _profilStore.logout().then((value) => _cardListStore.fetchCard());
   }
 }
