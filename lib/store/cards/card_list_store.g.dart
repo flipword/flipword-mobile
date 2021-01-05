@@ -53,6 +53,13 @@ mixin _$CardListStore on _CardListStore, Store {
     });
   }
 
+  final _$filterCardAsyncAction = AsyncAction('_CardListStore.filterCard');
+
+  @override
+  Future<void> filterCard(String word) {
+    return _$filterCardAsyncAction.run(() => super.filterCard(word));
+  }
+
   final _$_CardListStoreActionController =
       ActionController(name: '_CardListStore');
 
