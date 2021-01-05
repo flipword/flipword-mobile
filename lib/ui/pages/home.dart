@@ -72,9 +72,9 @@ class _HomePageState extends State<HomePage> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),
                           boxShadow: [
-                            const BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(2, 3), //(x,y)
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              offset: const Offset(2, 3), //(x,y)
                               blurRadius: 2,
                             ),
                           ],
@@ -98,9 +98,9 @@ class _HomePageState extends State<HomePage> {
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15)),
                           boxShadow: [
-                            const BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(2, 3), //(x,y)
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              offset: const Offset(2, 3), //(x,y)
                               blurRadius: 2,
                             ),
                           ],
