@@ -19,19 +19,18 @@ class _SettingPage extends State<SettingPage> {
   // It's sample code of Dialog Item.
   Widget _buildDialogItem(Language language) => Row(
         children: <Widget>[
-          Text(language.name),
+          Text(language.name, style: TextStyle(color: Theme.of(context).primaryColor)),
           const SizedBox(width: 8),
-          Flexible(child: Text('(${language.isoCode})'))
+          Flexible(child: Text('(${language.isoCode})', style: TextStyle(color: Theme.of(context).primaryColor)))
         ],
       );
 
   void _openLanguagePickerDialog(String value) => showDialog(
-      context: context,
       child: LanguagePickerDialog(
           titlePadding: const EdgeInsets.all(8),
-          searchInputDecoration: const InputDecoration(hintText: 'Search...'),
+          searchInputDecoration: const InputDecoration( hintText: 'Search...'),
           isSearchable: true,
-          title: const Text('Select your language'),
+          title: const Text('Select your language', style: TextStyle(color: Colors.orange)),
           onValuePicked: (Language language) {
             switch (value) {
               case 'native':
@@ -42,7 +41,7 @@ class _SettingPage extends State<SettingPage> {
                 break;
             }
           },
-          itemBuilder: _buildDialogItem));
+          itemBuilder: _buildDialogItem), context: context);
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +53,7 @@ class _SettingPage extends State<SettingPage> {
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text("native language"),
+                const Text('native language'),
                 Expanded(
                   child: Center(
                     child: MaterialButton(
@@ -63,7 +62,7 @@ class _SettingPage extends State<SettingPage> {
                     ),
                   ),
                 ),
-                Text("foreign language"),
+                const Text('foreign language'),
                 Expanded(
                   child: Center(
                     child: MaterialButton(
