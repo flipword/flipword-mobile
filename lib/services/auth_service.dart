@@ -5,7 +5,6 @@ import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_roboh
 import 'package:flutter_flip_card/data/entities/firebase_user_profil.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
-import 'package:language_pickers/utils/utils.dart';
 
 class AuthService {
   AuthService._privateConstructor() {
