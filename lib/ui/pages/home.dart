@@ -1,6 +1,7 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -17,12 +18,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   CardListStore _cardListStore;
+  InterfaceStore _interfaceStore;
   bool _revealState;
   bool _endOfSerie;
 
   @override
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
+    _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     _revealState = false;
     _endOfSerie = false;
     super.initState();
@@ -123,7 +126,9 @@ class _HomePageState extends State<HomePage> {
                           MediaQuery.of(context).size.height < 600 ? 20 : 45),
                   if (_endOfSerie)
                     SquareButton(
-                      onPressed: _restartSerie,
+                      onPressed: _interfaceStore.overlayIsDisplayed.value
+                          ? null
+                          : _restartSerie,
                       icon: const Icon(Icons.restore, size: 30),
                       backgroundColor: Theme.of(context).cardColor,
                       borderColor: Theme.of(context).primaryColor,
@@ -135,7 +140,9 @@ class _HomePageState extends State<HomePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         SquareButton(
-                          onPressed: _errorFind,
+                          onPressed: _interfaceStore.overlayIsDisplayed.value
+                              ? null
+                              : _errorFind,
                           icon: const Icon(Icons.clear, size: 30),
                           backgroundColor: Theme.of(context).cardColor,
                           borderColor: Theme.of(context).errorColor,
@@ -143,7 +150,19 @@ class _HomePageState extends State<HomePage> {
                           height: _getButtonSize(),
                         ),
                         SquareButton(
-                          onPressed: _successFind,
+                          onPressed: _interfaceStore.overlayIsDisplayed.value
+                              ? null
+                              : () => {cardKey.currentState.toggleCard()},
+                          icon: const Icon(Icons.replay, size: 30),
+                          backgroundColor: Theme.of(context).cardColor,
+                          borderColor: Theme.of(context).primaryColor,
+                          width: _getButtonSize(),
+                          height: _getButtonSize(),
+                        ),
+                        SquareButton(
+                          onPressed: _interfaceStore.overlayIsDisplayed.value
+                              ? null
+                              : _successFind,
                           icon: const Icon(Icons.check, size: 30),
                           backgroundColor: Theme.of(context).cardColor,
                           borderColor: Theme.of(context).indicatorColor,
@@ -154,7 +173,9 @@ class _HomePageState extends State<HomePage> {
                     )
                   else
                     SquareButton(
-                      onPressed: _revealWord,
+                      onPressed: _interfaceStore.overlayIsDisplayed.value
+                          ? null
+                          : _revealWord,
                       icon: const Icon(Icons.remove_red_eye, size: 30),
                       backgroundColor: Theme.of(context).cardColor,
                       borderColor: Theme.of(context).primaryColor,
