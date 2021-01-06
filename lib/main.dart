@@ -5,6 +5,7 @@ import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
+import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/layouts/layout.dart';
 import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
 import 'package:provider/provider.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
   CardListStore _cardListStore;
   ProfilStore _profilStore;
   InterfaceStore _interfaceStore;
+  SettingStore _settingStore;
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -51,7 +53,8 @@ class MyApp extends StatelessWidget {
                   providers: [
                     Provider<CardListStore>(create: (_) => _cardListStore),
                     Provider<ProfilStore>(create: (_) => _profilStore),
-                    Provider<InterfaceStore>(create: (_) => _interfaceStore)
+                    Provider<InterfaceStore>(create: (_) => _interfaceStore),
+                    Provider<SettingStore>(create: (_) => _settingStore)
                   ],
                 child: MaterialApp(
                     title: 'FlipWord',
@@ -86,7 +89,9 @@ class MyApp extends StatelessWidget {
     _cardListStore = CardListStore();
     _profilStore = ProfilStore();
     _interfaceStore = InterfaceStore();
+    _settingStore = SettingStore();
     await _profilStore.loadProfil();
     await _cardListStore.fetchCard();
+
   }
 }

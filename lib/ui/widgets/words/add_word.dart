@@ -9,6 +9,7 @@ import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart'
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:language_pickers/languages.dart';
 import 'package:provider/provider.dart';
 
 class AddWord extends StatefulWidget {
@@ -46,6 +47,13 @@ class _State extends State<AddWord> {
     _translateWordController = TextEditingController();
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(AddWord addWord){
+    baseLanguage = _languageService.nativeLanguage;
+    translateLanguage = _languageService.foreignLanguage;
+    super.didUpdateWidget(addWord);
   }
 
   @override
@@ -100,7 +108,7 @@ class _State extends State<AddWord> {
                         Expanded(
                             child: Container(
                           alignment: Alignment.center,
-                          child: Text(baseLanguage.label),
+                          child: Text(baseLanguage.name),
                         )),
                         Expanded(
                           child: Container(
@@ -115,7 +123,7 @@ class _State extends State<AddWord> {
                         Expanded(
                             child: Container(
                           alignment: Alignment.center,
-                          child: Text(translateLanguage.label),
+                          child: Text(translateLanguage.name),
                         ))
                       ],
                     ),
@@ -129,7 +137,7 @@ class _State extends State<AddWord> {
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: InputWord(
                         controller: _baseWordController,
-                        label: baseLanguage.label,
+                        label: baseLanguage.name,
                         hintText: 'Enter your world',
                       ),
                     ),
@@ -149,7 +157,7 @@ class _State extends State<AddWord> {
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: InputWord(
                           controller: _translateWordController,
-                          label: translateLanguage.label,
+                          label: translateLanguage.name,
                         )),
                     const SizedBox(height: 5),
                     IconTextButton(
@@ -182,7 +190,7 @@ class _State extends State<AddWord> {
       _mybuttonState.currentState.changeLoadingState();
       TranslateHelper.instance
           .translate(
-              baseLanguage.id, translateLanguage.id, _baseWordController.text)
+              baseLanguage.isoCode, translateLanguage.isoCode, _baseWordController.text)
           .then((value) {
             _translateWordController.text = value;
           })
@@ -200,10 +208,10 @@ class _State extends State<AddWord> {
       } else {
         final baseWord = Word(
             word: _formatWord(_baseWordController.text),
-            languageId: baseLanguage.id);
+            languageId: baseLanguage.isoCode);
         final translateWord = Word(
             word: _formatWord(_translateWordController.text),
-            languageId: translateLanguage.id);
+            languageId: translateLanguage.isoCode);
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
         _translateWordController.text = '';

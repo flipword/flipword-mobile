@@ -1,4 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_flip_card/services/language_service.dart';
+import 'package:language_pickers/languages.dart';
+import 'package:language_pickers/utils/utils.dart';
 
 class UserProfil {
   UserProfil({this.email, this.name, this.lastConnection, this.nbWordLearned});
@@ -8,6 +11,7 @@ class UserProfil {
     name = json['name'];
     lastConnection = json['lastConnection'];
     nbWordLearned = json['nbWordLearned'];
+
   }
 
   String email;
@@ -17,6 +21,7 @@ class UserProfil {
   String uid;
   FileImage fileImage;
   int nbWordLearned;
+
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
