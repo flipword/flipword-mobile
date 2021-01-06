@@ -143,6 +143,14 @@ class _HomePageState extends State<HomePage> {
                           height: _getButtonSize(),
                         ),
                         SquareButton(
+                          onPressed: () => {cardKey.currentState.toggleCard()},
+                          icon: const Icon(Icons.replay, size: 30),
+                          backgroundColor: Theme.of(context).cardColor,
+                          borderColor: Theme.of(context).primaryColor,
+                          width: _getButtonSize(),
+                          height: _getButtonSize(),
+                        ),
+                        SquareButton(
                           onPressed: _successFind,
                           icon: const Icon(Icons.check, size: 30),
                           backgroundColor: Theme.of(context).cardColor,
