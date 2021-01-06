@@ -35,28 +35,24 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: GestureDetector(
-        onTap: _closeOverlay,
-        onVerticalDragUpdate: _updateOverlay,
-        onVerticalDragEnd: _onDragEnd,
-        child: _buildBody(context),
-      ),
-      // TODO: Refacto Fab button
-      floatingActionButton: SquareButton(
-          icon: const Icon(
-            Icons.add,
-            size: 30,
-          ),
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () {
-            _onFloatingButtonTapped();
-          }),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-      bottomNavigationBar: _buildBottomNavigationBar(context),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-    );
+        body: GestureDetector(
+          onTap: _closeOverlay,
+          onVerticalDragUpdate: _updateOverlay,
+          onVerticalDragEnd: _onDragEnd,
+          child: _buildBody(context),
+        ),
+        // TODO: Refacto Fab button
+        floatingActionButton: SquareButton(
+            icon: const Icon(
+              Icons.add,
+              size: 30,
+            ),
+            backgroundColor: Theme.of(context).primaryColor,
+            onPressed: () {
+              _onFloatingButtonTapped();
+            }),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: _buildBottomNavigationBar(context));
   }
 
   Widget _buildBody(context) {

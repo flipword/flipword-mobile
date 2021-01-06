@@ -34,6 +34,18 @@ abstract class _CardListStore with Store {
       ObservableFuture(_cardService.getListCard().then((values) => values));
 
   @action
+  Future<void> filterCard(String word) async {
+    await fetchCard();
+    list = ObservableFuture.value(list.value
+        .where((element) =>
+            element.nativeWord.word
+                .toLowerCase()
+                .contains(word.toLowerCase()) ||
+            element.foreignWord.word.toLowerCase().contains(word.toLowerCase()))
+        .toList());
+  }
+
+  @action
   void wordFinded(CardEntity card) {
     _cardService.updateCardView(card, true);
     _skipWord();

@@ -7,6 +7,7 @@ import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 import 'package:flutter_flip_card/ui/widgets/words/detail_word.dart';
+import 'package:flutter_flip_card/ui/widgets/words/search_bar.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -92,7 +93,15 @@ class ListWordPageState extends State<ListWordPage> {
             ));
             break;
         }
-        return _widgetDisplayed;
+        return Stack(children: [
+          Container(
+              margin:
+                  EdgeInsets.only(top: MediaQuery.of(context).size.height / 10),
+              child: _widgetDisplayed),
+          SearchBar(
+            onUnFocus: (value) => {_filterCard(value)},
+          ),
+        ]);
       }),
     );
   }
@@ -131,5 +140,9 @@ class ListWordPageState extends State<ListWordPage> {
     _cardList
       ..resetIndex()
       ..fetchCard();
+  }
+
+  void _filterCard(value) {
+    _cardList.filterCard(value);
   }
 }

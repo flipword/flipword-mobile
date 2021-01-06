@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     Widget _widgetDisplayed;
     return Observer(builder: (_) {
       switch (_cardListStore.list.status) {
@@ -52,6 +53,7 @@ class _HomePageState extends State<HomePage> {
                 resizeToAvoidBottomPadding: false,
                 body: Center(
                     child: Column(children: [
+                  SizedBox(height: height / 10),
                   Center(
                       child: Text(
                     '${_endOfSerie ? 'Click to restart' : _revealState ? "Is it ok ?" : "Try to guess :"}',
