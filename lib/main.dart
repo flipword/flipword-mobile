@@ -1,6 +1,7 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
@@ -38,10 +39,13 @@ class MyApp extends StatelessWidget {
   ProfilStore _profilStore;
   InterfaceStore _interfaceStore;
 
+
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setPreferredOrientations(Constanants.deviceOrientatuon);
 
     return FutureBuilder(
           future: _initApp(context),
