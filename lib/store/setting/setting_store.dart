@@ -29,6 +29,19 @@ abstract class _SettingStore with Store {
     foreignLanguage = language;
   }
 
+  @action
+  void reverseLanguage(){
+    final momory = nativeLanguage;
+    nativeLanguage = foreignLanguage;
+    foreignLanguage= momory;
+  }
+
+  @computed
+  Language  get getNativeLanguage => nativeLanguage;
+
+  @computed
+  Language  get getForeignLanguage => foreignLanguage;
+
   String  getRef()  => '${nativeLanguage.isoCode}-${foreignLanguage.isoCode}';
 
 }

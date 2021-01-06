@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
 import 'package:flutter_flip_card/data/entities/word.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
-import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
+import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:language_pickers/languages.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,6 @@ class AddWord extends StatefulWidget {
 }
 
 class _State extends State<AddWord> {
-  final LanguageService _languageService = LanguageService.instance;
   final CardService _cardService = CardService.instance;
   final ToastService _toastService = ToastService.instance;
 
@@ -32,6 +32,8 @@ class _State extends State<AddWord> {
 
   final String googleTranslateAsset = 'assets/google-translate.svg';
   CardListStore _cardListStore;
+  SettingStore _settingStore;
+
   Language baseLanguage;
   Language translateLanguage;
   TextEditingController _baseWordController;
@@ -41,150 +43,139 @@ class _State extends State<AddWord> {
 
   @override
   void initState() {
-    baseLanguage = _languageService.nativeLanguage;
-    translateLanguage = _languageService.foreignLanguage;
     focusNode = FocusNode();
     _baseWordController = TextEditingController();
     _translateWordController = TextEditingController();
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
+    _settingStore = Provider.of<SettingStore>(context, listen: false);
+    baseLanguage = _settingStore.getNativeLanguage;
+    translateLanguage = _settingStore.getForeignLanguage;
     super.initState();
   }
-
-  @override
-  void didUpdateWidget(AddWord addWord){
-    baseLanguage = _languageService.nativeLanguage;
-    translateLanguage = _languageService.foreignLanguage;
-    super.didUpdateWidget(addWord);
-  }
-
   @override
   Widget build(BuildContext context) {
-    screenSize = MediaQuery.of(context).size.width;
-    return GestureDetector(
-        onVerticalDragUpdate: _onDragStop,
-        onVerticalDragEnd: _onDragEnd,
-        child: SizedBox(
-          width: screenSize,
-          child: Material(
-              color: Theme.of(context).backgroundColor,
-              elevation: 4,
-              borderRadius: BorderRadius.circular(30),
-              child: Column(children: [
-                Stack(alignment: Alignment.topCenter, children: [
-                  Container(
-                    width: 500,
-                    height: 90,
-                    padding: const EdgeInsets.all(10),
-                    decoration: _getBoxDecoration(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(googleTranslateAsset,
-                            height: 35, width: 35),
-                        const SizedBox(width: 5),
-                        const Text(
-                          'Google',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w400, fontSize: 30),
-                        ),
-                        const Text(
-                          'Translate',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w300, fontSize: 30),
-                        )
-                      ],
-                    ),
-                  ),
-                  Container(
-                    width: 250,
-                    padding: const EdgeInsets.only(left: 10, right: 10),
-                    height: 40,
-                    margin: const EdgeInsets.only(top: 88),
-                    decoration: _getBoxDecoration(),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: Container(
-                          alignment: Alignment.center,
-                          child: Text(baseLanguage.name),
-                        )),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: FlatButton.icon(
-                                label: const Text(''),
-                                icon: const Icon(Icons.swap_horiz),
-                                textColor: Colors.black,
-                                onPressed: () => {_reverseLanguage()}),
-                          ),
-                        ),
-                        Expanded(
-                            child: Container(
-                          alignment: Alignment.center,
-                          child: Text(translateLanguage.name),
-                        ))
-                      ],
-                    ),
-                  )
-                ]),
-                Form(
-                  key: _formKey,
-                  child: Column(children: <Widget>[
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: InputWord(
-                        controller: _baseWordController,
-                        label: baseLanguage.name,
-                        focusNode: focusNode,
 
-                        hintText: 'Enter your world',
+    screenSize = MediaQuery.of(context).size.width;
+
+      return GestureDetector(
+          onVerticalDragUpdate: _onDragStop,
+          onVerticalDragEnd: _onDragEnd,
+          child: SizedBox(
+            width: screenSize,
+            child: Material(
+                color: Theme.of(context).backgroundColor,
+                elevation: 4,
+                borderRadius: BorderRadius.circular(30),
+                child:  Observer(builder: (_) { return Column(children: [
+                  Stack(alignment: Alignment.topCenter, children: [
+                    Container(
+                      width: 500,
+                      height: 90,
+                      padding: const EdgeInsets.all(10),
+                      decoration: _getBoxDecoration(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(googleTranslateAsset,
+                              height: 35, width: 35),
+                          const SizedBox(width: 5),
+                          const Text(
+                            'Google',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w400, fontSize: 30),
+                          ),
+                          const Text(
+                            'Translate',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w300, fontSize: 30),
+                          )
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 15),
-                    SquareButton(
-                      key: _mybuttonState,
-                      onPressed: () {
-                        _translateWord();
-                      },
-                      icon: const Icon(Icons.g_translate, size: 30),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      width: 45,
-                      height: 45,
-                    ),
-                    const SizedBox(height: 5),
                     Container(
+                      width: 250,
+                      padding: const EdgeInsets.only(left: 10, right: 10),
+                      height: 40,
+                      margin: const EdgeInsets.only(top: 88),
+                      decoration: _getBoxDecoration(),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                              child: Container(
+                            alignment: Alignment.center,
+                            child: Text(baseLanguage.name),
+                          )),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.center,
+                              child: FlatButton.icon(
+                                  label: const Text(''),
+                                  icon: const Icon(Icons.swap_horiz),
+                                  textColor: Colors.black,
+                                  onPressed: () => {_settingStore.reverseLanguage()}),
+                            ),
+                          ),
+                          Expanded(
+                              child: Container(
+                            alignment: Alignment.center,
+                            child: Text(translateLanguage.name),
+                          ))
+                        ],
+                      ),
+                    )
+                  ]),
+                  Form(
+                    key: _formKey,
+                    child: Column(children: <Widget>[
+                      const SizedBox(height: 10),
+                      Container(
                         padding: const EdgeInsets.only(left: 10, right: 10),
                         child: InputWord(
-                          controller: _translateWordController,
-                          label: translateLanguage.name,
-                        )),
-                    const SizedBox(height: 5),
-                    IconTextButton(
-                      width: 90,
-                      icon: Icons.save,
-                      text: 'Save',
-                      onPressed: () {
-                        _saveCard();
-                      },
-                    ),
-                    const SizedBox(height: 5)
-                  ]),
-                )
-              ])),
-        ));
+                          controller: _baseWordController,
+                          label: _settingStore.nativeLanguage.name,
+                          focusNode: focusNode,
+                          hintText: 'Enter your world',
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      SquareButton(
+                        key: _mybuttonState,
+                        onPressed: () {
+                          _translateWord();
+                        },
+                        icon: const Icon(Icons.g_translate, size: 30),
+                        backgroundColor: Theme.of(context).primaryColor,
+                        width: 45,
+                        height: 45,
+                      ),
+                      const SizedBox(height: 5),
+                      Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: InputWord(
+                            controller: _translateWordController,
+                            label: _settingStore.foreignLanguage.name,
+                          )),
+                      const SizedBox(height: 5),
+                      IconTextButton(
+                        width: 90,
+                        icon: Icons.save,
+                        text: 'Save',
+                        onPressed: () {
+                          _saveCard();
+                        },
+                      ),
+                      const SizedBox(height: 5)
+                    ]),
+                  )
+                ]);
+    })
+    )));
   }
 
-  void _reverseLanguage() {
-    setState(() {
-      final temp = baseLanguage;
-      baseLanguage = translateLanguage;
-      translateLanguage = temp;
-    });
-  }
+
 
   void _translateWord() {
     if (_baseWordController.text.isEmpty) {
@@ -192,8 +183,8 @@ class _State extends State<AddWord> {
     } else {
       _mybuttonState.currentState.changeLoadingState();
       TranslateHelper.instance
-          .translate(
-              baseLanguage.isoCode, translateLanguage.isoCode, _baseWordController.text)
+          .translate(baseLanguage.isoCode, translateLanguage.isoCode,
+              _baseWordController.text)
           .then((value) {
             _translateWordController.text = value;
           })
@@ -224,6 +215,7 @@ class _State extends State<AddWord> {
       }
     } catch (e) {
       _toastService.toastError('Error on insert card');
+      print(e);
     }
   }
 
