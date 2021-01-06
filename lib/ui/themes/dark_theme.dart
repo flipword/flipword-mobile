@@ -19,13 +19,14 @@ class DarkTheme {
         ),
         textTheme: const TextTheme(
           bodyText2: TextStyle(
-            color: blackColor,
+            color: whiteColor,
           ),
         ),
-        bottomAppBarColor: navBarColor,
+        bottomAppBarColor: navBarColorDark,
         scaffoldBackgroundColor: backgroundDark,
-        cardColor: cardColor,
+        cardColor: cardColorDark,
         backgroundColor: backgroundDark,
+        shadowColor: shadowColorDark,
         iconTheme: base.iconTheme.copyWith(color: blackColor),
         splashColor: secondaryColor,
         appBarTheme:

@@ -27,6 +27,7 @@ class LightTheme {
         bottomAppBarColor: navBarColor,
         scaffoldBackgroundColor: background,
         cardColor: cardColor,
+        shadowColor: shadowColor,
         backgroundColor: background,
         iconTheme: base.iconTheme.copyWith(color: blackColor),
         appBarTheme:
