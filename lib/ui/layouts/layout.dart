@@ -96,6 +96,7 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
       _interfaceStore
         ..closeOverlay()
         ..resetAddingPopupOffset();
+      FocusScope.of(context).requestFocus(FocusNode());
     });
   }
 
