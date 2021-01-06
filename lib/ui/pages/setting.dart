@@ -26,10 +26,14 @@ class _SettingPage extends State<SettingPage> {
       );
 
   void _openLanguagePickerDialog(String value) => showDialog(
-      child: LanguagePickerDialog(
+      builder: (_) => Theme(
+        data: ThemeData() ,
+          child: LanguagePickerDialog(
           titlePadding: const EdgeInsets.all(8),
-          searchInputDecoration: const InputDecoration( hintText: 'Search...'),
+          searchInputDecoration: const InputDecoration(
+              hintText: 'Search...'),
           isSearchable: true,
+          searchCursorColor: Colors.orange,
           title: const Text('Select your language', style: TextStyle(color: Colors.orange)),
           onValuePicked: (Language language) {
             switch (value) {
@@ -41,7 +45,7 @@ class _SettingPage extends State<SettingPage> {
                 break;
             }
           },
-          itemBuilder: _buildDialogItem), context: context);
+          itemBuilder: _buildDialogItem)), context: context);
 
   @override
   Widget build(BuildContext context) {
