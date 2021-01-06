@@ -35,13 +35,14 @@ class _State extends State<AddWord> {
   Language translateLanguage;
   TextEditingController _baseWordController;
   TextEditingController _translateWordController;
+  FocusNode focusNode;
   double screenSize;
 
   @override
   void initState() {
     baseLanguage = _languageService.nativeLanguage;
     translateLanguage = _languageService.foreignLanguage;
-
+    focusNode = FocusNode();
     _baseWordController = TextEditingController();
     _translateWordController = TextEditingController();
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
@@ -129,6 +130,7 @@ class _State extends State<AddWord> {
                       padding: const EdgeInsets.only(left: 10, right: 10),
                       child: InputWord(
                         controller: _baseWordController,
+                        focusNode: focusNode,
                         label: baseLanguage.label,
                         hintText: 'Enter your world',
                       ),
@@ -207,6 +209,7 @@ class _State extends State<AddWord> {
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
         _translateWordController.text = '';
+        focusNode.requestFocus();
         _toastService.toastValidate('Word save');
         await _cardListStore.fetchCard();
       }

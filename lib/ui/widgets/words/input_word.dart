@@ -8,7 +8,8 @@ class InputWord extends StatefulWidget {
       this.hintText = '',
       this.readOnly = false,
       this.onWordChanged,
-      this.controller})
+      this.controller,
+      this.focusNode})
       : super(key: key);
 
   final String label;
@@ -16,6 +17,7 @@ class InputWord extends StatefulWidget {
   final bool readOnly;
   final ValueChanged<String> onWordChanged;
   final TextEditingController controller;
+  final FocusNode focusNode;
 
   @override
   _InputWordState createState() => _InputWordState();
@@ -56,6 +58,7 @@ class _InputWordState extends State<InputWord> {
             ]),
         child: TextFormField(
           controller: widget.controller,
+          focusNode: widget.focusNode,
           readOnly: widget.readOnly,
           textAlign: TextAlign.center,
           style: const TextStyle(
