@@ -17,7 +17,46 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPage extends State<SettingPage> {
   SettingStore _settingStore;
-  // It's sample code of Dialog Item.
+
+  @override
+  Widget build(BuildContext context) {
+    _settingStore = Provider.of<SettingStore>(context, listen: false);
+    return Scaffold(body: Observer(builder: (_) {
+      return LegendCard(
+        legend: 'General',
+        margin:
+            const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: [
+                  const Text('Native language:'),
+                  Center(
+                    child: MaterialButton(
+                      onPressed: () => _openLanguagePickerDialog('native'),
+                      child: Text(_settingStore.nativeLanguage.name),
+                    ),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  const Text('Foreign language:'),
+                  Center(
+                    child: MaterialButton(
+                      onPressed: () => _openLanguagePickerDialog('foreign'),
+                      child: Text(_settingStore.foreignLanguage.name),
+                    ),
+                  )
+                ],
+              )
+            ]),
+      );
+    }));
+  }
+
   Widget _buildDialogItem(Language language) => Row(
         children: <Widget>[
           Text(language.name,
@@ -52,57 +91,4 @@ class _SettingPage extends State<SettingPage> {
               },
               itemBuilder: _buildDialogItem)),
       context: context);
-
-  @override
-  Widget build(BuildContext context) {
-    _settingStore = Provider.of<SettingStore>(context, listen: false);
-    return Scaffold(body: Observer(builder: (_) {
-      return LegendCard(
-        margin:
-            const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
-        legend: 'General',
-        child: Center(
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                const Text('native language'),
-                Center(
-                  child: MaterialButton(
-                    onPressed: () => _openLanguagePickerDialog('native'),
-                    child: Text(_settingStore.nativeLanguage.name),
-                  ),
-                ),
-                const Text('foreign language'),
-                Center(
-                  child: MaterialButton(
-                    onPressed: () => _openLanguagePickerDialog('foreign'),
-                    child: Text(_settingStore.foreignLanguage.name),
-                  ),
-                ),
-              ]),
-        ),
-      );
-    })
-
-        // This trailing comma makes auto-formatting nicer for build methods.
-        );
-  }
-
-// @override
-// Widget build(BuildContext context) {
-//
-//   final _selectedDialogLanguage = _languageService.foreignLanguage;
-//
-//   return const Scaffold(
-//       body: Center(
-//           child: Text(
-//             'Setting',
-//             style: TextStyle(
-//                 fontWeight: FontWeight.w500,
-//                 fontSize: 25.0
-//             ),
-//           )
-//       )
-//   );
-// }
 }

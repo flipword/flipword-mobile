@@ -6,10 +6,12 @@ class LegendCard extends StatelessWidget {
     @required this.legend,
     this.margin,
     this.child,
+    this.padding,
   }) : super(key: key);
 
   final String legend;
   final EdgeInsetsGeometry margin;
+  final EdgeInsetsGeometry padding;
   final Widget child;
 
   @override
@@ -37,6 +39,7 @@ class LegendCard extends StatelessWidget {
             ],
           ),
           Container(
+              padding: padding,
               decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
