@@ -10,7 +10,6 @@ import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:language_pickers/languages.dart';
 import 'package:provider/provider.dart';
 
 class AddWord extends StatefulWidget {
@@ -34,8 +33,6 @@ class _State extends State<AddWord> {
   CardListStore _cardListStore;
   SettingStore _settingStore;
 
-  Language baseLanguage;
-  Language translateLanguage;
   TextEditingController _baseWordController;
   TextEditingController _translateWordController;
   FocusNode focusNode;
@@ -48,8 +45,6 @@ class _State extends State<AddWord> {
     _translateWordController = TextEditingController();
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
     _settingStore = Provider.of<SettingStore>(context, listen: false);
-    baseLanguage = _settingStore.getNativeLanguage;
-    translateLanguage = _settingStore.getForeignLanguage;
     super.initState();
   }
   @override
@@ -106,7 +101,7 @@ class _State extends State<AddWord> {
                           Expanded(
                               child: Container(
                             alignment: Alignment.center,
-                            child: Text(baseLanguage.name),
+                            child: Text(_settingStore.getNativeLanguage.name),
                           )),
                           Expanded(
                             child: Container(
@@ -121,7 +116,7 @@ class _State extends State<AddWord> {
                           Expanded(
                               child: Container(
                             alignment: Alignment.center,
-                            child: Text(translateLanguage.name),
+                            child: Text(_settingStore.getForeignLanguage.name),
                           ))
                         ],
                       ),
@@ -183,7 +178,7 @@ class _State extends State<AddWord> {
     } else {
       _mybuttonState.currentState.changeLoadingState();
       TranslateHelper.instance
-          .translate(baseLanguage.isoCode, translateLanguage.isoCode,
+          .translate(_settingStore.getNativeLanguage.isoCode,_settingStore.getForeignLanguage.isoCode,
               _baseWordController.text)
           .then((value) {
             _translateWordController.text = value;
@@ -202,10 +197,10 @@ class _State extends State<AddWord> {
       } else {
         final baseWord = Word(
             word: _formatWord(_baseWordController.text),
-            languageId: baseLanguage.isoCode);
+            languageId: _settingStore.getNativeLanguage.isoCode);
         final translateWord = Word(
             word: _formatWord(_translateWordController.text),
-            languageId: translateLanguage.isoCode);
+            languageId: _settingStore.getForeignLanguage.isoCode);
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
         _translateWordController.text = '';
