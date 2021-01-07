@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -19,40 +18,46 @@ class _SettingPage extends State<SettingPage> {
   // It's sample code of Dialog Item.
   Widget _buildDialogItem(Language language) => Row(
         children: <Widget>[
-          Text(language.name, style: TextStyle(color: Theme.of(context).primaryColor)),
+          Text(language.name,
+              style: TextStyle(color: Theme.of(context).primaryColor)),
           const SizedBox(width: 8),
-          Flexible(child: Text('(${language.isoCode})', style: TextStyle(color: Theme.of(context).primaryColor)))
+          Flexible(
+              child: Text('(${language.isoCode})',
+                  style: TextStyle(color: Theme.of(context).primaryColor)))
         ],
       );
 
   void _openLanguagePickerDialog(String value) => showDialog(
       builder: (_) => Theme(
-        data: ThemeData() ,
+          data: ThemeData(),
           child: LanguagePickerDialog(
-          titlePadding: const EdgeInsets.all(8),
-          searchInputDecoration: const InputDecoration(
-              hintText: 'Search...'),
-          isSearchable: true,
-          searchCursorColor: Colors.orange,
-          title: const Text('Select your language', style: TextStyle(color: Colors.orange)),
-          onValuePicked: (Language language) {
-            switch (value) {
-              case 'native':
-                _settingStore.updateNativeLanguage(language);
-                break;
-              case 'foreign':
-                _settingStore.updateForeignLanguage(language);
-                break;
-            }
-          },
-          itemBuilder: _buildDialogItem)), context: context);
+              titlePadding: const EdgeInsets.all(8),
+              searchInputDecoration:
+                  const InputDecoration(hintText: 'Search...'),
+              isSearchable: true,
+              searchCursorColor: Colors.orange,
+              title: const Text('Select your language',
+                  style: TextStyle(color: Colors.orange)),
+              onValuePicked: (Language language) {
+                switch (value) {
+                  case 'native':
+                    _settingStore.updateNativeLanguage(language);
+                    break;
+                  case 'foreign':
+                    _settingStore.updateForeignLanguage(language);
+                    break;
+                }
+              },
+              itemBuilder: _buildDialogItem)),
+      context: context);
 
   @override
   Widget build(BuildContext context) {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
     return Scaffold(body: Observer(builder: (_) {
       return Card(
-        margin:  const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
+        margin:
+            const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
         child: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
