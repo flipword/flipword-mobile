@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
 import 'package:flutter_flip_card/services/card_service.dart';

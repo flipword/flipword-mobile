@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
