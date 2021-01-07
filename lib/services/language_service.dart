@@ -1,19 +1,17 @@
+import 'package:language_pickers/languages.dart';
+import 'package:language_pickers/utils/utils.dart';
+
+import 'auth_service.dart';
+
 class LanguageService {
   LanguageService._privateConstructor();
 
-  Language nativeLanguage = Language(id:'fr', label: 'Français');
-  Language foreignLanguage = Language(id:'en', label: 'Anglais');
+  Language nativeLanguage = LanguagePickerUtils.getLanguageByIsoCode('fr');
+  Language foreignLanguage = LanguagePickerUtils.getLanguageByIsoCode('en');
 
   static final LanguageService _instance = LanguageService._privateConstructor();
   static LanguageService get instance => _instance;
 
-  String  getRef()  => '${nativeLanguage.id}-${foreignLanguage.id}';
+  String  getRef()  => '${nativeLanguage.isoCode}-${foreignLanguage.isoCode}';
 
-}
-
-class Language {
-  Language({this.id, this.label});
-
-  final String id;
-  final String label;
 }
