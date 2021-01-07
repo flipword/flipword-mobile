@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
+import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:language_pickers/language_picker_dialog.dart';
 import 'package:language_pickers/languages.dart';
@@ -19,60 +20,63 @@ class _SettingPage extends State<SettingPage> {
   // It's sample code of Dialog Item.
   Widget _buildDialogItem(Language language) => Row(
         children: <Widget>[
-          Text(language.name, style: TextStyle(color: Theme.of(context).primaryColor)),
+          Text(language.name,
+              style: TextStyle(color: Theme.of(context).primaryColor)),
           const SizedBox(width: 8),
-          Flexible(child: Text('(${language.isoCode})', style: TextStyle(color: Theme.of(context).primaryColor)))
+          Flexible(
+              child: Text('(${language.isoCode})',
+                  style: TextStyle(color: Theme.of(context).primaryColor)))
         ],
       );
 
   void _openLanguagePickerDialog(String value) => showDialog(
       builder: (_) => Theme(
-        data: ThemeData() ,
+          data: ThemeData(),
           child: LanguagePickerDialog(
-          titlePadding: const EdgeInsets.all(8),
-          searchInputDecoration: const InputDecoration(
-              hintText: 'Search...'),
-          isSearchable: true,
-          searchCursorColor: Colors.orange,
-          title: const Text('Select your language', style: TextStyle(color: Colors.orange)),
-          onValuePicked: (Language language) {
-            switch (value) {
-              case 'native':
-                _settingStore.updateNativeLanguage(language);
-                break;
-              case 'foreign':
-                _settingStore.updateForeignLanguage(language);
-                break;
-            }
-          },
-          itemBuilder: _buildDialogItem)), context: context);
+              titlePadding: const EdgeInsets.all(8),
+              searchInputDecoration:
+                  const InputDecoration(hintText: 'Search...'),
+              isSearchable: true,
+              searchCursorColor: Colors.orange,
+              title: const Text('Select your language',
+                  style: TextStyle(color: Colors.orange)),
+              onValuePicked: (Language language) {
+                switch (value) {
+                  case 'native':
+                    _settingStore.updateNativeLanguage(language);
+                    break;
+                  case 'foreign':
+                    _settingStore.updateForeignLanguage(language);
+                    break;
+                }
+              },
+              itemBuilder: _buildDialogItem)),
+      context: context);
 
   @override
   Widget build(BuildContext context) {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
     return Scaffold(body: Observer(builder: (_) {
-      return Card(
-        margin:  const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
+      return LegendCard(
+        margin:
+            const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
+        legend: 'General',
         child: Center(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 const Text('native language'),
-                Expanded(
-                  child: Center(
-                    child: MaterialButton(
-                      onPressed: () => _openLanguagePickerDialog('native'),
-                      child: Text(_settingStore.nativeLanguage.name),
-                    ),
+                Center(
+                  child: MaterialButton(
+                    onPressed: () => _openLanguagePickerDialog('native'),
+                    child: Text(_settingStore.nativeLanguage.name),
                   ),
                 ),
                 const Text('foreign language'),
-                Expanded(
-                  child: Center(
-                    child: MaterialButton(
-                      onPressed: () => _openLanguagePickerDialog('foreign'),
-                      child: Text(_settingStore.foreignLanguage.name),
-                    ),
+                Center(
+                  child: MaterialButton(
+                    onPressed: () => _openLanguagePickerDialog('foreign'),
+                    child: Text(_settingStore.foreignLanguage.name),
                   ),
                 ),
               ]),
