@@ -58,7 +58,7 @@ class CardService {
     } else {
       await getCardCollection().doc(card.id).update({
         success ? 'nbSuccess' : 'nbErrors':
-            success ? card.nbSuccess + 1 : card.nbErrors + 1
+        success ? card.nbSuccess + 1 : card.nbErrors + 1
       });
     }
   }
