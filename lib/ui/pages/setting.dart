@@ -27,32 +27,53 @@ class _SettingPage extends State<SettingPage> {
         margin:
             const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
         padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Row(
-                children: [
-                  const Text('Native language:'),
-                  Center(
+        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+            Widget>[
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Expanded(flex: 2, child: Text('Native language:')),
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    height: 30,
+                    decoration: _getBoxDecoration(),
                     child: MaterialButton(
                       onPressed: () => _openLanguagePickerDialog('native'),
-                      child: Text(_settingStore.nativeLanguage.name),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(_settingStore.nativeLanguage.name),
+                          const Icon(Icons.arrow_drop_down)
+                        ],
+                      ),
                     ),
-                  )
-                ],
-              ),
-              Row(
-                children: [
-                  const Text('Foreign language:'),
-                  Center(
+                  )),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Row(
+            children: [
+              const Expanded(flex: 2, child: Text('Foreign language:')),
+              Expanded(
+                  flex: 3,
+                  child: Container(
+                    height: 30,
+                    decoration: _getBoxDecoration(),
                     child: MaterialButton(
-                      onPressed: () => _openLanguagePickerDialog('foreign'),
-                      child: Text(_settingStore.foreignLanguage.name),
-                    ),
-                  )
-                ],
-              )
-            ]),
+                        onPressed: () => _openLanguagePickerDialog('foreign'),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(_settingStore.foreignLanguage.name),
+                            const Icon(Icons.arrow_drop_down)
+                          ],
+                        )),
+                  )),
+            ],
+          ),
+          const SizedBox(height: 10)
+        ]),
       );
     }));
   }
@@ -67,6 +88,12 @@ class _SettingPage extends State<SettingPage> {
                   style: TextStyle(color: Theme.of(context).primaryColor)))
         ],
       );
+
+  Decoration _getBoxDecoration() {
+    return BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(color: Theme.of(context).primaryColor, width: 2));
+  }
 
   void _openLanguagePickerDialog(String value) => showDialog(
       builder: (_) => Theme(
