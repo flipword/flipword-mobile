@@ -26,6 +26,7 @@ class ListWordPageState extends State<ListWordPage> {
 
   @override
   void initState() {
+    print('test');
     _cardList = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     super.initState();
