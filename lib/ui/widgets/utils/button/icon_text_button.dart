@@ -15,7 +15,6 @@ class IconTextButton extends StatelessWidget {
   final Color backgroundColor;
   final VoidCallback onPressed;
   final double width;
-
   @override
   Widget build(BuildContext context) {
     return Container(
