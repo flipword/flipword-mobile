@@ -41,6 +41,21 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
     });
   }
 
+  final _$currentRouteAtom = Atom(name: '_InterfaceStore.currentRoute');
+
+  @override
+  Observable<String> get currentRoute {
+    _$currentRouteAtom.reportRead();
+    return super.currentRoute;
+  }
+
+  @override
+  set currentRoute(Observable<String> value) {
+    _$currentRouteAtom.reportWrite(value, super.currentRoute, () {
+      super.currentRoute = value;
+    });
+  }
+
   final _$_InterfaceStoreActionController =
       ActionController(name: '_InterfaceStore');
 
@@ -89,10 +104,22 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   }
 
   @override
+  void setCurrentRoute(String route) {
+    final _$actionInfo = _$_InterfaceStoreActionController.startAction(
+        name: '_InterfaceStore.setCurrentRoute');
+    try {
+      return super.setCurrentRoute(route);
+    } finally {
+      _$_InterfaceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 overlayIsDisplayed: ${overlayIsDisplayed},
-addingPopupOffset: ${addingPopupOffset}
+addingPopupOffset: ${addingPopupOffset},
+currentRoute: ${currentRoute}
     ''';
   }
 }

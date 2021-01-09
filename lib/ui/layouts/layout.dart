@@ -82,9 +82,13 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
   void _onItemTapped(String routeName) {
     _closeOverlay();
-    setState(() {
-      navigatorKey.currentState.pushNamed(routeName);
-    });
+    if (_interfaceStore.currentRoute.value == null ||
+        _interfaceStore.currentRoute.value != routeName) {
+      setState(() {
+        _interfaceStore.setCurrentRoute(routeName);
+        navigatorKey.currentState.popAndPushNamed(routeName);
+      });
+    }
   }
 
   void _onFloatingButtonTapped() {

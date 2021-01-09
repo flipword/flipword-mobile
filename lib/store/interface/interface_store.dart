@@ -1,6 +1,3 @@
-import 'dart:ui';
-
-import 'package:flutter_flip_card/services/auth_service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'interface_store.g.dart';
@@ -14,27 +11,34 @@ abstract class _InterfaceStore with Store {
   @observable
   ObservableValue<double> addingPopupOffset = Observable<double>(0);
 
+  @observable
+  Observable<String> currentRoute = Observable<String>(null);
+
   @action
-  void updateAddingPopupOffset(double offset){
+  void updateAddingPopupOffset(double offset) {
     final updatedOffset = addingPopupOffset.value + offset;
-    if(updatedOffset < 0){
+    if (updatedOffset < 0) {
       addingPopupOffset = Observable<double>(updatedOffset);
     }
   }
 
   @action
-  void resetAddingPopupOffset(){
+  void resetAddingPopupOffset() {
     addingPopupOffset = Observable<double>(0);
   }
 
   @action
-  void closeOverlay(){
+  void closeOverlay() {
     overlayIsDisplayed = Observable<bool>(false);
   }
 
   @action
-  void openOverlay(){
+  void openOverlay() {
     overlayIsDisplayed = Observable<bool>(true);
   }
 
+  @action
+  void setCurrentRoute(String route) {
+    currentRoute = Observable<String>(route);
+  }
 }

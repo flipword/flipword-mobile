@@ -9,26 +9,10 @@ class CardWord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
       children: [
         Container(
-            height: 40,
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
-              borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-              ),
-            ),
-            child: Center(
-              child: Text(
-                nativeWord,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Theme.of(context).cardColor),
-              ),
-            )),
-        Container(
+            margin: const EdgeInsets.only(top: 39),
             padding: const EdgeInsets.only(left: 10, right: 10),
             height: 40,
             decoration: BoxDecoration(
@@ -43,6 +27,22 @@ class CardWord extends StatelessWidget {
               child: Text(
                 foreignWord,
                 textAlign: TextAlign.center,
+              ),
+            )),
+        Container(
+            height: 40,
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              ),
+            ),
+            child: Center(
+              child: Text(
+                nativeWord,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Theme.of(context).cardColor),
               ),
             ))
       ],
