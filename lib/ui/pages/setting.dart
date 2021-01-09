@@ -31,8 +31,11 @@ class _SettingPage extends State<SettingPage> {
     return Scaffold(body: Observer(builder: (_) {
       return LegendCard(
         legend: 'General',
-        margin:
-            const EdgeInsets.only(top: 200, bottom: 200, right: 20, left: 20),
+        margin: EdgeInsets.only(
+            top: MediaQuery.of(context).size.height / 8,
+            bottom: 200,
+            right: 20,
+            left: 20),
         padding: const EdgeInsets.only(left: 10, right: 10),
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
             Widget>[
