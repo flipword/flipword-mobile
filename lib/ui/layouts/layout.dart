@@ -86,7 +86,7 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
         _interfaceStore.currentRoute.value != routeName) {
       setState(() {
         _interfaceStore.setCurrentRoute(routeName);
-        navigatorKey.currentState.popAndPushNamed(routeName);
+        navigatorKey.currentState.pushReplacementNamed(routeName);
       });
     }
   }
