@@ -1,28 +1,34 @@
 import 'package:flutter/material.dart';
 
 class CardWord extends StatelessWidget {
-  CardWord({Key key, @required this.nativeWord, @required this.foreignWord})
+  CardWord(
+      {Key key,
+      @required this.nativeWord,
+      @required this.foreignWord,
+      @required this.color,
+      this.height = 40})
       : super(key: key);
 
   String nativeWord;
   String foreignWord;
+  Color color;
+  double height;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
-            margin: const EdgeInsets.only(top: 39),
+            margin: EdgeInsets.only(top: height - 1),
             padding: const EdgeInsets.only(left: 10, right: 10),
-            height: 40,
+            height: height,
             decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
                 borderRadius: const BorderRadius.only(
                   bottomLeft: Radius.circular(10),
                   bottomRight: Radius.circular(10),
                 ),
-                border: Border.all(
-                    color: Theme.of(context).primaryColor, width: 3)),
+                border: Border.all(color: color, width: 3)),
             child: Center(
               child: Text(
                 foreignWord,
@@ -30,9 +36,9 @@ class CardWord extends StatelessWidget {
               ),
             )),
         Container(
-            height: 40,
+            height: height,
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor,
+              color: color,
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(10),
                 topRight: Radius.circular(10),
@@ -48,15 +54,4 @@ class CardWord extends StatelessWidget {
       ],
     );
   }
-
-  // OverlayEntry _createOverlayEntry() {
-  //   return OverlayEntry(
-  //       builder: (context) => Stack(
-  //         alignment: Alignment.center,
-  //         children: <Widget>[
-  //           DetailWord()
-  //         ],
-  //       )
-  //   );
-  // }
 }
