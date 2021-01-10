@@ -14,6 +14,14 @@ abstract class _InterfaceStore with Store {
   @observable
   Observable<String> currentRoute = Observable<String>(null);
 
+  @observable
+  ObservableValue<String> searchBarValue = Observable<String>('');
+
+  @action
+  void setSearchBarValue(String value) {
+    searchBarValue = Observable<String>(value);
+  }
+
   @action
   void updateAddingPopupOffset(double offset) {
     final updatedOffset = addingPopupOffset.value + offset;

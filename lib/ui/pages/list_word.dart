@@ -21,6 +21,7 @@ class ListWordPage extends StatefulWidget {
 class ListWordPageState extends State<ListWordPage> {
   CardListStore _cardList;
   InterfaceStore _interfaceStore;
+  FocusNode searchFocusNode;
   final CardService _cardService = CardService.instance;
   final ToastService _toastService = ToastService.instance;
 
@@ -28,6 +29,7 @@ class ListWordPageState extends State<ListWordPage> {
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
+    searchFocusNode = FocusNode();
     super.initState();
   }
 
@@ -97,8 +99,12 @@ class ListWordPageState extends State<ListWordPage> {
           Container(
               margin:
                   EdgeInsets.only(top: MediaQuery.of(context).size.height / 10),
-              child: _widgetDisplayed),
+              child: GestureDetector(
+                onTap: () => {searchFocusNode.unfocus()},
+                child: _widgetDisplayed,
+              )),
           SearchBar(
+            focusNode: searchFocusNode,
             onUnFocus: (value) => {_filterCard(value)},
           ),
         ]);
@@ -106,7 +112,7 @@ class ListWordPageState extends State<ListWordPage> {
     );
   }
 
-  Future<void> _refresh() => _cardList.fetchCard();
+  Future<void> _refresh() => _filterCard(_interfaceStore.searchBarValue.value);
 
   double _calculElementDisplay(screenSize) {
     if (screenSize.height > 1000) {
@@ -151,7 +157,7 @@ class ListWordPageState extends State<ListWordPage> {
       ..fetchCard();
   }
 
-  void _filterCard(value) {
-    _cardList.filterCard(value);
+  Future<void> _filterCard(value) async {
+    await _cardList.filterCard(value);
   }
 }

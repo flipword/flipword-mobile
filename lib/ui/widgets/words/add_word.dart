@@ -213,7 +213,6 @@ class _State extends State<AddWord> {
       }
     } catch (e) {
       _toastService.toastError('Error on insert card');
-      print(e);
     }
   }
 
