@@ -25,6 +25,9 @@ $> flutter packages pub run flutter_launcher_icons:main
 Generate store file:
 $> flutter packages pub run build_runner build --delete-conflicting-outputs
 
+Build apk:
+$> flutter build apk --release --dart-define=ENV=prod0000000000000
+
 ## Naming convention 
 
 * Branch name: kebab-case
