@@ -160,6 +160,7 @@ class _State extends State<AddWord> {
                         IconTextButton(
                           width: 90,
                           icon: Icons.save,
+                          color: Theme.of(context).primaryColor,
                           text: 'Save',
                           onPressed: () {
                             _saveCard();

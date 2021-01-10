@@ -51,7 +51,8 @@ class _ProfileOnline extends State<ProfileOnline> {
                       child: CardWord(
                           nativeWord: 'Learned words',
                           foreignWord:
-                              '${_profilStore.courantProfil.value.nbWordLearned}'),
+                              '${_profilStore.courantProfil.value.nbWordLearned}',
+                          color: Theme.of(context).primaryColor),
                     )
                   ],
                 ))
