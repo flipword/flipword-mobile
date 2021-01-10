@@ -26,7 +26,6 @@ class ListWordPageState extends State<ListWordPage> {
 
   @override
   void initState() {
-    print('test');
     _cardList = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     super.initState();
@@ -81,7 +80,8 @@ class ListWordPageState extends State<ListWordPage> {
                                         nativeWord: _cardList
                                             .list.result[index].nativeWord.word,
                                         foreignWord: _cardList.list
-                                            .result[index].foreignWord.word),
+                                            .result[index].foreignWord.word,
+                                        color: Theme.of(context).primaryColor),
                                   ),
                                 ))));
             break;
@@ -121,12 +121,21 @@ class ListWordPageState extends State<ListWordPage> {
   }
 
   void _showModal(CardEntity card) {
+    BuildContext dialogContext;
     showDialog(
         context: context,
-        builder: (_) => Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)), //this right here
-            child: DetailWord(card: card, onDelete: _deleteWord)));
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)), //this right here
+              child: DetailWord(
+                  card: card,
+                  onDelete: _deleteWord,
+                  onClose: () {
+                    Navigator.of(dialogContext).pop();
+                  }));
+        });
   }
 
   void _deleteWord(String id) {

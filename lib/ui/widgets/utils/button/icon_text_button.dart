@@ -5,14 +5,14 @@ class IconTextButton extends StatelessWidget {
       {Key key,
       this.icon,
       this.text,
-      this.backgroundColor,
+      this.color,
       this.width,
       @required this.onPressed})
       : super(key: key);
 
   final IconData icon;
   final String text;
-  final Color backgroundColor;
+  final Color color;
   final VoidCallback onPressed;
   final double width;
   @override
@@ -24,17 +24,24 @@ class IconTextButton extends StatelessWidget {
             elevation: 10,
             highlightElevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
+              borderRadius: BorderRadius.circular(10),
             ),
             onPressed: () => {onPressed()},
-            color: Theme.of(context).primaryColor,
+            color: color,
             padding:
                 const EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
             child: Opacity(
               opacity: 0.7,
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text(text), Icon(icon, size: 30)]),
+                  children: [
+                    Text(text,
+                        style: TextStyle(
+                            color:
+                                Theme.of(context).textTheme.bodyText2.color)),
+                    Icon(icon,
+                        size: 30, color: Theme.of(context).iconTheme.color)
+                  ]),
             )));
   }
 }
