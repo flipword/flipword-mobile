@@ -56,8 +56,34 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
     });
   }
 
+  final _$searchBarValueAtom = Atom(name: '_InterfaceStore.searchBarValue');
+
+  @override
+  ObservableValue<String> get searchBarValue {
+    _$searchBarValueAtom.reportRead();
+    return super.searchBarValue;
+  }
+
+  @override
+  set searchBarValue(ObservableValue<String> value) {
+    _$searchBarValueAtom.reportWrite(value, super.searchBarValue, () {
+      super.searchBarValue = value;
+    });
+  }
+
   final _$_InterfaceStoreActionController =
       ActionController(name: '_InterfaceStore');
+
+  @override
+  void setSearchBarValue(String value) {
+    final _$actionInfo = _$_InterfaceStoreActionController.startAction(
+        name: '_InterfaceStore.setSearchBarValue');
+    try {
+      return super.setSearchBarValue(value);
+    } finally {
+      _$_InterfaceStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void updateAddingPopupOffset(double offset) {
@@ -119,7 +145,8 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
     return '''
 overlayIsDisplayed: ${overlayIsDisplayed},
 addingPopupOffset: ${addingPopupOffset},
-currentRoute: ${currentRoute}
+currentRoute: ${currentRoute},
+searchBarValue: ${searchBarValue}
     ''';
   }
 }
