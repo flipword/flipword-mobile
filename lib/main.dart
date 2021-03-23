@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
                 child: MaterialApp(
                     title: 'FlipWord',
                     // Initialize media query for preview builder
-                    locale: DevicePreview.of(context).locale,
+                    locale: DevicePreview.locale(context),
                     builder: DevicePreview.appBuilder,
                     theme: LightTheme.defaultTheme,
                     darkTheme: DarkTheme.defaultTheme,
@@ -74,7 +74,7 @@ class MyApp extends StatelessWidget {
             // Todo: voir pour enlever cette material app(nécessaire pour le scafold sinon erreur)
             return MaterialApp(
                 title: 'LoadingScreen',
-                locale: DevicePreview.of(context).locale,
+                locale: DevicePreview.locale(context),
                 builder: DevicePreview.appBuilder,
                 theme: LightTheme.defaultTheme,
                 darkTheme: DarkTheme.defaultTheme,

@@ -102,7 +102,7 @@ class _State extends State<AddWord> {
                             Expanded(
                                 child: Container(
                               alignment: Alignment.center,
-                              child: Text(_settingStore.getNativeLanguage.name),
+                              child: Text(''),
                             )),
                             Expanded(
                               child: Container(
@@ -119,7 +119,7 @@ class _State extends State<AddWord> {
                                 child: Container(
                               alignment: Alignment.center,
                               child:
-                                  Text(_settingStore.getForeignLanguage.name),
+                                  Text('test'),
                             ))
                           ],
                         ),
@@ -133,7 +133,7 @@ class _State extends State<AddWord> {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: InputWord(
                             controller: _baseWordController,
-                            label: _settingStore.nativeLanguage.name,
+                            label: 'test',
                             focusNode: focusNode,
                             hintText: 'Enter your world',
                           ),
@@ -154,7 +154,7 @@ class _State extends State<AddWord> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: InputWord(
                               controller: _translateWordController,
-                              label: _settingStore.foreignLanguage.name,
+                              label: 'test',
                             )),
                         const SizedBox(height: 5),
                         IconTextButton(
@@ -180,8 +180,8 @@ class _State extends State<AddWord> {
       _mybuttonState.currentState.changeLoadingState();
       TranslateHelper.instance
           .translate(
-              _settingStore.getNativeLanguage.isoCode,
-              _settingStore.getForeignLanguage.isoCode,
+              'fr',
+              'en',
               _baseWordController.text)
           .then((value) {
             _translateWordController.text = value;
@@ -200,10 +200,10 @@ class _State extends State<AddWord> {
       } else {
         final baseWord = Word(
             word: _formatWord(_baseWordController.text),
-            languageId: _settingStore.getNativeLanguage.isoCode);
+            languageId: 'fr');
         final translateWord = Word(
             word: _formatWord(_translateWordController.text),
-            languageId: _settingStore.getForeignLanguage.isoCode);
+            languageId: 'en');
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
         _translateWordController.text = '';

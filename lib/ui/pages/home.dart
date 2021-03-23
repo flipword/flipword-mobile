@@ -53,7 +53,6 @@ class _HomePageState extends State<HomePage> {
         case FutureStatus.fulfilled:
           if (_cardListStore.length != 0) {
             _widgetDisplayed = Scaffold(
-                resizeToAvoidBottomPadding: false,
                 body: Center(
                     child: Column(children: [
                   SizedBox(height: height / 10),

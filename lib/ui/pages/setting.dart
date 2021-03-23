@@ -3,8 +3,6 @@ import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:language_pickers/language_picker_dialog.dart';
-import 'package:language_pickers/languages.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
@@ -53,7 +51,7 @@ class _SettingPage extends State<SettingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(_settingStore.nativeLanguage.name),
+                          Text('test'),
                           const Icon(Icons.arrow_drop_down)
                         ],
                       ),
@@ -75,7 +73,7 @@ class _SettingPage extends State<SettingPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(_settingStore.foreignLanguage.name),
+                            Text('test'),
                             const Icon(Icons.arrow_drop_down)
                           ],
                         )),
@@ -88,13 +86,13 @@ class _SettingPage extends State<SettingPage> {
     }));
   }
 
-  Widget _buildDialogItem(Language language) => Row(
+  Widget _buildDialogItem() => Row(
         children: <Widget>[
-          Text(language.name,
+          Text('test',
               style: TextStyle(color: Theme.of(context).primaryColor)),
           const SizedBox(width: 8),
           Flexible(
-              child: Text('(${language.isoCode})',
+              child: Text('test',
                   style: TextStyle(color: Theme.of(context).primaryColor)))
         ],
       );
@@ -108,25 +106,6 @@ class _SettingPage extends State<SettingPage> {
   void _openLanguagePickerDialog(String value) => showDialog(
       builder: (_) => Theme(
           data: ThemeData(),
-          child: LanguagePickerDialog(
-              titlePadding: const EdgeInsets.all(8),
-              searchInputDecoration:
-                  const InputDecoration(hintText: 'Search...'),
-              isSearchable: true,
-              searchCursorColor: Colors.orange,
-              title: const Text('Select your language',
-                  style: TextStyle(color: Colors.orange)),
-              onValuePicked: (Language language) {
-                switch (value) {
-                  case 'native':
-                    _settingStore.updateNativeLanguage(language);
-                    break;
-                  case 'foreign':
-                    _settingStore.updateForeignLanguage(language);
-                    break;
-                }
-                _cardListStore.fetchCard();
-              },
-              itemBuilder: _buildDialogItem)),
+          child: const SizedBox()),
       context: context);
 }
