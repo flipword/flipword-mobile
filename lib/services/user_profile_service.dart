@@ -61,12 +61,7 @@ class UserProfileService {
     );
 
     // Once signed in, return the UserCredential
-    await _auth.currentUser
-        .linkWithCredential(credential)
-        .catchError((onError) async {
-      await _auth.currentUser.delete();
-      await _auth.signInWithCredential(credential);
-    });
+    await _auth.signInWithCredential(credential);
 
     // Set firebase auth id as property in profile collection
     await _firestoreUserProfilRepository
