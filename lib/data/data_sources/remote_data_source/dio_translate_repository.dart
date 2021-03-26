@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 
 class TranslateHelper {
 
-
+  // TODO: env variable
   TranslateHelper._privateConstructor() {
     dio ??= Dio(
         BaseOptions(
@@ -12,7 +12,7 @@ class TranslateHelper {
     dio
         .options
         .headers['Ocp-Apim-Subscription-Key'] =
-            'f17d36bddd844b1baa37940586038d3e';
+            'cc66c8aff9574a8ebbc3d02e5a42f0a8';
     dio
         .options
         .headers['Ocp-Apim-Subscription-Region'] = 'francecentral';
