@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
-import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,12 +15,10 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPage extends State<SettingPage> {
   SettingStore _settingStore;
-  CardListStore _cardListStore;
 
   @override
   void initState() {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
-    _cardListStore = Provider.of<CardListStore>(context, listen: false);
     super.initState();
   }
 
