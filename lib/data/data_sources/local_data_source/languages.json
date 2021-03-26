@@ -1,0 +1,18 @@
+[
+  {
+    "isoCode": "fr",
+    "label": "French"
+  },
+  {
+    "isoCode": "en",
+    "label": "English"
+  },
+  {
+    "isoCode": "es",
+    "label": "Spanish"
+  },
+  {
+    "isoCode": "de",
+    "label": "Germany"
+  }
+]
