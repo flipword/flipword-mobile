@@ -41,14 +41,14 @@ class _ProfilePageState extends State<ProfilePage> {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(body: Observer(
       builder: (_) {
-        switch (_profilStore.courantProfil.status) {
+        switch (_profilStore.currentProfile.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(
               child: CircularProgressIndicator(),
             );
             break;
           case FutureStatus.fulfilled:
-            if (_profilStore.courantProfil.value.isConnecter) {
+            if (_profilStore.currentProfile.value.isConnected) {
               _widgetDisplayed = Scaffold(
                   body: Column(children: [
                 SizedBox(height: height / 10),

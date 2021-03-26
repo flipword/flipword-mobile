@@ -3,25 +3,23 @@ import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firest
 import 'package:flutter_flip_card/data/entities/card.dart';
 import 'package:flutter_flip_card/data/entities/word.dart';
 
-import 'auth_service.dart';
+import 'user_profile_service.dart';
 import 'language_service.dart';
 
 class CardService {
   CardService._privateConstructor();
 
-  static const dictionary = 'dictionary';
 
-  //TODO: Injection de dépendance
   final FirestoreDictionaryRepository _repository =
       FirestoreDictionaryRepository.instance;
-  final AuthService _authService = AuthService.instance;
+  final UserProfileService _authService = UserProfileService.instance;
   final LanguageService _languageService = LanguageService.instance;
 
   static final CardService _instance = CardService._privateConstructor();
   static CardService get instance => _instance;
 
   CollectionReference getCardCollection() => _repository
-      .getUserDictionary(dictionary, _authService.getUser().uid)
+      .getUserDictionary(_authService.getUser().uid)
       .collection(_languageService.getRef());
 
   Future<void> insertCard(Word baseWord, Word translateWord) async {
@@ -52,7 +50,7 @@ class CardService {
   Future<void> updateCardView(CardEntity card, bool success) async {
     if ((card.nbSuccess + 1) >= 5) {
       await deleteCard(card.id);
-      if (_authService.getUser().isConnecter) {
+      if (_authService.getUser().isConnected) {
         await _authService.addALearnedWord();
       }
     } else {

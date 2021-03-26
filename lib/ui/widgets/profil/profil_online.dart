@@ -37,13 +37,13 @@ class _ProfileOnline extends State<ProfileOnline> {
                         padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 40),
                         child: Text(
-                            'Email : ${_profilStore.courantProfil.value.email}',
+                            'Email : ${_profilStore.currentProfile.value.email}',
                             style: _buildTextStyle(screenSize))),
                     Container(
                         padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
-                            'Username : ${_profilStore.courantProfil.value.name == '' ? 'no username' : _profilStore.courantProfil.value.name}',
+                            'Username : ${_profilStore.currentProfile.value.name == '' ? 'no username' : _profilStore.currentProfile.value.name}',
                             style: _buildTextStyle(screenSize))),
                     Container(
                       padding: const EdgeInsets.only(
@@ -51,7 +51,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                       child: CardWord(
                           nativeWord: 'Learned words',
                           foreignWord:
-                              '${_profilStore.courantProfil.value.nbWordLearned}',
+                              '${_profilStore.currentProfile.value.nbWordLearned}',
                           color: Theme.of(context).primaryColor),
                     )
                   ],
@@ -75,7 +75,7 @@ class _ProfileOnline extends State<ProfileOnline> {
               child: CircleAvatar(
                 backgroundColor: Theme.of(context).primaryColor,
                 radius: screenSize.height > 600 ? 90 : 70,
-                backgroundImage: _profilStore.courantProfil.value.fileImage,
+                backgroundImage: _profilStore.currentProfile.value.fileImage,
               ),
             )),
       ],

@@ -1,19 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class UserProfil {
   UserProfil({this.email, this.name, this.lastConnection, this.nbWordLearned});
 
   UserProfil.fromJson(Map<String, dynamic> json) {
+    uid = json['uid'];
     email = json['email'];
     name = json['name'];
     lastConnection = json['lastConnection'];
-    nbWordLearned = json['nbWordLearned'];
+    nbWordLearned = json['nbWordLearned'] ?? 0;
   }
 
   String email;
   String name;
-  String lastConnection;
-  bool isConnecter;
+  Timestamp lastConnection;
+  bool isConnected;
   String uid;
   FileImage fileImage;
   int nbWordLearned;

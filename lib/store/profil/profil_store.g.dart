@@ -9,33 +9,22 @@ part of 'profil_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProfilStore on _ProfilStore, Store {
-  final _$courantProfilAtom = Atom(name: '_ProfilStore.courantProfil');
+  final _$currentProfileAtom = Atom(name: '_ProfilStore.currentProfile');
 
   @override
-  ObservableFuture<UserProfil> get courantProfil {
-    _$courantProfilAtom.reportRead();
-    return super.courantProfil;
+  ObservableFuture<UserProfil> get currentProfile {
+    _$currentProfileAtom.reportRead();
+    return super.currentProfile;
   }
 
   @override
-  set courantProfil(ObservableFuture<UserProfil> value) {
-    _$courantProfilAtom.reportWrite(value, super.courantProfil, () {
-      super.courantProfil = value;
+  set currentProfile(ObservableFuture<UserProfil> value) {
+    _$currentProfileAtom.reportWrite(value, super.currentProfile, () {
+      super.currentProfile = value;
     });
   }
 
   final _$_ProfilStoreActionController = ActionController(name: '_ProfilStore');
-
-  @override
-  Future<void> loadProfil() {
-    final _$actionInfo = _$_ProfilStoreActionController.startAction(
-        name: '_ProfilStore.loadProfil');
-    try {
-      return super.loadProfil();
-    } finally {
-      _$_ProfilStoreActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   Future<void> logout() {
@@ -60,9 +49,20 @@ mixin _$ProfilStore on _ProfilStore, Store {
   }
 
   @override
+  Future<void> refresh() {
+    final _$actionInfo = _$_ProfilStoreActionController.startAction(
+        name: '_ProfilStore.refresh');
+    try {
+      return super.refresh();
+    } finally {
+      _$_ProfilStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-courantProfil: ${courantProfil}
+currentProfile: ${currentProfile}
     ''';
   }
 }

@@ -4,12 +4,14 @@ import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firest
 class FirestoreDictionaryRepository {
   FirestoreDictionaryRepository._privateConstructor();
 
+  static const collectionName = 'dictionary';
+
   final FirestoreHelper _firestoreHelper = FirestoreHelper.instance;
 
   static final FirestoreDictionaryRepository _instance = FirestoreDictionaryRepository._privateConstructor();
   static FirestoreDictionaryRepository get instance => _instance;
 
-  DocumentReference getUserDictionary(String collectionName, String userId) =>
+  DocumentReference getUserDictionary(String userId) =>
       _firestoreHelper.getCollection(collectionName).doc(userId);
 
 
