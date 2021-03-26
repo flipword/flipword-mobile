@@ -102,7 +102,7 @@ class _State extends State<AddWord> {
                             Expanded(
                                 child: Container(
                               alignment: Alignment.center,
-                              child: Text(''),
+                              child: Text(_settingStore.nativeLanguage.label),
                             )),
                             Expanded(
                               child: Container(
@@ -119,7 +119,7 @@ class _State extends State<AddWord> {
                                 child: Container(
                               alignment: Alignment.center,
                               child:
-                                  Text('test'),
+                                  Text(_settingStore.foreignLanguage.label),
                             ))
                           ],
                         ),
@@ -133,7 +133,7 @@ class _State extends State<AddWord> {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: InputWord(
                             controller: _baseWordController,
-                            label: 'test',
+                            label: _settingStore.nativeLanguage.label,
                             focusNode: focusNode,
                             hintText: 'Enter your world',
                           ),
@@ -154,7 +154,7 @@ class _State extends State<AddWord> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: InputWord(
                               controller: _translateWordController,
-                              label: 'test',
+                              label: _settingStore.foreignLanguage.label,
                             )),
                         const SizedBox(height: 5),
                         IconTextButton(

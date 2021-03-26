@@ -11,10 +11,10 @@ class CardEntity {
   CardEntity.fromJson(Map<String, dynamic> json) {
     nativeWord = Word(
         word: json['nativeWord'] as String,
-        languageId: 'fr');
+        languageId: _languageService.nativeLanguage.isoCode);
     foreignWord = Word(
         word: json['foreignWord'] as String,
-        languageId: 'en');
+        languageId: _languageService.foreignLanguage.isoCode);
     nbSuccess = json['nbSuccess'] as int;
     nbErrors = json['nbErrors'] as int;
   }

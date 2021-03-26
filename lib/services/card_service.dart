@@ -26,8 +26,7 @@ class CardService {
 
   Future<void> insertCard(Word baseWord, Word translateWord) async {
     CardEntity card;
-    // TODO: Language service
-    if (baseWord.languageId == 'fr') {
+    if (baseWord.languageId == _languageService.nativeLanguage.isoCode) {
       card = CardEntity(nativeWord: baseWord, foreignWord: translateWord);
     } else {
       card = CardEntity(nativeWord: translateWord, foreignWord: baseWord);

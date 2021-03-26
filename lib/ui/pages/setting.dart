@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
@@ -51,7 +52,7 @@ class _SettingPage extends State<SettingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text('test'),
+                          Text(_settingStore.nativeLanguage.label),
                           const Icon(Icons.arrow_drop_down)
                         ],
                       ),
@@ -73,7 +74,7 @@ class _SettingPage extends State<SettingPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('test'),
+                            Text(_settingStore.foreignLanguage.label),
                             const Icon(Icons.arrow_drop_down)
                           ],
                         )),
@@ -86,13 +87,13 @@ class _SettingPage extends State<SettingPage> {
     }));
   }
 
-  Widget _buildDialogItem() => Row(
+  Widget _buildDialogItem(Language language) => Row(
         children: <Widget>[
-          Text('test',
+          Text(language.label,
               style: TextStyle(color: Theme.of(context).primaryColor)),
           const SizedBox(width: 8),
           Flexible(
-              child: Text('test',
+              child: Text(language.isoCode,
                   style: TextStyle(color: Theme.of(context).primaryColor)))
         ],
       );
