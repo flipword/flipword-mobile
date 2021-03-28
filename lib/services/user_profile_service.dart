@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/data/entities/user_profil.dart';
+import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:intl/intl.dart';
 
 class UserProfileService {
   UserProfileService._privateConstructor() {
@@ -70,8 +70,15 @@ class UserProfileService {
           'uid': _auth.currentUser.uid,
           'email': _auth.currentUser.email,
           'name': _auth.currentUser.displayName,
-          'lastConnection': DateTime.now(),
-        }, SetOptions(merge: true));
+          'nativeLanguageIsoCode': LanguageService.defaultNativeLanguageIsoCode,
+          'foreignLanguageIsoCode': LanguageService.defaultForeignLanguageIsoCode
+        }, SetOptions(merge: false));
+
+    await _firestoreUserProfilRepository
+        .getUserProfilCollection(_auth.currentUser.uid)
+        .set({
+      'lastConnection': DateTime.now(),
+    }, SetOptions(merge: true));
   }
 
   Future<UserProfil> loadCurrentUser() async {
@@ -96,9 +103,13 @@ class UserProfileService {
       ..lastConnection = null;
   }
 
+  Future<UserProfil> _getUserProfileById(String userId){
+    return _firestoreUserProfilRepository.getUserProfilById(userId).then((value) => UserProfil.fromJson(value.data()));
+  }
+
   Future<UserProfil> _getUserFromConnected() async{
     final responses = await Future.wait([
-      _firestoreUserProfilRepository.getUserProfil(_auth.currentUser.uid),
+      _getUserProfileById(_auth.currentUser.uid),
       robohashHelper.getAvatare(_auth.currentUser.email).then((value) => value)
     ]);
     final UserProfil userProfile = responses[0];

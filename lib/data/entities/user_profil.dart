@@ -10,6 +10,8 @@ class UserProfil {
     name = json['name'];
     lastConnection = json['lastConnection'];
     nbWordLearned = json['nbWordLearned'] ?? 0;
+    nativeLanguageIsoCode = json['nativeLanguageIsoCode'];
+    foreignLanguageIsoCode = json['foreignLanguageIsoCode'];
   }
 
   String email;
@@ -19,6 +21,8 @@ class UserProfil {
   String uid;
   FileImage fileImage;
   int nbWordLearned;
+  String nativeLanguageIsoCode;
+  String foreignLanguageIsoCode;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
@@ -26,6 +30,8 @@ class UserProfil {
     data['name'] = name;
     data['lastConnection'] = lastConnection;
     data['nbWordLearned'] = nbWordLearned;
+    data['nativeLanguageIsoCode'] = nativeLanguageIsoCode;
+    data['foreignLanguageIsoCode'] = foreignLanguageIsoCode;
     return data;
   }
 }

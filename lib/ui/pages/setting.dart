@@ -49,7 +49,7 @@ class _SettingPage extends State<SettingPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(_settingStore.nativeLanguage.label),
+                          Text(_settingStore.nativeLanguage.value.label),
                           const Icon(Icons.arrow_drop_down)
                         ],
                       ),
@@ -71,7 +71,7 @@ class _SettingPage extends State<SettingPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(_settingStore.foreignLanguage.label),
+                            Text(_settingStore.foreignLanguage.value.label),
                             const Icon(Icons.arrow_drop_down)
                           ],
                         )),

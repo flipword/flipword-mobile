@@ -96,6 +96,7 @@ class MyApp extends StatelessWidget {
     _settingStore = SettingStore();
     await _profilStore.refresh();
     await _cardListStore.fetchCard();
+    await _settingStore.load();
 
   }
 }

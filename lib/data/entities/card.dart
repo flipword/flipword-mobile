@@ -1,6 +1,3 @@
-import 'package:flutter_flip_card/data/entities/word.dart';
-import 'package:flutter_flip_card/services/language_service.dart';
-
 class CardEntity {
   CardEntity(
       {this.nativeWord,
@@ -9,28 +6,22 @@ class CardEntity {
       this.nbErrors = 0});
 
   CardEntity.fromJson(Map<String, dynamic> json) {
-    nativeWord = Word(
-        word: json['nativeWord'] as String,
-        languageId: _languageService.nativeLanguage.isoCode);
-    foreignWord = Word(
-        word: json['foreignWord'] as String,
-        languageId: _languageService.foreignLanguage.isoCode);
+    nativeWord = json['nativeWord'] as String;
+    foreignWord = json['foreignWord'] as String;
     nbSuccess = json['nbSuccess'] as int;
     nbErrors = json['nbErrors'] as int;
   }
 
-  final LanguageService _languageService = LanguageService.instance;
-
   String id;
-  Word nativeWord;
-  Word foreignWord;
+  String nativeWord;
+  String foreignWord;
   int nbSuccess;
   int nbErrors;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};
-    data['nativeWord'] = nativeWord.word;
-    data['foreignWord'] = foreignWord.word;
+    data['nativeWord'] = nativeWord;
+    data['foreignWord'] = foreignWord;
     data['nbSuccess'] = nbSuccess;
     data['nbErrors'] = nbErrors;
     data['id'] = id;

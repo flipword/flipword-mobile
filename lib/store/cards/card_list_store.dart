@@ -38,10 +38,10 @@ abstract class _CardListStore with Store {
     await fetchCard();
     list = ObservableFuture.value(list.value
         .where((element) =>
-            element.nativeWord.word
+            element.nativeWord
                 .toLowerCase()
                 .contains(word.toLowerCase()) ||
-            element.foreignWord.word.toLowerCase().contains(word.toLowerCase()))
+            element.foreignWord.toLowerCase().contains(word.toLowerCase()))
         .toList());
   }
 

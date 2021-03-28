@@ -9,31 +9,16 @@ part of 'setting_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingStore on _SettingStore, Store {
-  Computed<Language> _$getNativeLanguageComputed;
-
-  @override
-  Language get getNativeLanguage => (_$getNativeLanguageComputed ??=
-          Computed<Language>(() => super.getNativeLanguage,
-              name: '_SettingStore.getNativeLanguage'))
-      .value;
-  Computed<Language> _$getForeignLanguageComputed;
-
-  @override
-  Language get getForeignLanguage => (_$getForeignLanguageComputed ??=
-          Computed<Language>(() => super.getForeignLanguage,
-              name: '_SettingStore.getForeignLanguage'))
-      .value;
-
   final _$nativeLanguageAtom = Atom(name: '_SettingStore.nativeLanguage');
 
   @override
-  Language get nativeLanguage {
+  ObservableFuture<Language> get nativeLanguage {
     _$nativeLanguageAtom.reportRead();
     return super.nativeLanguage;
   }
 
   @override
-  set nativeLanguage(Language value) {
+  set nativeLanguage(ObservableFuture<Language> value) {
     _$nativeLanguageAtom.reportWrite(value, super.nativeLanguage, () {
       super.nativeLanguage = value;
     });
@@ -42,13 +27,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$foreignLanguageAtom = Atom(name: '_SettingStore.foreignLanguage');
 
   @override
-  Language get foreignLanguage {
+  ObservableFuture<Language> get foreignLanguage {
     _$foreignLanguageAtom.reportRead();
     return super.foreignLanguage;
   }
 
   @override
-  set foreignLanguage(Language value) {
+  set foreignLanguage(ObservableFuture<Language> value) {
     _$foreignLanguageAtom.reportWrite(value, super.foreignLanguage, () {
       super.foreignLanguage = value;
     });
@@ -58,33 +43,33 @@ mixin _$SettingStore on _SettingStore, Store {
       ActionController(name: '_SettingStore');
 
   @override
-  void updateNativeLanguage(Language language) {
-    final _$actionInfo = _$_SettingStoreActionController.startAction(
-        name: '_SettingStore.updateNativeLanguage');
+  Future<void> load() {
+    final _$actionInfo =
+        _$_SettingStoreActionController.startAction(name: '_SettingStore.load');
     try {
-      return super.updateNativeLanguage(language);
+      return super.load();
     } finally {
       _$_SettingStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void updateForeignLanguage(Language language) {
+  Future<void> loadNativeLanguage() {
     final _$actionInfo = _$_SettingStoreActionController.startAction(
-        name: '_SettingStore.updateForeignLanguage');
+        name: '_SettingStore.loadNativeLanguage');
     try {
-      return super.updateForeignLanguage(language);
+      return super.loadNativeLanguage();
     } finally {
       _$_SettingStoreActionController.endAction(_$actionInfo);
     }
   }
 
   @override
-  void reverseLanguage() {
+  Future<void> loadForeignLanguage() {
     final _$actionInfo = _$_SettingStoreActionController.startAction(
-        name: '_SettingStore.reverseLanguage');
+        name: '_SettingStore.loadForeignLanguage');
     try {
-      return super.reverseLanguage();
+      return super.loadForeignLanguage();
     } finally {
       _$_SettingStoreActionController.endAction(_$actionInfo);
     }
@@ -94,9 +79,7 @@ mixin _$SettingStore on _SettingStore, Store {
   String toString() {
     return '''
 nativeLanguage: ${nativeLanguage},
-foreignLanguage: ${foreignLanguage},
-getNativeLanguage: ${getNativeLanguage},
-getForeignLanguage: ${getForeignLanguage}
+foreignLanguage: ${foreignLanguage}
     ''';
   }
 }

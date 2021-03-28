@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_dictionary_repository.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
-import 'package:flutter_flip_card/data/entities/word.dart';
 
-import 'user_profile_service.dart';
 import 'language_service.dart';
+import 'user_profile_service.dart';
 
 class CardService {
   CardService._privateConstructor();
@@ -22,23 +21,15 @@ class CardService {
       .getUserDictionary(_authService.getUser().uid)
       .collection(_languageService.getRef());
 
-  Future<void> insertCard(Word baseWord, Word translateWord) async {
-    CardEntity card;
-    if (baseWord.languageId == _languageService.nativeLanguage.isoCode) {
-      card = CardEntity(nativeWord: baseWord, foreignWord: translateWord);
-    } else {
-      card = CardEntity(nativeWord: translateWord, foreignWord: baseWord);
-    }
+  Future<void> insertCard(String nativeWord, String foreignWord) async {
+    final card = CardEntity(nativeWord: nativeWord, foreignWord: foreignWord);
     await getCardCollection().add(card.toJson());
-
-    return;
   }
 
   Future<List<CardEntity>> getListCard() async {
     final response = await getCardCollection().get();
     return response.docs.map((element) {
       final entity = CardEntity.fromJson(element.data());
-      entity.id = element.id;
       return entity;
     }).toList();
   }

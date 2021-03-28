@@ -21,16 +21,16 @@ class _DetailWordState extends State<DetailWord> {
   Widget build(BuildContext context) {
     return Container(
         height: 250,
-        decoration: BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
         ),
         child: Column(
           children: [
             Container(
               height: 25,
               alignment: Alignment.topRight,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(5),
                   topRight: Radius.circular(5),
                 ),
@@ -44,8 +44,8 @@ class _DetailWordState extends State<DetailWord> {
             Container(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: CardWord(
-                    nativeWord: widget.card.nativeWord.word,
-                    foreignWord: widget.card.foreignWord.word,
+                    nativeWord: widget.card.nativeWord,
+                    foreignWord: widget.card.foreignWord,
                     color: Theme.of(context).primaryColor)),
             Container(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),

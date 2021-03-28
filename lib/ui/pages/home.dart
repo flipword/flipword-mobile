@@ -45,9 +45,9 @@ class _HomePageState extends State<HomePage> {
         case FutureStatus.rejected:
           // TODO: Handle this case.
           _widgetDisplayed = Scaffold(
-              body: Column(children: [
-            const Icon(Icons.warning_amber_outlined),
-            const Text('An error occured : the connection was rejected')
+              body: Column(children: const [
+                Icon(Icons.warning_amber_outlined),
+                Text('An error occured : the connection was rejected')
           ]));
           break;
         case FutureStatus.fulfilled:
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: height / 10),
                   Center(
                       child: Text(
-                    '${_endOfSerie ? 'Click to restart' : _revealState ? "Is it ok ?" : "Try to guess :"}',
+                    _endOfSerie ? 'Click to restart' : _revealState ? 'Is it ok ?' : 'Try to guess :',
                     style: const TextStyle(
                         fontWeight: FontWeight.w400, fontSize: 20),
                   )),
@@ -88,8 +88,7 @@ class _HomePageState extends State<HomePage> {
                             _cardListStore
                                 .list
                                 .result[_cardListStore.curentIndex.value]
-                                .foreignWord
-                                .word,
+                                .foreignWord,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 25),
                           ),
@@ -114,8 +113,7 @@ class _HomePageState extends State<HomePage> {
                           _cardListStore
                               .list
                               .result[_cardListStore.curentIndex.value]
-                              .nativeWord
-                              .word,
+                              .nativeWord,
                           style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 25),
                         ))),

@@ -80,9 +80,9 @@ class ListWordPageState extends State<ListWordPage> {
                                     },
                                     child: CardWord(
                                         nativeWord: _cardList
-                                            .list.result[index].nativeWord.word,
+                                            .list.result[index].nativeWord,
                                         foreignWord: _cardList.list
-                                            .result[index].foreignWord.word,
+                                            .result[index].foreignWord,
                                         color: Theme.of(context).primaryColor),
                                   ),
                                 ))));

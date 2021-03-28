@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
-import 'package:flutter_flip_card/data/entities/word.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
@@ -102,7 +101,7 @@ class _State extends State<AddWord> {
                             Expanded(
                                 child: Container(
                               alignment: Alignment.center,
-                              child: Text(_settingStore.nativeLanguage.label),
+                              child: Text(_settingStore.nativeLanguage.value.label),
                             )),
                             Expanded(
                               child: Container(
@@ -111,15 +110,14 @@ class _State extends State<AddWord> {
                                     label: const Text(''),
                                     icon: const Icon(Icons.swap_horiz),
                                     textColor: Colors.black,
-                                    onPressed: () =>
-                                        {_settingStore.reverseLanguage()}),
+                                    onPressed: () => {}),
                               ),
                             ),
                             Expanded(
                                 child: Container(
                               alignment: Alignment.center,
                               child:
-                                  Text(_settingStore.foreignLanguage.label),
+                                  Text(_settingStore.foreignLanguage.value.label),
                             ))
                           ],
                         ),
@@ -133,7 +131,7 @@ class _State extends State<AddWord> {
                           padding: const EdgeInsets.only(left: 10, right: 10),
                           child: InputWord(
                             controller: _baseWordController,
-                            label: _settingStore.nativeLanguage.label,
+                            label: _settingStore.nativeLanguage.value.label,
                             focusNode: focusNode,
                             hintText: 'Enter your world',
                           ),
@@ -154,7 +152,7 @@ class _State extends State<AddWord> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             child: InputWord(
                               controller: _translateWordController,
-                              label: _settingStore.foreignLanguage.label,
+                              label: _settingStore.foreignLanguage.value.label,
                             )),
                         const SizedBox(height: 5),
                         IconTextButton(
@@ -198,12 +196,8 @@ class _State extends State<AddWord> {
           _translateWordController.text.isEmpty) {
         _toastService.toastError('Please enter a word');
       } else {
-        final baseWord = Word(
-            word: _formatWord(_baseWordController.text),
-            languageId: 'fr');
-        final translateWord = Word(
-            word: _formatWord(_translateWordController.text),
-            languageId: 'en');
+        final baseWord = _baseWordController.text;
+        final translateWord = _translateWordController.text;
         await _cardService.insertCard(baseWord, translateWord);
         _baseWordController.text = '';
         _translateWordController.text = '';
