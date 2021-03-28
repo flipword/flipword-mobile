@@ -3,6 +3,7 @@ import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
@@ -44,17 +45,33 @@ class _SettingPage extends State<SettingPage> {
                   child: Container(
                     height: 30,
                     decoration: _getBoxDecoration(),
-                    child: MaterialButton(
-                      onPressed: () => _openLanguagePickerDialog('native'),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(_settingStore.nativeLanguage.value.label),
-                          const Icon(Icons.arrow_drop_down)
-                        ],
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        hint: Center(
+                          child: Text(
+                            _settingStore.nativeLanguage.value.label,
+                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                          ),
+                        ),
+                        isExpanded: true,
+                        iconSize: 30,
+                        iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
+                        style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                        items: _settingStore.languages.value.map(
+                              (val) {
+                            return DropdownMenuItem<Language>(
+                              value: val,
+                              child: Text(val.label),
+                            );
+                          },
+                        ).toList(),
+                        onChanged: (val) {
+                          _settingStore.updateNativeLanguage(val);
+                        },
                       ),
-                    ),
-                  )),
+                    )
+                  )
+              ),
             ],
           ),
           const SizedBox(height: 10),
@@ -64,18 +81,40 @@ class _SettingPage extends State<SettingPage> {
               Expanded(
                   flex: 3,
                   child: Container(
-                    height: 30,
-                    decoration: _getBoxDecoration(),
-                    child: MaterialButton(
-                        onPressed: () => _openLanguagePickerDialog('foreign'),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(_settingStore.foreignLanguage.value.label),
-                            const Icon(Icons.arrow_drop_down)
-                          ],
-                        )),
-                  )),
+                      height: 30,
+                      decoration: _getBoxDecoration(),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton(
+                          hint: Center(
+                            child: _settingStore.foreignLanguage.status == FutureStatus.fulfilled ?
+                            Text(
+                              _settingStore.foreignLanguage.value.label,
+                              style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                            ) :
+                            Text(
+                              '',
+                              style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          isExpanded: true,
+                          iconSize: 30,
+                          iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                          items: _settingStore.languages.value.map(
+                                (val) {
+                              return DropdownMenuItem<Language>(
+                                value: val,
+                                child: Text(val.label),
+                              );
+                            },
+                          ).toList(),
+                          onChanged: (val) {
+                            _settingStore.updateForeignLanguage(val);
+                          },
+                        ),
+                      )
+                  )
+              ),
             ],
           ),
           const SizedBox(height: 10)

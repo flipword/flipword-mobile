@@ -7,10 +7,13 @@ part 'setting_store.g.dart';
 
 class SettingStore = _SettingStore with _$SettingStore;
 
-
+// TODO: use languages loaded to get native/foreign language
 abstract class _SettingStore with Store {
 
   final LanguageService _languageService = LanguageService.instance;
+
+  @observable
+  ObservableFuture<List<Language>> languages = ObservableFuture.value(null);
 
   @observable
   ObservableFuture<Language> nativeLanguage = ObservableFuture.value(null);
@@ -21,9 +24,14 @@ abstract class _SettingStore with Store {
   @action
   Future<void> load() =>
       Future.wait([
+        loadLanguages(),
         loadNativeLanguage(),
         loadForeignLanguage()
       ]);
+
+  @action
+  Future<void> loadLanguages() =>
+      languages = ObservableFuture(_languageService.getLanguages().then((value) => value));
 
   @action
   Future<void> loadNativeLanguage() =>
@@ -33,4 +41,11 @@ abstract class _SettingStore with Store {
   Future<void> loadForeignLanguage() =>
       foreignLanguage = ObservableFuture(_languageService.getCurrentForeignLanguage().then((value) => value));
 
+  @action
+  Future<void> updateNativeLanguage(Language language) =>
+      nativeLanguage = ObservableFuture(_languageService.updateNativeLanguage(language.isoCode).then((_) => language));
+
+  @action
+  Future<void> updateForeignLanguage(Language language) =>
+      foreignLanguage = ObservableFuture(_languageService.updateForeignLanguage(language.isoCode).then((_) => language));
 }
