@@ -117,4 +117,16 @@ class UserProfileService {
       ..fileImage = responses[1]
       ..isConnected = true;
   }
+
+  Future<void> updateNativeLanguage(String nativeLanguageIsoCode) =>
+      _firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({'nativeLanguageIsoCode': nativeLanguageIsoCode})
+        .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
+
+  Future<void> updateForeignLanguage(String foreignLanguageIsoCode) =>
+      _firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({'foreignLanguageIsoCode': foreignLanguageIsoCode})
+        .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
 }

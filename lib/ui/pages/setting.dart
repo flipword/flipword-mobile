@@ -48,10 +48,12 @@ class _SettingPage extends State<SettingPage> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton(
                         hint: Center(
-                          child: Text(
+                          child:  _settingStore.nativeLanguage.status == FutureStatus.fulfilled ?
+                          Text(
                             _settingStore.nativeLanguage.value.label,
                             style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                          ),
+                          ) : 
+                          const Text(''),
                         ),
                         isExpanded: true,
                         iconSize: 30,
@@ -91,10 +93,7 @@ class _SettingPage extends State<SettingPage> {
                               _settingStore.foreignLanguage.value.label,
                               style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
                             ) :
-                            Text(
-                              '',
-                              style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                            ),
+                            const Text(''),
                           ),
                           isExpanded: true,
                           iconSize: 30,
@@ -123,26 +122,9 @@ class _SettingPage extends State<SettingPage> {
     }));
   }
 
-  Widget _buildDialogItem(Language language) => Row(
-        children: <Widget>[
-          Text(language.label,
-              style: TextStyle(color: Theme.of(context).primaryColor)),
-          const SizedBox(width: 8),
-          Flexible(
-              child: Text(language.isoCode,
-                  style: TextStyle(color: Theme.of(context).primaryColor)))
-        ],
-      );
-
   Decoration _getBoxDecoration() {
     return BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(color: Theme.of(context).primaryColor, width: 2));
   }
-
-  void _openLanguagePickerDialog(String value) => showDialog(
-      builder: (_) => Theme(
-          data: ThemeData(),
-          child: const SizedBox()),
-      context: context);
 }

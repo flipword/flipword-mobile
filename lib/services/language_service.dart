@@ -1,5 +1,6 @@
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_language_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
+import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/services/user_profile_service.dart';
 
@@ -18,7 +19,7 @@ class LanguageService {
 
   String getRef() {
     final userProfil = _userProfileService.getUser();
-    if(!userProfil.isConnected){
+    if(userProfil.isConnected){
       return '${userProfil.nativeLanguageIsoCode}-${userProfil.foreignLanguageIsoCode}';
     } else {
       return '$defaultNativeLanguageIsoCode-$defaultForeignLanguageIsoCode';
@@ -35,7 +36,7 @@ class LanguageService {
 
   Future<Language> getCurrentNativeLanguage() async {
     final userProfil = _userProfileService.getUser();
-    if(!userProfil.isConnected){
+    if(userProfil.isConnected){
       return _repository.getLanguageByIsoCode(userProfil.nativeLanguageIsoCode).then((value) => Language.fromJson(value.data()));
     } else {
       return _repository.getLanguageByIsoCode(defaultNativeLanguageIsoCode).then((value) => Language.fromJson(value.data()));
@@ -44,24 +45,16 @@ class LanguageService {
 
   Future<Language> getCurrentForeignLanguage() {
     final userProfil = _userProfileService.getUser();
-    if(!userProfil.isConnected){
+    if(userProfil.isConnected){
       return _repository.getLanguageByIsoCode(userProfil.foreignLanguageIsoCode).then((value) => Language.fromJson(value.data()));
     } else {
       return _repository.getLanguageByIsoCode(defaultForeignLanguageIsoCode).then((value) => Language.fromJson(value.data()));
     }
   }
 
-  Future<void> updateNativeLanguage(String nativeLanguageIsoCode) async {
-    final userProfil = _userProfileService.getUser();
-    await _firestoreUserProfilRepository
-        .getUserProfilCollection(userProfil.uid)
-        .update({'nativeLanguageIsoCode': nativeLanguageIsoCode});
-  }
+  Future<void> updateNativeLanguage(String nativeLanguageIsoCode) =>
+      _userProfileService.updateNativeLanguage(nativeLanguageIsoCode);
 
-  Future<void> updateForeignLanguage(String foreignLanguageIsoCode) async {
-    final userProfil = _userProfileService.getUser();
-    await _firestoreUserProfilRepository
-        .getUserProfilCollection(userProfil.uid)
-        .update({'foreignLanguageIsoCode': foreignLanguageIsoCode});
-  }
+  Future<void> updateForeignLanguage(String foreignLanguageIsoCode) => 
+      _userProfileService.updateForeignLanguage(foreignLanguageIsoCode);
 }
