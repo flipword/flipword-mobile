@@ -70,8 +70,8 @@ class UserProfileService {
           'uid': _auth.currentUser.uid,
           'email': _auth.currentUser.email,
           'name': _auth.currentUser.displayName,
-          'nativeLanguageIsoCode': LanguageService.defaultNativeLanguageIsoCode,
-          'foreignLanguageIsoCode': LanguageService.defaultForeignLanguageIsoCode
+          'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
+          'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode
         }, SetOptions(merge: false));
 
     await _firestoreUserProfilRepository

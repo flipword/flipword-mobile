@@ -7,7 +7,6 @@ part 'setting_store.g.dart';
 
 class SettingStore = _SettingStore with _$SettingStore;
 
-// TODO: use languages loaded to get native/foreign language
 abstract class _SettingStore with Store {
 
   final LanguageService _languageService = LanguageService.instance;
@@ -15,11 +14,11 @@ abstract class _SettingStore with Store {
   @observable
   ObservableFuture<List<Language>> languages = ObservableFuture.value(null);
 
-  @observable
-  ObservableFuture<Language> nativeLanguage = ObservableFuture.value(null);
+  @computed
+  ObservableFuture<Language> get nativeLanguage => ObservableFuture.value(_languageService.currentNativeLanguage);
 
-  @observable
-  ObservableFuture<Language> foreignLanguage = ObservableFuture.value(null);
+  @computed
+  ObservableFuture<Language> get foreignLanguage => ObservableFuture.value(_languageService.currentForeignLanguage);
 
   @observable
   Language baseLanguage;
@@ -28,38 +27,21 @@ abstract class _SettingStore with Store {
   Language translateLanguage;
 
   @action
-  Future<void> load() =>
-      Future.wait([
-        loadLanguages(),
-        loadNativeLanguage(),
-        loadForeignLanguage()
-      ]);
+  Future<void> initLanguages() =>
+      _languageService.init().then((_) =>
+        languages = ObservableFuture(_languageService.getLanguages().then((value){
+          baseLanguage = _languageService.currentNativeLanguage;
+          translateLanguage = _languageService.currentForeignLanguage;
+          return value;
+          })));
 
   @action
-  Future<void> loadLanguages() =>
-      languages = ObservableFuture(_languageService.getLanguages().then((value) => value));
+  Future<void> updateNativeLanguage(Language language) => _languageService.updateNativeLanguage(language.isoCode).then((_) =>
+    baseLanguage = language);
 
   @action
-  Future<void> loadNativeLanguage() =>
-      nativeLanguage = ObservableFuture(_languageService.getCurrentNativeLanguage().then((value) => baseLanguage = value));
-
-  @action
-  Future<void> loadForeignLanguage() =>
-      foreignLanguage = ObservableFuture(_languageService.getCurrentForeignLanguage().then((value) => translateLanguage = value));
-
-  @action
-  Future<void> updateNativeLanguage(Language language) =>
-      nativeLanguage = ObservableFuture(_languageService.updateNativeLanguage(language.isoCode).then((_) {
-        baseLanguage = language;
-        return language;
-      }));
-
-  @action
-  Future<void> updateForeignLanguage(Language language) =>
-      foreignLanguage = ObservableFuture(_languageService.updateForeignLanguage(language.isoCode).then((_){
-        translateLanguage = language;
-        return language;
-      }));
+  Future<void> updateForeignLanguage(Language language) =>_languageService.updateForeignLanguage(language.isoCode).then((value) =>
+    translateLanguage = language);
 
   @action
   void reverseLanguage(){

@@ -62,7 +62,6 @@ class _State extends State<AddWord> {
                 elevation: 4,
                 borderRadius: BorderRadius.circular(30),
                 child: Observer(builder: (_) {
-                  if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
                     return Column(children: [
                       Stack(alignment: Alignment.topCenter, children: [
                         Container(
@@ -178,9 +177,6 @@ class _State extends State<AddWord> {
                         ]),
                       )
                     ]);
-                  } else {
-                    return const SizedBox();
-                  }
                 })
             )
         )

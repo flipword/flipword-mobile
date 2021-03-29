@@ -51,12 +51,10 @@ class _SettingPage extends State<SettingPage> {
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton(
                         hint: Center(
-                          child:  _settingStore.nativeLanguage.status == FutureStatus.fulfilled ?
-                          Text(
+                          child: Text(
                             _settingStore.nativeLanguage.value.label,
                             style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                          ) : 
-                          const Text(''),
+                          )
                         ),
                         isExpanded: true,
                         iconSize: 30,
@@ -91,12 +89,10 @@ class _SettingPage extends State<SettingPage> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(
                           hint: Center(
-                            child: _settingStore.foreignLanguage.status == FutureStatus.fulfilled ?
-                            Text(
+                            child: Text(
                               _settingStore.foreignLanguage.value.label,
                               style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                            ) :
-                            const Text(''),
+                            )
                           ),
                           isExpanded: true,
                           iconSize: 30,

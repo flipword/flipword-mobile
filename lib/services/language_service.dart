@@ -1,29 +1,35 @@
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_language_repository.dart';
-import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
-import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/services/user_profile_service.dart';
 
 class LanguageService {
   LanguageService._privateConstructor();
 
-  static const String defaultNativeLanguageIsoCode = 'fr';
-  static const String defaultForeignLanguageIsoCode = 'en';
+  static final Language defaultNativeLanguage = Language(isoCode: 'fr', label: 'French');
+  static final Language defaultForeignLanguage = Language(isoCode: 'en', label: 'English');
+
+  Language currentNativeLanguage;
+  Language currentForeignLanguage;
 
   static final LanguageService _instance = LanguageService._privateConstructor();
   static LanguageService get instance => _instance;
 
   final FirestoreLanguageRepository _repository = FirestoreLanguageRepository.instance;
-  final FirestoreUserProfilRepository _firestoreUserProfilRepository = FirestoreUserProfilRepository.instance;
   final UserProfileService _userProfileService = UserProfileService.instance;
 
-  String getRef() {
-    final userProfil = _userProfileService.getUser();
-    if(userProfil.isConnected){
-      return '${userProfil.nativeLanguageIsoCode}-${userProfil.foreignLanguageIsoCode}';
+  Future<void> init() async {
+    final user = _userProfileService.getUser();
+    if(user.isConnected){
+      currentNativeLanguage = await getLanguageByIsoCode(user.nativeLanguageIsoCode);
+      currentForeignLanguage = await getLanguageByIsoCode(user.foreignLanguageIsoCode);
     } else {
-      return '$defaultNativeLanguageIsoCode-$defaultForeignLanguageIsoCode';
+      currentNativeLanguage = defaultNativeLanguage;
+      currentForeignLanguage = defaultForeignLanguage;
     }
+  }
+
+  String getRef() {
+    return '${currentNativeLanguage.isoCode}-${currentForeignLanguage.isoCode}';
   }
 
   Future<List<Language>> getLanguages() async {
@@ -34,27 +40,14 @@ class LanguageService {
     }).toList();
   }
 
-  Future<Language> getCurrentNativeLanguage() async {
-    final userProfil = _userProfileService.getUser();
-    if(userProfil.isConnected){
-      return _repository.getLanguageByIsoCode(userProfil.nativeLanguageIsoCode).then((value) => Language.fromJson(value.data()));
-    } else {
-      return _repository.getLanguageByIsoCode(defaultNativeLanguageIsoCode).then((value) => Language.fromJson(value.data()));
-    }
-  }
-
-  Future<Language> getCurrentForeignLanguage() {
-    final userProfil = _userProfileService.getUser();
-    if(userProfil.isConnected){
-      return _repository.getLanguageByIsoCode(userProfil.foreignLanguageIsoCode).then((value) => Language.fromJson(value.data()));
-    } else {
-      return _repository.getLanguageByIsoCode(defaultForeignLanguageIsoCode).then((value) => Language.fromJson(value.data()));
-    }
-  }
-
   Future<void> updateNativeLanguage(String nativeLanguageIsoCode) =>
-      _userProfileService.updateNativeLanguage(nativeLanguageIsoCode);
+      _userProfileService.updateNativeLanguage(nativeLanguageIsoCode).then((_) =>
+          _repository.getLanguageByIsoCode(nativeLanguageIsoCode).then((value) => currentNativeLanguage = Language.fromJson(value.data())));
 
   Future<void> updateForeignLanguage(String foreignLanguageIsoCode) => 
-      _userProfileService.updateForeignLanguage(foreignLanguageIsoCode);
+      _userProfileService.updateForeignLanguage(foreignLanguageIsoCode).then((_) =>
+          _repository.getLanguageByIsoCode(foreignLanguageIsoCode).then((value) => currentForeignLanguage = Language.fromJson(value.data())));
+
+  Future<Language> getLanguageByIsoCode(String isoCode) =>
+      _repository.getLanguageByIsoCode(isoCode).then((value) => Language.fromJson(value.data()));
 }

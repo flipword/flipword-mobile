@@ -95,8 +95,8 @@ class MyApp extends StatelessWidget {
     _interfaceStore = InterfaceStore();
     _settingStore = SettingStore();
     await _profilStore.refresh();
+    await _settingStore.initLanguages();
     await _cardListStore.fetchCard();
-    await _settingStore.load();
 
   }
 }
