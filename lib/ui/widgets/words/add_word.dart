@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
-import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
@@ -27,10 +26,10 @@ class _State extends State<AddWord> {
   final ToastService _toastService = ToastService.instance;
 
   final GlobalKey<SquareButtonState> _mybuttonState =
-      GlobalKey<SquareButtonState>();
+  GlobalKey<SquareButtonState>();
   final _formKey = GlobalKey<FormState>();
 
-  final String googleTranslateAsset = 'assets/google-translate.svg';
+  final String translateIcon = 'assets/microsoft-translate.svg';
   CardListStore _cardListStore;
   SettingStore _settingStore;
 
@@ -62,6 +61,7 @@ class _State extends State<AddWord> {
                 elevation: 4,
                 borderRadius: BorderRadius.circular(30),
                 child: Observer(builder: (_) {
+                  if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
                     return Column(children: [
                       Stack(alignment: Alignment.topCenter, children: [
                         Container(
@@ -72,23 +72,25 @@ class _State extends State<AddWord> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(googleTranslateAsset,
+                              Image.asset(translateIcon,
                                   height: 35, width: 35),
                               const SizedBox(width: 5),
-                              const Text(
-                                'Microsoft',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w400,
-                                    fontSize: 30),
-                              ),
-                              const Text(
-                                'Translate',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 30),
-                              )
+                              Column(children: const [
+                                Text(
+                                  'Microsoft',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 30),
+                                ),
+                                Text(
+                                  'Translate',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 30),
+                                )
+                              ],)
                             ],
                           ),
                         ),
@@ -177,6 +179,9 @@ class _State extends State<AddWord> {
                         ]),
                       )
                     ]);
+                  } else {
+                    return const SizedBox();
+                  }
                 })
             )
         )
@@ -191,8 +196,8 @@ class _State extends State<AddWord> {
       TranslateHelper.instance
           .translate(_settingStore.baseLanguage.isoCode, _settingStore.translateLanguage.isoCode, _baseWordController.text)
           .then((value) {
-            _translateWordController.text = value;
-          })
+        _translateWordController.text = value;
+      })
           .catchError(
               (onError) => _toastService.toastError('Error on translate word'))
           .whenComplete(() => _mybuttonState.currentState.changeLoadingState());
@@ -220,19 +225,19 @@ class _State extends State<AddWord> {
   }
 
   BoxDecoration _getBoxDecoration() => BoxDecoration(
-        color: Theme.of(context).primaryColor,
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(30),
-          bottomRight: Radius.circular(30),
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).shadowColor,
-            offset: const Offset(0, 3), //(x,y)
-            blurRadius: 2,
-          ),
-        ],
-      );
+    color: Theme.of(context).primaryColor,
+    borderRadius: const BorderRadius.only(
+      bottomLeft: Radius.circular(30),
+      bottomRight: Radius.circular(30),
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Theme.of(context).shadowColor,
+        offset: const Offset(0, 3), //(x,y)
+        blurRadius: 2,
+      ),
+    ],
+  );
 
   String _formatWord(String word) {
     return '${word[0].toUpperCase()}${word.substring(1)}';
