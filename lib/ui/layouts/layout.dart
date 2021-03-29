@@ -41,7 +41,6 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
           onVerticalDragEnd: _onDragEnd,
           child: _buildBody(context),
         ),
-        // TODO: Refacto Fab button
         floatingActionButton: SquareButton(
             icon: const Icon(
               Icons.add,

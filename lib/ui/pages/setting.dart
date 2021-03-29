@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
+import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -16,10 +17,12 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPage extends State<SettingPage> {
   SettingStore _settingStore;
+  CardListStore _cardListStore;
 
   @override
   void initState() {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
+    _cardListStore = Provider.of<CardListStore>(context, listen: false);
     super.initState();
   }
 
@@ -68,7 +71,7 @@ class _SettingPage extends State<SettingPage> {
                           },
                         ).toList(),
                         onChanged: (val) {
-                          _settingStore.updateNativeLanguage(val);
+                          updateNativeLanguage(val);
                         },
                       ),
                     )
@@ -108,7 +111,7 @@ class _SettingPage extends State<SettingPage> {
                             },
                           ).toList(),
                           onChanged: (val) {
-                            _settingStore.updateForeignLanguage(val);
+                            updateForeignLanguage(val);
                           },
                         ),
                       )
@@ -126,5 +129,13 @@ class _SettingPage extends State<SettingPage> {
     return BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         border: Border.all(color: Theme.of(context).primaryColor, width: 2));
+  }
+
+  void updateNativeLanguage(dynamic val){
+    _settingStore.updateNativeLanguage(val).then((_) => _cardListStore.fetchCard());
+  }
+
+  void updateForeignLanguage(dynamic val){
+    _settingStore.updateForeignLanguage(val).then((_) => _cardListStore.fetchCard());
   }
 }

@@ -29,7 +29,7 @@ class CardService {
   Future<List<CardEntity>> getListCard() async {
     final response = await getCardCollection().get();
     return response.docs.map((element) {
-      final entity = CardEntity.fromJson(element.data());
+      final entity = CardEntity.fromJson(element.data())..id = element.id;
       return entity;
     }).toList();
   }

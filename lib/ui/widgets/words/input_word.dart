@@ -60,10 +60,9 @@ class _InputWordState extends State<InputWord> {
           focusNode: widget.focusNode,
           readOnly: widget.readOnly,
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
               fontSize: 20,
-              // TODO: utiliser le thème
-              color: Colors.black),
+              color: Theme.of(context).textTheme.bodyText2.color),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(top: 30, bottom: 30),
             border: InputBorder.none,

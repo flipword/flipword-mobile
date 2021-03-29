@@ -6,10 +6,10 @@ class CardEntity {
       this.nbErrors = 0});
 
   CardEntity.fromJson(Map<String, dynamic> json) {
-    nativeWord = json['nativeWord'] as String;
-    foreignWord = json['foreignWord'] as String;
-    nbSuccess = json['nbSuccess'] as int;
-    nbErrors = json['nbErrors'] as int;
+    nativeWord = json['nativeWord'];
+    foreignWord = json['foreignWord'];
+    nbSuccess = json['nbSuccess'];
+    nbErrors = json['nbErrors'];
   }
 
   String id;

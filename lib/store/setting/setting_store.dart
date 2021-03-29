@@ -21,6 +21,12 @@ abstract class _SettingStore with Store {
   @observable
   ObservableFuture<Language> foreignLanguage = ObservableFuture.value(null);
 
+  @observable
+  Language baseLanguage;
+
+  @observable
+  Language translateLanguage;
+
   @action
   Future<void> load() =>
       Future.wait([
@@ -35,17 +41,30 @@ abstract class _SettingStore with Store {
 
   @action
   Future<void> loadNativeLanguage() =>
-      nativeLanguage = ObservableFuture(_languageService.getCurrentNativeLanguage().then((value) => value));
+      nativeLanguage = ObservableFuture(_languageService.getCurrentNativeLanguage().then((value) => baseLanguage = value));
 
   @action
   Future<void> loadForeignLanguage() =>
-      foreignLanguage = ObservableFuture(_languageService.getCurrentForeignLanguage().then((value) => value));
+      foreignLanguage = ObservableFuture(_languageService.getCurrentForeignLanguage().then((value) => translateLanguage = value));
 
   @action
   Future<void> updateNativeLanguage(Language language) =>
-      nativeLanguage = ObservableFuture(_languageService.updateNativeLanguage(language.isoCode).then((_) => language));
+      nativeLanguage = ObservableFuture(_languageService.updateNativeLanguage(language.isoCode).then((_) {
+        baseLanguage = language;
+        return language;
+      }));
 
   @action
   Future<void> updateForeignLanguage(Language language) =>
-      foreignLanguage = ObservableFuture(_languageService.updateForeignLanguage(language.isoCode).then((_) => language));
+      foreignLanguage = ObservableFuture(_languageService.updateForeignLanguage(language.isoCode).then((_){
+        translateLanguage = language;
+        return language;
+      }));
+
+  @action
+  void reverseLanguage(){
+    final tmp = baseLanguage;
+    baseLanguage = translateLanguage;
+    translateLanguage = tmp;
+  }
 }
