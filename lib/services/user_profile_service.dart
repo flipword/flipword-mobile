@@ -118,15 +118,25 @@ class UserProfileService {
       ..isConnected = true;
   }
 
-  Future<void> updateNativeLanguage(String nativeLanguageIsoCode) =>
-      _firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({'nativeLanguageIsoCode': nativeLanguageIsoCode})
-        .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
+  Future<void> updateNativeLanguage(String nativeLanguageIsoCode) async {
+    if(_currentProfile.isConnected){
+      return _firestoreUserProfilRepository
+          .getUserProfilCollection(_currentProfile.uid)
+          .update({'nativeLanguageIsoCode': nativeLanguageIsoCode})
+          .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
+    } else {
+      return;
+    }
+  }
 
-  Future<void> updateForeignLanguage(String foreignLanguageIsoCode) =>
-      _firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({'foreignLanguageIsoCode': foreignLanguageIsoCode})
-        .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
+  Future<void> updateForeignLanguage(String foreignLanguageIsoCode) async {
+    if(_currentProfile.isConnected){
+      return _firestoreUserProfilRepository
+          .getUserProfilCollection(_currentProfile.uid)
+          .update({'foreignLanguageIsoCode': foreignLanguageIsoCode})
+          .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
+    } else {
+      return;
+    }
+  }
 }
