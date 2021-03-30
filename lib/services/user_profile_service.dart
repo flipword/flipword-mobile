@@ -64,6 +64,7 @@ class UserProfileService {
     await _auth.signInWithCredential(credential);
 
     // Set firebase auth id as property in profile collection
+
     await _firestoreUserProfilRepository
         .getUserProfilCollection(_auth.currentUser.uid)
         .set({
@@ -71,14 +72,9 @@ class UserProfileService {
           'email': _auth.currentUser.email,
           'name': _auth.currentUser.displayName,
           'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
-          'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode
-        }, SetOptions(merge: false));
-
-    await _firestoreUserProfilRepository
-        .getUserProfilCollection(_auth.currentUser.uid)
-        .set({
-      'lastConnection': DateTime.now(),
-    }, SetOptions(merge: true));
+          'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
+          'lastConnection': DateTime.now(),
+        }, SetOptions(merge: true));
   }
 
   Future<UserProfil> loadCurrentUser() async {
