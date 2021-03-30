@@ -147,7 +147,7 @@ class _State extends State<AddWord> {
                             onPressed: () {
                               _translateWord();
                             },
-                            icon: const Icon(Icons.g_translate, size: 30),
+                            icon: const Icon(Icons.translate_outlined, size: 30),
                             backgroundColor: Theme
                                 .of(context)
                                 .primaryColor,
