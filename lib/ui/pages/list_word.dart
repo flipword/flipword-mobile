@@ -13,6 +13,8 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class ListWordPage extends StatefulWidget {
+  const ListWordPage({Key key}) : super(key: key);
+
   static const String routeName = '/list';
 
   @override
@@ -55,7 +57,7 @@ class ListWordPageState extends State<ListWordPage> {
                         physics: _interfaceStore.overlayIsDisplayed.value
                             ? const BouncingScrollPhysics()
                             : const AlwaysScrollableScrollPhysics(),
-                        children: [NoWord()])
+                        children: const [NoWord()])
                     : GridView.count(
                         padding: const EdgeInsets.all(10),
                         crossAxisSpacing: 10,
@@ -111,7 +113,7 @@ class ListWordPageState extends State<ListWordPage> {
 
   Future<void> _refresh() => _filterCard(_interfaceStore.searchBarValue.value);
 
-  double _calculElementDisplay(screenSize) {
+  double _calculElementDisplay(dynamic screenSize) {
     if (screenSize.height > 1000) {
       return 3;
     } else if (screenSize.height > 800) {
@@ -154,7 +156,7 @@ class ListWordPageState extends State<ListWordPage> {
       ..fetchCard();
   }
 
-  Future<void> _filterCard(value) async {
+  Future<void> _filterCard(dynamic value) async {
     await _cardList.filterCard(value);
   }
 }

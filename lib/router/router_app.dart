@@ -10,11 +10,11 @@ class RouterApp {
       case HomePage.routeName:
         return MaterialPageRoute(builder: (_) => const HomePage());
       case ListWordPage.routeName:
-        return MaterialPageRoute(builder: (_) => ListWordPage());
+        return MaterialPageRoute(builder: (_) => const ListWordPage());
       case SettingPage.routeName:
         return MaterialPageRoute(builder: (_) => const SettingPage());
       case ProfilePage.routeName:
-        return MaterialPageRoute(builder: (_) => ProfilePage());
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
       default:
         return MaterialPageRoute(builder: (_) => const HomePage());
     }

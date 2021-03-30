@@ -15,7 +15,6 @@ class FABBottomAppBarItem {
 }
 
 class FABBottomAppBar extends StatefulWidget {
-
   FABBottomAppBar({
     this.items,
     this.height = 60.0,
@@ -24,8 +23,9 @@ class FABBottomAppBar extends StatefulWidget {
     this.iconColor,
     this.selectedColor,
     this.notchedShape,
-    this.onTabSelected
-  }) {
+    this.onTabSelected,
+    Key key
+  }): super(key: key) {
     assert(items.length == 2 || items.length == 4);
   }
   final List<FABBottomAppBarItem> items;

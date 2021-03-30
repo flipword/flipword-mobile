@@ -20,7 +20,6 @@ class _ProfileOnline extends State<ProfileOnline> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    Widget _widgetDisplayed;
     return Stack(
       children: [
         Column(
@@ -82,7 +81,7 @@ class _ProfileOnline extends State<ProfileOnline> {
     );
   }
 
-  TextStyle _buildTextStyle(screenSize) {
+  TextStyle _buildTextStyle(dynamic screenSize) {
     if (screenSize.height > 600) {
       return const TextStyle(fontSize: 15);
     } else {

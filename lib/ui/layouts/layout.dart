@@ -12,6 +12,8 @@ import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
 import 'package:provider/provider.dart';
 
 class Layout extends StatefulWidget {
+  const Layout({Key key}) : super(key: key);
+
   @override
   LayoutState createState() => LayoutState();
 }

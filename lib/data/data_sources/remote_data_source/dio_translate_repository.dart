@@ -53,11 +53,11 @@ class TranslateHelper {
 class TranslateResponse {
   TranslateResponse({this.translations});
 
-  TranslateResponse.fromJson(jsonList) {
+  TranslateResponse.fromJson(dynamic jsonList) {
     final json = jsonList.single;
     if (json['translations'] != null) {
       translations = <Translations>[];
-      json['translations'].forEach((v) {
+      json['translations'].forEach((dynamic v) {
         translations.add(Translations.fromJson(v));
       });
     }
@@ -72,7 +72,7 @@ class TranslateResponse {
 
 class Translations {
   Translations({this.text, this.to});
-  Translations.fromJson(json) {
+  Translations.fromJson(dynamic json) {
     text = json['text'].toString();
     to = json['to'].toString();
   }

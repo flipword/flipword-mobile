@@ -10,6 +10,8 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
+  const ProfilePage({Key key}) : super(key: key);
+
   static const String routeName = '/profile';
 
   @override
@@ -67,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
             } else {
               _widgetDisplayed = Scaffold(
                   body: Column(children: [
-                ProfileOffline(),
+                const ProfileOffline(),
                 const SizedBox(height: 20),
                 RaisedButton(
                     textTheme: Theme.of(context).buttonTheme.textTheme,

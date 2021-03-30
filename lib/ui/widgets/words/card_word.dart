@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class CardWord extends StatelessWidget {
   CardWord(
-      {Key key,
-      @required this.nativeWord,
-      @required this.foreignWord,
-      @required this.color,
-      this.height = 40})
+      {
+        @required this.nativeWord,
+        @required this.foreignWord,
+        @required this.color,
+        this.height = 40,
+        Key key
+      })
       : super(key: key);
 
   String nativeWord;

@@ -182,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                     )
                 ])));
           } else {
-            _widgetDisplayed = NoWord();
+            _widgetDisplayed = const NoWord();
           }
       }
       return _widgetDisplayed;

@@ -67,7 +67,7 @@ class MyApp extends StatelessWidget {
                     builder: DevicePreview.appBuilder,
                     theme: LightTheme.defaultTheme,
                     darkTheme: DarkTheme.defaultTheme,
-                    home: Layout()
+                    home: const Layout()
                 ),
               );
             }

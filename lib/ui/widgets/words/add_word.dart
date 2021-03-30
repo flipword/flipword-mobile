@@ -8,7 +8,6 @@ import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart'
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 

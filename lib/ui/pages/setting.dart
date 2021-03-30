@@ -4,7 +4,6 @@ import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
