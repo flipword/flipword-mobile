@@ -6,6 +6,7 @@ import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 import 'package:flutter_flip_card/ui/widgets/words/detail_word.dart';
+import 'package:flutter_flip_card/ui/widgets/words/no_word.dart';
 import 'package:flutter_flip_card/ui/widgets/words/search_bar.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
@@ -54,11 +55,7 @@ class ListWordPageState extends State<ListWordPage> {
                         physics: _interfaceStore.overlayIsDisplayed.value
                             ? const BouncingScrollPhysics()
                             : const AlwaysScrollableScrollPhysics(),
-                        children: [
-                            const Center(
-                              child: Text('No word'),
-                            )
-                          ])
+                        children: [NoWord()])
                     : GridView.count(
                         padding: const EdgeInsets.all(10),
                         crossAxisSpacing: 10,

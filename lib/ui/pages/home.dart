@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
+import 'package:flutter_flip_card/ui/widgets/words/no_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
@@ -181,9 +182,7 @@ class _HomePageState extends State<HomePage> {
                     )
                 ])));
           } else {
-            _widgetDisplayed = const Center(
-              child: Text('No word'),
-            );
+            _widgetDisplayed = NoWord();
           }
       }
       return _widgetDisplayed;
