@@ -138,6 +138,7 @@ class _State extends State<AddWord> {
                               label: _settingStore.baseLanguage.label,
                               focusNode: focusNode,
                               hintText: 'Enter your world',
+                              onWordChanged: (_) => {},
                             ),
                           ),
                           const SizedBox(height: 15),
@@ -160,6 +161,7 @@ class _State extends State<AddWord> {
                               child: InputWord(
                                 controller: _translateWordController,
                                 label: _settingStore.translateLanguage.label,
+                                onWordChanged: (_) => {},
                               )),
                           const SizedBox(height: 5),
                           IconTextButton(
