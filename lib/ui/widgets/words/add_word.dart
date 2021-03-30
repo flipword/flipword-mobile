@@ -29,7 +29,7 @@ class _State extends State<AddWord> {
   GlobalKey<SquareButtonState>();
   final _formKey = GlobalKey<FormState>();
 
-  final String translateIcon = 'assets/microsoft-translate.svg';
+  final String translateIcon = 'assets/microsoft-translate.png';
   CardListStore _cardListStore;
   SettingStore _settingStore;
 
@@ -75,22 +75,21 @@ class _State extends State<AddWord> {
                               Image.asset(translateIcon,
                                   height: 35, width: 35),
                               const SizedBox(width: 5),
-                              Column(children: const [
-                                Text(
+                              const Text(
                                   'Microsoft',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 30),
-                                ),
-                                Text(
+                                      fontSize: 23),
+                              ),
+                              const SizedBox(width: 5),
+                              const Text(
                                   'Translate',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w300,
-                                      fontSize: 30),
-                                )
-                              ],)
+                                      fontSize: 23),
+                              )
                             ],
                           ),
                         ),
