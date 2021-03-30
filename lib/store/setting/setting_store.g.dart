@@ -9,22 +9,6 @@ part of 'setting_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingStore on _SettingStore, Store {
-  Computed<ObservableFuture<Language>> _$nativeLanguageComputed;
-
-  @override
-  ObservableFuture<Language> get nativeLanguage => (_$nativeLanguageComputed ??=
-          Computed<ObservableFuture<Language>>(() => super.nativeLanguage,
-              name: '_SettingStore.nativeLanguage'))
-      .value;
-  Computed<ObservableFuture<Language>> _$foreignLanguageComputed;
-
-  @override
-  ObservableFuture<Language> get foreignLanguage =>
-      (_$foreignLanguageComputed ??= Computed<ObservableFuture<Language>>(
-              () => super.foreignLanguage,
-              name: '_SettingStore.foreignLanguage'))
-          .value;
-
   final _$languagesAtom = Atom(name: '_SettingStore.languages');
 
   @override
@@ -37,6 +21,36 @@ mixin _$SettingStore on _SettingStore, Store {
   set languages(ObservableFuture<List<Language>> value) {
     _$languagesAtom.reportWrite(value, super.languages, () {
       super.languages = value;
+    });
+  }
+
+  final _$nativeLanguageAtom = Atom(name: '_SettingStore.nativeLanguage');
+
+  @override
+  ObservableFuture<Language> get nativeLanguage {
+    _$nativeLanguageAtom.reportRead();
+    return super.nativeLanguage;
+  }
+
+  @override
+  set nativeLanguage(ObservableFuture<Language> value) {
+    _$nativeLanguageAtom.reportWrite(value, super.nativeLanguage, () {
+      super.nativeLanguage = value;
+    });
+  }
+
+  final _$foreignLanguageAtom = Atom(name: '_SettingStore.foreignLanguage');
+
+  @override
+  ObservableFuture<Language> get foreignLanguage {
+    _$foreignLanguageAtom.reportRead();
+    return super.foreignLanguage;
+  }
+
+  @override
+  set foreignLanguage(ObservableFuture<Language> value) {
+    _$foreignLanguageAtom.reportWrite(value, super.foreignLanguage, () {
+      super.foreignLanguage = value;
     });
   }
 
@@ -121,10 +135,10 @@ mixin _$SettingStore on _SettingStore, Store {
   String toString() {
     return '''
 languages: ${languages},
-baseLanguage: ${baseLanguage},
-translateLanguage: ${translateLanguage},
 nativeLanguage: ${nativeLanguage},
-foreignLanguage: ${foreignLanguage}
+foreignLanguage: ${foreignLanguage},
+baseLanguage: ${baseLanguage},
+translateLanguage: ${translateLanguage}
     ''';
   }
 }
