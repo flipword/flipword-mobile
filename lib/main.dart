@@ -16,7 +16,7 @@ import 'ui/themes/light_theme.dart';
 
 void main()  {
 
-  const env =  String.fromEnvironment('ENV', defaultValue: 'dev');
+  const env =  String.fromEnvironment('ENV', defaultValue: 'prod');
   switch(env){
     case 'dev':
       Constanants.setEnvironement(Environement.DEV);
