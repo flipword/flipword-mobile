@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   InterfaceStore _interfaceStore;
   bool _revealState;
   bool _endOfSerie;
+  bool _foreignIsOnFront;
 
   @override
   void initState() {
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     _revealState = false;
     _endOfSerie = false;
+    _foreignIsOnFront = true;
     super.initState();
   }
 
@@ -86,10 +88,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Center(
                           child: Text(
-                            _cardListStore
-                                .list
-                                .result[_cardListStore.curentIndex.value]
-                                .foreignWord,
+                            _getTextOnFront(),
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 25),
                           ),
@@ -111,10 +110,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Center(
                             child: Text(
-                          _cardListStore
-                              .list
-                              .result[_cardListStore.curentIndex.value]
-                              .nativeWord,
+                          _getTextOnBack(),
                           style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 25),
                         ))),
@@ -150,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                         SquareButton(
                           onPressed: _interfaceStore.overlayIsDisplayed.value
                               ? null
-                              : () => {cardKey.currentState.toggleCard()},
+                              : () => {reviewCard()},
                           icon: const Icon(Icons.replay, size: 30),
                           backgroundColor: Theme.of(context).cardColor,
                           borderColor: Theme.of(context).primaryColor,
@@ -189,6 +185,30 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  String _getTextOnFront() {
+    return _foreignIsOnFront ? _cardListStore
+        .list
+        .result[_cardListStore.curentIndex.value]
+        .foreignWord : _cardListStore
+        .list
+        .result[_cardListStore.curentIndex.value]
+        .nativeWord;
+  }
+
+  String _getTextOnBack() {
+    return _foreignIsOnFront ? _cardListStore
+        .list
+        .result[_cardListStore.curentIndex.value]
+        .nativeWord : _cardListStore
+        .list
+        .result[_cardListStore.curentIndex.value]
+        .foreignWord ;
+  }
+
+  void reviewCard() {
+    cardKey.currentState.toggleCard();
+    _foreignIsOnFront = !_foreignIsOnFront;
+  }
   void _revealWord() {
     setState(() {
       _revealState = true;
@@ -201,6 +221,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _revealState = false;
       });
+      _foreignIsOnFront = !_foreignIsOnFront;
     } else {
       setState(() {
         _endOfSerie = true;
@@ -215,6 +236,7 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         _revealState = false;
       });
+      _foreignIsOnFront = !_foreignIsOnFront;
     } else {
       setState(() {
         _endOfSerie = true;
@@ -230,6 +252,7 @@ class _HomePageState extends State<HomePage> {
       _endOfSerie = false;
       _revealState = false;
     });
+    _foreignIsOnFront = true;
   }
 
   double _getButtonSize() {
