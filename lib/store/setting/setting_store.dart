@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:mobx/mobx.dart';
@@ -25,6 +26,9 @@ abstract class _SettingStore with Store {
 
   @observable
   Language translateLanguage;
+
+  @computed
+  bool get isReverseLanguage => nativeLanguage.value != baseLanguage;
 
   @action
   Future<void> initLanguages() =>

@@ -26,7 +26,7 @@ Generate store file:
 $> flutter packages pub run build_runner build --delete-conflicting-outputs
 
 Build apk:
-$> flutter build apk --release --dart-define=ENV=prod0000000000000
+$> flutter build apk --release --dart-define=ENV=prod
 
 ## Naming convention 
 

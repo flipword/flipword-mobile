@@ -212,7 +212,9 @@ class _State extends State<AddWord> {
       } else {
         final baseWord = _formatWord(_baseWordController.text);
         final translateWord = _formatWord(_translateWordController.text);
-        await _cardService.insertCard(baseWord, translateWord);
+        final nativeWord = _settingStore.isReverseLanguage ? translateWord : baseWord;
+        final foreignWord = _settingStore.isReverseLanguage ? baseWord : translateWord;
+        await _cardService.insertCard(nativeWord, foreignWord);
         _baseWordController.text = '';
         _translateWordController.text = '';
         focusNode.requestFocus();
