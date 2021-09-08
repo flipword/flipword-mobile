@@ -30,6 +30,7 @@
 .packages
 .pub-cache/
 .pub/
+*.env
 /build/
 android/app/debug
 android/app/release
