@@ -48,7 +48,7 @@ jobs:
         run: flutter pub get
 
       - name: Decode secrets properties files
-        run: echo "$SECRETS_PROPERTIES" | base64 -d > ./android/key.properties;echo "$SECRETS_KEY" | base64 -d > ./android/upload-keystore.jks;echo "$GOOGLE_SERVICE" | base64 -d > ./android/app/google-services.json
+        run: touch .lib/.env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .lib/.env; echo "$SECRETS_PROPERTIES" | base64 -d > ./android/key.properties;echo "$SECRETS_KEY" | base64 -d > ./android/upload-keystore.jks;echo "$GOOGLE_SERVICE" | base64 -d > ./android/app/google-services.json
         env:
           SECRETS_PROPERTIES: ${{ secrets.SECRETS_PROPERTIES }}
           SECRETS_KEY: ${{ secrets.SECRETS_KEY }}
