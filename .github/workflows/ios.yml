@@ -1,0 +1,23 @@
+name: Dart CI
+
+on: push
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout gallery code
+        uses: actions/checkout@v2
+
+      - name: Build
+        uses: sparkfabrik/ios-build-action@v1.0.0
+        with:
+          project-path: ./ios/Runner.xcodeproj
+          p12-key-base64: ${{ secrets.P12_KEY_BASE64 }}
+          p12-cer-base64: ${{ secrets.P12_CER_BASE64 }}
+          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
+          team-id: ${{ secrets.APPLE_TEAM_ID }}
+          workspace-path: App.xcworkspace # optional
+
+
