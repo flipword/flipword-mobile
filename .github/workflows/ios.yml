@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Build
-        uses: sparkfabrik/ios-build-action@v1.0.0
+        uses: sparkfabrik/ios-build-action@v1.1.0
         with:
           project-path: ./ios/Runner.xcodeproj
           p12-key-base64: ${{ secrets.P12_KEY_BASE64 }}
