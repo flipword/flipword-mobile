@@ -36,7 +36,19 @@
   <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-storage.js"></script>
+  <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCuon7WUdd609Y85oBJJbD8ul3eGoO8RDs",
+    authDomain: "flutter-flip-card.firebaseapp.com",
+    databaseURL: "https://flutter-flip-card.firebaseio.com",
+    projectId: "flutter-flip-card",
+    storageBucket: "flutter-flip-card.appspot.com",
+    messagingSenderId: "186673725150",
+    appId: "1:186673725150:web:2e45457bb4499811f30c4f",
+    measurementId: "G-K5QTK9Y7PD"
+  };
+  firebase.initializeApp(firebaseConfig);
+</script>
   <script>
     var serviceWorkerVersion = null;
     var scriptLoaded = false;
