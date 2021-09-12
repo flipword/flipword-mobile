@@ -15,6 +15,11 @@ jobs:
       - name: Checkout gallery code
         uses: actions/checkout@v2
 
+      - name: Decode secrets properties files
+        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
+        env:
+          AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
+
       - name: Pod install
         run: flutter clean && flutter pub get && cd ios/ && pod install
 
