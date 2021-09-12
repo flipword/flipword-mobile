@@ -6,6 +6,15 @@ jobs:
   build-ios:
     runs-on: macos-latest
     steps:
+      # Set up Flutter.
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@v1.5.0
+        with:
+          channel: master
+
+      - name: Flutter doctor
+        run: flutter doctor -v
+
       - name: Checkout gallery code
         uses: actions/checkout@v2
 
