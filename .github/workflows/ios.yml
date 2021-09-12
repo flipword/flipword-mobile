@@ -9,6 +9,9 @@ jobs:
       - name: Checkout gallery code
         uses: actions/checkout@v2
 
+      - name: Pod install
+        run: cd ios/ && pod install
+
       - name: Build
         uses: sparkfabrik/ios-build-action@v1.1.0
         with:
