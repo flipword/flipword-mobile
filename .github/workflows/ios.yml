@@ -32,6 +32,15 @@ jobs:
         env:
           P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
 
+      - name: set up provisioning profiles
+        run: PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles" \
+          mkdir -p "$PROFILES_HOME" \
+          PROFILE_PATH="$(mktemp "$PROFILES_HOME"/$(uuidgen).mobileprovision)" \
+          echo ${MOBILEPROVISION_BASE64} | base64 --decode > $PROFILE_PATH \
+          echo "Saved provisioning profile $PROFILE_PATH"
+        env:
+          MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+
       - name: Update Xcode setting
         run: xcode-project use-profiles --export-options-plist=./ios/export_options.plist
 
