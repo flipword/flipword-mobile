@@ -6,11 +6,6 @@ jobs:
   build-ios:
     runs-on: macos-latest
     steps:
-      - name: set up provisioning profiles
-        run: PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"; mkdir -p "$PROFILES_HOME";echo "$MOBILEPROVISION_BASE64" | base64 --decode > "$PROFILES_HOME"/$(uuidgen).mobileprovision
-        env:
-          P12_KEY_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
-
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
         with:
@@ -20,11 +15,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Decode secrets properties files
-        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist; echo "$P12_CER_BASE64" | base64 -d > ./ios/ios_distribution.p12
+        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist; echo "$P12_CER_BASE64" | base64 -d > ./ios/ios_distribution.p12;PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"; mkdir -p "$PROFILES_HOME";echo "$MOBILEPROVISION_BASE64" | base64 --decode > "$PROFILES_HOME"/$(uuidgen).mobileprovision
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
           P12_CER_BASE64: ${{ secrets.P12_CER_BASE64 }}
+          MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
 
       - name: Install CodeMagic
         run: pip3 install codemagic-cli-tools
