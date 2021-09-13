@@ -21,6 +21,12 @@ jobs:
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
           P12_CER_BASE64: ${{ secrets.P12_CER_BASE64 }}
 
+      - name: Install CodeMagic
+        run: pip3 install codemagic-cli-tools
+
+      - name: Setup keychain
+        run: keychain initialize; keychain use-login
+
       - name: Apple certification
         run: app-store-connect fetch-signing-files com.flipword.app \
           --platform IOS_APP_STORE \
@@ -35,12 +41,6 @@ jobs:
 
       - name: View file
         run: ls -R
-
-      - name: Install CodeMagic
-        run: pip3 install codemagic-cli-tools
-
-      - name: Setup keychain
-        run: keychain initialize; keychain use-login
 
       - name: Pub get
         run: flutter clean && flutter pub get
