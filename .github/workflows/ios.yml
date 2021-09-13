@@ -15,11 +15,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Decode secrets properties files
-        run: touch .env \
-        echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env \
-        echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist \
-        echo "$P12_CER_BASE64" | base64 -d > ./ios/ios_distribution.p12 \
-        echo "$MOBILEPROVISION_BASE64" | base64 -d > $HOME/Library/MobileDevice/Provisioning Profiles/$(uuidgen).mobileprovision
+        run: touch .env; \
+          echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env; \
+          echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist; \
+          echo "$P12_CER_BASE64" | base64 -d > ./ios/ios_distribution.p12; \
+          echo "$MOBILEPROVISION_BASE64" | base64 -d > $HOME/Library/MobileDevice/Provisioning Profiles/$(uuidgen).mobileprovision;
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
