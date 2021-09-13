@@ -28,12 +28,12 @@ jobs:
         run: keychain initialize; keychain use-login
 
       - name: Add fetched certificate
-        run: keychain add-certificates --certificate=@file:./ios/ios_distribution.p12  --certificate-password=@env:P12_KEY_BASE64
+        run: keychain add-certificates --certificate=@file:./ios/*.p12  --certificate-password=@env:P12_KEY_BASE64
         env:
           P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
 
       - name: Update Xcode setting
-        run: xcode-project use-profiles
+        run: xcode-project use-profiles --export-options-plist=./ios/export_options.plist
 
       - name: View file
         run: ls -R
@@ -41,5 +41,8 @@ jobs:
       - name: Pub get
         run: flutter clean && flutter pub get
 
+      - name: Pod Install
+        run: pod install
+
       - name: Build
-        run: flutter build ios --release --no-codesign
+        run: flutter build ipa --release --export-options-plist=./ios/export_options.plist
