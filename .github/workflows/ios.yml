@@ -39,8 +39,5 @@ jobs:
       - name: Pub get
         run: flutter clean && flutter pub get
 
-      - name: Pod Install
-        run: cd ./ios/; pod install
-
       - name: Build
         run: flutter build ipa --release --export-options-plist=./ios/export_options.plist
