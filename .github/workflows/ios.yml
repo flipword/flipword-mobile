@@ -41,7 +41,7 @@ jobs:
       - name: Pub get
         run: flutter clean && flutter pub get
 
-      - name: Pod Install
+      - name: cd ./ios/; Pod Install
         run: pod install
 
       - name: Build
