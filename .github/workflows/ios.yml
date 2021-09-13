@@ -35,14 +35,11 @@ jobs:
       - name: Update Xcode setting
         run: xcode-project use-profiles --export-options-plist=./ios/export_options.plist
 
-      - name: View file
-        run: ls -R
-
       - name: Pub get
         run: flutter clean && flutter pub get
 
-      - name: cd ./ios/; Pod Install
-        run: pod install
+      - name: Pod Install
+        run: cd ./ios/; pod install
 
       - name: Build
         run: flutter build ipa --release --export-options-plist=./ios/export_options.plist
