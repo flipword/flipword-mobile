@@ -43,4 +43,4 @@ jobs:
         run: find . -name "Podfile" -execdir pod install \;
 
       - name: Build
-        run: flutter build ipa --verbose --release --export-options-plist=./ios/export_options.plist
+        run: xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner
