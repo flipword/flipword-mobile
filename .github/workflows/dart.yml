@@ -2,10 +2,9 @@ name: Dart CI
 
 on:
   push:
-    branches:
-      - "*"
   pull_request:
-    branches: [ master ]
+    branches:
+      - "master"
 
 jobs:
   lint:
