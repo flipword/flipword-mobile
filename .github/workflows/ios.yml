@@ -39,8 +39,14 @@ jobs:
       - name: Pub get
         run: flutter clean && flutter pub get
 
-      - name: Pod install
-        run: find . -name "Podfile" -execdir pod install \;
+      - name: Building IPA
+        run: |
+          xcode-project use-profiles
+          flutter build ios --release --no-codesign
+          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --config Release
 
-      - name: Build
-        run: xcode-project build-ipa --verbose --project ios/Runner.xcodeproj  --workspace ios/Runner.xcworkspace --export-options-plist ios/export_options.plist --scheme Runner
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: adhoc-ipa
+          path: build/ios/ipa/*.ipa
