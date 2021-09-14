@@ -6,41 +6,53 @@ jobs:
   build-ios:
     runs-on: macos-latest
     steps:
-      - name: Clone Flutter repository with master channel
-        uses: subosito/flutter-action@v1.5.0
-        with:
-          channel: master
-
       - name: Checkout gallery code
         uses: actions/checkout@v2
 
+      - name: Create Folder for certificates and profiles
+        run: |
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          mkdir -p ~/Library/MobileDevice/Certificates/
+
       - name: Decode secrets properties files
-        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist; echo "$P12_CER_BASE64" | base64 -d > ./ios/ios_distribution.p12;PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"; mkdir -p "$PROFILES_HOME";echo "$MOBILEPROVISION_BASE64" | base64 --decode > "$PROFILES_HOME"/$(uuidgen).mobileprovision
+        run: |
+        touch .env
+        echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
+        echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
+        echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12
+        echo "$MOBILEPROVISION_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/decoded.mobileprovision
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
           P12_CER_BASE64: ${{ secrets.P12_CER_BASE64 }}
           MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
 
-      - name: Install CodeMagic
-        run: pip3 install codemagic-cli-tools
+      - name: Install python and codemagic tools
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
 
-      - name: Setup keychain
-        run: keychain initialize; keychain use-login
+      - name: Install python dependencies
+        run: python -m pip install codemagic-cli-tools
 
-      - name: Add fetched certificate
-        run: keychain add-certificates --certificate=ios/*.p12  --certificate-password=@env:P12_KEY_BASE64
+      - name: Initialize Keychain with certificate
+        run: |
+          keychain initialize
+          keychain add-certificates --certificate ~/Library/MobileDevice/Certificates/certificate.p12 --certificate-password=@env:P12_KEY_BASE64
         env:
           P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
 
-      - name: Update Xcode setting
-        run: xcode-project use-profiles --export-options-plist=./ios/export_options.plist
+      - name: Clone Flutter repository with master channel
+        uses: subosito/flutter-action@v1.5.0
+        with:
+          channel: master
 
       - name: Pub get
-        run: flutter clean && flutter pub get
+        run: flutter pub get
 
       - name: Building IPA
         run: |
+          xcode-project use-profiles
           flutter build ios --release --no-codesign
           xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --config Release
 
