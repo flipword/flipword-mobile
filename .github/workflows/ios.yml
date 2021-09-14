@@ -42,5 +42,8 @@ jobs:
       - name: Pod install
         run: find . -name "Podfile" -execdir pod install \;
 
+      - name: View Disk usage
+        run: df -h
+
       - name: Build
         run: flutter build ipa --verbose --release --export-options-plist=./ios/export_options.plist
