@@ -43,4 +43,4 @@ jobs:
         run: find . -name "Podfile" -execdir pod install \;
 
       - name: Build
-        run: xcode-project build-ipa --verbose --project ios/Runner.xcodeproj  --workspace ios/Runner.xcworkspace --export-options-plist ios/export_options.plist --scheme Runner --clean
+        run: xcode-project build-ipa --verbose --project ios/Runner.xcodeproj  --workspace ios/Runner.xcworkspace --export-options-plist ios/export_options.plist --scheme Runner
