@@ -15,10 +15,26 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Decode secrets properties files
-        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
+        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist; echo "$P12_CER_BASE64" | base64 -d > ./ios/ios_distribution.p12;PROFILES_HOME="$HOME/Library/MobileDevice/Provisioning Profiles"; mkdir -p "$PROFILES_HOME";echo "$MOBILEPROVISION_BASE64" | base64 --decode > "$PROFILES_HOME"/$(uuidgen).mobileprovision
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
+          P12_CER_BASE64: ${{ secrets.P12_CER_BASE64 }}
+          MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
+
+      - name: Install CodeMagic
+        run: pip3 install codemagic-cli-tools
+
+      - name: Setup keychain
+        run: keychain initialize; keychain use-login
+
+      - name: Add fetched certificate
+        run: keychain add-certificates --certificate=ios/*.p12  --certificate-password=@env:P12_KEY_BASE64
+        env:
+          P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
+
+      - name: Update Xcode setting
+        run: xcode-project use-profiles --export-options-plist=./ios/export_options.plist
 
       - name: Pub get
         run: flutter clean && flutter pub get
@@ -27,12 +43,4 @@ jobs:
         run: find . -name "Podfile" -execdir pod install \;
 
       - name: Build
-        uses: sparkfabrik/ios-build-action@v1.1.0
-        with:
-          project-path: ./ios/Runner.xcodeproj
-          certificate-password: ${{ secrets.P12_KEY_BASE64 }}
-          p12-base64: ${{ secrets.P12_CER_BASE64 }}
-          mobileprovision-base64: ${{ secrets.MOBILEPROVISION_BASE64 }}
-          code-signing-identity: ${{ secrets.CODE_SIGNING_IDENTITY }}
-          team-id: ${{ secrets.APPLE_TEAM_ID }}
-          workspace-path: ./ios/Runner.xcworkspace
+        run: xcode-project build-ipa --verbose --project ios/Runner.xcodeproj  --workspace ios/Runner.xcworkspace --export-options-plist ios/export_options.plist --scheme Runner --clean
