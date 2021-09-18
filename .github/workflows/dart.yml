@@ -77,7 +77,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mkdir -p ~/Library/MobileDevice/Certificates/
       - name: Decode secrets properties files
-        run: touch .env;echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist;echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12;echo "$MOBILEPROVISION_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/decoded.mobileprovision;echo "APP_STORE_CONNECT_P8" | base64 -d > ~/Library/MobileDevice/Certificates/AuthKey.p8
+        run: touch .env;echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist;echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12;echo "$MOBILEPROVISION_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/decoded.mobileprovision;echo "APP_STORE_CONNECT_P8" | base64 -d > ./ios/AuthKey.p8
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
@@ -115,7 +115,7 @@ jobs:
           xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --config Release --verbose
 
       - name: Publish IPA on appstoreconnect
-        run: app-store-connect publish --path build/ios/ipa/*.ipa --issuer-id=@env:IOS_ISSUER_ID --private-key=@file:~/Library/MobileDevice/Certificates/AuthKey.p8 --key-id=@env:APP_STORE_CONNECT_API_KEY
+        run: app-store-connect publish --path build/ios/ipa/*.ipa --issuer-id=@env:IOS_ISSUER_ID --private-key=@file:./ios/AuthKey.p8 --key-id=@env:APP_STORE_CONNECT_API_KEY
         env:
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
