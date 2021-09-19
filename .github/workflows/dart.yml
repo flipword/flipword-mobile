@@ -110,6 +110,7 @@ jobs:
       - name: Building IPA
         run: |
           xcode-project use-profiles
+          flutter build ios --release --no-codesign --verbose
           xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --config Release --verbose
 
       - name: Decode appstoreconnectkey
