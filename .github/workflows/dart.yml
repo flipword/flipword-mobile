@@ -117,7 +117,7 @@ jobs:
         run: echo "$APP_STORE_CONNECT_P8" | base64 -d > ./ios/AuthKey.p8
 
       - name: Publish IPA on appstoreconnect
-        run: app-store-connect publish --path build/ios/ipa/*.ipa --issuer-id @env:IOS_ISSUER_ID --private-key @file:ios/AuthKey.p8 --key-id @env:APP_STORE_CONNECT_API_KEY
+        run: app-store-connect publish --path build/ios/ipa/*.ipa --issuer-id @env:IOS_ISSUER_ID --private-key @file:"ios/AuthKey.p8" --key-id @env:APP_STORE_CONNECT_API_KEY
         env:
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
