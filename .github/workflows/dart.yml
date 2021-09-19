@@ -81,10 +81,10 @@ jobs:
         run: python -m pip install codemagic-cli-tools
 
       - name: Decode appstoreconnectkey
-        run: echo "$APP_STORE_CONNECT_P8" | base64 -d > ios/AuthKey.p8
+        run: echo "$APP_STORE_CONNECT_P8" | base64 -d > authkey.p8
 
       - name: Publish IPA on appstoreconnect
-        run: ls ios/; app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --private-key @file:ios --key-id @env:APP_STORE_CONNECT_API_KEY --verbose
+        run: ls ios/; app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --private-key @file:"authkey.p8" --key-id @env:APP_STORE_CONNECT_API_KEY --verbose
         env:
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
