@@ -86,10 +86,12 @@ jobs:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
 
       - name: Publish IPA on appstoreconnect
-        run: app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --verbose; cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-19-09-21.log;
+        run: app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --verbose
         env:
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+      - if: failure()
+        run: cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-19-09-21.log;
 
       - name: Create Folder for certificates and profiles
         run: |
