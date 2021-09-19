@@ -86,7 +86,7 @@ jobs:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
 
       - name: Publish IPA on appstoreconnect
-        run: ls ~/private_keys; app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --verbose
+        run: app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --verbose
         env:
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
