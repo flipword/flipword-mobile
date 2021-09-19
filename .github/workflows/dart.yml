@@ -72,6 +72,15 @@ jobs:
       - name: Checkout gallery code
         uses: actions/checkout@v2
 
+      - name: Decode appstoreconnectkey
+        run: echo "$APP_STORE_CONNECT_P8" | base64 -d > ./ios/AuthKey.p8
+
+      - name: Publish IPA on appstoreconnect
+        run: app-store-connect publish --path tmp/*.ipa --issuer-id @env:IOS_ISSUER_ID --private-key "@file:ios/AuthKey.p8" --key-id @env:APP_STORE_CONNECT_API_KEY
+        env:
+          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+
       - name: Create Folder for certificates and profiles
         run: |
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
