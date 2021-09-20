@@ -132,8 +132,6 @@ jobs:
         env:
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
-      - if: failure()
-        run: cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-19-09-21.log;
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
