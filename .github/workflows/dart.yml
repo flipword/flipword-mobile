@@ -85,7 +85,7 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           mkdir -p ~/Library/MobileDevice/Certificates/
       - name: Decode secrets properties files
-        run: touch .env;echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist;echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12;echo "$MOBILEPROVISION_BASE64" | base64 --decode > ~/Library/MobileDevice/Provisioning\ Profiles/decoded.mobileprovision
+        run: touch .env;echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env;echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist;echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}

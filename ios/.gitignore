@@ -18,7 +18,6 @@ Flutter/App.framework
 Flutter/Flutter.framework
 Flutter/Flutter.podspec
 Flutter/Generated.xcconfig
-Flutter/ephemeral/
 Flutter/app.flx
 Flutter/app.zip
 Flutter/flutter_assets/
@@ -31,3 +30,7 @@ Runner/GeneratedPluginRegistrant.*
 !default.mode2v3
 !default.pbxuser
 !default.perspectivev3
+
+# mac os
+.DS_Store
+Podfile.lock
