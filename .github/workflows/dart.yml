@@ -111,6 +111,8 @@ jobs:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.IOS_PRIVATE_KEY }}
+          CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
 
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
