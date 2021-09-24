@@ -83,12 +83,14 @@ jobs:
       - name: Create Folder for certificates and profiles
         run: |
           mkdir -p ./keys
+          mkdir -p ~/private_keys
 
       - name: Decode secrets properties files
         run: |
           touch .env
           echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
           echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
+          echo "$APP_STORE_CONNECT_P8" | base64 -d > ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
           cd ./keys
           ssh-keygen -t rsa -b 2048 -m PEM -f cert_key -q -N ""
         env:
