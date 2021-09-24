@@ -112,10 +112,12 @@ jobs:
       - name: Initialize Keychain with certificate
         run: |
           keychain initialize
-          app-store-connect fetch-signing-files "your.bundle.id" --type IOS_APP_STORE --create
+          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --create
           keychain add-certificates --certificate ~/Library/MobileDevice/Certificates/certificate.p12 --certificate-password @env:P12_KEY_BASE64
         env:
           P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
+          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
 
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
