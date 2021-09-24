@@ -80,22 +80,17 @@ jobs:
       - name: Install python dependencies
         run: python -m pip install codemagic-cli-tools
 
-      - name: Create Folder for certificates and profiles
-        run: |
-          mkdir -p ./keys
-
       - name: Decode secrets properties files
         run: |
           touch .env
           echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
           echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
-          echo "$APP_STORE_CONNECT_P8" | base64 -d > ./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
+          echo "$APP_STORE_CONNECT_P8" | base64 -d > ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}
-          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
 
       - name: Install python and codemagic tools
         uses: actions/setup-python@v2
@@ -109,17 +104,12 @@ jobs:
         run: |
           keychain initialize
           echo $APP_STORE_CONNECT_ISSUER_ID
-          app-store-connect fetch-signing-files "com.flipword.app" \
-          --issuer-id @env:IOS_ISSUER_ID \
-          --key-id @env:APP_STORE_CONNECT_API_KEY \
-          --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
-          --type IOS_APP_STORE \
-          --create
+          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --create
           keychain add-certificates
         env:
-          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
-          APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}
-          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_PRIVATE_KEY: ${{ cat `~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8` }}
 
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
