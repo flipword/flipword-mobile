@@ -90,11 +90,15 @@ jobs:
           echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
           echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
           echo "$APP_STORE_CONNECT_P8" | base64 -d > ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
+          export APP_STORE_CONNECT_ISSUER_ID=IOS_ISSUER_ID
+          export APP_STORE_CONNECT_KEY_IDENTIFIER=APP_STORE_CONNECT_API_KEY
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8`
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}
+          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
 
       - name: Install python and codemagic tools
         uses: actions/setup-python@v2
@@ -107,13 +111,8 @@ jobs:
       - name: Initialize Keychain with certificate
         run: |
           keychain initialize
-          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --create
+          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --create
           keychain add-certificates
-        env:
-          P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
-          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
-          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
-          IOS_DISTRIBUTION_CER_KEY: ${{ secrets.IOS_DISTRIBUTION_CER_KEY }}
 
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
