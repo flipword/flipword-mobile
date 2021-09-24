@@ -116,7 +116,7 @@ jobs:
           keychain initialize
           keychain add-certificates --certificate ~/Library/MobileDevice/Certificates/certificate.p12 --certificate-password @env:P12_KEY_BASE64
           ls ~/Library/MobileDevice/Certificates
-          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --certificate-key @file:~/Library/MobileDevice/Certificates/cert_key --create
+          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --certificate-key @file:~/Library/MobileDevice/Certificates/cert_key --certificate-key-password @env:P12_KEY_BASE64 --create
         env:
           P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
