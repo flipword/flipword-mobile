@@ -117,9 +117,14 @@ jobs:
               --platform IOS \
               --type IOS_APP_STORE \
               --certificate-key=@file:./keys/cert_key \
+              --issuer-id @env:IOS_ISSUER_ID \
+              --key-id @env:APP_STORE_CONNECT_API_KEY
               --create
           keychain add-certificates
           xcode-project use-profiles
+        env:
+          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
 
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
