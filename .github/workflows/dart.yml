@@ -111,7 +111,7 @@ jobs:
           echo $APP_STORE_CONNECT_ISSUER_ID
           app-store-connect fetch-signing-files "com.flipword.app" \
           --issuer-id @env:IOS_ISSUER_ID \
-          --key-id @env:$APP_STORE_CONNECT_API_KEY \
+          --key-id @env:APP_STORE_CONNECT_API_KEY \
           --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
           --type IOS_APP_STORE \
           --create
