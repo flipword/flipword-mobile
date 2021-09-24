@@ -90,8 +90,8 @@ jobs:
           echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
           echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
           echo "$APP_STORE_CONNECT_P8" | base64 -d > ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
-          export APP_STORE_CONNECT_ISSUER_ID=IOS_ISSUER_ID
-          export APP_STORE_CONNECT_KEY_IDENTIFIER=APP_STORE_CONNECT_API_KEY
+          export APP_STORE_CONNECT_ISSUER_ID=$IOS_ISSUER_ID
+          export APP_STORE_CONNECT_KEY_IDENTIFIER=$APP_STORE_CONNECT_API_KEY
           export APP_STORE_CONNECT_PRIVATE_KEY=`cat ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8`
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
