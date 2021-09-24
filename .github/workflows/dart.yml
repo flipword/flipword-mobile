@@ -92,7 +92,7 @@ jobs:
           echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
           echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
           echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12
-          echo "$IOS_DISTRIBUTION_CER" | base64 -d > ~/private_keys/ios_certificate.cer
+          openssl pkcs12 -in ~/Library/MobileDevice/Certificates/certificate.p12 -nodes -nocerts | openssl rsa -out ~/Library/MobileDevice/Certificates/cert_key
           echo "$APP_STORE_CONNECT_P8" | base64 -d > ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
@@ -115,8 +115,8 @@ jobs:
         run: |
           keychain initialize
           keychain add-certificates --certificate ~/Library/MobileDevice/Certificates/certificate.p12 --certificate-password @env:P12_KEY_BASE64
-          ls ~/private_keys
-          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --certificate-key ~/private_keys/ios_certificate.cer --certificate-key-password @env:IOS_DISTRIBUTION_CER_KEY --create
+          ls ~/Library/MobileDevice/Certificates
+          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --certificate-key @file:~/Library/MobileDevice/Certificates/cert_key --create
         env:
           P12_KEY_BASE64: ${{ secrets.P12_KEY_BASE64 }}
           IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
