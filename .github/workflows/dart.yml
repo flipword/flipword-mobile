@@ -94,6 +94,7 @@ jobs:
           echo "$P12_CER_BASE64" | base64 -d > ~/Library/MobileDevice/Certificates/certificate.p12
           echo "$IOS_DISTRIBUTION_CER" | base64 -d > ~/private_keys/ios_certificate.cer
           echo "$APP_STORE_CONNECT_P8" | base64 -d > ~/private_keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
+          ls ~/private_keys
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
