@@ -129,10 +129,13 @@ jobs:
           xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --config Release --verbose
 
       - name: Publish IPA on appstoreconnect
-        run: app-store-connect publish --path build/ios/ipa/*.ipa --issuer-id @env:IOS_ISSUER_ID --key-id @env:APP_STORE_CONNECT_API_KEY --verbose
+        run: app-store-connect publish --path build/ios/ipa/*.ipa --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
         env:
-          IOS_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.IOS_PRIVATE_KEY }}
+          CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
