@@ -107,6 +107,7 @@ jobs:
           echo $APP_STORE_CONNECT_ISSUER_ID
           app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --create --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
           keychain add-certificates
+          xcode-project use-profiles
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
@@ -122,14 +123,16 @@ jobs:
       - name: Pub get
         run: flutter pub get
 
+      - name: Pod install
+        run: find . -name "Podfile" -execdir pod install \;
+
       - name: Building IPA
         run: |
-          xcode-project use-profiles
-          flutter build ios --release --no-codesign --verbose
-          xcode-project build-ipa --workspace ios/Runner.xcworkspace --scheme Runner --config Release --verbose
+          flutter build ipa --release \
+          --export-options-plist=$HOME/export_options.plist
 
       - name: Publish IPA on appstoreconnect
-        run: app-store-connect publish --path build/ios/ipa/*.ipa --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
+        run: app-store-connect publish --path $(find $(pwd) -name "*.ipa") --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
