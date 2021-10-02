@@ -24,11 +24,6 @@ class _ProfilePageState extends State<ProfilePage> {
   CardListStore _cardListStore;
   InterfaceStore _interfaceStore;
 
-  String userName;
-  FileImage image;
-  bool conection;
-  String effet;
-
   @override
   void initState() {
     _profilStore = Provider.of<ProfilStore>(context, listen: false);

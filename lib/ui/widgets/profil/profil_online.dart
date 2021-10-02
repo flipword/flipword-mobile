@@ -71,15 +71,27 @@ class _ProfileOnline extends State<ProfileOnline> {
             alignment: Alignment.topCenter,
             child: Container(
               margin: const EdgeInsets.only(top: 5),
-              child: CircleAvatar(
-                backgroundColor: Theme.of(context).primaryColor,
-                radius: screenSize.height > 600 ? 90 : 70,
-                backgroundImage: _profilStore.currentProfile.value.fileImage,
-              ),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Theme.of(context)?.primaryColor,
+                ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100),
+                child: Image.network(
+                  _profilStore.currentProfile.value.avatarPath,
+                  width: screenSize.height > 600 ? 180 : 140,
+                  height: screenSize.height > 600 ? 180 : 140,
+                ),
+              )
             )),
       ],
     );
   }
+  // CircleAvatar(
+  // backgroundColor: Theme.of(context).primaryColor,
+  // radius: screenSize.height > 600 ? 90 : 70,
+  // backgroundImage: _profilStore.currentProfile.value.fileImage,
+  // ),
 
   TextStyle _buildTextStyle(dynamic screenSize) {
     if (screenSize.height > 600) {

@@ -106,11 +106,11 @@ class UserProfileService {
   Future<UserProfil> _getUserFromConnected() async{
     final responses = await Future.wait([
       _getUserProfileById(_auth.currentUser.uid),
-      robohashHelper.getAvatare(_auth.currentUser.email).then((value) => value)
+      robohashHelper.getAvatarPath(_auth.currentUser.email).then((value) => value)
     ]);
     final UserProfil userProfile = responses[0];
     return userProfile
-      ..fileImage = responses[1]
+      ..avatarPath = responses[1]
       ..isConnected = true;
   }
 

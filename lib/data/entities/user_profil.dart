@@ -19,7 +19,7 @@ class UserProfil {
   Timestamp lastConnection;
   bool isConnected;
   String uid;
-  FileImage fileImage;
+  String avatarPath;
   int nbWordLearned;
   String nativeLanguageIsoCode;
   String foreignLanguageIsoCode;
