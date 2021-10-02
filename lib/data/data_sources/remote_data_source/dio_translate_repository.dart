@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TranslateHelper {
 
@@ -11,8 +12,8 @@ class TranslateHelper {
         ));
     dio
         .options
-        .headers['Ocp-Apim-Subscription-Key'] =
-            'cc66c8aff9574a8ebbc3d02e5a42f0a8';
+        .headers['Ocp-Apim-Subscription-Key'] = dotenv.env['AZURE_TRANSLATE_KEY'];
+
     dio
         .options
         .headers['Ocp-Apim-Subscription-Region'] = 'francecentral';
