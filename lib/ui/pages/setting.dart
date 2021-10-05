@@ -28,94 +28,96 @@ class _SettingPage extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Observer(builder: (_) {
-      return LegendCard(
-        legend: 'General',
-        margin: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height / 8,
-            bottom: 200,
-            right: 20,
-            left: 20),
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-            Widget>[
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const Expanded(flex: 2, child: Text('Native language:')),
-              Expanded(
-                  flex: 3,
-                  child: Container(
-                    height: 30,
-                    decoration: _getBoxDecoration(),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton(
-                        hint: Center(
-                          child: Text(
-                            _settingStore.nativeLanguage.value.label,
+      return Center(
+        child: LegendCard(
+          legend: 'General',
+          margin: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height / 8,
+              bottom: 200,
+              right: 20,
+              left: 20),
+          padding: const EdgeInsets.only(left: 10, right: 10),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
+              Widget>[
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Expanded(flex: 2, child: Text('Native language:')),
+                Expanded(
+                    flex: 3,
+                    child: Container(
+                        height: 30,
+                        decoration: _getBoxDecoration(),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            hint: Center(
+                                child: Text(
+                                  _settingStore.nativeLanguage.value.label,
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                                )
+                            ),
+                            isExpanded: true,
+                            iconSize: 30,
+                            iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
                             style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                          )
-                        ),
-                        isExpanded: true,
-                        iconSize: 30,
-                        iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
-                        style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                        items: _settingStore.languages.value.map(
-                              (val) {
-                            return DropdownMenuItem<Language>(
-                              value: val,
-                              child: Text(val.label),
-                            );
-                          },
-                        ).toList(),
-                        onChanged: (val) {
-                          updateNativeLanguage(val);
-                        },
-                      ),
-                    )
-                  )
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          Row(
-            children: [
-              const Expanded(flex: 2, child: Text('Foreign language:')),
-              Expanded(
-                  flex: 3,
-                  child: Container(
-                      height: 30,
-                      decoration: _getBoxDecoration(),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton(
-                          hint: Center(
-                            child: Text(
-                              _settingStore.foreignLanguage.value.label,
-                              style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                            )
-                          ),
-                          isExpanded: true,
-                          iconSize: 30,
-                          iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
-                          style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                          items: _settingStore.languages.value.map(
-                                (val) {
-                              return DropdownMenuItem<Language>(
-                                value: val,
-                                child: Text(val.label),
-                              );
+                            items: _settingStore.languages.value.map(
+                                  (val) {
+                                return DropdownMenuItem<Language>(
+                                  value: val,
+                                  child: Text(val.label),
+                                );
+                              },
+                            ).toList(),
+                            onChanged: (val) {
+                              updateNativeLanguage(val);
                             },
-                          ).toList(),
-                          onChanged: (val) {
-                            updateForeignLanguage(val);
-                          },
-                        ),
-                      )
-                  )
-              ),
-            ],
-          ),
-          const SizedBox(height: 10)
-        ]),
+                          ),
+                        )
+                    )
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                const Expanded(flex: 2, child: Text('Foreign language:')),
+                Expanded(
+                    flex: 3,
+                    child: Container(
+                        height: 30,
+                        decoration: _getBoxDecoration(),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            hint: Center(
+                                child: Text(
+                                  _settingStore.foreignLanguage.value.label,
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                                )
+                            ),
+                            isExpanded: true,
+                            iconSize: 30,
+                            iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
+                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                            items: _settingStore.languages.value.map(
+                                  (val) {
+                                return DropdownMenuItem<Language>(
+                                  value: val,
+                                  child: Text(val.label),
+                                );
+                              },
+                            ).toList(),
+                            onChanged: (val) {
+                              updateForeignLanguage(val);
+                            },
+                          ),
+                        )
+                    )
+                ),
+              ],
+            ),
+            const SizedBox(height: 10)
+          ]),
+        ),
       );
     }));
   }

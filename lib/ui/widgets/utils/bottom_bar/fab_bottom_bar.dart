@@ -66,14 +66,20 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
       color: widget.backgroundColor,
       //shape: widget.notchedShape,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: items,
-      ),
+       ),
     );
   }
 
+  // TODO: Gérer la max width avec un expended
   Widget _buildMiddleTabItem() {
-    return Expanded(
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+          minHeight: widget.height,
+          maxHeight: widget.height,
+          minWidth: 100
+      ),
       child: SizedBox(
         height: widget.height,
         child: Column(
@@ -98,9 +104,12 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     final color = _selectedIndex == index ?
     widget.selectedColor
         : widget.iconColor;
-    return Expanded(
-      child: SizedBox(
-        height: widget.height,
+    return ConstrainedBox(
+        constraints: BoxConstraints(
+            minHeight: widget.height,
+            maxHeight: widget.height,
+            minWidth: 50
+        ),
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
@@ -114,7 +123,6 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
             ),
           ),
         ),
-      ),
     );
   }
 }

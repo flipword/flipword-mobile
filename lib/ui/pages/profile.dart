@@ -46,8 +46,8 @@ class _ProfilePageState extends State<ProfilePage> {
             break;
           case FutureStatus.fulfilled:
             if (_profilStore.currentProfile.value.isConnected) {
-              _widgetDisplayed = Scaffold(
-                  body: Column(children: [
+              _widgetDisplayed = Center(
+                  child: Column(children: [
                 SizedBox(height: height / 10),
                 const ProfileOnline(),
                 RaisedButton(
@@ -62,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 )
               ]));
             } else {
-              _widgetDisplayed = Scaffold(
-                  body: Column(children: [
+              _widgetDisplayed = Center(
+                  child: Column(children: [
                 const ProfileOffline(),
                 const SizedBox(height: 20),
                 RaisedButton(
