@@ -53,14 +53,16 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
 
   @override
   Widget build(BuildContext context) {
+    final isLargeScreen = MediaQuery.of(context).size.width > 500;
     final items = List<Widget>.generate(widget.items.length, (int index) {
       return _buildTabItem(
-        item: widget.items[index],
-        index: index,
-        onPressed: _updateRoute,
+          item: widget.items[index],
+          index: index,
+          onPressed: _updateRoute,
+          isLargeScreen: isLargeScreen
       );
     });
-    items.insert(items.length >> 1, _buildMiddleTabItem());
+    items.insert(items.length >> 1, _buildMiddleTabItem(isLargeScreen));
 
     return BottomAppBar(
       color: widget.backgroundColor,
@@ -72,24 +74,25 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     );
   }
 
-  // TODO: Gérer la max width avec un expended
-  Widget _buildMiddleTabItem() {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-          minHeight: widget.height,
-          maxHeight: widget.height,
-          minWidth: 100
-      ),
-      child: SizedBox(
-        height: widget.height,
-        child: Column(
+  Widget _buildMiddleTabItem(bool isLargeScreen) {
+    final middleTabItem = Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(height: widget.iconSize)
           ],
-        ),
-      ),
+        );
+    return isLargeScreen ?
+    SizedBox(
+      width: 100,
+      height: widget.height,
+      child: middleTabItem,
+    ) :
+    Expanded(
+        child: SizedBox(
+          height: widget.height,
+          child: middleTabItem,
+        )
     );
   }
 
@@ -97,6 +100,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     FABBottomAppBarItem item,
     int index,
     ValueChanged<FABBottomAppBarItemRouting> onPressed,
+    bool isLargeScreen
   }) {
     final routing = FABBottomAppBarItemRouting(
         index: index,
@@ -104,13 +108,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     final color = _selectedIndex == index ?
     widget.selectedColor
         : widget.iconColor;
-    return ConstrainedBox(
-        constraints: BoxConstraints(
-            minHeight: widget.height,
-            maxHeight: widget.height,
-            minWidth: 50
-        ),
-        child: Material(
+    final tabItemElement = Material(
           type: MaterialType.transparency,
           child: InkWell(
             onTap: () => onPressed(routing),
@@ -122,7 +120,18 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
               ],
             ),
           ),
-        ),
-    );
+      );
+    return isLargeScreen ?
+        SizedBox(
+          width: 100,
+          height: widget.height,
+          child: tabItemElement,
+        ) :
+        Expanded(
+            child: SizedBox(
+              height: widget.height,
+              child: tabItemElement,
+            )
+        );
   }
 }
