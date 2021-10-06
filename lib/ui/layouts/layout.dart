@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/router/router_app.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
@@ -39,8 +40,8 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
     return Scaffold(
         body: GestureDetector(
           onTap: _closeOverlay,
-          onVerticalDragUpdate: _updateOverlay,
-          onVerticalDragEnd: _onDragEnd,
+          onVerticalDragUpdate: (defaultTargetPlatform == TargetPlatform.iOS) || (defaultTargetPlatform == TargetPlatform.android) ? _updateOverlay : null,
+          onVerticalDragEnd: (defaultTargetPlatform == TargetPlatform.iOS) || (defaultTargetPlatform == TargetPlatform.android) ? _onDragEnd : null,
           child: _buildBody(context),
         ),
         floatingActionButton: SquareButton(
