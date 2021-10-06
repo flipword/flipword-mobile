@@ -35,7 +35,7 @@ dependencies:
   provider: ^5.0.0
   fluttertoast: ^8.0.3
   pedantic: ^1.11.0
-  flip_card: ^0.4.4
+  flip_card: ^0.5.0
   device_preview: ^0.7.4
   flutter_dotenv: ^5.0.2
 
