@@ -164,3 +164,7 @@ jobs:
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           CERTIFICATE_PRIVATE_KEY: ${{ secrets.IOS_PRIVATE_KEY }}
           CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
+
+      - name: Step To run on failure
+        if: ${{ failure() }}
+        run: cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-16-10-21.log
