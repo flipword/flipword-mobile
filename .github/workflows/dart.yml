@@ -138,7 +138,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: adhoc-ipa
-          path: build/ios/ipa/adhoc-ipa.ipa
+          path: build/ios/ipa
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: build/ios/ipa    
 
       - name: Install python and codemagic tools
         uses: actions/setup-python@v2
