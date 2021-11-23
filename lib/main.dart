@@ -1,5 +1,6 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -96,6 +97,7 @@ class MyApp extends StatelessWidget {
     _profilStore = ProfilStore();
     _interfaceStore = InterfaceStore();
     _settingStore = SettingStore();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     await _profilStore.refresh();
     await _settingStore.initLanguages();
     await _cardListStore.fetchCard();
