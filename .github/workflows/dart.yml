@@ -132,7 +132,7 @@ jobs:
   publish-ios:
     runs-on: macos-latest
     needs: [ build-ios ]
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
@@ -158,9 +158,20 @@ jobs:
           echo "$APP_STORE_CONNECT_P8" | base64 -d > ./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
         env:
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
-          APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}  
+          APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}
 
-      - name: Publish IPA on appstoreconnect
+      - name: Publish IPA on test flight
+        if: github.ref == 'refs/heads/master'
+        run: app-store-connect publish -t --path build/ios/ipa/*.ipa --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
+        env:
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.IOS_PRIVATE_KEY }}
+          CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
+
+      - name: Publish IPA on appstore
+        if: startsWith(github.ref, 'refs/tags/v')
         run: app-store-connect publish --path build/ios/ipa/*.ipa --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
