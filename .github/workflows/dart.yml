@@ -13,7 +13,7 @@ jobs:
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
         with:
-          flutter-version: '2.8.0-3.2.pre'
+          flutter-version: '2.5.0'
 
       - name: Flutter doctor
         run: flutter doctor -v
@@ -43,7 +43,7 @@ jobs:
       - name: Clone Flutter repository
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.8.0-3.2.pre'
+          flutter-version: '2.5.0'
 
       - name: Pub get
         run: flutter pub get
@@ -110,7 +110,7 @@ jobs:
       - name: Clone Flutter repository with master channel
         uses: subosito/flutter-action@v1.5.0
         with:
-          flutter-version: '2.8.0-3.2.pre'
+          flutter-version: '2.5.0'
 
       - name: Pub get
         run: flutter pub get
