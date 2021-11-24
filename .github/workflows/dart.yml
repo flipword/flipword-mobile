@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Flutter repository with master channel
-        uses: subosito/flutter-action@v1.5.0
+        uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.5.0'
 
@@ -108,7 +108,7 @@ jobs:
           CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
 
       - name: Clone Flutter repository with master channel
-        uses: subosito/flutter-action@v1.5.0
+        uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.5.0'
 
