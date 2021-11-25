@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/card/legend_card.dart';
 
 class ProfileOffline extends StatelessWidget {
-  const ProfileOffline({Key key}) : super(key: key);
+  const ProfileOffline({Key? key}) : super(key: key);
 
   String get text => 'If you log in to the app, your '
       'will have access to features '

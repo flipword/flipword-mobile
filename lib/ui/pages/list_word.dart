@@ -13,7 +13,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class ListWordPage extends StatefulWidget {
-  const ListWordPage({Key key}) : super(key: key);
+  const ListWordPage({Key? key}) : super(key: key);
 
   static const String routeName = '/list';
 
@@ -22,9 +22,9 @@ class ListWordPage extends StatefulWidget {
 }
 
 class ListWordPageState extends State<ListWordPage> {
-  CardListStore _cardList;
-  InterfaceStore _interfaceStore;
-  FocusNode searchFocusNode;
+  CardListStore? _cardList;
+  late InterfaceStore _interfaceStore;
+  FocusNode? searchFocusNode;
   final CardService _cardService = CardService.instance;
   final ToastService _toastService = ToastService.instance;
 
@@ -39,11 +39,11 @@ class ListWordPageState extends State<ListWordPage> {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    Widget _widgetDisplayed;
+    Widget? _widgetDisplayed;
     return RefreshIndicator(
       onRefresh: _refresh,
       child: Observer(builder: (_) {
-        switch (_cardList.list.status) {
+        switch (_cardList!.list.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(
               child: CircularProgressIndicator(),
@@ -51,7 +51,7 @@ class ListWordPageState extends State<ListWordPage> {
             break;
           case FutureStatus.fulfilled:
             _widgetDisplayed = Scaffold(
-                body: _cardList.length == 0
+                body: _cardList!.length == 0
                     ? GridView.count(
                         crossAxisCount: 1,
                         physics: _interfaceStore.overlayIsDisplayed.value
@@ -69,18 +69,18 @@ class ListWordPageState extends State<ListWordPage> {
                             : const AlwaysScrollableScrollPhysics(),
                         semanticChildCount: 10,
                         children: List.generate(
-                            _cardList.length,
+                            _cardList!.length,
                             (index) => IgnorePointer(
                                   ignoring:
                                       _interfaceStore.overlayIsDisplayed.value,
                                   child: GestureDetector(
                                     onTap: () => {
-                                      _showModal(_cardList.list.result[index])
+                                      _showModal(_cardList!.list.result[index])
                                     },
                                     child: CardWord(
-                                        nativeWord: _cardList
+                                        nativeWord: _cardList!
                                             .list.result[index].nativeWord,
-                                        foreignWord: _cardList.list
+                                        foreignWord: _cardList!.list
                                             .result[index].foreignWord,
                                         color: Theme.of(context).primaryColor),
                                   ),
@@ -99,7 +99,7 @@ class ListWordPageState extends State<ListWordPage> {
               margin:
                   EdgeInsets.only(top: MediaQuery.of(context).size.height / 10),
               child: GestureDetector(
-                onTap: () => {searchFocusNode.unfocus()},
+                onTap: () => {searchFocusNode!.unfocus()},
                 child: _widgetDisplayed,
               )),
           SearchBar(
@@ -125,7 +125,7 @@ class ListWordPageState extends State<ListWordPage> {
     }
   }
 
-  void _showModal(CardEntity card) {
+  void _showModal(CardEntity? card) {
     BuildContext dialogContext;
     showDialog(
         context: context,
@@ -143,7 +143,7 @@ class ListWordPageState extends State<ListWordPage> {
         });
   }
 
-  void _deleteWord(String id) {
+  void _deleteWord(String? id) {
     _cardService
         .deleteCard(id)
         .then((value) =>
@@ -151,12 +151,12 @@ class ListWordPageState extends State<ListWordPage> {
         .catchError(
             (onError) => {_toastService.toastError('Error on deleting card')})
         .whenComplete(() => Navigator.of(context, rootNavigator: true).pop());
-    _cardList
+    _cardList!
       ..resetIndex()
       ..fetchCard();
   }
 
   Future<void> _filterCard(dynamic value) async {
-    await _cardList.filterCard(value);
+    await _cardList!.filterCard(value);
   }
 }

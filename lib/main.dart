@@ -32,17 +32,17 @@ Future<dynamic> main() async {
   }
 
   await dotenv.load(fileName: '.env');
-  runApp(DevicePreview(builder: (context) => MyApp(), enabled: Constanants.isDebuggable,));
+  runApp(DevicePreview(builder: (context) => MyApp(), enabled: Constanants.isDebuggable!,));
 }
 
 class MyApp extends StatelessWidget {
 
-  MyApp({Key key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
-  CardListStore _cardListStore;
-  ProfilStore _profilStore;
-  InterfaceStore _interfaceStore;
-  SettingStore _settingStore;
+  CardListStore? _cardListStore;
+  ProfilStore? _profilStore;
+  InterfaceStore? _interfaceStore;
+  SettingStore? _settingStore;
 
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    SystemChrome.setPreferredOrientations(Constanants.deviceOrientatuon);
+    SystemChrome.setPreferredOrientations(Constanants.deviceOrientatuon!);
 
     return FutureBuilder(
           future: _initApp(context),
@@ -58,10 +58,10 @@ class MyApp extends StatelessWidget {
             if (snapshot.hasError || (snapshot.connectionState == ConnectionState.done)) {
               return MultiProvider(
                   providers: [
-                    Provider<CardListStore>(create: (_) => _cardListStore),
-                    Provider<ProfilStore>(create: (_) => _profilStore),
-                    Provider<InterfaceStore>(create: (_) => _interfaceStore),
-                    Provider<SettingStore>(create: (_) => _settingStore)
+                    Provider<CardListStore?>(create: (_) => _cardListStore),
+                    Provider<ProfilStore?>(create: (_) => _profilStore),
+                    Provider<InterfaceStore?>(create: (_) => _interfaceStore),
+                    Provider<SettingStore?>(create: (_) => _settingStore)
                   ],
                 child: MaterialApp(
                     title: 'FlipWord',
@@ -98,9 +98,9 @@ class MyApp extends StatelessWidget {
     _interfaceStore = InterfaceStore();
     _settingStore = SettingStore();
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    await _profilStore.refresh();
-    await _settingStore.initLanguages();
-    await _cardListStore.fetchCard();
+    await _profilStore!.refresh();
+    await _settingStore!.initLanguages();
+    await _cardListStore!.fetchCard();
 
   }
 }

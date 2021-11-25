@@ -10,7 +10,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key key}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
   static const String routeName = '/profile';
 
@@ -20,14 +20,14 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final String googleLogoAsset = 'assets/google-logo.svg';
-  ProfilStore _profilStore;
-  CardListStore _cardListStore;
-  InterfaceStore _interfaceStore;
+  late ProfilStore _profilStore;
+  late CardListStore _cardListStore;
+  late InterfaceStore _interfaceStore;
 
-  String userName;
-  FileImage image;
-  bool conection;
-  String effet;
+  String? userName;
+  FileImage? image;
+  bool? conection;
+  String? effet;
 
   @override
   void initState() {
@@ -39,7 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _widgetDisplayed;
+    late Widget _widgetDisplayed;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(body: Observer(
       builder: (_) {
@@ -50,7 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
             );
             break;
           case FutureStatus.fulfilled:
-            if (_profilStore.currentProfile.value.isConnected) {
+            if (_profilStore.currentProfile.value!.isConnected) {
               _widgetDisplayed = Scaffold(
                   body: Column(children: [
                 SizedBox(height: height / 10),

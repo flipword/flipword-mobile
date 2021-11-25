@@ -12,13 +12,13 @@ mixin _$ProfilStore on _ProfilStore, Store {
   final _$currentProfileAtom = Atom(name: '_ProfilStore.currentProfile');
 
   @override
-  ObservableFuture<UserProfil> get currentProfile {
+  ObservableFuture<UserProfil?> get currentProfile {
     _$currentProfileAtom.reportRead();
     return super.currentProfile;
   }
 
   @override
-  set currentProfile(ObservableFuture<UserProfil> value) {
+  set currentProfile(ObservableFuture<UserProfil?> value) {
     _$currentProfileAtom.reportWrite(value, super.currentProfile, () {
       super.currentProfile = value;
     });

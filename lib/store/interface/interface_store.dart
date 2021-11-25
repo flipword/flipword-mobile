@@ -12,7 +12,7 @@ abstract class _InterfaceStore with Store {
   ObservableValue<double> addingPopupOffset = Observable<double>(0);
 
   @observable
-  Observable<String> currentRoute = Observable<String>(null);
+  Observable<String?> currentRoute = Observable<String?>(null);
 
   @observable
   ObservableValue<String> searchBarValue = Observable<String>('');

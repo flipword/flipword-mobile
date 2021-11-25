@@ -12,11 +12,11 @@ class CardEntity {
     nbErrors = json['nbErrors'];
   }
 
-  String id;
-  String nativeWord;
-  String foreignWord;
-  int nbSuccess;
-  int nbErrors;
+  String? id;
+  String? nativeWord;
+  String? foreignWord;
+  int? nbSuccess;
+  int? nbErrors;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

@@ -6,25 +6,25 @@ import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:provider/provider.dart';
 
 class SearchBar extends StatefulWidget {
-  const SearchBar({Key key, this.onUnFocus, this.focusNode}) : super(key: key);
-  final ValueChanged<String> onUnFocus;
-  final FocusNode focusNode;
+  const SearchBar({Key? key, this.onUnFocus, this.focusNode}) : super(key: key);
+  final ValueChanged<String>? onUnFocus;
+  final FocusNode? focusNode;
 
   @override
   _State createState() => _State();
 }
 
 class _State extends State<SearchBar> with WidgetsBindingObserver {
-  InterfaceStore _interfaceStore;
-  Timer _debounce;
-  TextEditingController _textEditingController;
+  late InterfaceStore _interfaceStore;
+  Timer? _debounce;
+  TextEditingController? _textEditingController;
   String _previousInput = '';
 
-  Size screenSize;
+  late Size screenSize;
   @override
   void initState() {
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance!.addObserver(this);
     _textEditingController = TextEditingController()
       ..text = _interfaceStore.searchBarValue.value
       ..addListener(_onSearchChanged);
@@ -34,15 +34,15 @@ class _State extends State<SearchBar> with WidgetsBindingObserver {
   @override
   void didChangeMetrics() {
     super.didChangeMetrics();
-    final value = WidgetsBinding.instance.window.viewInsets.bottom;
+    final value = WidgetsBinding.instance!.window.viewInsets.bottom;
     if (value == 0) {
-      widget.focusNode.unfocus();
+      widget.focusNode!.unfocus();
     }
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   }
 
@@ -82,7 +82,7 @@ class _State extends State<SearchBar> with WidgetsBindingObserver {
                     focusNode: widget.focusNode,
                     style: TextStyle(
                         fontSize: 17,
-                        color: Theme.of(context).textTheme.bodyText2.color),
+                        color: Theme.of(context).textTheme.bodyText2!.color),
                     decoration: const InputDecoration(
                         contentPadding: EdgeInsets.only(bottom: 12),
                         border: InputBorder.none,
@@ -112,23 +112,23 @@ class _State extends State<SearchBar> with WidgetsBindingObserver {
   }
 
   void _onSearchChanged() {
-    _interfaceStore.setSearchBarValue(_textEditingController.value.text);
-    if (_previousInput != _textEditingController.value.text) {
+    _interfaceStore.setSearchBarValue(_textEditingController!.value.text);
+    if (_previousInput != _textEditingController!.value.text) {
       if (_debounce?.isActive ?? false) {
-        _debounce.cancel();
+        _debounce!.cancel();
       }
       _debounce = Timer(const Duration(milliseconds: 300), () {
-        widget.onUnFocus(_textEditingController.value.text);
+        widget.onUnFocus!(_textEditingController!.value.text);
       });
     }
-    _previousInput = _textEditingController.value.text;
+    _previousInput = _textEditingController!.value.text;
   }
 
   void _clearSearch() {
     setState(() {
-      _textEditingController.text = '';
+      _textEditingController!.text = '';
     });
-    _interfaceStore.setSearchBarValue(_textEditingController.value.text);
-    widget.onUnFocus(_textEditingController.value.text);
+    _interfaceStore.setSearchBarValue(_textEditingController!.value.text);
+    widget.onUnFocus!(_textEditingController!.value.text);
   }
 }

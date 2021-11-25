@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 class LegendCard extends StatelessWidget {
   const LegendCard({
-    Key key,
-    @required this.legend,
+    Key? key,
+    required this.legend,
     this.margin,
     this.child,
     this.padding,
   }) : super(key: key);
 
   final String legend;
-  final EdgeInsetsGeometry margin;
-  final EdgeInsetsGeometry padding;
-  final Widget child;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {

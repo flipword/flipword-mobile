@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 
 class SquareButton extends StatefulWidget {
   const SquareButton(
-      {Key key,
+      {Key? key,
       this.icon,
       this.borderColor,
       this.backgroundColor,
       this.width = 60.0,
       this.height = 60.0,
       this.loadingStatement = false,
-      @required this.onPressed})
+      required this.onPressed})
       : super(key: key);
 
-  final Icon icon;
-  final Color backgroundColor;
-  final Color borderColor;
-  final VoidCallback onPressed;
+  final Icon? icon;
+  final Color? backgroundColor;
+  final Color? borderColor;
+  final VoidCallback? onPressed;
   final double width;
   final double height;
   final bool loadingStatement;
@@ -24,7 +24,7 @@ class SquareButton extends StatefulWidget {
 }
 
 class SquareButtonState extends State<SquareButton> {
-  bool loading;
+  late bool loading;
   @override
   void initState() {
     loading = widget.loadingStatement;
@@ -44,7 +44,7 @@ class SquareButtonState extends State<SquareButton> {
                   borderRadius: BorderRadius.circular(5),
                   side: BorderSide(
                       width: 2,
-                      color: widget.borderColor ?? widget.backgroundColor)),
+                      color: widget.borderColor ?? widget.backgroundColor!)),
               splashColor: Theme.of(context).backgroundColor,
               elevation: 10,
               highlightElevation: 0,

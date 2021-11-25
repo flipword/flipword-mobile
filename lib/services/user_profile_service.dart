@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/data/entities/user_profil.dart';
@@ -11,8 +14,8 @@ class UserProfileService {
     _auth ??= FirebaseAuth.instance;
   }
 
-  UserProfil _currentProfile;
-  FirebaseAuth _auth;
+  UserProfil? _currentProfile;
+  FirebaseAuth? _auth;
 
   static final UserProfileService _instance = UserProfileService._privateConstructor();
   static UserProfileService get instance => _instance;
@@ -20,36 +23,36 @@ class UserProfileService {
   final FirestoreUserProfilRepository _firestoreUserProfilRepository = FirestoreUserProfilRepository.instance;
   final RobohashHelper robohashHelper = RobohashHelper.instance;
 
-  UserProfil getUser() => _currentProfile;
+  UserProfil? getUser() => _currentProfile;
 
-  Future<UserProfil> login() async {
+  Future<UserProfil?> login() async {
     await signInWithGoogle();
     return loadCurrentUser();
   }
 
-  Future<UserProfil> logout() async {
-    await _auth.signOut();
-    await _auth.signInAnonymously();
+  Future<UserProfil?> logout() async {
+    await _auth!.signOut();
+    await _auth!.signInAnonymously();
     return loadCurrentUser();
   }
 
   Future<void> addALearnedWord() async {
     await _firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({'nbWordLearned': _currentProfile.nbWordLearned + 1});
+        .getUserProfilCollection(_currentProfile!.uid)
+        .update({'nbWordLearned': _currentProfile!.nbWordLearned! + 1});
     await updateNbWordLearned();
   }
 
   Future<void> updateNbWordLearned() async {
     return _firestoreUserProfilRepository
-        .getUserProfilCollection(_auth.currentUser.uid)
+        .getUserProfilCollection(_auth!.currentUser!.uid)
         .get()
-        .then((value) => _currentProfile.nbWordLearned =
-            UserProfil.fromJson(value.data()).nbWordLearned ?? 0);
+        .then((value) => _currentProfile!.nbWordLearned =
+            UserProfil.fromJson(value.data() as Map<String, dynamic>).nbWordLearned ?? 0);
   }
 
   Future<void> signInWithGoogle() async {
-    final googleUser = await GoogleSignIn().signIn();
+    final googleUser = await (GoogleSignIn().signIn() as FutureOr<GoogleSignInAccount>);
 
     // Obtain the auth details from the request
     final googleAuth = await googleUser.authentication;
@@ -61,28 +64,28 @@ class UserProfileService {
     );
 
     // Once signed in, return the UserCredential
-    await _auth.signInWithCredential(credential);
+    await _auth!.signInWithCredential(credential);
 
     // Set firebase auth id as property in profile collection
 
     await _firestoreUserProfilRepository
-        .getUserProfilCollection(_auth.currentUser.uid)
+        .getUserProfilCollection(_auth!.currentUser!.uid)
         .set({
-          'uid': _auth.currentUser.uid,
-          'email': _auth.currentUser.email,
-          'name': _auth.currentUser.displayName,
+          'uid': _auth!.currentUser!.uid,
+          'email': _auth!.currentUser!.email,
+          'name': _auth!.currentUser!.displayName,
           'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
           'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
           'lastConnection': DateTime.now(),
         }, SetOptions(merge: true));
   }
 
-  Future<UserProfil> loadCurrentUser() async {
-    if (_auth.currentUser == null) {
-      await _auth.signInAnonymously();
+  Future<UserProfil?> loadCurrentUser() async {
+    if (_auth!.currentUser == null) {
+      await _auth!.signInAnonymously();
     }
 
-    if(_auth.currentUser.isAnonymous){
+    if(_auth!.currentUser!.isAnonymous){
       _currentProfile = _getUserFromAnonymous();
     } else {
       _currentProfile = await _getUserFromConnected();
@@ -92,7 +95,7 @@ class UserProfileService {
 
   UserProfil _getUserFromAnonymous(){
     return UserProfil()
-      ..uid = _auth.currentUser.uid
+      ..uid = _auth!.currentUser!.uid
       ..isConnected = false
       ..name = null
       ..email = null
@@ -100,37 +103,37 @@ class UserProfileService {
   }
 
   Future<UserProfil> _getUserProfileById(String userId){
-    return _firestoreUserProfilRepository.getUserProfilById(userId).then((value) => UserProfil.fromJson(value.data()));
+    return _firestoreUserProfilRepository.getUserProfilById(userId).then((value) => UserProfil.fromJson(value.data() as Map<String, dynamic>));
   }
 
   Future<UserProfil> _getUserFromConnected() async{
     final responses = await Future.wait([
-      _getUserProfileById(_auth.currentUser.uid),
-      robohashHelper.getAvatare(_auth.currentUser.email).then((value) => value)
+      _getUserProfileById(_auth!.currentUser!.uid),
+      robohashHelper.getAvatare(_auth!.currentUser!.email).then((value) => value)
     ]);
-    final UserProfil userProfile = responses[0];
+    final UserProfil userProfile = responses[0] as UserProfil;
     return userProfile
-      ..fileImage = responses[1]
+      ..fileImage = responses[1] as FileImage?
       ..isConnected = true;
   }
 
-  Future<void> updateNativeLanguage(String nativeLanguageIsoCode) async {
-    if(_currentProfile.isConnected){
+  Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) async {
+    if(_currentProfile!.isConnected){
       return _firestoreUserProfilRepository
-          .getUserProfilCollection(_currentProfile.uid)
+          .getUserProfilCollection(_currentProfile!.uid)
           .update({'nativeLanguageIsoCode': nativeLanguageIsoCode})
-          .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
+          .then((value) => _currentProfile!.nativeLanguageIsoCode = nativeLanguageIsoCode);
     } else {
       return;
     }
   }
 
-  Future<void> updateForeignLanguage(String foreignLanguageIsoCode) async {
-    if(_currentProfile.isConnected){
+  Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) async {
+    if(_currentProfile!.isConnected){
       return _firestoreUserProfilRepository
-          .getUserProfilCollection(_currentProfile.uid)
+          .getUserProfilCollection(_currentProfile!.uid)
           .update({'foreignLanguageIsoCode': foreignLanguageIsoCode})
-          .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
+          .then((value) => _currentProfile!.foreignLanguageIsoCode = foreignLanguageIsoCode);
     } else {
       return;
     }

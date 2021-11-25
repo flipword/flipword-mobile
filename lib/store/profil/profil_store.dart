@@ -11,7 +11,7 @@ class ProfilStore = _ProfilStore with _$ProfilStore;
 abstract class _ProfilStore with Store {
 
   @observable
-  ObservableFuture<UserProfil> currentProfile = ObservableFuture.value(null);
+  ObservableFuture<UserProfil?> currentProfile = ObservableFuture.value(null);
 
   @action
   Future<void> logout() =>

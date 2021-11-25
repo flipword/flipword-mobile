@@ -13,19 +13,19 @@ abstract class _SettingStore with Store {
   final LanguageService _languageService = LanguageService.instance;
 
   @observable
-  ObservableFuture<List<Language>> languages = ObservableFuture.value(null);
+  ObservableFuture<List<Language>?> languages = ObservableFuture.value(null);
 
   @observable
-  ObservableFuture<Language> nativeLanguage = ObservableFuture.value(null);
+  ObservableFuture<Language?> nativeLanguage = ObservableFuture.value(null);
 
   @observable
-  ObservableFuture<Language> foreignLanguage = ObservableFuture.value(null);
+  ObservableFuture<Language?> foreignLanguage = ObservableFuture.value(null);
 
   @observable
-  Language baseLanguage;
+  Language? baseLanguage;
 
   @observable
-  Language translateLanguage;
+  Language? translateLanguage;
 
   @computed
   bool get isReverseLanguage => nativeLanguage.value != baseLanguage;

@@ -11,7 +11,7 @@ class FirestoreDictionaryRepository {
   static final FirestoreDictionaryRepository _instance = FirestoreDictionaryRepository._privateConstructor();
   static FirestoreDictionaryRepository get instance => _instance;
 
-  DocumentReference getUserDictionary(String userId) =>
+  DocumentReference getUserDictionary(String? userId) =>
       _firestoreHelper.getCollection(collectionName).doc(userId);
 
 

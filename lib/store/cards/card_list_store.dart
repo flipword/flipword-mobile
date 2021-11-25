@@ -18,10 +18,10 @@ abstract class _CardListStore with Store {
       ObservableFuture.value(<CardEntity>[]);
 
   @computed
-  int get length => list.value.length;
+  int get length => list.value!.length;
 
   @computed
-  bool get isFinished => curentIndex.value >= list.value.length - 1;
+  bool get isFinished => curentIndex.value! >= list.value!.length - 1;
 
   @action
   void resetIndex() {
@@ -36,12 +36,12 @@ abstract class _CardListStore with Store {
   @action
   Future<void> filterCard(String word) async {
     await fetchCard();
-    list = ObservableFuture.value(list.value
+    list = ObservableFuture.value(list.value!
         .where((element) =>
-            element.nativeWord
+            element.nativeWord!
                 .toLowerCase()
                 .contains(word.toLowerCase()) ||
-            element.foreignWord.toLowerCase().contains(word.toLowerCase()))
+            element.foreignWord!.toLowerCase().contains(word.toLowerCase()))
         .toList());
   }
 
@@ -59,7 +59,7 @@ abstract class _CardListStore with Store {
 
   void _skipWord() {
     if (!isFinished) {
-      curentIndex = ObservableFuture.value(curentIndex.value + 1);
+      curentIndex = ObservableFuture.value(curentIndex.value! + 1);
     }
   }
 }
