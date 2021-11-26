@@ -64,7 +64,7 @@ class _ProfileOnline extends State<ProfileOnline> {
               height: screenSize.height > 600 ? 190 : 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context)?.cardColor,
+                color: Theme.of(context).cardColor,
               ),
             )),
         Align(
