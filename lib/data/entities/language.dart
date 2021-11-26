@@ -7,7 +7,7 @@ class Language {
     flagPath = json['flagPath'];
   }
 
-  String isoCode;
-  String label;
-  String flagPath;
+  String? isoCode;
+  String? label;
+  String? flagPath;
 }

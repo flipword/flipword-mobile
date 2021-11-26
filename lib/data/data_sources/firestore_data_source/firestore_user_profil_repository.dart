@@ -12,7 +12,7 @@ class FirestoreUserProfilRepository {
   static final FirestoreUserProfilRepository _instance = FirestoreUserProfilRepository._privateConstructor();
   static FirestoreUserProfilRepository get instance => _instance;
 
-  DocumentReference getUserProfilCollection(String userId) =>
+  DocumentReference getUserProfilCollection(String? userId) =>
       _firestoreHelper.getCollection(collectionName).doc(userId);
 
   Future<DocumentSnapshot> getUserProfilById(String userId) async =>

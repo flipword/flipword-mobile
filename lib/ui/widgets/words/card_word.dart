@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 class CardWord extends StatelessWidget {
   CardWord(
       {
-        @required this.nativeWord,
-        @required this.foreignWord,
-        @required this.color,
+        required this.nativeWord,
+        required this.foreignWord,
+        required this.color,
         this.height = 40,
-        Key key
+        Key? key
       })
       : super(key: key);
 
-  String nativeWord;
-  String foreignWord;
+  String? nativeWord;
+  String? foreignWord;
   Color color;
   double height;
 
@@ -33,7 +33,7 @@ class CardWord extends StatelessWidget {
                 border: Border.all(color: color, width: 3)),
             child: Center(
               child: Text(
-                foreignWord,
+                foreignWord!,
                 textAlign: TextAlign.center,
               ),
             )),
@@ -48,7 +48,7 @@ class CardWord extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                nativeWord,
+                nativeWord!,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Theme.of(context).cardColor),
               ),

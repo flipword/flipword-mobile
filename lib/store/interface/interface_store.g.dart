@@ -44,13 +44,13 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   final _$currentRouteAtom = Atom(name: '_InterfaceStore.currentRoute');
 
   @override
-  Observable<String> get currentRoute {
+  Observable<String?> get currentRoute {
     _$currentRouteAtom.reportRead();
     return super.currentRoute;
   }
 
   @override
-  set currentRoute(Observable<String> value) {
+  set currentRoute(Observable<String?> value) {
     _$currentRouteAtom.reportWrite(value, super.currentRoute, () {
       super.currentRoute = value;
     });

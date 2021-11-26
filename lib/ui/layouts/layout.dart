@@ -12,7 +12,7 @@ import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
 import 'package:provider/provider.dart';
 
 class Layout extends StatefulWidget {
-  const Layout({Key key}) : super(key: key);
+  const Layout({Key? key}) : super(key: key);
 
   @override
   LayoutState createState() => LayoutState();
@@ -21,15 +21,15 @@ class Layout extends StatefulWidget {
 class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  InterfaceStore _interfaceStore;
+  InterfaceStore? _interfaceStore;
   bool displayOverlay = false;
   LanguageService languageService = LanguageService.instance;
-  double dragOffset;
+  double? dragOffset;
   @override
   void initState() {
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => {Overlay.of(context).insert(_createOverlayEntry())});
+    WidgetsBinding.instance!.addPostFrameCallback(
+        (_) => {Overlay.of(context)!.insert(_createOverlayEntry())});
     dragOffset = 50;
     super.initState();
   }
@@ -83,11 +83,11 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
   void _onItemTapped(String routeName) {
     _closeOverlay();
-    if (_interfaceStore.currentRoute.value == null ||
-        _interfaceStore.currentRoute.value != routeName) {
+    if (_interfaceStore!.currentRoute.value == null ||
+        _interfaceStore!.currentRoute.value != routeName) {
       setState(() {
-        _interfaceStore.setCurrentRoute(routeName);
-        navigatorKey.currentState.pushReplacementNamed(routeName);
+        _interfaceStore!.setCurrentRoute(routeName);
+        navigatorKey.currentState!.pushReplacementNamed(routeName);
       });
     }
   }
@@ -97,8 +97,8 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   }
 
   void _closeOverlay() {
-    Overlay.of(context).setState(() {
-      _interfaceStore
+    Overlay.of(context)!.setState(() {
+      _interfaceStore!
         ..closeOverlay()
         ..resetAddingPopupOffset();
       FocusScope.of(context).requestFocus(FocusNode());
@@ -106,17 +106,17 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
   }
 
   void _openOverlay() {
-    Overlay.of(context).setState(() {
-      _interfaceStore
+    Overlay.of(context)!.setState(() {
+      _interfaceStore!
         ..openOverlay()
         ..resetAddingPopupOffset();
     });
   }
 
   void _updateOverlay(DragUpdateDetails dragOffset) {
-    if (_interfaceStore.overlayIsDisplayed.value) {
-      Overlay.of(context).setState(() {
-        _interfaceStore.updateAddingPopupOffset(dragOffset.delta.dy);
+    if (_interfaceStore!.overlayIsDisplayed.value) {
+      Overlay.of(context)!.setState(() {
+        _interfaceStore!.updateAddingPopupOffset(dragOffset.delta.dy);
       });
     }
   }
@@ -135,8 +135,8 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
         builder: (context) => AnimatedPositioned(
               duration: const Duration(milliseconds: 500),
               curve: Curves.easeOutCubic,
-              top: _interfaceStore.overlayIsDisplayed.value
-                  ? _interfaceStore.addingPopupOffset.value
+              top: _interfaceStore!.overlayIsDisplayed.value
+                  ? _interfaceStore!.addingPopupOffset.value
                   : -screenHeight,
               child: AddWord(onDragUp: _updateOverlay, onDragEnd: _onDragEnd),
             ));

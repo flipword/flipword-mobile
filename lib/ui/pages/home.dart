@@ -9,7 +9,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
   static const String routeName = '/home';
 
   @override
@@ -18,11 +18,11 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
-  CardListStore _cardListStore;
-  InterfaceStore _interfaceStore;
-  bool _revealState;
-  bool _endOfSerie;
-  bool _foreignIsOnFront;
+  late CardListStore _cardListStore;
+  late InterfaceStore _interfaceStore;
+  late bool _revealState;
+  late bool _endOfSerie;
+  late bool _foreignIsOnFront;
 
   @override
   void initState() {
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
-    Widget _widgetDisplayed;
+    late Widget _widgetDisplayed;
     return Observer(builder: (_) {
       switch (_cardListStore.list.status) {
         case FutureStatus.pending:
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Center(
                           child: Text(
-                            _getTextOnFront(),
+                            _getTextOnFront()!,
                             style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 25),
                           ),
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         child: Center(
                             child: Text(
-                          _getTextOnBack(),
+                          _getTextOnBack()!,
                           style: const TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 25),
                         ))),
@@ -185,7 +185,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  String _getTextOnFront() {
+  String? _getTextOnFront() {
     return _foreignIsOnFront ? _cardListStore
         .list
         .result[_cardListStore.curentIndex.value]
@@ -195,7 +195,7 @@ class _HomePageState extends State<HomePage> {
         .nativeWord;
   }
 
-  String _getTextOnBack() {
+  String? _getTextOnBack() {
     return _foreignIsOnFront ? _cardListStore
         .list
         .result[_cardListStore.curentIndex.value]
@@ -206,14 +206,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void reviewCard() {
-    cardKey.currentState.toggleCard();
+    cardKey.currentState!.toggleCard();
     _foreignIsOnFront = !_foreignIsOnFront;
   }
   void _revealWord() {
     setState(() {
       _revealState = true;
     });
-    cardKey.currentState.toggleCard();
+    cardKey.currentState!.toggleCard();
   }
 
   void _successFind() {
@@ -228,7 +228,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
     _cardListStore.wordFinded(
-        _cardListStore.list.value[_cardListStore.curentIndex.value]);
+        _cardListStore.list.value![_cardListStore.curentIndex.value!]);
   }
 
   void _errorFind() {
@@ -243,7 +243,7 @@ class _HomePageState extends State<HomePage> {
       });
     }
     _cardListStore.wordMissed(
-        _cardListStore.list.value[_cardListStore.curentIndex.value]);
+        _cardListStore.list.value![_cardListStore.curentIndex.value!]);
   }
 
   void _restartSerie() {

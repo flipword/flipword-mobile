@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class NoWord extends StatelessWidget {
-  const NoWord({Key key}) : super(key: key);
+  const NoWord({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Center(

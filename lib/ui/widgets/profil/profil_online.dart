@@ -4,13 +4,13 @@ import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 import 'package:provider/provider.dart';
 
 class ProfileOnline extends StatefulWidget {
-  const ProfileOnline({Key key}) : super(key: key);
+  const ProfileOnline({Key? key}) : super(key: key);
   @override
   _ProfileOnline createState() => _ProfileOnline();
 }
 
 class _ProfileOnline extends State<ProfileOnline> {
-  ProfilStore _profilStore;
+  late ProfilStore _profilStore;
   @override
   void initState() {
     _profilStore = Provider.of<ProfilStore>(context, listen: false);
@@ -36,13 +36,13 @@ class _ProfileOnline extends State<ProfileOnline> {
                         padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 40),
                         child: Text(
-                            'Email : ${_profilStore.currentProfile.value.email}',
+                            'Email : ${_profilStore.currentProfile.value!.email}',
                             style: _buildTextStyle(screenSize))),
                     Container(
                         padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
-                            'Username : ${_profilStore.currentProfile.value.name == '' ? 'no username' : _profilStore.currentProfile.value.name}',
+                            'Username : ${_profilStore.currentProfile.value!.name == '' ? 'no username' : _profilStore.currentProfile.value!.name}',
                             style: _buildTextStyle(screenSize))),
                     Container(
                       padding: const EdgeInsets.only(
@@ -50,7 +50,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                       child: CardWord(
                           nativeWord: 'Learned words',
                           foreignWord:
-                              '${_profilStore.currentProfile.value.nbWordLearned}',
+                              '${_profilStore.currentProfile.value!.nbWordLearned}',
                           color: Theme.of(context).primaryColor),
                     )
                   ],
@@ -64,7 +64,7 @@ class _ProfileOnline extends State<ProfileOnline> {
               height: screenSize.height > 600 ? 190 : 150,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Theme.of(context)?.cardColor,
+                color: Theme.of(context).cardColor,
               ),
             )),
         Align(
@@ -74,7 +74,7 @@ class _ProfileOnline extends State<ProfileOnline> {
               child: CircleAvatar(
                 backgroundColor: Theme.of(context).primaryColor,
                 radius: screenSize.height > 600 ? 90 : 70,
-                backgroundImage: _profilStore.currentProfile.value.fileImage,
+                backgroundImage: _profilStore.currentProfile.value!.fileImage,
               ),
             )),
       ],

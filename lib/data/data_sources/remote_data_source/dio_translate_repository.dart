@@ -10,24 +10,24 @@ class TranslateHelper {
         BaseOptions(
             baseUrl: 'https://api.cognitive.microsofttranslator.com/'
         ));
-    dio
+    dio!
         .options
         .headers['Ocp-Apim-Subscription-Key'] = dotenv.env['AZURE_TRANSLATE_KEY'];
 
-    dio
+    dio!
         .options
         .headers['Ocp-Apim-Subscription-Region'] = 'francecentral';
   }
 
-  Dio dio;
+  Dio? dio;
 
   static final TranslateHelper _instance =
       TranslateHelper._privateConstructor();
   static TranslateHelper get instance => _instance;
 
-  Future<String> translate(String from, String to, String word) async {
-    String response;
-    final parameters = <String, String>{
+  Future<String?> translate(String? from, String? to, String word) async {
+    String? response;
+    final parameters = <String, String?>{
       'from': from,
       'to': to,
       'api-version': '3.0'
@@ -37,9 +37,9 @@ class TranslateHelper {
     ];
     try {
       final responseJson =
-          await dio.post('translate', queryParameters: parameters, data: data);
+          await dio!.post('translate', queryParameters: parameters, data: data);
       response = TranslateResponse.fromJson(responseJson.data)
-          .translations
+          .translations!
           .single
           .text;
     } on SocketException catch (e) {
@@ -59,14 +59,14 @@ class TranslateResponse {
     if (json['translations'] != null) {
       translations = <Translations>[];
       json['translations'].forEach((dynamic v) {
-        translations.add(Translations.fromJson(v));
+        translations!.add(Translations.fromJson(v));
       });
     }
   }
 
 
 
-  List<Translations> translations;
+  List<Translations>? translations;
 
 
 }
@@ -78,7 +78,7 @@ class Translations {
     to = json['to'].toString();
   }
 
-  String text;
-  String to;
+  String? text;
+  String? to;
 
 }
