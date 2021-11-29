@@ -27,7 +27,7 @@ class _SettingPage extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Observer(builder: (_) {
+    return Scaffold(body: Observer(builder: (context) {
       return LegendCard(
         legend: 'General',
         margin: EdgeInsets.only(

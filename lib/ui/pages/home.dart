@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     late Widget _widgetDisplayed;
-    return Observer(builder: (_) {
+    return Observer(builder: (context) {
       switch (_cardListStore.list.status) {
         case FutureStatus.pending:
           _widgetDisplayed = const Center(

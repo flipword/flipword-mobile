@@ -59,7 +59,7 @@ class _State extends State<AddWord> {
                 color: Theme.of(context).backgroundColor,
                 elevation: 4,
                 borderRadius: BorderRadius.circular(30),
-                child: Observer(builder: (_) {
+                child: Observer(builder: (context) {
                   if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
                     return Column(children: [
                       Stack(alignment: Alignment.topCenter, children: [
