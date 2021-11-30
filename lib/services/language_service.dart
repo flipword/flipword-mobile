@@ -18,7 +18,7 @@ class LanguageService {
   final UserProfileService _userProfileService = UserProfileService.instance;
 
   Future<void> init() async {
-    final user = _userProfileService.getUser()!;
+    final user = _userProfileService.getUser();
     if(user.isConnected){
       currentNativeLanguage = await getLanguageByIsoCode(user.nativeLanguageIsoCode);
       currentForeignLanguage = await getLanguageByIsoCode(user.foreignLanguageIsoCode);

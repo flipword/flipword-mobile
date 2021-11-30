@@ -27,7 +27,7 @@ class _SettingPage extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Observer(builder: (_) {
+    return Scaffold(body: Observer(builder: (context) {
       return LegendCard(
         legend: 'General',
         margin: EdgeInsets.only(
@@ -51,7 +51,7 @@ class _SettingPage extends State<SettingPage> {
                       child: DropdownButton(
                         hint: Center(
                           child: Text(
-                            _settingStore.nativeLanguage.value!.label!,
+                            _settingStore.nativeLanguage.value != null ? _settingStore.nativeLanguage.value!.label! : '',
                             style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                           )
                         ),
@@ -59,17 +59,15 @@ class _SettingPage extends State<SettingPage> {
                         iconSize: 30,
                         iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
                         style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                        items: _settingStore.languages.value!.map(
+                        items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
                               (val) {
                             return DropdownMenuItem<Language>(
                               value: val,
                               child: Text(val.label!),
                             );
                           },
-                        ).toList(),
-                        onChanged: (dynamic val) {
-                          updateNativeLanguage(val);
-                        },
+                        ).toList() : List.empty(),
+                        onChanged: updateNativeLanguage,
                       ),
                     )
                   )
@@ -89,7 +87,7 @@ class _SettingPage extends State<SettingPage> {
                         child: DropdownButton(
                           hint: Center(
                             child: Text(
-                              _settingStore.foreignLanguage.value!.label!,
+                              _settingStore.foreignLanguage.value != null ? _settingStore.foreignLanguage.value!.label! : '',
                               style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                             )
                           ),
@@ -97,17 +95,15 @@ class _SettingPage extends State<SettingPage> {
                           iconSize: 30,
                           iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
                           style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                          items: _settingStore.languages.value!.map(
+                          items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
                                 (val) {
                               return DropdownMenuItem<Language>(
                                 value: val,
                                 child: Text(val.label!),
                               );
                             },
-                          ).toList(),
-                          onChanged: (dynamic val) {
-                            updateForeignLanguage(val);
-                          },
+                          ).toList() : List.empty(),
+                          onChanged: updateForeignLanguage,
                         ),
                       )
                   )

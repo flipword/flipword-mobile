@@ -18,7 +18,7 @@ class CardService {
   static CardService get instance => _instance;
 
   CollectionReference getCardCollection() => _repository
-      .getUserDictionary(_authService.getUser()!.uid)
+      .getUserDictionary(_authService.getUser().uid)
       .collection(_languageService.getRef());
 
   Future<void> insertCard(String nativeWord, String foreignWord) async {
@@ -41,7 +41,7 @@ class CardService {
   Future<void> updateCardView(CardEntity card, bool success) async {
     if ((card.nbSuccess! + 1) >= 5) {
       await deleteCard(card.id);
-      if (_authService.getUser()!.isConnected) {
+      if (_authService.getUser().isConnected) {
         await _authService.addALearnedWord();
       }
     } else {

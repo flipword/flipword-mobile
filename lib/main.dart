@@ -93,6 +93,8 @@ class MyApp extends StatelessWidget {
 
   Future<void> _initApp(context) async{
     await Firebase.initializeApp();
+    await FirebaseCrashlytics.instance
+        .setCrashlyticsCollectionEnabled(true);
     _cardListStore = CardListStore();
     _profilStore = ProfilStore();
     _interfaceStore = InterfaceStore();

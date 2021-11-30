@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     late Widget _widgetDisplayed;
-    return Observer(builder: (_) {
+    return Observer(builder: (context) {
       switch (_cardListStore.list.status) {
         case FutureStatus.pending:
           _widgetDisplayed = const Center(
@@ -46,12 +46,13 @@ class _HomePageState extends State<HomePage> {
           );
           break;
         case FutureStatus.rejected:
-          // TODO: Handle this case.
           _widgetDisplayed = Scaffold(
-              body: Column(children: const [
-                Icon(Icons.warning_amber_outlined),
-                Text('An error occured : the connection was rejected')
-          ]));
+              body: Center(
+                child: Column(children: const [
+                  Icon(Icons.warning_amber_outlined),
+                  Text('An error occured : the connection was rejected')
+                ]),
+              ));
           break;
         case FutureStatus.fulfilled:
           if (_cardListStore.length != 0) {

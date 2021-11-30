@@ -59,7 +59,7 @@ class _State extends State<AddWord> {
                 color: Theme.of(context).backgroundColor,
                 elevation: 4,
                 borderRadius: BorderRadius.circular(30),
-                child: Observer(builder: (_) {
+                child: Observer(builder: (context) {
                   if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
                     return Column(children: [
                       Stack(alignment: Alignment.topCenter, children: [
@@ -104,7 +104,7 @@ class _State extends State<AddWord> {
                               Expanded(
                                   child: Container(
                                     alignment: Alignment.center,
-                                    child: Text(_settingStore.baseLanguage!.label!),
+                                    child: Text(_settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label! : ''),
                                   )),
                               Expanded(
                                 child: Container(
@@ -120,7 +120,7 @@ class _State extends State<AddWord> {
                                   child: Container(
                                     alignment: Alignment.center,
                                     child:
-                                    Text(_settingStore.translateLanguage!.label!),
+                                    Text(_settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label! : ''),
                                   ))
                             ],
                           ),
@@ -135,7 +135,7 @@ class _State extends State<AddWord> {
                                 left: 10, right: 10),
                             child: InputWord(
                               controller: _baseWordController,
-                              label: _settingStore.baseLanguage!.label,
+                              label: _settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label : '',
                               focusNode: focusNode,
                               hintText: 'Enter your world',
                               onWordChanged: (_) => {},
@@ -144,9 +144,7 @@ class _State extends State<AddWord> {
                           const SizedBox(height: 15),
                           SquareButton(
                             key: _mybuttonState,
-                            onPressed: () {
-                              _translateWord();
-                            },
+                            onPressed: _translateWord,
                             icon: const Icon(Icons.translate_outlined, size: 30),
                             backgroundColor: Theme
                                 .of(context)
@@ -160,7 +158,7 @@ class _State extends State<AddWord> {
                                   left: 10, right: 10),
                               child: InputWord(
                                 controller: _translateWordController,
-                                label: _settingStore.translateLanguage!.label,
+                                label: _settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label : '',
                                 onWordChanged: (_) => {},
                               )),
                           const SizedBox(height: 5),
@@ -171,9 +169,7 @@ class _State extends State<AddWord> {
                                 .of(context)
                                 .primaryColor,
                             text: 'Save',
-                            onPressed: () {
-                              _saveCard();
-                            },
+                            onPressed: _saveCard,
                           ),
                           const SizedBox(height: 5)
                         ]),

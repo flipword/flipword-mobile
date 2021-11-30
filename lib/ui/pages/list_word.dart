@@ -42,7 +42,7 @@ class ListWordPageState extends State<ListWordPage> {
     Widget? _widgetDisplayed;
     return RefreshIndicator(
       onRefresh: _refresh,
-      child: Observer(builder: (_) {
+      child: Observer(builder: (context) {
         switch (_cardList!.list.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(

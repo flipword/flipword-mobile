@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
     late Widget _widgetDisplayed;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(body: Observer(
-      builder: (_) {
+      builder: (context) {
         switch (_profilStore.currentProfile.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(

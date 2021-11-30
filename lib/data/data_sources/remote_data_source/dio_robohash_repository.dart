@@ -21,8 +21,8 @@ class RobohashHelper {
     FileImage response;
     try {
       await dio!.download(
-          user.hashCode.toString(), '${directory.path}avatar.png');
-      final file = File('${directory.path}avatar.png');
+          user.hashCode.toString(), '${directory.path}/avatar.png');
+      final file = File('${directory.path}/avatar.png');
       response = FileImage(file);
     } on SocketException catch (e) {
       throw Exception(e.message);

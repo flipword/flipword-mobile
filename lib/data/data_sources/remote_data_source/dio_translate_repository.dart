@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class TranslateHelper {
 
-  // TODO: env variable
   TranslateHelper._privateConstructor() {
     dio ??= Dio(
         BaseOptions(
