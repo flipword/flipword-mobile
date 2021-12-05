@@ -51,11 +51,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     SystemChrome.setPreferredOrientations(Constanants.deviceOrientatuon!);
-
     return FutureBuilder(
           future: _initApp(context),
           builder: (context, snapshot) {
-            if (snapshot.hasError || (snapshot.connectionState == ConnectionState.done)) {
               return MultiProvider(
                   providers: [
                     Provider<CardListStore?>(create: (_) => _cardListStore),
@@ -70,24 +68,14 @@ class MyApp extends StatelessWidget {
                     builder: DevicePreview.appBuilder,
                     theme: LightTheme.defaultTheme,
                     darkTheme: DarkTheme.defaultTheme,
-                    home: const Layout()
+                    home: snapshot.connectionState == ConnectionState.done ? const Layout() : const Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    )
                 ),
               );
             }
-            // Todo: voir pour enlever cette material app(nécessaire pour le scafold sinon erreur)
-            return MaterialApp(
-                title: 'LoadingScreen',
-                locale: DevicePreview.locale(context),
-                builder: DevicePreview.appBuilder,
-                theme: LightTheme.defaultTheme,
-                darkTheme: DarkTheme.defaultTheme,
-                home: const Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-            );
-          },
     );
   }
 
