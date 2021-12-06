@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
                         body: Center(
                           child: Column(children: [
                             const Icon(Icons.warning_amber_outlined),
-                            Text('Error at application startup: ${snapshot.error}')
+                            Text('Error at application startup: ${snapshot.error} | StackTrace: ${snapshot.stackTrace.toString()}')
                           ]),
                         )) : const Layout() : const Scaffold(
                       body: Center(
@@ -87,8 +87,6 @@ class MyApp extends StatelessWidget {
 
   Future<void> _initApp(context) async{
     await Firebase.initializeApp();
-    await FirebaseCrashlytics.instance
-        .setCrashlyticsCollectionEnabled(true);
     _cardListStore = CardListStore();
     _profilStore = ProfilStore();
     _interfaceStore = InterfaceStore();
