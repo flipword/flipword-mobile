@@ -68,7 +68,13 @@ class MyApp extends StatelessWidget {
                     builder: DevicePreview.appBuilder,
                     theme: LightTheme.defaultTheme,
                     darkTheme: DarkTheme.defaultTheme,
-                    home: snapshot.connectionState == ConnectionState.done ? const Layout() : const Scaffold(
+                    home: snapshot.connectionState == ConnectionState.done ? snapshot.hasError ? Scaffold(
+                        body: Center(
+                          child: Column(children: [
+                            const Icon(Icons.warning_amber_outlined),
+                            Text('Error at application startup: ${snapshot.error}')
+                          ]),
+                        )) : const Layout() : const Scaffold(
                       body: Center(
                         child: CircularProgressIndicator(),
                       ),
