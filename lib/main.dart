@@ -90,11 +90,11 @@ class MyApp extends StatelessWidget {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     _profilStore = ProfilStore();
     await _profilStore!.refresh();
+    _settingStore = SettingStore();
+    await _settingStore!.initLanguages();
     _cardListStore = CardListStore();
     await _cardListStore!.fetchCard();
     _interfaceStore = InterfaceStore();
-    _settingStore = SettingStore();
-    await _settingStore!.initLanguages();
 
   }
 }
