@@ -13,7 +13,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 class UserProfileService {
   UserProfileService._privateConstructor() {
     _auth = FirebaseAuth.instance;
-    _currentProfile = _getUserFromAnonymous();
   }
 
   late UserProfil _currentProfile;
