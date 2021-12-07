@@ -83,7 +83,6 @@ class UserProfileService {
   }
 
   Future<UserProfil> loadCurrentUser() async {
-    _currentProfile = _getUserFromAnonymous();
     if (_auth.currentUser == null) {
       try {
         await _auth.signInAnonymously();
@@ -93,6 +92,8 @@ class UserProfileService {
     }
     if(!_auth.currentUser!.isAnonymous){
       _currentProfile = await _getUserFromConnected();
+    } else {
+      _currentProfile = _getUserFromAnonymous();
     }
     return _currentProfile;
   }

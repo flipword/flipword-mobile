@@ -87,14 +87,14 @@ class MyApp extends StatelessWidget {
 
   Future<void> _initApp(context) async{
     await Firebase.initializeApp();
-    _cardListStore = CardListStore();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     _profilStore = ProfilStore();
+    await _profilStore!.refresh();
+    _cardListStore = CardListStore();
+    await _cardListStore!.fetchCard();
     _interfaceStore = InterfaceStore();
     _settingStore = SettingStore();
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-    await _profilStore!.refresh();
     await _settingStore!.initLanguages();
-    await _cardListStore!.fetchCard();
 
   }
 }
