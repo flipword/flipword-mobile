@@ -42,7 +42,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                         padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 20),
                         child: Text(
-                            'Username : ${_profilStore.currentProfile.value!.name == '' ? 'no username' : _profilStore.currentProfile.value!.name}',
+                            'Username : ${_profilStore.currentProfile.value!.name == '' || _profilStore.currentProfile.value!.name == null ? 'no username' : _profilStore.currentProfile.value!.name}',
                             style: _buildTextStyle(screenSize))),
                     Container(
                       padding: const EdgeInsets.only(

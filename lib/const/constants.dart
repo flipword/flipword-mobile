@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 
 enum Environement {DEV,STAGING, PROD}
+enum SignInMethod {GOOGLE,APPLE}
 
 class Constanants {
   static late Map<String, dynamic> _config;

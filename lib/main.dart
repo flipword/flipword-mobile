@@ -87,7 +87,6 @@ class MyApp extends StatelessWidget {
 
   Future<void> _initApp(context) async{
     await Firebase.initializeApp();
-    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
     _profilStore = ProfilStore();
     await _profilStore!.refresh();
     _settingStore = SettingStore();

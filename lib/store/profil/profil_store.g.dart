@@ -38,11 +38,11 @@ mixin _$ProfilStore on _ProfilStore, Store {
   }
 
   @override
-  Future<void> login() {
+  Future<void> login(SignInMethod signInMethod) {
     final _$actionInfo =
         _$_ProfilStoreActionController.startAction(name: '_ProfilStore.login');
     try {
-      return super.login();
+      return super.login(signInMethod);
     } finally {
       _$_ProfilStoreActionController.endAction(_$actionInfo);
     }
