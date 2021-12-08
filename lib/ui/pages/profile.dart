@@ -1,4 +1,7 @@
+import 'dart:io' show Platform;
+
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
@@ -20,6 +23,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final String googleLogoAsset = 'assets/google-logo.svg';
+  final String appleLogoAsset = 'assets/apple-logo.svg';
   late ProfilStore _profilStore;
   late CardListStore _cardListStore;
   late InterfaceStore _interfaceStore;
@@ -69,25 +73,42 @@ class _ProfilePageState extends State<ProfilePage> {
             } else {
               _widgetDisplayed = Scaffold(
                   body: Column(children: [
-                const ProfileOffline(),
-                const SizedBox(height: 20),
-                RaisedButton(
-                    textTheme: Theme.of(context).buttonTheme.textTheme,
-                    color: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    onPressed: _login,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(googleLogoAsset,
-                            height: 25, width: 25),
-                        const SizedBox(width: 10),
-                        const Text('Login or Sign in with Google')
-                      ],
-                    ))
-              ]));
+                    const ProfileOffline(),
+                    const SizedBox(height: 20), const SizedBox(height: 20),
+                    RaisedButton(
+                        textTheme: Theme.of(context).buttonTheme.textTheme,
+                        color: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        onPressed: () => _login(SignInMethod.GOOGLE),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(googleLogoAsset,
+                                height: 25, width: 25),
+                            const SizedBox(width: 10),
+                            const Text('Login or Sign in with Google')
+                          ],
+                        )),
+                    const SizedBox(height: 10),
+                    if (!Platform.isAndroid) RaisedButton(
+                        textTheme: Theme.of(context).buttonTheme.textTheme,
+                        color: Theme.of(context).cardColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        onPressed: () => _login(SignInMethod.APPLE),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(appleLogoAsset,
+                                height: 25, width: 25),
+                            const SizedBox(width: 10),
+                            const Text('Login or Sign in with Apple')
+                          ],
+                        )) else const SizedBox(),
+                  ]));
             }
             break;
           case FutureStatus.rejected:
@@ -103,8 +124,8 @@ class _ProfilePageState extends State<ProfilePage> {
     ));
   }
 
-  void _login() {
-    _profilStore.login().then((value) => _cardListStore.fetchCard());
+  void _login(SignInMethod signInMethod) {
+    _profilStore.login(signInMethod).then((value) => _cardListStore.fetchCard());
   }
 
   void _logout() {

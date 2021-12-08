@@ -7,6 +7,7 @@ import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
 import 'package:flutter_flip_card/data/entities/user_profil.dart';
@@ -30,8 +31,15 @@ class UserProfileService {
 
   UserProfil getUser() => _currentProfile;
 
-  Future<UserProfil> login() async {
-    await signInWithApple();
+  Future<UserProfil> login(SignInMethod signInMethod) async {
+    switch(signInMethod){
+      case SignInMethod.GOOGLE:
+        await signInWithGoogle();
+        break;
+      case SignInMethod.APPLE:
+        await signInWithApple();
+        break;
+    }
     return loadCurrentUser();
   }
 
@@ -103,12 +111,11 @@ class UserProfileService {
         nonce: nonce,
       );
 
-      print(appleCredential.authorizationCode);
-
       // Create an `OAuthCredential` from the credential returned by Apple.
-      final oauthCredential = OAuthProvider("apple.com").credential(
+      final oauthCredential = OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
-        rawNonce: rawNonce,
+        accessToken: appleCredential.authorizationCode,
+        rawNonce: rawNonce
       );
 
       // Sign in the user with Firebase. If the nonce we generated earlier does
@@ -130,7 +137,7 @@ class UserProfileService {
       }, SetOptions(merge: true));
 
     } catch (exception) {
-      print(exception);
+      await FirebaseCrashlytics.instance.recordError(exception, null);
     }
   }
 
