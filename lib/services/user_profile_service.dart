@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +12,7 @@ import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_roboh
 import 'package:flutter_flip_card/data/entities/user_profil.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class UserProfileService {
   UserProfileService._privateConstructor() {
@@ -27,7 +31,7 @@ class UserProfileService {
   UserProfil getUser() => _currentProfile;
 
   Future<UserProfil> login() async {
-    await signInWithGoogle();
+    await signInWithApple();
     return loadCurrentUser();
   }
 
@@ -79,6 +83,55 @@ class UserProfileService {
           'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
           'lastConnection': DateTime.now(),
         }, SetOptions(merge: true));
+  }
+
+  Future<void> signInWithApple() async {
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+
+    try {
+      // Request credential for the currently signed in Apple account.
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+          webAuthenticationOptions: WebAuthenticationOptions(
+              clientId: 'com.flipword.app.register',
+              redirectUri: Uri.parse(
+                  'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')),
+        nonce: nonce,
+      );
+
+      print(appleCredential.authorizationCode);
+
+      // Create an `OAuthCredential` from the credential returned by Apple.
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      // Sign in the user with Firebase. If the nonce we generated earlier does
+      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+      // Once signed in, return the UserCredential
+      await _auth.signInWithCredential(oauthCredential);
+
+      // Set firebase auth id as property in profile collection
+
+      await _firestoreUserProfilRepository
+          .getUserProfilCollection(_auth.currentUser!.uid)
+          .set({
+        'uid': _auth.currentUser!.uid,
+        'email': _auth.currentUser!.email,
+        'name': _auth.currentUser!.displayName,
+        'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
+        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
+        'lastConnection': DateTime.now(),
+      }, SetOptions(merge: true));
+
+    } catch (exception) {
+      print(exception);
+    }
   }
 
   Future<UserProfil> loadCurrentUser() async {
@@ -141,5 +194,20 @@ class UserProfileService {
     } else {
       return;
     }
+  }
+
+  String generateNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  /// Returns the sha256 hash of [input] in hex notation.
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 }
