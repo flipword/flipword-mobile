@@ -108,10 +108,10 @@ class UserProfileService {
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
-          webAuthenticationOptions: !Platform.isIOS ? WebAuthenticationOptions(
+          webAuthenticationOptions: WebAuthenticationOptions(
               clientId: 'com.flipword.app.register',
               redirectUri: Uri.parse(
-                  'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')) : null,
+                  'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')),
         nonce: nonce,
       );
 
