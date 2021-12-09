@@ -102,7 +102,7 @@ jobs:
           echo $APP_STORE_CONNECT_ISSUER_ID
           app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --create --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
           keychain add-certificates
-          xcode-project use-profiles --profile @file:./provisioning/flipword.mobileprovision
+          xcode-project use-profiles --profile=./provisioning/flipword.mobileprovision
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
