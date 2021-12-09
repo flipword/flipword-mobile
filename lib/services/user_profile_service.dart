@@ -65,32 +65,35 @@ class UserProfileService {
   }
 
   Future<void> signInWithGoogle() async {
-    final googleUser = await GoogleSignIn().signIn();
+    try {
+      final googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final googleAuth = await googleUser!.authentication;
+      // Obtain the auth details from the request
+      final googleAuth = await googleUser!.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    // Once signed in, return the UserCredential
-    await _auth.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      await _auth.signInWithCredential(credential);
 
-    // Set firebase auth id as property in profile collection
+      // Set firebase auth id as property in profile collection
 
-    await _firestoreUserProfilRepository
-        .getUserProfilCollection(_auth.currentUser!.uid)
-        .set({
-          'uid': _auth.currentUser!.uid,
-          'email': _auth.currentUser!.email,
-          'name': _auth.currentUser!.displayName,
-          'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
-          'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
-          'lastConnection': DateTime.now(),
-        }, SetOptions(merge: true));
+      await _firestoreUserProfilRepository
+          .getUserProfilCollection(_auth.currentUser!.uid)
+          .set({
+        'uid': _auth.currentUser!.uid,
+        'email': _auth.currentUser!.email,
+        'name': _auth.currentUser!.displayName,
+        'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
+        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage
+            .isoCode,
+        'lastConnection': DateTime.now(),
+      }, SetOptions(merge: true));
+    } catch (_) {}
   }
 
   Future<void> signInWithApple() async {
