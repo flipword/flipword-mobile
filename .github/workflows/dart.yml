@@ -75,15 +75,18 @@ jobs:
       - name: Decode secrets properties files
         run: |
           mkdir -p ./keys
+          mkdir -p ./provisioning
           touch .env
           echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env
           echo "$IOS_GOOGLE_SERVICE" | base64 -d > ./ios/Runner/GoogleService-Info.plist
           echo "$APP_STORE_CONNECT_P8" | base64 -d > ./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
+          echo "MOBILEPROVISION_BASE64" | base64 -d > ./provisioning/flipword.mobileprovision
         env:
           AZURE_TRANSLATE_KEY: ${{ secrets.AZURE_TRANSLATE_KEY }}
           IOS_GOOGLE_SERVICE: ${{ secrets.IOS_GOOGLE_SERVICE }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}
+          MOBILEPROVISION_BASE64: ${{ secrets.MOBILEPROVISION_BASE64 }}
 
       - name: Install python and codemagic tools
         uses: actions/setup-python@v2
@@ -99,7 +102,7 @@ jobs:
           echo $APP_STORE_CONNECT_ISSUER_ID
           app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --create --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
           keychain add-certificates
-          xcode-project use-profiles
+          xcode-project use-profiles --profile @file:./provisioning/flipword.mobileprovision
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
           APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
