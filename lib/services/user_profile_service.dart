@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -107,10 +108,10 @@ class UserProfileService {
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
-          webAuthenticationOptions: WebAuthenticationOptions(
+          webAuthenticationOptions: !Platform.isIOS ? WebAuthenticationOptions(
               clientId: 'com.flipword.app.register',
               redirectUri: Uri.parse(
-                  'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')),
+                  'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')) : null,
         nonce: nonce,
       );
 
