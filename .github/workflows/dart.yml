@@ -97,7 +97,7 @@ jobs:
         run: |
           keychain initialize
           echo $APP_STORE_CONNECT_ISSUER_ID
-          app-store-connect fetch-signing-files "com.flipword.app" --type IOS_APP_STORE --create --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
+          app-store-connect fetch-signing-files "com.flutterFlipCard" --type IOS_APP_STORE --create --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
           keychain add-certificates
           xcode-project use-profiles
         env:
