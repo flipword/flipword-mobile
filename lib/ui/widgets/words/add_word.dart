@@ -12,10 +12,10 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class AddWord extends StatefulWidget {
-  const AddWord({Key key, this.onDragUp, this.onDragEnd}) : super(key: key);
+  const AddWord({Key? key, this.onDragUp, this.onDragEnd}) : super(key: key);
 
-  final ValueChanged<DragUpdateDetails> onDragUp;
-  final ValueChanged<DragEndDetails> onDragEnd;
+  final ValueChanged<DragUpdateDetails>? onDragUp;
+  final ValueChanged<DragEndDetails>? onDragEnd;
   @override
   _State createState() => _State();
 }
@@ -29,13 +29,13 @@ class _State extends State<AddWord> {
   final _formKey = GlobalKey<FormState>();
 
   final String translateIcon = 'assets/microsoft-translate.png';
-  CardListStore _cardListStore;
-  SettingStore _settingStore;
+  late CardListStore _cardListStore;
+  late SettingStore _settingStore;
 
-  TextEditingController _baseWordController;
-  TextEditingController _translateWordController;
-  FocusNode focusNode;
-  double screenSize;
+  TextEditingController? _baseWordController;
+  TextEditingController? _translateWordController;
+  FocusNode? focusNode;
+  double? screenSize;
 
   @override
   void initState() {
@@ -63,7 +63,7 @@ class _State extends State<AddWord> {
             color: Theme.of(context).backgroundColor,
               elevation: 4,
               borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
-              child: Observer(builder: (_) {
+              child: Observer(builder: (context) {
                 if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
                   return Column(children: [
                     Stack(alignment: Alignment.topCenter, children: [
@@ -108,7 +108,7 @@ class _State extends State<AddWord> {
                             Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  child: Text(_settingStore.baseLanguage.label),
+                                  child: Text(_settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label! : ''),
                                 )),
                             Expanded(
                               child: Container(
@@ -124,7 +124,7 @@ class _State extends State<AddWord> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child:
-                                  Text(_settingStore.translateLanguage.label),
+                                  Text(_settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label! : ''),
                                 ))
                           ],
                         ),
@@ -139,7 +139,7 @@ class _State extends State<AddWord> {
                               left: 10, right: 10),
                           child: InputWord(
                             controller: _baseWordController,
-                            label: _settingStore.baseLanguage.label,
+                            label: _settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label : '',
                             focusNode: focusNode,
                             hintText: 'Enter your world',
                             onWordChanged: (_) => {},
@@ -148,9 +148,7 @@ class _State extends State<AddWord> {
                         const SizedBox(height: 15),
                         SquareButton(
                           key: _mybuttonState,
-                          onPressed: () {
-                            _translateWord();
-                          },
+                          onPressed: _translateWord,
                           icon: const Icon(Icons.translate_outlined, size: 30),
                           backgroundColor: Theme
                               .of(context)
@@ -164,7 +162,7 @@ class _State extends State<AddWord> {
                                 left: 10, right: 10),
                             child: InputWord(
                               controller: _translateWordController,
-                              label: _settingStore.translateLanguage.label,
+                              label: _settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label : '',
                               onWordChanged: (_) => {},
                             )),
                         const SizedBox(height: 5),
@@ -175,9 +173,7 @@ class _State extends State<AddWord> {
                               .of(context)
                               .primaryColor,
                           text: 'Save',
-                          onPressed: () {
-                            _saveCard();
-                          },
+                          onPressed: _saveCard,
                         ),
                         const SizedBox(height: 5)
                       ]),
@@ -195,35 +191,35 @@ class _State extends State<AddWord> {
   }
 
   void _translateWord() {
-    if (_baseWordController.text.isEmpty) {
+    if (_baseWordController!.text.isEmpty) {
       _toastService.toastError('No word to translate');
     } else {
-      _mybuttonState.currentState.changeLoadingState();
+      _mybuttonState.currentState!.changeLoadingState();
       TranslateHelper.instance
-          .translate(_settingStore.baseLanguage.isoCode, _settingStore.translateLanguage.isoCode, _baseWordController.text)
+          .translate(_settingStore.baseLanguage!.isoCode, _settingStore.translateLanguage!.isoCode, _baseWordController!.text)
           .then((value) {
-        _translateWordController.text = value;
+        _translateWordController!.text = value!;
       })
           .catchError(
               (onError) => _toastService.toastError('Error on translate word'))
-          .whenComplete(() => _mybuttonState.currentState.changeLoadingState());
+          .whenComplete(() => _mybuttonState.currentState!.changeLoadingState());
     }
   }
 
   Future<void> _saveCard() async {
     try {
-      if (_baseWordController.text.isEmpty ||
-          _translateWordController.text.isEmpty) {
+      if (_baseWordController!.text.isEmpty ||
+          _translateWordController!.text.isEmpty) {
         _toastService.toastError('Please enter a word');
       } else {
-        final baseWord = _formatWord(_baseWordController.text);
-        final translateWord = _formatWord(_translateWordController.text);
+        final baseWord = _formatWord(_baseWordController!.text);
+        final translateWord = _formatWord(_translateWordController!.text);
         final nativeWord = _settingStore.isReverseLanguage ? translateWord : baseWord;
         final foreignWord = _settingStore.isReverseLanguage ? baseWord : translateWord;
         await _cardService.insertCard(nativeWord, foreignWord);
-        _baseWordController.text = '';
-        _translateWordController.text = '';
-        focusNode.requestFocus();
+        _baseWordController!.text = '';
+        _translateWordController!.text = '';
+        focusNode!.requestFocus();
         _toastService.toastValidate('Word save');
         await _cardListStore.fetchCard();
       }
@@ -252,10 +248,10 @@ class _State extends State<AddWord> {
   }
 
   void _onDragStop(DragUpdateDetails dragUpdateDetails) {
-    widget.onDragUp(dragUpdateDetails);
+    widget.onDragUp!(dragUpdateDetails);
   }
 
   void _onDragEnd(DragEndDetails dragEndDetails) {
-    widget.onDragEnd(dragEndDetails);
+    widget.onDragEnd!(dragEndDetails);
   }
 }

@@ -5,12 +5,12 @@ import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 
 class DetailWord extends StatefulWidget {
   const DetailWord(
-      {Key key, @required this.card, @required this.onDelete, this.onClose})
+      {Key? key, required this.card, required this.onDelete, this.onClose})
       : super(key: key);
 
-  final CardEntity card;
-  final ValueChanged<String> onDelete;
-  final VoidCallback onClose;
+  final CardEntity? card;
+  final ValueChanged<String?> onDelete;
+  final VoidCallback? onClose;
 
   @override
   _DetailWordState createState() => _DetailWordState();
@@ -21,7 +21,7 @@ class _DetailWordState extends State<DetailWord> {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxWidth: 400),
-    child: Container(
+      child: Container(
         height: 250,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -46,8 +46,8 @@ class _DetailWordState extends State<DetailWord> {
             Container(
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: CardWord(
-                    nativeWord: widget.card.nativeWord,
-                    foreignWord: widget.card.foreignWord,
+                    nativeWord: widget.card!.nativeWord,
+                    foreignWord: widget.card!.foreignWord,
                     color: Theme.of(context).primaryColor)),
             Container(
                 padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -55,7 +55,7 @@ class _DetailWordState extends State<DetailWord> {
                   Expanded(
                     child: CardWord(
                       nativeWord: 'Errors',
-                      foreignWord: widget.card.nbErrors.toString(),
+                      foreignWord: widget.card!.nbErrors.toString(),
                       color: Theme.of(context).errorColor,
                       height: 30,
                     ),
@@ -64,7 +64,7 @@ class _DetailWordState extends State<DetailWord> {
                   Expanded(
                       child: CardWord(
                         nativeWord: 'Vues',
-                        foreignWord: (widget.card.nbErrors + widget.card.nbSuccess)
+                        foreignWord: (widget.card!.nbErrors! + widget.card!.nbSuccess!)
                             .toString(),
                         color: Theme.of(context).primaryColor,
                         height: 30,
@@ -73,7 +73,7 @@ class _DetailWordState extends State<DetailWord> {
                   Expanded(
                       child: CardWord(
                         nativeWord: 'Success',
-                        foreignWord: widget.card.nbSuccess.toString(),
+                        foreignWord: widget.card!.nbSuccess.toString(),
                         color: Theme.of(context).indicatorColor,
                         height: 30,
                       ))
@@ -84,10 +84,10 @@ class _DetailWordState extends State<DetailWord> {
                 icon: Icons.delete,
                 width: 100,
                 color: Theme.of(context).errorColor,
-                onPressed: () => {widget.onDelete(widget.card.id)}),
+                onPressed: () => {widget.onDelete(widget.card!.id)}),
             const SizedBox(height: 5),
           ],
-        )),
-    );
+        )
+    ));
   }
 }

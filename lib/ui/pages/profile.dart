@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
@@ -10,7 +12,7 @@ import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key key}) : super(key: key);
+  const ProfilePage({Key? key}) : super(key: key);
 
   static const String routeName = '/profile';
 
@@ -20,9 +22,15 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   final String googleLogoAsset = 'assets/google-logo.svg';
-  ProfilStore _profilStore;
-  CardListStore _cardListStore;
-  InterfaceStore _interfaceStore;
+  final String appleLogoAsset = 'assets/apple-logo.svg';
+  late ProfilStore _profilStore;
+  late CardListStore _cardListStore;
+  late InterfaceStore _interfaceStore;
+
+  String? userName;
+  FileImage? image;
+  bool? conection;
+  String? effet;
 
   @override
   void initState() {
@@ -34,10 +42,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    Widget _widgetDisplayed;
+    late Widget _widgetDisplayed;
     final height = MediaQuery.of(context).size.height;
     return Scaffold(body: Observer(
-      builder: (_) {
+      builder: (context) {
         switch (_profilStore.currentProfile.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(
@@ -45,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
             );
             break;
           case FutureStatus.fulfilled:
-            if (_profilStore.currentProfile.value.isConnected) {
+            if (_profilStore.currentProfile.value!.isConnected) {
               _widgetDisplayed = Center(
                   child: Column(children: [
                 SizedBox(height: height / 10),
@@ -64,25 +72,42 @@ class _ProfilePageState extends State<ProfilePage> {
             } else {
               _widgetDisplayed = Center(
                   child: Column(children: [
-                const ProfileOffline(),
-                const SizedBox(height: 20),
-                RaisedButton(
-                    textTheme: Theme.of(context).buttonTheme.textTheme,
-                    color: Theme.of(context).primaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    onPressed: _login,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(googleLogoAsset,
-                            height: 25, width: 25),
-                        const SizedBox(width: 10),
-                        const Text('Login or Sign in with Google')
-                      ],
-                    ))
-              ]));
+                    const ProfileOffline(),
+                    const SizedBox(height: 20), const SizedBox(height: 20),
+                    RaisedButton(
+                        textTheme: Theme.of(context).buttonTheme.textTheme,
+                        color: Theme.of(context).primaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        onPressed: () => _login(SignInMethod.GOOGLE),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(googleLogoAsset,
+                                height: 25, width: 25),
+                            const SizedBox(width: 10),
+                            const Text('Login or Sign in with Google')
+                          ],
+                        )),
+                    const SizedBox(height: 10),
+                    if (defaultTargetPlatform != TargetPlatform.android) RaisedButton(
+                        textTheme: Theme.of(context).buttonTheme.textTheme,
+                        color: Theme.of(context).cardColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        onPressed: () => _login(SignInMethod.APPLE),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SvgPicture.asset(appleLogoAsset,
+                                height: 25, width: 25),
+                            const SizedBox(width: 10),
+                            const Text('Login or Sign in with Apple')
+                          ],
+                        )) else const SizedBox(),
+                  ]));
             }
             break;
           case FutureStatus.rejected:
@@ -98,8 +123,8 @@ class _ProfilePageState extends State<ProfilePage> {
     ));
   }
 
-  void _login() {
-    _profilStore.login().then((value) => _cardListStore.fetchCard());
+  void _login(SignInMethod signInMethod) {
+    _profilStore.login(signInMethod).then((value) => _cardListStore.fetchCard());
   }
 
   void _logout() {

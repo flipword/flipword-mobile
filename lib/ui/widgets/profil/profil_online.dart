@@ -4,13 +4,13 @@ import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 import 'package:provider/provider.dart';
 
 class ProfileOnline extends StatefulWidget {
-  const ProfileOnline({Key key}) : super(key: key);
+  const ProfileOnline({Key? key}) : super(key: key);
   @override
   _ProfileOnline createState() => _ProfileOnline();
 }
 
 class _ProfileOnline extends State<ProfileOnline> {
-  ProfilStore _profilStore;
+  late ProfilStore _profilStore;
   @override
   void initState() {
     _profilStore = Provider.of<ProfilStore>(context, listen: false);
@@ -38,13 +38,13 @@ class _ProfileOnline extends State<ProfileOnline> {
                             padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 40),
                             child: Text(
-                                'Email : ${_profilStore.currentProfile.value.email}',
+                                'Email : ${_profilStore.currentProfile.value!.email}',
                                 style: _buildTextStyle(screenSize))),
                         Container(
                             padding:
                             const EdgeInsets.only(left: 20, right: 20, top: 20),
                             child: Text(
-                                'Username : ${_profilStore.currentProfile.value.name == '' ? 'no username' : _profilStore.currentProfile.value.name}',
+                                'Username : ${_profilStore.currentProfile.value!.name == '' || _profilStore.currentProfile.value!.name == null ? 'no username' : _profilStore.currentProfile.value!.name}',
                                 style: _buildTextStyle(screenSize))),
                         Container(
                           padding: const EdgeInsets.only(
@@ -52,7 +52,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                           child: CardWord(
                               nativeWord: 'Learned words',
                               foreignWord:
-                              '${_profilStore.currentProfile.value.nbWordLearned}',
+                              '${_profilStore.currentProfile.value!.nbWordLearned}',
                               color: Theme.of(context).primaryColor),
                         )
                       ],
@@ -66,7 +66,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                   height: screenSize.height > 600 ? 190 : 150,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Theme.of(context)?.cardColor,
+                    color: Theme.of(context).cardColor,
                   ),
                 )),
             Align(
@@ -75,12 +75,12 @@ class _ProfileOnline extends State<ProfileOnline> {
                     margin: const EdgeInsets.only(top: 5),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Theme.of(context)?.primaryColor,
+                      color: Theme.of(context).primaryColor,
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        _profilStore.currentProfile.value.avatarPath,
+                        "_profilStore.currentProfile.value!.avatarPath",
                         width: screenSize.height > 600 ? 180 : 140,
                         height: screenSize.height > 600 ? 180 : 140,
                       ),
@@ -90,11 +90,6 @@ class _ProfileOnline extends State<ProfileOnline> {
         )
     );
   }
-  // CircleAvatar(
-  // backgroundColor: Theme.of(context).primaryColor,
-  // radius: screenSize.height > 600 ? 90 : 70,
-  // backgroundImage: _profilStore.currentProfile.value.fileImage,
-  // ),
 
   TextStyle _buildTextStyle(dynamic screenSize) {
     if (screenSize.height > 600) {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class FABBottomAppBarItemRouting {
-  FABBottomAppBarItemRouting({@required this.index, @required this.routeName});
+  FABBottomAppBarItemRouting({required this.index, required this.routeName});
 
-  int index;
+  int? index;
   String routeName;
 }
 
 class FABBottomAppBarItem {
-  FABBottomAppBarItem({@required this.iconData, @required this.routeName});
+  FABBottomAppBarItem({required this.iconData, required this.routeName});
 
   IconData iconData;
   String routeName;
@@ -16,7 +16,7 @@ class FABBottomAppBarItem {
 
 class FABBottomAppBar extends StatefulWidget {
   FABBottomAppBar({
-    this.items,
+    required this.items,
     this.height = 60.0,
     this.iconSize = 30.0,
     this.backgroundColor,
@@ -24,28 +24,28 @@ class FABBottomAppBar extends StatefulWidget {
     this.selectedColor,
     this.notchedShape,
     this.onTabSelected,
-    Key key
+    Key? key
   }): super(key: key) {
     assert(items.length == 2 || items.length == 4);
   }
   final List<FABBottomAppBarItem> items;
   final double height;
   final double iconSize;
-  final Color backgroundColor;
-  final Color iconColor;
-  final Color selectedColor;
-  final NotchedShape notchedShape;
-  final ValueChanged<String> onTabSelected;
+  final Color? backgroundColor;
+  final Color? iconColor;
+  final Color? selectedColor;
+  final NotchedShape? notchedShape;
+  final ValueChanged<String>? onTabSelected;
 
   @override
   State<StatefulWidget> createState() => FABBottomAppBarState();
 }
 
 class FABBottomAppBarState extends State<FABBottomAppBar> {
-  int _selectedIndex = 0;
+  int? _selectedIndex = 0;
 
  void _updateRoute(FABBottomAppBarItemRouting routing) {
-    widget.onTabSelected(routing.routeName);
+    widget.onTabSelected!(routing.routeName);
     setState(() {
       _selectedIndex = routing.index;
     });
@@ -97,10 +97,10 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
   }
 
   Widget _buildTabItem({
-    FABBottomAppBarItem item,
-    int index,
-    ValueChanged<FABBottomAppBarItemRouting> onPressed,
-    bool isLargeScreen
+    required FABBottomAppBarItem item,
+    int? index,
+    ValueChanged<FABBottomAppBarItemRouting>? onPressed,
+    required bool isLargeScreen
   }) {
     final routing = FABBottomAppBarItemRouting(
         index: index,
@@ -111,7 +111,7 @@ class FABBottomAppBarState extends State<FABBottomAppBar> {
     final tabItemElement = Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => onPressed(routing),
+            onTap: () => onPressed!(routing),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,

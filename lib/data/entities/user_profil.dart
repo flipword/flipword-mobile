@@ -14,15 +14,15 @@ class UserProfil {
     foreignLanguageIsoCode = json['foreignLanguageIsoCode'];
   }
 
-  String email;
-  String name;
-  Timestamp lastConnection;
-  bool isConnected;
-  String uid;
-  String avatarPath;
-  int nbWordLearned;
-  String nativeLanguageIsoCode;
-  String foreignLanguageIsoCode;
+  String? email;
+  String? name;
+  Timestamp? lastConnection;
+  late bool isConnected;
+  String? uid;
+  FileImage? fileImage;
+  int? nbWordLearned;
+  String? nativeLanguageIsoCode;
+  String? foreignLanguageIsoCode;
 
   Map<String, dynamic> toJson() {
     final data = <String, dynamic>{};

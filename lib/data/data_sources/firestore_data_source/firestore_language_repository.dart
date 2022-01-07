@@ -16,7 +16,7 @@ class FirestoreLanguageRepository {
   CollectionReference getLanguages() =>
       _firestoreHelper.getCollection(collectionName);
 
-  Future<QueryDocumentSnapshot> getLanguageByIsoCode(String isoCode){
+  Future<QueryDocumentSnapshot> getLanguageByIsoCode(String? isoCode){
     try{
       return getLanguages().where('isoCode', isEqualTo: isoCode).get().then((querySnapshot) => querySnapshot.docs.first);
     } on Exception catch (e) {

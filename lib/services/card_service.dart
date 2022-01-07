@@ -29,17 +29,17 @@ class CardService {
   Future<List<CardEntity>> getListCard() async {
     final response = await getCardCollection().get();
     return response.docs.map((element) {
-      final entity = CardEntity.fromJson(element.data())..id = element.id;
+      final entity = CardEntity.fromJson(element.data() as Map<String, dynamic>)..id = element.id;
       return entity;
     }).toList();
   }
 
-  Future<void> deleteCard(String id) async {
+  Future<void> deleteCard(String? id) async {
     return getCardCollection().doc(id).delete();
   }
 
   Future<void> updateCardView(CardEntity card, bool success) async {
-    if ((card.nbSuccess + 1) >= 5) {
+    if ((card.nbSuccess! + 1) >= 5) {
       await deleteCard(card.id);
       if (_authService.getUser().isConnected) {
         await _authService.addALearnedWord();
@@ -47,7 +47,7 @@ class CardService {
     } else {
       await getCardCollection().doc(card.id).update({
         success ? 'nbSuccess' : 'nbErrors':
-        success ? card.nbSuccess + 1 : card.nbErrors + 1
+        success ? card.nbSuccess! + 1 : card.nbErrors! + 1
       });
     }
   }

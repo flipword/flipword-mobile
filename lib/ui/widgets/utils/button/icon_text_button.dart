@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 
 class IconTextButton extends StatelessWidget {
   const IconTextButton(
-      {Key key,
+      {Key? key,
       this.icon,
       this.text,
       this.color,
       this.width,
-      @required this.onPressed})
+      required this.onPressed})
       : super(key: key);
 
-  final IconData icon;
-  final String text;
-  final Color color;
+  final IconData? icon;
+  final String? text;
+  final Color? color;
   final VoidCallback onPressed;
-  final double width;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,10 +35,10 @@ class IconTextButton extends StatelessWidget {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(text,
+                    Text(text!,
                         style: TextStyle(
                             color:
-                                Theme.of(context).textTheme.bodyText2.color)),
+                                Theme.of(context).textTheme.bodyText2!.color)),
                     const SizedBox(width: 5),
                     Icon(icon,
                         size: 30, color: Theme.of(context).iconTheme.color)

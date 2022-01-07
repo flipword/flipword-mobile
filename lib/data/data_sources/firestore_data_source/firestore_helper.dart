@@ -5,12 +5,12 @@ class FirestoreHelper {
     _firestore ??= FirebaseFirestore.instance;
   }
 
-  FirebaseFirestore _firestore;
+  FirebaseFirestore? _firestore;
 
   static final FirestoreHelper _instance = FirestoreHelper._privateConstructor();
   static FirestoreHelper get instance => _instance;
 
-  CollectionReference getCollection(String collectionName) => _firestore.collection(collectionName);
+  CollectionReference getCollection(String collectionName) => _firestore!.collection(collectionName);
 
   Future<DocumentSnapshot> getDocumentById(String collectionName, String id) => getCollection(collectionName).doc(id).get();
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class InputWord extends StatefulWidget {
   const InputWord(
-      {Key key,
-      @required this.label,
+      {Key? key,
+      required this.label,
       this.hintText = '',
       this.readOnly = false,
       this.onWordChanged,
@@ -11,12 +11,12 @@ class InputWord extends StatefulWidget {
       this.focusNode})
       : super(key: key);
 
-  final String label;
+  final String? label;
   final String hintText;
   final bool readOnly;
-  final ValueChanged<String> onWordChanged;
-  final TextEditingController controller;
-  final FocusNode focusNode;
+  final ValueChanged<String>? onWordChanged;
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
 
   @override
   _InputWordState createState() => _InputWordState();
@@ -38,7 +38,7 @@ class _InputWordState extends State<InputWord> {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),
-                child: Text(widget.label, textAlign: TextAlign.center),
+                child: Text(widget.label!, textAlign: TextAlign.center),
               ),
             ),
           )
@@ -62,7 +62,7 @@ class _InputWordState extends State<InputWord> {
           textAlign: TextAlign.center,
           style: TextStyle(
               fontSize: 20,
-              color: Theme.of(context).textTheme.bodyText2.color),
+              color: Theme.of(context).textTheme.bodyText2!.color),
           decoration: InputDecoration(
             contentPadding: const EdgeInsets.only(top: 30, bottom: 30),
             border: InputBorder.none,
@@ -75,6 +75,6 @@ class _InputWordState extends State<InputWord> {
   }
 
   void _onWordChanged(String value) {
-    widget.onWordChanged(value);
+    widget.onWordChanged!(value);
   }
 }

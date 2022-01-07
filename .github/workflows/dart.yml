@@ -11,9 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Clone Flutter repository with master channel
-        uses: subosito/flutter-action@v1.5.0
+        uses: subosito/flutter-action@v1
         with:
-          channel: master
+          flutter-version: '2.5.0'
 
       - name: Flutter doctor
         run: flutter doctor -v
@@ -30,7 +30,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     needs: [ lint ]
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Checkout gallery code
         uses: actions/checkout@v2
@@ -43,7 +43,7 @@ jobs:
       - name: Clone Flutter repository
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.5.1'
+          flutter-version: '2.5.0'
 
       - name: Pub get
         run: flutter pub get
@@ -67,18 +67,10 @@ jobs:
   build-ios:
     runs-on: macos-latest
     needs: [ lint ]
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Checkout gallery code
         uses: actions/checkout@v2
-
-      - name: Install python and codemagic tools
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.7
-
-      - name: Install python dependencies
-        run: python -m pip install codemagic-cli-tools
 
       - name: Decode secrets properties files
         run: |
@@ -116,9 +108,9 @@ jobs:
           CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
 
       - name: Clone Flutter repository with master channel
-        uses: subosito/flutter-action@v1.5.0
+        uses: subosito/flutter-action@v1
         with:
-          channel: master
+          flutter-version: '2.5.0'
 
       - name: Pub get
         run: flutter pub get
@@ -167,15 +159,46 @@ jobs:
   publish-ios:
     runs-on: macos-latest
     needs: [ build-ios ]
-    if: github.ref == 'refs/heads/master' && startsWith(github.ref, 'refs/tags/v')
+    if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v')
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v2
         with:
           name: adhoc-ipa
-          path: build/ios/ipa/*.ipa
+          path: build/ios/ipa
 
-      - name: Publish IPA on appstoreconnect
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: build/ios/ipa
+
+      - name: Install python and codemagic tools
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Install python dependencies
+        run: python -m pip install codemagic-cli-tools
+
+      - name: Decode secrets properties files
+        run: |
+          mkdir -p ./keys
+          echo "$APP_STORE_CONNECT_P8" | base64 -d > ./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8
+        env:
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_P8: ${{ secrets.APP_STORE_CONNECT_P8 }}
+
+      - name: Publish IPA on test flight
+        if: github.ref == 'refs/heads/master'
+        run: app-store-connect publish -t --path build/ios/ipa/*.ipa --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
+        env:
+          APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
+          APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          CERTIFICATE_PRIVATE_KEY: ${{ secrets.IOS_PRIVATE_KEY }}
+          CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
+
+      - name: Publish IPA on appstore
+        if: startsWith(github.ref, 'refs/tags/v')
         run: app-store-connect publish --path build/ios/ipa/*.ipa --private-key @file:./keys/AuthKey_$APP_STORE_CONNECT_API_KEY.p8 --verbose
         env:
           APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.IOS_ISSUER_ID }}
@@ -183,3 +206,7 @@ jobs:
           APP_STORE_CONNECT_KEY_IDENTIFIER: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
           CERTIFICATE_PRIVATE_KEY: ${{ secrets.IOS_PRIVATE_KEY }}
           CERTIFICATE_PRIVATE_KEY_PASSWORD: ${{ secrets.IOS_PRIVATE_KEY_PASSWORD }}
+
+      - name: Step To run on failure
+        if: ${{ failure() }}
+        run: cat /var/folders/24/8k48jl6d249_n_qfxwsl6xvm0000gn/T/codemagic-16-10-21.log

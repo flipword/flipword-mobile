@@ -7,7 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
 class SettingPage extends StatefulWidget {
-  const SettingPage({Key key}) : super(key: key);
+  const SettingPage({Key? key}) : super(key: key);
   static const String routeName = '/setting';
 
   @override
@@ -15,8 +15,8 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPage extends State<SettingPage> {
-  SettingStore _settingStore;
-  CardListStore _cardListStore;
+  late SettingStore _settingStore;
+  late CardListStore _cardListStore;
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _SettingPage extends State<SettingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Observer(builder: (_) {
+    return Scaffold(body: Observer(builder: (context) {
       return Center(
         child: LegendCard(
           legend: 'General',
@@ -52,25 +52,23 @@ class _SettingPage extends State<SettingPage> {
                           child: DropdownButton(
                             hint: Center(
                                 child: Text(
-                                  _settingStore.nativeLanguage.value.label,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                                  _settingStore.nativeLanguage.value != null ? _settingStore.nativeLanguage.value!.label! : '',
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                                 )
                             ),
                             isExpanded: true,
                             iconSize: 30,
-                            iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
-                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                            items: _settingStore.languages.value.map(
+                            iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
+                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
+                            items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
                                   (val) {
                                 return DropdownMenuItem<Language>(
                                   value: val,
-                                  child: Text(val.label),
+                                  child: Text(val.label!),
                                 );
                               },
-                            ).toList(),
-                            onChanged: (val) {
-                              updateNativeLanguage(val);
-                            },
+                            ).toList() : List.empty(),
+                            onChanged: updateNativeLanguage,
                           ),
                         )
                     )
@@ -90,25 +88,23 @@ class _SettingPage extends State<SettingPage> {
                           child: DropdownButton(
                             hint: Center(
                                 child: Text(
-                                  _settingStore.foreignLanguage.value.label,
-                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
+                                  _settingStore.foreignLanguage.value != null ? _settingStore.foreignLanguage.value!.label! : '',
+                                  style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                                 )
                             ),
                             isExpanded: true,
                             iconSize: 30,
-                            iconEnabledColor: Theme.of(context).textTheme.bodyText2.color,
-                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontWeight: FontWeight.w500),
-                            items: _settingStore.languages.value.map(
+                            iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
+                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
+                            items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
                                   (val) {
                                 return DropdownMenuItem<Language>(
                                   value: val,
-                                  child: Text(val.label),
+                                  child: Text(val.label!),
                                 );
                               },
-                            ).toList(),
-                            onChanged: (val) {
-                              updateForeignLanguage(val);
-                            },
+                            ).toList() : List.empty(),
+                            onChanged: updateForeignLanguage,
                           ),
                         )
                     )

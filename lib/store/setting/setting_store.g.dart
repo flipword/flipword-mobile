@@ -9,7 +9,7 @@ part of 'setting_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SettingStore on _SettingStore, Store {
-  Computed<bool> _$isReverseLanguageComputed;
+  Computed<bool>? _$isReverseLanguageComputed;
 
   @override
   bool get isReverseLanguage => (_$isReverseLanguageComputed ??= Computed<bool>(
@@ -20,13 +20,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$languagesAtom = Atom(name: '_SettingStore.languages');
 
   @override
-  ObservableFuture<List<Language>> get languages {
+  ObservableFuture<List<Language>?> get languages {
     _$languagesAtom.reportRead();
     return super.languages;
   }
 
   @override
-  set languages(ObservableFuture<List<Language>> value) {
+  set languages(ObservableFuture<List<Language>?> value) {
     _$languagesAtom.reportWrite(value, super.languages, () {
       super.languages = value;
     });
@@ -35,13 +35,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$nativeLanguageAtom = Atom(name: '_SettingStore.nativeLanguage');
 
   @override
-  ObservableFuture<Language> get nativeLanguage {
+  ObservableFuture<Language?> get nativeLanguage {
     _$nativeLanguageAtom.reportRead();
     return super.nativeLanguage;
   }
 
   @override
-  set nativeLanguage(ObservableFuture<Language> value) {
+  set nativeLanguage(ObservableFuture<Language?> value) {
     _$nativeLanguageAtom.reportWrite(value, super.nativeLanguage, () {
       super.nativeLanguage = value;
     });
@@ -50,13 +50,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$foreignLanguageAtom = Atom(name: '_SettingStore.foreignLanguage');
 
   @override
-  ObservableFuture<Language> get foreignLanguage {
+  ObservableFuture<Language?> get foreignLanguage {
     _$foreignLanguageAtom.reportRead();
     return super.foreignLanguage;
   }
 
   @override
-  set foreignLanguage(ObservableFuture<Language> value) {
+  set foreignLanguage(ObservableFuture<Language?> value) {
     _$foreignLanguageAtom.reportWrite(value, super.foreignLanguage, () {
       super.foreignLanguage = value;
     });
@@ -65,13 +65,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$baseLanguageAtom = Atom(name: '_SettingStore.baseLanguage');
 
   @override
-  Language get baseLanguage {
+  Language? get baseLanguage {
     _$baseLanguageAtom.reportRead();
     return super.baseLanguage;
   }
 
   @override
-  set baseLanguage(Language value) {
+  set baseLanguage(Language? value) {
     _$baseLanguageAtom.reportWrite(value, super.baseLanguage, () {
       super.baseLanguage = value;
     });
@@ -80,13 +80,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$translateLanguageAtom = Atom(name: '_SettingStore.translateLanguage');
 
   @override
-  Language get translateLanguage {
+  Language? get translateLanguage {
     _$translateLanguageAtom.reportRead();
     return super.translateLanguage;
   }
 
   @override
-  set translateLanguage(Language value) {
+  set translateLanguage(Language? value) {
     _$translateLanguageAtom.reportWrite(value, super.translateLanguage, () {
       super.translateLanguage = value;
     });
