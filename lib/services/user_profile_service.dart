@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
@@ -94,7 +92,8 @@ class UserProfileService {
             .isoCode,
         'lastConnection': DateTime.now(),
       }, SetOptions(merge: true));
-    } catch (_) {}
+    } catch (_) {
+    }
   }
 
   Future<void> signInWithApple() async {
@@ -177,11 +176,11 @@ class UserProfileService {
   Future<UserProfil> _getUserFromConnected() async{
     final responses = await Future.wait([
       _getUserProfileById(_auth.currentUser!.uid),
-      robohashHelper.getAvatare(_auth.currentUser!.email).then((value) => value)
+      robohashHelper.getAvatarPath(_auth.currentUser!.email!).then((value) => value)
     ]);
     final UserProfil userProfile = responses[0] as UserProfil;
     return userProfile
-      ..fileImage = responses[1] as FileImage?
+      ..avatarPath = responses[1] as String?
       ..isConnected = true;
   }
 

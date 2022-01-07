@@ -80,7 +80,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        "_profilStore.currentProfile.value!.avatarPath",
+                        _profilStore.currentProfile.value!.avatarPath!,
                         width: screenSize.height > 600 ? 180 : 140,
                         height: screenSize.height > 600 ? 180 : 140,
                       ),
