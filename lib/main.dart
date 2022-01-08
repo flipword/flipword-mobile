@@ -31,7 +31,7 @@ Future<dynamic> main() async {
       break;
   }
 
-  await dotenv.load(fileName: '.env');
+  await dotenv.load(fileName: 'env');
   runApp(DevicePreview(builder: (context) => MyApp(), enabled: Constanants.isDebuggable!,));
 }
 
