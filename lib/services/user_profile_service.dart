@@ -6,6 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
@@ -13,6 +15,8 @@ import 'package:flutter_flip_card/data/entities/user_profil.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+import 'html_shim.dart' if (dart.library.html) 'dart:html' show window;
 
 class UserProfileService {
   UserProfileService._privateConstructor() {
@@ -97,9 +101,6 @@ class UserProfileService {
   }
 
   Future<void> signInWithApple() async {
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
-
     try {
       // Request credential for the currently signed in Apple account.
       final appleCredential = await SignInWithApple.getAppleIDCredential(
@@ -109,16 +110,16 @@ class UserProfileService {
         ],
           webAuthenticationOptions: WebAuthenticationOptions(
               clientId: 'com.flipword.app.register',
-              redirectUri: Uri.parse(
+              redirectUri: kIsWeb
+                  ? Uri.parse('https://${window.location.host}/')
+                  : Uri.parse(
                   'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')),
-        nonce: nonce,
       );
 
       // Create an `OAuthCredential` from the credential returned by Apple.
       final oauthCredential = OAuthProvider('apple.com').credential(
         idToken: appleCredential.identityToken,
         accessToken: appleCredential.authorizationCode,
-        rawNonce: rawNonce
       );
 
       // Sign in the user with Firebase. If the nonce we generated earlier does

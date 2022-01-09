@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "site": "app-flipword",
+    "public": ".output",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
