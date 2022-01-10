@@ -164,7 +164,7 @@ jobs:
 
   publish-web:
     runs-on: ubuntu-latest
-    needs: [ lint ]
+    needs: [ build-web ]
 #    TODO: Add publish to in if
     if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
     steps:
