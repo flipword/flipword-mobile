@@ -180,7 +180,6 @@ jobs:
       - name: Deploy site to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          entryPoint: 'web/'
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLUTTER_FLIP_CARD }}'
           channelId: live
