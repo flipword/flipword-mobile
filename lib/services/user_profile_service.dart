@@ -6,7 +6,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
@@ -15,8 +14,6 @@ import 'package:flutter_flip_card/data/entities/user_profil.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
-import 'html_shim.dart' if (dart.library.html) 'dart:html' show window;
 
 class UserProfileService {
   UserProfileService._privateConstructor() {
@@ -111,7 +108,7 @@ class UserProfileService {
           webAuthenticationOptions: WebAuthenticationOptions(
               clientId: 'com.flipword.app.register',
               redirectUri: kIsWeb
-                  ? Uri.parse('https://${window.location.host}/')
+                  ? Uri.parse('https://flipword.io/')
                   : Uri.parse(
                   'https://mewing-nine-thyme.glitch.me/callbacks/sign_in_with_apple')),
       );

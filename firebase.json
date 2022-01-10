@@ -1,7 +1,7 @@
 {
   "hosting": {
     "site": "app-flipword",
-    "public": ".output",
+    "public": "build/web",
     "ignore": [
       "firebase.json",
       "**/.*",

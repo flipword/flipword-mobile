@@ -156,6 +156,36 @@ jobs:
       - name: Build html
         run: flutter build web --release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: adhoc-html
+          path: build/web/*
+
+  publish-web:
+    runs-on: ubuntu-latest
+    needs: [ lint ]
+#    TODO: Add publish to in if
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout gallery code
+        uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: adhoc-html
+          path: build/ios/ipa
+
+      - name: Deploy site to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          entryPoint: 'web/'
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLUTTER_FLIP_CARD }}'
+          channelId: live
+          projectId: app-flipword
+
   publish-ios:
     runs-on: macos-latest
     needs: [ build-ios ]
