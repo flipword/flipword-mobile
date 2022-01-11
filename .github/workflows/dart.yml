@@ -183,7 +183,7 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLUTTER_FLIP_CARD }}'
           channelId: live
-          projectId: app-flipword
+          projectId: flutter-flip-card
 
   publish-ios:
     runs-on: macos-latest
