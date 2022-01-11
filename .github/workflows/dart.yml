@@ -156,6 +156,12 @@ jobs:
       - name: Build html
         run: flutter build web --release
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: adhoc-html
+          path: build/web/*
+
   publish-web:
     runs-on: ubuntu-latest
     needs: [ build-web ]
@@ -165,8 +171,14 @@ jobs:
       - name: Checkout gallery code
         uses: actions/checkout@v2
 
-      - name: Build html
-        run: flutter build web --release
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: adhoc-html
+          path: build/web/
+
+      - name: View files
+        run: ls -aR
 
       - name: Deploy site to Firebase
         uses: FirebaseExtended/action-hosting-deploy@v0
