@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_dictionary_repository.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
 
+import 'abstract/abstract_user_profile_service.dart';
 import 'language_service.dart';
-import 'user_profile_service.dart';
+import 'user_profile_service_m.dart';
 
 class CardService {
   CardService._privateConstructor();
@@ -11,7 +12,7 @@ class CardService {
 
   final FirestoreDictionaryRepository _repository =
       FirestoreDictionaryRepository.instance;
-  final UserProfileService _authService = UserProfileService.instance;
+  final AbstractUserProfileService _authService = AbstractUserProfileService.instance;
   final LanguageService _languageService = LanguageService.instance;
 
   static final CardService _instance = CardService._privateConstructor();
