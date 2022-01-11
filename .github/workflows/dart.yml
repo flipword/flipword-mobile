@@ -49,7 +49,7 @@ jobs:
         run: flutter pub get
 
       - name: Decode secrets properties files
-        run: touch .env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > .env; echo "$SECRETS_PROPERTIES" | base64 -d > ./android/key.properties;echo "$SECRETS_KEY" | base64 -d > ./android/upload-keystore.jks;echo "$GOOGLE_SERVICE" | base64 -d > ./android/app/google-services.json
+        run: touch env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > env; echo "$SECRETS_PROPERTIES" | base64 -d > ./android/key.properties;echo "$SECRETS_KEY" | base64 -d > ./android/upload-keystore.jks;echo "$GOOGLE_SERVICE" | base64 -d > ./android/app/google-services.json
         env:
           SECRETS_PROPERTIES: ${{ secrets.SECRETS_PROPERTIES }}
           SECRETS_KEY: ${{ secrets.SECRETS_KEY }}
@@ -128,6 +128,62 @@ jobs:
         with:
           name: adhoc-ipa
           path: build/ios/ipa/*.ipa
+
+  build-web:
+    runs-on: ubuntu-latest
+    needs: [ lint ]
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout gallery code
+        uses: actions/checkout@v2
+
+      - name: Install java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Clone Flutter repository
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.x'
+
+      - name: Pub get
+        run: flutter pub get
+
+      - name: Decode secrets properties files
+        run: touch env; echo "AZURE_TRANSLATE_KEY=$AZURE_TRANSLATE_KEY" > env;
+
+      - name: Build html
+        run: flutter build web --release
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: adhoc-html
+          path: build/web/*
+
+  publish-web:
+    runs-on: ubuntu-latest
+    needs: [ build-web ]
+#    TODO: Add publish to in if
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout gallery code
+        uses: actions/checkout@v2
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: adhoc-html
+          path: build/web/
+
+      - name: Deploy site to Firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_FLUTTER_FLIP_CARD }}'
+          channelId: live
+          projectId: flutter-flip-card
 
   publish-ios:
     runs-on: macos-latest

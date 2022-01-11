@@ -50,41 +50,45 @@ class ListWordPageState extends State<ListWordPage> {
             );
             break;
           case FutureStatus.fulfilled:
-            _widgetDisplayed = Scaffold(
-                body: _cardList!.length == 0
-                    ? GridView.count(
-                        crossAxisCount: 1,
-                        physics: _interfaceStore.overlayIsDisplayed.value
-                            ? const BouncingScrollPhysics()
-                            : const AlwaysScrollableScrollPhysics(),
-                        children: const [NoWord()])
-                    : GridView.count(
-                        padding: const EdgeInsets.all(10),
-                        crossAxisSpacing: 10,
-                        mainAxisSpacing: 5,
-                        childAspectRatio: _calculElementDisplay(screenSize),
-                        crossAxisCount: 2,
-                        physics: _interfaceStore.overlayIsDisplayed.value
-                            ? const BouncingScrollPhysics()
-                            : const AlwaysScrollableScrollPhysics(),
-                        semanticChildCount: 10,
-                        children: List.generate(
-                            _cardList!.length,
-                            (index) => IgnorePointer(
-                                  ignoring:
-                                      _interfaceStore.overlayIsDisplayed.value,
-                                  child: GestureDetector(
-                                    onTap: () => {
-                                      _showModal(_cardList!.list.result[index])
-                                    },
-                                    child: CardWord(
-                                        nativeWord: _cardList!
-                                            .list.result[index].nativeWord,
-                                        foreignWord: _cardList!.list
-                                            .result[index].foreignWord,
-                                        color: Theme.of(context).primaryColor),
-                                  ),
-                                ))));
+            _widgetDisplayed = Center(
+              child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: Scaffold(
+                      body: _cardList!.length == 0
+                          ? GridView.count(
+                          crossAxisCount: 1,
+                          physics: _interfaceStore.overlayIsDisplayed.value
+                              ? const BouncingScrollPhysics()
+                              : const AlwaysScrollableScrollPhysics(),
+                          children: const [NoWord()])
+                          : GridView.count(
+                          padding: const EdgeInsets.all(10),
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 5,
+                          childAspectRatio: _calculElementDisplay(screenSize),
+                          crossAxisCount: 2,
+                          physics: _interfaceStore.overlayIsDisplayed.value
+                              ? const BouncingScrollPhysics()
+                              : const AlwaysScrollableScrollPhysics(),
+                          semanticChildCount: 10,
+                          children: List.generate(
+                              _cardList!.length,
+                                  (index) => IgnorePointer(
+                                ignoring:
+                                _interfaceStore.overlayIsDisplayed.value,
+                                child: GestureDetector(
+                                  onTap: () => {
+                                    _showModal(_cardList!.list.result[index])
+                                  },
+                                  child: CardWord(
+                                      nativeWord: _cardList!
+                                          .list.result[index].nativeWord,
+                                      foreignWord: _cardList!.list
+                                          .result[index].foreignWord,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ))))),
+            );
             break;
           case FutureStatus.rejected:
             _widgetDisplayed = const Center(
@@ -102,10 +106,16 @@ class ListWordPageState extends State<ListWordPage> {
                 onTap: () => {searchFocusNode!.unfocus()},
                 child: _widgetDisplayed,
               )),
-          SearchBar(
-            focusNode: searchFocusNode,
-            onUnFocus: (value) => {_filterCard(value)},
-          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: SearchBar(
+                focusNode: searchFocusNode,
+                onUnFocus: (value) => {_filterCard(value)},
+              ),
+            ),
+          )
         ]);
       }),
     );

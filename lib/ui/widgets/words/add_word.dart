@@ -54,132 +54,138 @@ class _State extends State<AddWord> {
         onVerticalDragUpdate: _onDragStop,
         onVerticalDragEnd: _onDragEnd,
         child: SizedBox(
-            width: screenSize,
-            child: Material(
-                color: Theme.of(context).backgroundColor,
-                elevation: 4,
-                borderRadius: BorderRadius.circular(30),
-                child: Observer(builder: (context) {
-                  if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
-                    return Column(children: [
-                      Stack(alignment: Alignment.topCenter, children: [
-                        Container(
-                          width: 500,
-                          height: 90,
-                          padding: const EdgeInsets.all(10),
-                          decoration: _getBoxDecoration(),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(translateIcon,
-                                  height: 35, width: 35),
-                              const SizedBox(width: 5),
-                              const Text(
-                                  'Microsoft',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 23),
-                              ),
-                              const SizedBox(width: 5),
-                              const Text(
-                                  'Translate',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.w300,
-                                      fontSize: 23),
-                              )
-                            ],
-                          ),
+          width: screenSize,
+          child: Align(
+              alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 800),
+              child: Material(
+            color: Theme.of(context).backgroundColor,
+              elevation: 4,
+              borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(30), bottomRight: Radius.circular(30)),
+              child: Observer(builder: (context) {
+                if(_settingStore.nativeLanguage.status == FutureStatus.fulfilled && _settingStore.foreignLanguage.status == FutureStatus.fulfilled){
+                  return Column(children: [
+                    Stack(alignment: Alignment.topCenter, children: [
+                      Container(
+                        width: 500,
+                        height: 90,
+                        padding: const EdgeInsets.all(10),
+                        decoration: _getBoxDecoration(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(translateIcon,
+                                height: 35, width: 35),
+                            const SizedBox(width: 5),
+                            const Text(
+                              'Microsoft',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 23),
+                            ),
+                            const SizedBox(width: 5),
+                            const Text(
+                              'Translate',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w300,
+                                  fontSize: 23),
+                            )
+                          ],
                         ),
-                        Container(
-                          width: 250,
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          height: 40,
-                          margin: const EdgeInsets.only(top: 88),
-                          decoration: _getBoxDecoration(),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child: Text(_settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label! : ''),
-                                  )),
-                              Expanded(
+                      ),
+                      Container(
+                        width: 250,
+                        padding: const EdgeInsets.only(left: 10, right: 10),
+                        height: 40,
+                        margin: const EdgeInsets.only(top: 88),
+                        decoration: _getBoxDecoration(),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  child: FlatButton.icon(
-                                      label: const Text(''),
-                                      icon: const Icon(Icons.swap_horiz),
-                                      textColor: Colors.black,
-                                      onPressed: () => {_settingStore.reverseLanguage()}),
-                                ),
+                                  child: Text(_settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label! : ''),
+                                )),
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: FlatButton.icon(
+                                    label: const Text(''),
+                                    icon: const Icon(Icons.swap_horiz),
+                                    textColor: Colors.black,
+                                    onPressed: () => {_settingStore.reverseLanguage()}),
                               ),
-                              Expanded(
-                                  child: Container(
-                                    alignment: Alignment.center,
-                                    child:
-                                    Text(_settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label! : ''),
-                                  ))
-                            ],
+                            ),
+                            Expanded(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child:
+                                  Text(_settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label! : ''),
+                                ))
+                          ],
+                        ),
+                      )
+                    ]),
+                    Form(
+                      key: _formKey,
+                      child: Column(children: <Widget>[
+                        const SizedBox(height: 10),
+                        Container(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10),
+                          child: InputWord(
+                            controller: _baseWordController,
+                            label: _settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label : '',
+                            focusNode: focusNode,
+                            hintText: 'Enter your world',
+                            onWordChanged: (_) => {},
                           ),
-                        )
-                      ]),
-                      Form(
-                        key: _formKey,
-                        child: Column(children: <Widget>[
-                          const SizedBox(height: 10),
-                          Container(
+                        ),
+                        const SizedBox(height: 15),
+                        SquareButton(
+                          key: _mybuttonState,
+                          onPressed: _translateWord,
+                          icon: const Icon(Icons.translate_outlined, size: 30),
+                          backgroundColor: Theme
+                              .of(context)
+                              .primaryColor,
+                          width: 45,
+                          height: 45,
+                        ),
+                        const SizedBox(height: 5),
+                        Container(
                             padding: const EdgeInsets.only(
                                 left: 10, right: 10),
                             child: InputWord(
-                              controller: _baseWordController,
-                              label: _settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label : '',
-                              focusNode: focusNode,
-                              hintText: 'Enter your world',
+                              controller: _translateWordController,
+                              label: _settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label : '',
                               onWordChanged: (_) => {},
-                            ),
-                          ),
-                          const SizedBox(height: 15),
-                          SquareButton(
-                            key: _mybuttonState,
-                            onPressed: _translateWord,
-                            icon: const Icon(Icons.translate_outlined, size: 30),
-                            backgroundColor: Theme
-                                .of(context)
-                                .primaryColor,
-                            width: 45,
-                            height: 45,
-                          ),
-                          const SizedBox(height: 5),
-                          Container(
-                              padding: const EdgeInsets.only(
-                                  left: 10, right: 10),
-                              child: InputWord(
-                                controller: _translateWordController,
-                                label: _settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label : '',
-                                onWordChanged: (_) => {},
-                              )),
-                          const SizedBox(height: 5),
-                          IconTextButton(
-                            width: 90,
-                            icon: Icons.save,
-                            color: Theme
-                                .of(context)
-                                .primaryColor,
-                            text: 'Save',
-                            onPressed: _saveCard,
-                          ),
-                          const SizedBox(height: 5)
-                        ]),
-                      )
-                    ]);
-                  } else {
-                    return const SizedBox();
-                  }
-                })
+                            )),
+                        const SizedBox(height: 5),
+                        IconTextButton(
+                          width: 90,
+                          icon: Icons.save,
+                          color: Theme
+                              .of(context)
+                              .primaryColor,
+                          text: 'Save',
+                          onPressed: _saveCard,
+                        ),
+                        const SizedBox(height: 5)
+                      ]),
+                    )
+                  ]);
+                } else {
+                  return const SizedBox();
+                }
+              })
+          ),
             )
+          ),
         )
     );
   }

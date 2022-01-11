@@ -19,7 +19,9 @@ class DetailWord extends StatefulWidget {
 class _DetailWordState extends State<DetailWord> {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return ConstrainedBox(
+      constraints: const BoxConstraints(maxWidth: 400),
+      child: Container(
         height: 250,
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -61,20 +63,20 @@ class _DetailWordState extends State<DetailWord> {
                   const SizedBox(width: 5),
                   Expanded(
                       child: CardWord(
-                    nativeWord: 'Vues',
-                    foreignWord: (widget.card!.nbErrors! + widget.card!.nbSuccess!)
-                        .toString(),
-                    color: Theme.of(context).primaryColor,
-                    height: 30,
-                  )),
+                        nativeWord: 'Vues',
+                        foreignWord: (widget.card!.nbErrors! + widget.card!.nbSuccess!)
+                            .toString(),
+                        color: Theme.of(context).primaryColor,
+                        height: 30,
+                      )),
                   const SizedBox(width: 5),
                   Expanded(
                       child: CardWord(
-                    nativeWord: 'Success',
-                    foreignWord: widget.card!.nbSuccess.toString(),
-                    color: Theme.of(context).indicatorColor,
-                    height: 30,
-                  ))
+                        nativeWord: 'Success',
+                        foreignWord: widget.card!.nbSuccess.toString(),
+                        color: Theme.of(context).indicatorColor,
+                        height: 30,
+                      ))
                 ])),
             const SizedBox(height: 5),
             IconTextButton(
@@ -85,6 +87,7 @@ class _DetailWordState extends State<DetailWord> {
                 onPressed: () => {widget.onDelete(widget.card!.id)}),
             const SizedBox(height: 5),
           ],
-        ));
+        )
+    ));
   }
 }

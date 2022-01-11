@@ -1,6 +1,6 @@
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/entities/user_profil.dart';
-import 'package:flutter_flip_card/services/user_profile_service.dart';
+import 'package:flutter_flip_card/services/abstract/abstract_user_profile_service.dart';
 import 'package:mobx/mobx.dart';
 
 part 'profil_store.g.dart';
@@ -16,13 +16,13 @@ abstract class _ProfilStore with Store {
 
   @action
   Future<void> logout() =>
-      currentProfile = ObservableFuture(UserProfileService.instance.logout().then((value) => value));
+      currentProfile = ObservableFuture(AbstractUserProfileService.instance.logout().then((value) => value));
 
   @action
   Future<void> login(SignInMethod signInMethod) =>
-      currentProfile = ObservableFuture(UserProfileService.instance.login(signInMethod).then((value) => value));
+      currentProfile = ObservableFuture(AbstractUserProfileService.instance.login(signInMethod).then((value) => value));
 
   @action
   Future<void> refresh() =>
-      currentProfile = ObservableFuture(UserProfileService.instance.loadCurrentUser().then((value) => value));
+      currentProfile = ObservableFuture(AbstractUserProfileService.instance.loadCurrentUser().then((value) => value));
 }

@@ -69,52 +69,55 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                       height:
                           MediaQuery.of(context).size.height < 600 ? 5 : 20),
-                  FlipCard(
-                    key: cardKey,
-                    flipOnTouch: false,
-                    front: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: (MediaQuery.of(context).size.width / 100) * 70,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Theme.of(context).shadowColor,
-                              offset: const Offset(2, 3), //(x,y)
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Center(
-                          child: Text(
-                            _getTextOnFront()!,
-                            style: const TextStyle(
-                                fontWeight: FontWeight.w500, fontSize: 25),
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 400),
+                    child: FlipCard(
+                      key: cardKey,
+                      flipOnTouch: false,
+                      front: Container(
+                          height: MediaQuery.of(context).size.height / 2,
+                          width: (MediaQuery.of(context).size.width / 100) * 70,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                offset: const Offset(2, 3), //(x,y)
+                                blurRadius: 2,
+                              ),
+                            ],
                           ),
-                        )),
-                    back: Container(
-                        height: MediaQuery.of(context).size.height / 2,
-                        width: (MediaQuery.of(context).size.width / 100) * 70,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(15)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Theme.of(context).shadowColor,
-                              offset: const Offset(2, 3), //(x,y)
-                              blurRadius: 2,
-                            ),
-                          ],
-                        ),
-                        child: Center(
+                          child: Center(
                             child: Text(
-                          _getTextOnBack()!,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 25),
-                        ))),
+                              _getTextOnFront()!,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 25),
+                            ),
+                          )),
+                      back: Container(
+                          height: MediaQuery.of(context).size.height / 2,
+                          width: (MediaQuery.of(context).size.width / 100) * 70,
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).cardColor,
+                            borderRadius:
+                            const BorderRadius.all(Radius.circular(15)),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Theme.of(context).shadowColor,
+                                offset: const Offset(2, 3), //(x,y)
+                                blurRadius: 2,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                              child: Text(
+                                _getTextOnBack()!,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.w500, fontSize: 25),
+                              ))),
+                    )
                   ),
                   SizedBox(
                       height:
@@ -131,40 +134,43 @@ class _HomePageState extends State<HomePage> {
                       height: _getButtonSize(),
                     )
                   else if (_revealState)
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SquareButton(
-                          onPressed: _interfaceStore.overlayIsDisplayed.value
-                              ? null
-                              : _errorFind,
-                          icon: const Icon(Icons.clear, size: 30),
-                          backgroundColor: Theme.of(context).cardColor,
-                          borderColor: Theme.of(context).errorColor,
-                          width: _getButtonSize(),
-                          height: _getButtonSize(),
-                        ),
-                        SquareButton(
-                          onPressed: _interfaceStore.overlayIsDisplayed.value
-                              ? null
-                              : () => {reviewCard()},
-                          icon: const Icon(Icons.replay, size: 30),
-                          backgroundColor: Theme.of(context).cardColor,
-                          borderColor: Theme.of(context).primaryColor,
-                          width: _getButtonSize(),
-                          height: _getButtonSize(),
-                        ),
-                        SquareButton(
-                          onPressed: _interfaceStore.overlayIsDisplayed.value
-                              ? null
-                              : _successFind,
-                          icon: const Icon(Icons.check, size: 30),
-                          backgroundColor: Theme.of(context).cardColor,
-                          borderColor: Theme.of(context).indicatorColor,
-                          width: _getButtonSize(),
-                          height: _getButtonSize(),
-                        )
-                      ],
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 600),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SquareButton(
+                            onPressed: _interfaceStore.overlayIsDisplayed.value
+                                ? null
+                                : _errorFind,
+                            icon: const Icon(Icons.clear, size: 30),
+                            backgroundColor: Theme.of(context).cardColor,
+                            borderColor: Theme.of(context).errorColor,
+                            width: _getButtonSize(),
+                            height: _getButtonSize(),
+                          ),
+                          SquareButton(
+                            onPressed: _interfaceStore.overlayIsDisplayed.value
+                                ? null
+                                : () => {reviewCard()},
+                            icon: const Icon(Icons.replay, size: 30),
+                            backgroundColor: Theme.of(context).cardColor,
+                            borderColor: Theme.of(context).primaryColor,
+                            width: _getButtonSize(),
+                            height: _getButtonSize(),
+                          ),
+                          SquareButton(
+                            onPressed: _interfaceStore.overlayIsDisplayed.value
+                                ? null
+                                : _successFind,
+                            icon: const Icon(Icons.check, size: 30),
+                            backgroundColor: Theme.of(context).cardColor,
+                            borderColor: Theme.of(context).indicatorColor,
+                            width: _getButtonSize(),
+                            height: _getButtonSize(),
+                          )
+                        ],
+                      ),
                     )
                   else
                     SquareButton(

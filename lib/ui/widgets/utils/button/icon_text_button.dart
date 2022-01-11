@@ -33,12 +33,13 @@ class IconTextButton extends StatelessWidget {
             child: Opacity(
               opacity: 0.7,
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(text!,
                         style: TextStyle(
                             color:
                                 Theme.of(context).textTheme.bodyText2!.color)),
+                    const SizedBox(width: 5),
                     Icon(icon,
                         size: 30, color: Theme.of(context).iconTheme.color)
                   ]),

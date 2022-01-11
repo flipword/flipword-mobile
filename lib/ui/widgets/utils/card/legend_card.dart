@@ -18,6 +18,7 @@ class LegendCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         margin: margin,
+        constraints: const BoxConstraints(maxWidth: 400),
         child: Column(children: [
           Row(
             children: [

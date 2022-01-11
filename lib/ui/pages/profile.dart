@@ -1,5 +1,4 @@
-import 'dart:io' show Platform;
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
@@ -55,8 +54,8 @@ class _ProfilePageState extends State<ProfilePage> {
             break;
           case FutureStatus.fulfilled:
             if (_profilStore.currentProfile.value!.isConnected) {
-              _widgetDisplayed = Scaffold(
-                  body: Column(children: [
+              _widgetDisplayed = Center(
+                  child: Column(children: [
                 SizedBox(height: height / 10),
                 const ProfileOnline(),
                 RaisedButton(
@@ -71,8 +70,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 )
               ]));
             } else {
-              _widgetDisplayed = Scaffold(
-                  body: Column(children: [
+              _widgetDisplayed = Center(
+                  child: Column(children: [
                     const ProfileOffline(),
                     const SizedBox(height: 20), const SizedBox(height: 20),
                     RaisedButton(
@@ -92,7 +91,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ],
                         )),
                     const SizedBox(height: 10),
-                    if (!Platform.isAndroid) RaisedButton(
+                    if (defaultTargetPlatform != TargetPlatform.android) RaisedButton(
                         textTheme: Theme.of(context).buttonTheme.textTheme,
                         color: Theme.of(context).cardColor,
                         shape: RoundedRectangleBorder(
