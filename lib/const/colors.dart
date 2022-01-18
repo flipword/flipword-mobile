@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 const primaryColor = Color(0xFFFF9100);
-const primaryColorDark = Color(0xFFFF9100);
+const primaryColorDark = Color(0xFFFF6B00);
 
 const secondaryColor = Color(0xFFFF6B00);
 const secondaryColorDark = Color(0xFFFF6B00);
@@ -11,6 +11,7 @@ const backgroundDark = Color(0xFF212529);
 
 const cardColor = Color(0xFFf8f9fa);
 const cardColorDark = Color(0xFF343a40);
+const cardColorLight = Color(0xff4c4c4e);
 
 const navBarColor = Color(0xFFf8f9fa);
 const navBarColorDark = Color(0xFF343a40);

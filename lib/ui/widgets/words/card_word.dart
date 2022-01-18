@@ -35,6 +35,7 @@ class CardWord extends StatelessWidget {
               child: Text(
                 foreignWord!,
                 textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             )),
         Container(
@@ -50,7 +51,7 @@ class CardWord extends StatelessWidget {
               child: Text(
                 nativeWord!,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Theme.of(context).cardColor),
+                style: Theme.of(context).textTheme.bodyText2,
               ),
             ))
       ],

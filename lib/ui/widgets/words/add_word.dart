@@ -78,18 +78,20 @@ class _State extends State<AddWord> {
                             Image.asset(translateIcon,
                                 height: 35, width: 35),
                             const SizedBox(width: 5),
-                            const Text(
+                            Text(
                               'Microsoft',
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
                                   fontWeight: FontWeight.w400,
                                   fontSize: 23),
                             ),
                             const SizedBox(width: 5),
-                            const Text(
+                            Text(
                               'Translate',
                               textAlign: TextAlign.center,
                               style: TextStyle(
+                                  color: Theme.of(context).textTheme.bodyText1!.color,
                                   fontWeight: FontWeight.w300,
                                   fontSize: 23),
                             )
@@ -108,7 +110,12 @@ class _State extends State<AddWord> {
                             Expanded(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  child: Text(_settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label! : ''),
+                                  child: Text(
+                                      _settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label! : '',
+                                      style: TextStyle(
+                                        color: Theme.of(context).textTheme.bodyText1!.color
+                                      ),
+                                  ),
                                 )),
                             Expanded(
                               child: Container(
@@ -116,7 +123,7 @@ class _State extends State<AddWord> {
                                 child: FlatButton.icon(
                                     label: const Text(''),
                                     icon: const Icon(Icons.swap_horiz),
-                                    textColor: Colors.black,
+                                    textColor: Theme.of(context).textTheme.bodyText1!.color,
                                     onPressed: () => {_settingStore.reverseLanguage()}),
                               ),
                             ),
@@ -124,7 +131,12 @@ class _State extends State<AddWord> {
                                 child: Container(
                                   alignment: Alignment.center,
                                   child:
-                                  Text(_settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label! : ''),
+                                  Text(
+                                      _settingStore.translateLanguage != null ? _settingStore.translateLanguage!.label! : '',
+                                      style: TextStyle(
+                                          color: Theme.of(context).textTheme.bodyText1!.color
+                                      ),
+                                  ),
                                 ))
                           ],
                         ),
@@ -149,7 +161,11 @@ class _State extends State<AddWord> {
                         SquareButton(
                           key: _mybuttonState,
                           onPressed: _translateWord,
-                          icon: const Icon(Icons.translate_outlined, size: 30),
+                          icon: Icon(
+                            Icons.translate_outlined,
+                            size: 30,
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                          ),
                           backgroundColor: Theme
                               .of(context)
                               .primaryColor,

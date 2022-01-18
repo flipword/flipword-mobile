@@ -38,10 +38,10 @@ class IconTextButton extends StatelessWidget {
                     Text(text!,
                         style: TextStyle(
                             color:
-                                Theme.of(context).textTheme.bodyText2!.color)),
+                                Theme.of(context).textTheme.bodyText1!.color)),
                     const SizedBox(width: 5),
                     Icon(icon,
-                        size: 30, color: Theme.of(context).iconTheme.color)
+                        size: 30, color: Theme.of(context).textTheme.bodyText1!.color)
                   ]),
             )));
   }

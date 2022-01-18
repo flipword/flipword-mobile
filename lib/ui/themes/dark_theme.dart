@@ -11,13 +11,17 @@ class DarkTheme {
     return base.copyWith(
         accentColor: secondaryColor,
         accentColorBrightness: Brightness.dark,
-        primaryColor: primaryColor,
+        primaryColor: primaryColorDark,
+        primaryColorLight: cardColorLight,
         primaryColorBrightness: Brightness.dark,
         buttonTheme: base.buttonTheme.copyWith(
           buttonColor: secondaryColorDark,
           textTheme: ButtonTextTheme.primary,
         ),
         textTheme: const TextTheme(
+          bodyText1: TextStyle(
+            color: whiteColor,
+          ),
           bodyText2: TextStyle(
             color: whiteColor,
           ),
@@ -27,7 +31,7 @@ class DarkTheme {
         cardColor: cardColorDark,
         backgroundColor: backgroundDark,
         shadowColor: shadowColorDark,
-        iconTheme: base.iconTheme.copyWith(color: blackColor),
+        iconTheme: base.iconTheme.copyWith(color: whiteColor),
         splashColor: secondaryColor,
         appBarTheme:
             base.appBarTheme.copyWith(color: transparent, elevation: 0),

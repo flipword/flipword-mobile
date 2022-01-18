@@ -53,7 +53,7 @@ class _ProfileOnline extends State<ProfileOnline> {
                               nativeWord: 'Learned words',
                               foreignWord:
                               '${_profilStore.currentProfile.value!.nbWordLearned}',
-                              color: Theme.of(context).primaryColor),
+                              color: Theme.of(context).primaryColorLight),
                         )
                       ],
                     ))

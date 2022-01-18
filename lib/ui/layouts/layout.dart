@@ -45,14 +45,14 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
           child: _buildBody(context),
         ),
         floatingActionButton: SquareButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.add,
               size: 30,
+              color: Theme.of(context).textTheme.bodyText1!.color,
             ),
             backgroundColor: Theme.of(context).primaryColor,
-            onPressed: () {
-              _onFloatingButtonTapped();
-            }),
+            onPressed: _onFloatingButtonTapped
+        ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: _buildBottomNavigationBar(context));
   }

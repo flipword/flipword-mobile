@@ -14,12 +14,16 @@ class LightTheme {
         accentColor: secondaryColor,
         accentColorBrightness: Brightness.dark,
         primaryColor: primaryColor,
+        primaryColorLight: primaryColor,
         primaryColorBrightness: Brightness.dark,
         buttonTheme: base.buttonTheme.copyWith(
           buttonColor: secondaryColor,
           textTheme: ButtonTextTheme.primary,
         ),
         textTheme: const TextTheme(
+          bodyText1: TextStyle(
+            color: blackColor,
+          ),
           bodyText2: TextStyle(
             color: blackColor,
           ),
