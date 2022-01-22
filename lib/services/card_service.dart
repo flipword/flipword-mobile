@@ -4,7 +4,6 @@ import 'package:flutter_flip_card/data/entities/card.dart';
 
 import 'abstract/abstract_user_profile_service.dart';
 import 'language_service.dart';
-import 'user_profile_service_m.dart';
 
 class CardService {
   CardService._privateConstructor();
@@ -40,7 +39,8 @@ class CardService {
   }
 
   Future<void> updateCardView(CardEntity card, bool success) async {
-    if ((card.nbSuccess! + 1) >= 5) {
+    final nbSuccessRequired = _authService.getUser().nbSuccessRequired ?? 5;
+    if ((card.nbSuccess! + 1) >= nbSuccessRequired) {
       await deleteCard(card.id);
       if (_authService.getUser().isConnected) {
         await _authService.addALearnedWord();

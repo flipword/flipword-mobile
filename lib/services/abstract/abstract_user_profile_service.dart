@@ -61,6 +61,13 @@ abstract class AbstractUserProfileService {
         UserProfil.fromJson(value.data() as Map<String, dynamic>).nbWordLearned ?? 0);
   }
 
+  Future<void> updateNbSuccessRequired(int nbSuccessRequired) async {
+    return firestoreUserProfilRepository
+          .getUserProfilCollection(_currentProfile.uid)
+          .update({'nbSuccessRequired': nbSuccessRequired})
+          .then((value) => _currentProfile.nbSuccessRequired = nbSuccessRequired);
+  }
+
   Future<void> signInWithGoogle() async {
     try {
       final googleUser = await GoogleSignIn().signIn();

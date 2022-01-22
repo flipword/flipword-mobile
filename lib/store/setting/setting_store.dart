@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
+import 'package:flutter_flip_card/services/abstract/abstract_user_profile_service.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:mobx/mobx.dart';
 
@@ -20,6 +21,9 @@ abstract class _SettingStore with Store {
 
   @observable
   ObservableFuture<Language?> foreignLanguage = ObservableFuture.value(null);
+
+  @observable
+  ObservableFuture<int?> nbSuccessRequired = ObservableFuture.value(null);
 
   @observable
   Language? baseLanguage;
@@ -48,7 +52,7 @@ abstract class _SettingStore with Store {
   });
 
   @action
-  Future<void> updateForeignLanguage(Language language) =>_languageService.updateForeignLanguage(language.isoCode).then((value){
+  Future<void> updateForeignLanguage(Language language) => _languageService.updateForeignLanguage(language.isoCode).then((value){
     foreignLanguage = ObservableFuture.value(language);
     translateLanguage = language;
     return;

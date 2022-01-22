@@ -10,6 +10,7 @@ class UserProfil {
     name = json['name'];
     lastConnection = json['lastConnection'];
     nbWordLearned = json['nbWordLearned'] ?? 0;
+    nbSuccessRequired = json['nbSuccessRequired'] ?? 5; // 5 is default number of success required
     nativeLanguageIsoCode = json['nativeLanguageIsoCode'];
     foreignLanguageIsoCode = json['foreignLanguageIsoCode'];
   }
@@ -21,6 +22,7 @@ class UserProfil {
   String? uid;
   String? avatarPath;
   int? nbWordLearned;
+  int? nbSuccessRequired;
   String? nativeLanguageIsoCode;
   String? foreignLanguageIsoCode;
 
@@ -30,6 +32,7 @@ class UserProfil {
     data['name'] = name;
     data['lastConnection'] = lastConnection;
     data['nbWordLearned'] = nbWordLearned;
+    data['nbSuccessRequired'] = nbSuccessRequired;
     data['nativeLanguageIsoCode'] = nativeLanguageIsoCode;
     data['foreignLanguageIsoCode'] = foreignLanguageIsoCode;
     return data;

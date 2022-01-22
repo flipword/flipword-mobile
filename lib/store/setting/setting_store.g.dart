@@ -62,6 +62,21 @@ mixin _$SettingStore on _SettingStore, Store {
     });
   }
 
+  final _$nbSuccessRequiredAtom = Atom(name: '_SettingStore.nbSuccessRequired');
+
+  @override
+  ObservableFuture<int?> get nbSuccessRequired {
+    _$nbSuccessRequiredAtom.reportRead();
+    return super.nbSuccessRequired;
+  }
+
+  @override
+  set nbSuccessRequired(ObservableFuture<int?> value) {
+    _$nbSuccessRequiredAtom.reportWrite(value, super.nbSuccessRequired, () {
+      super.nbSuccessRequired = value;
+    });
+  }
+
   final _$baseLanguageAtom = Atom(name: '_SettingStore.baseLanguage');
 
   @override
@@ -145,6 +160,7 @@ mixin _$SettingStore on _SettingStore, Store {
 languages: ${languages},
 nativeLanguage: ${nativeLanguage},
 foreignLanguage: ${foreignLanguage},
+nbSuccessRequired: ${nbSuccessRequired},
 baseLanguage: ${baseLanguage},
 translateLanguage: ${translateLanguage},
 isReverseLanguage: ${isReverseLanguage}
