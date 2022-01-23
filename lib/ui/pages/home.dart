@@ -2,6 +2,8 @@ import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
+import 'package:flutter_flip_card/ui/widgets/language/choose_language.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/no_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   GlobalKey<FlipCardState> cardKey = GlobalKey<FlipCardState>();
   late CardListStore _cardListStore;
   late InterfaceStore _interfaceStore;
+  late ProfilStore _profilStore;
   late bool _revealState;
   late bool _endOfSerie;
   late bool _foreignIsOnFront;
@@ -28,9 +31,14 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
+    _profilStore = Provider.of<ProfilStore>(context, listen: false);
     _revealState = false;
     _endOfSerie = false;
     _foreignIsOnFront = true;
+    if(!_profilStore.currentProfile.value!.hasChooseLanguage){
+      WidgetsBinding.instance!
+          .addPostFrameCallback((_) => _showChooseLanguageModal());
+    }
     super.initState();
   }
 
@@ -264,5 +272,20 @@ class _HomePageState extends State<HomePage> {
 
   double _getButtonSize() {
     return MediaQuery.of(context).size.height < 600 ? 45 : 55;
+  }
+
+  void _showChooseLanguageModal() {
+    BuildContext dialogContext;
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          dialogContext = context;
+          return Dialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)), //this right here
+              child: const ChooseLanguage(onClose: Navigator.of(dialogContext).pop()),
+          );
+        });
   }
 }

@@ -121,7 +121,7 @@ class _SettingPage extends State<SettingPage> {
                 const SizedBox(height: 10)
               ]),
             ),
-            if (_profilStore.currentProfile.value!.isConnected) LegendCard(
+            LegendCard(
                 legend: 'General',
                 margin: const EdgeInsets.only(
                     right: 20,
@@ -178,7 +178,7 @@ class _SettingPage extends State<SettingPage> {
                     const SizedBox(height: 10)
                   ]
               )
-            ) else const SizedBox()
+            )
           ],
         ),
       );
