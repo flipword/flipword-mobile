@@ -10,6 +10,7 @@ class ProfilStore = _ProfilStore with _$ProfilStore;
 
 
 abstract class _ProfilStore with Store {
+  final AbstractUserProfileService _userService = AbstractUserProfileService.instance;
 
   @observable
   ObservableFuture<UserProfil?> currentProfile = ObservableFuture.value(null);
@@ -25,4 +26,13 @@ abstract class _ProfilStore with Store {
   @action
   Future<void> refresh() =>
       currentProfile = ObservableFuture(AbstractUserProfileService.instance.loadCurrentUser().then((value) => value));
+
+  @action
+  Future<void> updateNbSuccessRequired(int nbSuccess) => _userService.updateNbSuccessRequired(nbSuccess).then((value){
+    final currentProfileCpy = currentProfile.value;
+    currentProfileCpy!.nbSuccessRequired = nbSuccess;
+    currentProfile = ObservableFuture.value(currentProfileCpy);
+    return;
+  });
+
 }

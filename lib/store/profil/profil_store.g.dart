@@ -60,6 +60,17 @@ mixin _$ProfilStore on _ProfilStore, Store {
   }
 
   @override
+  Future<void> updateNbSuccessRequired(int nbSuccess) {
+    final _$actionInfo = _$_ProfilStoreActionController.startAction(
+        name: '_ProfilStore.updateNbSuccessRequired');
+    try {
+      return super.updateNbSuccessRequired(nbSuccess);
+    } finally {
+      _$_ProfilStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentProfile: ${currentProfile}
