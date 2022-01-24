@@ -35,10 +35,14 @@ class _HomePageState extends State<HomePage> {
     _revealState = false;
     _endOfSerie = false;
     _foreignIsOnFront = true;
-    if(!_profilStore.currentProfile.value!.hasChooseLanguage){
-      WidgetsBinding.instance!
-          .addPostFrameCallback((_) => _showChooseLanguageModal());
-    }
+    print('Init home');  // CALL 2x ????
+    // if(!_profilStore.currentProfile.value!.hasChooseLanguage){
+    //   WidgetsBinding.instance!
+    //       .addPostFrameCallback((_) {
+    //         print('Callback');
+    //         _showChooseLanguageModal();
+    //       });
+    // }
     super.initState();
   }
 
@@ -278,13 +282,14 @@ class _HomePageState extends State<HomePage> {
     BuildContext dialogContext;
     showDialog(
         context: context,
-        barrierDismissible: false,
         builder: (BuildContext context) {
           dialogContext = context;
           return Dialog(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)), //this right here
-              child: const ChooseLanguage(onClose: Navigator.of(dialogContext).pop()),
+              child: ChooseLanguage(onClose: () {
+                Navigator.of(dialogContext).pop();
+              }),
           );
         });
   }

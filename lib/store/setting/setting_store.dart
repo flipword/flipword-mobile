@@ -38,23 +38,21 @@ abstract class _SettingStore with Store {
   Future<void> initLanguages() =>
       _languageService.init().then((_) =>
         languages = ObservableFuture(_languageService.getLanguages().then((value) async {
-          await updateNativeLanguage(_languageService.currentNativeLanguage);
-          await updateForeignLanguage(_languageService.currentForeignLanguage);
-          return value;
+          _setNativeLanguage(_languageService.currentNativeLanguage);
+          _setForeignLanguage(_languageService.currentForeignLanguage);
+          return;
           }))
       );
 
   @action
   Future<void> updateNativeLanguage(Language language) => _languageService.updateNativeLanguage(language.isoCode).then((_){
-    nativeLanguage = ObservableFuture.value(language);
-    baseLanguage = language;
+    _setNativeLanguage(language);
     return;
   });
 
   @action
   Future<void> updateForeignLanguage(Language language) => _languageService.updateForeignLanguage(language.isoCode).then((value){
-    foreignLanguage = ObservableFuture.value(language);
-    translateLanguage = language;
+    _setForeignLanguage(language);
     return;
   });
 
@@ -63,5 +61,15 @@ abstract class _SettingStore with Store {
     final tmp = baseLanguage;
     baseLanguage = translateLanguage;
     translateLanguage = tmp;
+  }
+
+  void _setNativeLanguage(Language language) {
+    nativeLanguage = ObservableFuture.value(language);
+    baseLanguage = language;
+  }
+
+  void _setForeignLanguage(Language language) {
+    foreignLanguage = ObservableFuture.value(language);
+    translateLanguage = language;
   }
 }

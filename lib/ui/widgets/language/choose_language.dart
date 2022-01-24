@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage(
-      {Key? key, required this.onClose})
+      {Key? key, this.onClose})
       : super(key: key);
 
   final VoidCallback? onClose;
@@ -65,7 +65,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               child: DropdownButton(
                                 hint: Center(
                                     child: Text(
-                                      _settingStore.nativeLanguage.value != null ? _settingStore.nativeLanguage.value!.label! : '',
+                                      nativeLanguage.label ?? '',
                                       style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                                     )
                                 ),
@@ -107,7 +107,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               child: DropdownButton(
                                 hint: Center(
                                     child: Text(
-                                      _settingStore.foreignLanguage.value != null ? _settingStore.foreignLanguage.value!.label! : '',
+                                      foreignLanguage.label ?? '',
                                       style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                                     )
                                 ),
@@ -152,15 +152,23 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   }
 
   void updateNativeLanguage(dynamic val){
-    _settingStore.updateNativeLanguage(val);
+    setState(() {
+      nativeLanguage = val;
+    });
   }
 
   void updateForeignLanguage(dynamic val){
-    _settingStore.updateForeignLanguage(val);
+    setState(() {
+      foreignLanguage = val;
+    });
   }
 
-  void _saveLanguage(){
-    widget.onClose!;
+  Future<void> _saveLanguage() async {
+    await Future.wait([
+      _settingStore.updateNativeLanguage(nativeLanguage),
+      _settingStore.updateForeignLanguage(foreignLanguage),
+    ]);
+    widget.onClose!();
   }
 
   // Use local variable in select & call the store update only in SaveLanguage
