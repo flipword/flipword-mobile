@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
-import 'package:flutter_flip_card/ui/widgets/language/choose_language.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/no_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -35,14 +34,6 @@ class _HomePageState extends State<HomePage> {
     _revealState = false;
     _endOfSerie = false;
     _foreignIsOnFront = true;
-    print('Init home');  // CALL 2x ????
-    // if(!_profilStore.currentProfile.value!.hasChooseLanguage){
-    //   WidgetsBinding.instance!
-    //       .addPostFrameCallback((_) {
-    //         print('Callback');
-    //         _showChooseLanguageModal();
-    //       });
-    // }
     super.initState();
   }
 
@@ -276,21 +267,5 @@ class _HomePageState extends State<HomePage> {
 
   double _getButtonSize() {
     return MediaQuery.of(context).size.height < 600 ? 45 : 55;
-  }
-
-  void _showChooseLanguageModal() {
-    BuildContext dialogContext;
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          dialogContext = context;
-          return Dialog(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)), //this right here
-              child: ChooseLanguage(onClose: () {
-                Navigator.of(dialogContext).pop();
-              }),
-          );
-        });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:provider/provider.dart';
@@ -17,12 +18,14 @@ class ChooseLanguage extends StatefulWidget {
 
 class _ChooseLanguageState extends State<ChooseLanguage> {
   late SettingStore _settingStore;
+  late ProfilStore _profilStore;
   late Language nativeLanguage;
   late Language foreignLanguage;
 
   @override
   void initState() {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
+    _profilStore = Provider.of<ProfilStore>(context, listen: false);
     nativeLanguage = _settingStore.nativeLanguage.value!;
     foreignLanguage = _settingStore.foreignLanguage.value!;
     super.initState();
@@ -168,10 +171,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
       _settingStore.updateNativeLanguage(nativeLanguage),
       _settingStore.updateForeignLanguage(foreignLanguage),
     ]);
+    await _profilStore.refresh();
     widget.onClose!();
   }
-
-  // Use local variable in select & call the store update only in SaveLanguage
-  // Check for fetchCard calls
-
 }

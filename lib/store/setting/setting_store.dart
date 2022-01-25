@@ -40,7 +40,7 @@ abstract class _SettingStore with Store {
         languages = ObservableFuture(_languageService.getLanguages().then((value) async {
           _setNativeLanguage(_languageService.currentNativeLanguage);
           _setForeignLanguage(_languageService.currentForeignLanguage);
-          return;
+          return value;
           }))
       );
 
