@@ -155,6 +155,17 @@ mixin _$SettingStore on _SettingStore, Store {
   }
 
   @override
+  Future<String?> translate(String? from, String? to, String word) {
+    final _$actionInfo = _$_SettingStoreActionController.startAction(
+        name: '_SettingStore.translate');
+    try {
+      return super.translate(from, to, word);
+    } finally {
+      _$_SettingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 languages: ${languages},

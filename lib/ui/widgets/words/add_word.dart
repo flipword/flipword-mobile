@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
+import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
@@ -153,7 +154,7 @@ class _State extends State<AddWord> {
                             controller: _baseWordController,
                             label: _settingStore.baseLanguage != null ? _settingStore.baseLanguage!.label : '',
                             focusNode: focusNode,
-                            hintText: 'Enter your world',
+                            hintText: 'Enter your word',
                             onWordChanged: (_) => {},
                           ),
                         ),
@@ -211,7 +212,7 @@ class _State extends State<AddWord> {
       _toastService.toastError('No word to translate');
     } else {
       _mybuttonState.currentState!.changeLoadingState();
-      TranslateHelper.instance
+      _settingStore
           .translate(_settingStore.baseLanguage!.isoCode, _settingStore.translateLanguage!.isoCode, _baseWordController!.text)
           .then((value) {
         _translateWordController!.text = value!;
