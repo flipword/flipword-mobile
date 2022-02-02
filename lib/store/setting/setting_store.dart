@@ -64,4 +64,7 @@ abstract class _SettingStore with Store {
     baseLanguage = translateLanguage;
     translateLanguage = tmp;
   }
+
+  @action
+  Future<String?> translate(String? from, String? to, String word) => _languageService.translate(from, to, word);
 }
