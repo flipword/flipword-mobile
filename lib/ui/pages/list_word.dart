@@ -40,7 +40,10 @@ class ListWordPageState extends State<ListWordPage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     Widget? _widgetDisplayed;
-    return RefreshIndicator(
+    // TODO: Regarder pourquoi la modification d'overlayIsDisplayed ne refresh pas le build
+    return IgnorePointer(
+      ignoring: _interfaceStore.overlayIsDisplayed.value,
+        child: RefreshIndicator(
       onRefresh: _refresh,
       child: Observer(builder: (context) {
         switch (_cardList!.list.status) {
@@ -118,7 +121,7 @@ class ListWordPageState extends State<ListWordPage> {
           )
         ]);
       }),
-    );
+    ));
   }
 
   Future<void> _refresh() => _filterCard(_interfaceStore.searchBarValue.value);
