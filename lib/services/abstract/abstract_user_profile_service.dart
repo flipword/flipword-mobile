@@ -84,8 +84,10 @@ abstract class AbstractUserProfileService {
       // Once signed in, return the UserCredential
       await auth.signInWithCredential(credential);
 
-      // Set firebase auth id as property in profile collection
+      // Keep user in local storage for web
+      await auth.setPersistence(Persistence.LOCAL);
 
+      // Set firebase auth id as property in profile collection
       await firestoreUserProfilRepository
           .getUserProfilCollection(auth.currentUser!.uid)
           .set({
