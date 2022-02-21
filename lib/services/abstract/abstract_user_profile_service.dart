@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
@@ -85,7 +86,9 @@ abstract class AbstractUserProfileService {
       await auth.signInWithCredential(credential);
 
       // Keep user in local storage for web
-      await auth.setPersistence(Persistence.LOCAL);
+      if(kIsWeb){
+        await auth.setPersistence(Persistence.LOCAL);
+      }
 
       // Set firebase auth id as property in profile collection
       await firestoreUserProfilRepository
