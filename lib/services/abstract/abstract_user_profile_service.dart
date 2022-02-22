@@ -71,23 +71,24 @@ abstract class AbstractUserProfileService {
 
   Future<void> signInWithGoogle() async {
     try {
-      final googleUser = await GoogleSignIn().signIn();
+      if (kIsWeb) {
+        // Web authentication via popup
+        await auth.signInWithPopup(GoogleAuthProvider());
+      }
+      else{
+        final googleUser = await GoogleSignIn().signIn();
 
-      // Obtain the auth details from the request
-      final googleAuth = await googleUser!.authentication;
+        // Obtain the auth details from the request
+        final googleAuth = await googleUser!.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      // Once signed in, return the UserCredential
-      await auth.signInWithCredential(credential);
-
-      // Keep user in local storage for web
-      if(kIsWeb){
-        await auth.setPersistence(Persistence.LOCAL);
+        // Once signed in, return the UserCredential
+        await auth.signInWithCredential(credential);
       }
 
       // Set firebase auth id as property in profile collection
@@ -109,7 +110,8 @@ abstract class AbstractUserProfileService {
   Future<void> signInWithApple();
 
   Future<UserProfil> loadCurrentUser() async {
-    if (auth.currentUser == null) {
+    final user = await auth.authStateChanges().first;
+    if (user == null) {
       try {
         await auth.signInAnonymously();
       } catch (error) {
