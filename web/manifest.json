@@ -1,6 +1,6 @@
 {
-    "name": "flutter_flip_card",
-    "short_name": "flutter_flip_card",
+    "name": "FlipWord",
+    "short_name": "FlipWord",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

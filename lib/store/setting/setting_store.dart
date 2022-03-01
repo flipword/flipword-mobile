@@ -72,4 +72,7 @@ abstract class _SettingStore with Store {
     foreignLanguage = ObservableFuture.value(language);
     translateLanguage = language;
   }
+
+  @action
+  Future<String?> translate(String? from, String? to, String word) => _languageService.translate(from, to, word);
 }

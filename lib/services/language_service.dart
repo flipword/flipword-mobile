@@ -1,4 +1,5 @@
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_language_repository.dart';
+import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_translate_repository.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
 import 'package:flutter_flip_card/services/user_profile_service_m.dart';
 
@@ -17,10 +18,12 @@ class LanguageService {
   static LanguageService get instance => _instance;
 
   final FirestoreLanguageRepository _repository = FirestoreLanguageRepository.instance;
+  final TranslateHelper _translateRepository = TranslateHelper.instance;
   final AbstractUserProfileService _userProfileService = AbstractUserProfileService.instance;
 
   Future<void> init() async {
     final user = _userProfileService.getUser();
+    await _translateRepository.init();
     currentNativeLanguage = user.nativeLanguageIsoCode == null ? defaultNativeLanguage : await getLanguageByIsoCode(user.nativeLanguageIsoCode);
     currentForeignLanguage = user.foreignLanguageIsoCode == null ? defaultForeignLanguage : await getLanguageByIsoCode(user.foreignLanguageIsoCode);
   }
@@ -47,4 +50,6 @@ class LanguageService {
 
   Future<Language> getLanguageByIsoCode(String? isoCode) =>
       _repository.getLanguageByIsoCode(isoCode).then((value) => Language.fromJson(value.data() as Map<String, dynamic>));
+
+  Future<String?> translate(String? from, String? to, String word) async => _translateRepository.translate(from, to, word);
 }

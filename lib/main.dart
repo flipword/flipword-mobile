@@ -2,7 +2,6 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
@@ -29,8 +28,6 @@ Future<dynamic> main() async {
       Constanants.setEnvironement(Environement.PROD);
       break;
   }
-
-  await dotenv.load(fileName: 'env');
   runApp(DevicePreview(builder: (context) => MyApp(), enabled: Constanants.isDebuggable!,));
 }
 

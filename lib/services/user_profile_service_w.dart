@@ -42,6 +42,9 @@ class UserProfileServiceW extends AbstractUserProfileService {
       // Once signed in, return the UserCredential
       await super.auth.signInWithCredential(oauthCredential);
 
+      // Keep user in local storage for web
+      await super.auth.setPersistence(Persistence.LOCAL);
+
       // Set firebase auth id as property in profile collection
       await super.firestoreUserProfilRepository
           .getUserProfilCollection(super.auth.currentUser!.uid)

@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_flip_card/const/constants.dart';
 import 'package:flutter_flip_card/data/data_sources/firestore_data_source/firestore_user_profil_repository.dart';
 import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_robohash_repository.dart';
@@ -67,46 +68,29 @@ abstract class AbstractUserProfileService {
           .then((value) => _currentProfile.nbSuccessRequired = nbSuccessRequired);
   }
 
-
-  Future<void> signInAnonymous() async {
-    try {
-      // Signed anonymously
-      await auth.signInAnonymously();
-
-      // Set firebase auth id as property in profile collection
-      await firestoreUserProfilRepository
-          .getUserProfilCollection(auth.currentUser!.uid)
-          .set({
-        'uid': auth.currentUser!.uid,
-        'email': auth.currentUser!.email,
-        'name': auth.currentUser!.displayName,
-        'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
-        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage
-            .isoCode,
-        'lastConnection': DateTime.now(),
-      }, SetOptions(merge: true));
-    } catch (_) {
-    }
-  }
-
   Future<void> signInWithGoogle() async {
     try {
-      final googleUser = await GoogleSignIn().signIn();
+      if (kIsWeb) {
+        // Web authentication via popup
+        await auth.signInWithPopup(GoogleAuthProvider());
+      }
+      else{
+        final googleUser = await GoogleSignIn().signIn();
 
-      // Obtain the auth details from the request
-      final googleAuth = await googleUser!.authentication;
+        // Obtain the auth details from the request
+        final googleAuth = await googleUser!.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      // Once signed in, return the UserCredential
-      await auth.signInWithCredential(credential);
+        // Once signed in, return the UserCredential
+        await auth.signInWithCredential(credential);
+      }
 
       // Set firebase auth id as property in profile collection
-
       await firestoreUserProfilRepository
           .getUserProfilCollection(auth.currentUser!.uid)
           .set({
@@ -125,7 +109,8 @@ abstract class AbstractUserProfileService {
   Future<void> signInWithApple();
 
   Future<UserProfil> loadCurrentUser() async {
-    if (auth.currentUser == null) {
+    final user = await auth.authStateChanges().first;
+    if (user == null) {
       try {
         await signInAnonymous();
       } catch (error) {

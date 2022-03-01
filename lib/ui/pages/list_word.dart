@@ -40,9 +40,7 @@ class ListWordPageState extends State<ListWordPage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     Widget? _widgetDisplayed;
-    return RefreshIndicator(
-      onRefresh: _refresh,
-      child: Observer(builder: (context) {
+    return Scaffold(body: Observer(builder: (context) {
         switch (_cardList!.list.status) {
           case FutureStatus.pending:
             _widgetDisplayed = const Center(
@@ -50,7 +48,11 @@ class ListWordPageState extends State<ListWordPage> {
             );
             break;
           case FutureStatus.fulfilled:
-            _widgetDisplayed = Center(
+            _widgetDisplayed = IgnorePointer(
+              ignoring: _interfaceStore.overlayIsDisplayed.value,
+              child: RefreshIndicator(
+              onRefresh: _refresh,
+              child: Center(
               child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 600),
                   child: Scaffold(
@@ -88,7 +90,7 @@ class ListWordPageState extends State<ListWordPage> {
                                       color: Theme.of(context).primaryColorLight),
                                 ),
                               ))))),
-            );
+            )));
             break;
           case FutureStatus.rejected:
             _widgetDisplayed = const Center(
@@ -117,8 +119,8 @@ class ListWordPageState extends State<ListWordPage> {
             ),
           )
         ]);
-      }),
-    );
+      },
+    ));
   }
 
   Future<void> _refresh() => _filterCard(_interfaceStore.searchBarValue.value);

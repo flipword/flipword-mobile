@@ -9,6 +9,7 @@ class UserProfil {
     email = json['email'];
     name = json['name'];
     lastConnection = json['lastConnection'];
+    nbWordLearned = json['nbWordLearned'] ?? 0;
     nativeLanguageIsoCode = json['nativeLanguageIsoCode'];
     foreignLanguageIsoCode = json['foreignLanguageIsoCode'];
     nbWordLearned = json['nbWordLearned'] ?? 0;

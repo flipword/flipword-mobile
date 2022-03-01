@@ -145,7 +145,7 @@ jobs:
       - name: Clone Flutter repository
         uses: subosito/flutter-action@v1
         with:
-          flutter-version: '2.x'
+          flutter-version: '2.5.0'
 
       - name: Pub get
         run: flutter pub get
@@ -166,7 +166,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build-web ]
 #    TODO: Add publish to in if
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/master'
     steps:
       - name: Checkout gallery code
         uses: actions/checkout@v2
