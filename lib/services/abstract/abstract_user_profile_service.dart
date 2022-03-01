@@ -125,6 +125,27 @@ abstract class AbstractUserProfileService {
     return _currentProfile;
   }
 
+  Future<void> signInAnonymous() async {
+    try {
+      // Signed anonymously
+      await auth.signInAnonymously();
+
+      // Set firebase auth id as property in profile collection
+      await firestoreUserProfilRepository
+          .getUserProfilCollection(auth.currentUser!.uid)
+          .set({
+        'uid': auth.currentUser!.uid,
+        'email': auth.currentUser!.email,
+        'name': auth.currentUser!.displayName,
+        'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
+        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage
+            .isoCode,
+        'lastConnection': DateTime.now(),
+      }, SetOptions(merge: true));
+    } catch (_) {
+    }
+  }
+
   Future<UserProfil> _getUserProfileById(String userId){
     return firestoreUserProfilRepository.getUserProfilById(userId).then((value) => UserProfil.fromJson(value.data() as Map<String, dynamic>));
   }
