@@ -43,7 +43,6 @@ abstract class AbstractUserProfileService {
 
   Future<UserProfil> logout() async {
     await auth.signOut();
-    await auth.signInAnonymously();
     return loadCurrentUser();
   }
 
@@ -113,63 +112,57 @@ abstract class AbstractUserProfileService {
     final user = await auth.authStateChanges().first;
     if (user == null) {
       try {
-        await auth.signInAnonymously();
+        await signInAnonymous();
       } catch (error) {
         await FirebaseCrashlytics.instance.recordError(error, null);
       }
     }
     if(!auth.currentUser!.isAnonymous){
-      _currentProfile = await _getUserFromConnected();
+      _currentProfile = await _getUserFromDatabase();
     } else {
-      _currentProfile = _getUserFromAnonymous();
+      _currentProfile = await _getUserFromDatabase();
     }
     return _currentProfile;
-  }
-
-  UserProfil _getUserFromAnonymous(){
-    return UserProfil()
-      ..uid = auth.currentUser!.uid
-      ..isConnected = false
-      ..name = null
-      ..email = null
-      ..lastConnection = null;
   }
 
   Future<UserProfil> _getUserProfileById(String userId){
     return firestoreUserProfilRepository.getUserProfilById(userId).then((value) => UserProfil.fromJson(value.data() as Map<String, dynamic>));
   }
 
-  Future<UserProfil> _getUserFromConnected() async{
-    final responses = await Future.wait([
-      _getUserProfileById(auth.currentUser!.uid),
-      robohashHelper.getAvatarPath(auth.currentUser!.email!).then((value) => value)
-    ]);
-    final UserProfil userProfile = responses[0] as UserProfil;
-    return userProfile
-      ..avatarPath = responses[1] as String?
-      ..isConnected = true;
+  Future<UserProfil> _getUserFromDatabase() async{
+    UserProfil userProfile = new UserProfil();
+    if(auth.currentUser!.isAnonymous){
+      userProfile = await _getUserProfileById(auth.currentUser!.uid);
+    } else {
+      final responses = await Future.wait([
+        _getUserProfileById(auth.currentUser!.uid),
+        robohashHelper.getAvatarPath(auth.currentUser!.email!).then((value) => value)
+      ]);
+      userProfile = responses[0] as UserProfil;
+      userProfile.avatarPath = responses[1] as String?;
+    }
+    userProfile.isConnected = !auth.currentUser!.isAnonymous;
+    return userProfile;
   }
 
   Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) async {
-    if(_currentProfile.isConnected){
-      return firestoreUserProfilRepository
-          .getUserProfilCollection(_currentProfile.uid)
-          .update({'nativeLanguageIsoCode': nativeLanguageIsoCode})
-          .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
-    } else {
-      return;
-    }
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+          'hasChooseLanguage': true,
+          'nativeLanguageIsoCode': nativeLanguageIsoCode
+        })
+        .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
   }
 
   Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) async {
-    if(_currentProfile.isConnected){
-      return firestoreUserProfilRepository
-          .getUserProfilCollection(_currentProfile.uid)
-          .update({'foreignLanguageIsoCode': foreignLanguageIsoCode})
-          .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
-    } else {
-      return;
-    }
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+          'hasChooseLanguage': true,
+          'foreignLanguageIsoCode': foreignLanguageIsoCode
+        })
+        .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
   }
 
   String generateNonce([int length = 32]) {

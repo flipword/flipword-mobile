@@ -24,13 +24,8 @@ class LanguageService {
   Future<void> init() async {
     final user = _userProfileService.getUser();
     await _translateRepository.init();
-    if(user.isConnected){
-      currentNativeLanguage = await getLanguageByIsoCode(user.nativeLanguageIsoCode);
-      currentForeignLanguage = await getLanguageByIsoCode(user.foreignLanguageIsoCode);
-    } else {
-      currentNativeLanguage = defaultNativeLanguage;
-      currentForeignLanguage = defaultForeignLanguage;
-    }
+    currentNativeLanguage = user.nativeLanguageIsoCode == null ? defaultNativeLanguage : await getLanguageByIsoCode(user.nativeLanguageIsoCode);
+    currentForeignLanguage = user.foreignLanguageIsoCode == null ? defaultForeignLanguage : await getLanguageByIsoCode(user.foreignLanguageIsoCode);
   }
 
   String getRef() {

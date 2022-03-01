@@ -10,15 +10,18 @@ class UserProfil {
     name = json['name'];
     lastConnection = json['lastConnection'];
     nbWordLearned = json['nbWordLearned'] ?? 0;
-    nbSuccessRequired = json['nbSuccessRequired'] ?? 5; // 5 is default number of success required
     nativeLanguageIsoCode = json['nativeLanguageIsoCode'];
     foreignLanguageIsoCode = json['foreignLanguageIsoCode'];
+    nbWordLearned = json['nbWordLearned'] ?? 0;
+    nbSuccessRequired = json['nbSuccessRequired'] ?? 5; // 5 is default number of success required
+    hasChooseLanguage = json['hasChooseLanguage'] ?? false;
   }
 
   String? email;
   String? name;
   Timestamp? lastConnection;
   late bool isConnected;
+  late bool hasChooseLanguage;
   String? uid;
   String? avatarPath;
   int? nbWordLearned;
@@ -35,6 +38,7 @@ class UserProfil {
     data['nbSuccessRequired'] = nbSuccessRequired;
     data['nativeLanguageIsoCode'] = nativeLanguageIsoCode;
     data['foreignLanguageIsoCode'] = foreignLanguageIsoCode;
+    data['hasChooseLanguage'] = hasChooseLanguage;
     return data;
   }
 }
