@@ -10,6 +10,7 @@ import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
 import 'package:flutter_flip_card/ui/pages/setting.dart';
 import 'package:flutter_flip_card/ui/widgets/language/choose_language.dart';
+import 'package:flutter_flip_card/ui/widgets/on_boarding/on_boarding.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
@@ -49,6 +50,7 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    return OnBoarding();
     return Scaffold(
         body: GestureDetector(
           onTap: _closeOverlay,
