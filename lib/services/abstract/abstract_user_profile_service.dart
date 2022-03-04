@@ -72,7 +72,6 @@ abstract class AbstractUserProfileService {
     return firestoreUserProfilRepository
         .getUserProfilCollection(_currentProfile.uid)
         .update({
-      'hasChooseLanguage': true,
       'nativeLanguageIsoCode': nativeLanguageIsoCode
     })
         .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
@@ -82,7 +81,6 @@ abstract class AbstractUserProfileService {
     return firestoreUserProfilRepository
         .getUserProfilCollection(_currentProfile.uid)
         .update({
-      'hasChooseLanguage': true,
       'foreignLanguageIsoCode': foreignLanguageIsoCode
     })
         .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);

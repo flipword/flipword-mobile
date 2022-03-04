@@ -4,13 +4,10 @@ import 'package:flutter_flip_card/router/router_app.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
-import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
 import 'package:flutter_flip_card/ui/pages/profile.dart';
 import 'package:flutter_flip_card/ui/pages/setting.dart';
-import 'package:flutter_flip_card/ui/widgets/language/choose_language.dart';
-import 'package:flutter_flip_card/ui/widgets/on_boarding/on_boarding.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/bottom_bar/fab_bottom_bar.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
@@ -28,7 +25,6 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
 
   late CardListStore _cardListStore;
   late InterfaceStore _interfaceStore;
-  late ProfilStore _profilStore;
   bool displayOverlay = false;
   LanguageService languageService = LanguageService.instance;
   double? dragOffset;
@@ -36,13 +32,9 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
-    _profilStore = Provider.of<ProfilStore>(context, listen: false);
     WidgetsBinding.instance!.addPostFrameCallback(
         (_) {
           Overlay.of(context)!.insert(_createOverlayEntry());
-          if(!_profilStore.currentProfile.value!.hasChooseLanguage){
-            _showChooseLanguageModal();
-          }
         });
     dragOffset = 50;
     super.initState();
@@ -153,23 +145,5 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
                   : -screenHeight,
               child: AddWord(onDragUp: _updateOverlay, onDragEnd: _onDragEnd),
             ));
-  }
-
-  void _showChooseLanguageModal() {
-    BuildContext dialogContext;
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          dialogContext = context;
-          return Dialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)), //this right here
-            child: ChooseLanguage(onClose: () {
-              Navigator.of(dialogContext).pop();
-              _cardListStore.fetchCard();
-            }),
-          );
-        });
   }
 }

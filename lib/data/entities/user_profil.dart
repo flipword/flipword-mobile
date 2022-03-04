@@ -14,7 +14,6 @@ class UserProfil {
     foreignLanguageIsoCode = json['foreignLanguageIsoCode'];
     nbWordLearned = json['nbWordLearned'] ?? 0;
     nbSuccessRequired = json['nbSuccessRequired'] ?? 5; // 5 is default number of success required
-    hasChooseLanguage = json['hasChooseLanguage'] ?? false;
     hasDidMainOnBoarding = json['hasDidMainOnBoarding'] ?? false;
     hasDidAddingOnBoarding = json['hasDidAddingOnBoarding'] ?? false;
   }
@@ -23,7 +22,6 @@ class UserProfil {
   String? name;
   Timestamp? lastConnection;
   late bool isConnected;
-  late bool hasChooseLanguage;
   late bool hasDidMainOnBoarding;
   late bool hasDidAddingOnBoarding;
   String? uid;
@@ -42,7 +40,6 @@ class UserProfil {
     data['nbSuccessRequired'] = nbSuccessRequired;
     data['nativeLanguageIsoCode'] = nativeLanguageIsoCode;
     data['foreignLanguageIsoCode'] = foreignLanguageIsoCode;
-    data['hasChooseLanguage'] = hasChooseLanguage;
     data['hasDidMainOnBoarding'] = hasDidMainOnBoarding;
     data['hasDidAddingOnBoarding'] = hasDidAddingOnBoarding;
     return data;

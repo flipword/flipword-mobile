@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
-import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:provider/provider.dart';
 
+typedef Language2VoidFunc = void Function(Language);
+
 class ChooseLanguage extends StatefulWidget {
   const ChooseLanguage(
-      {Key? key, this.onClose})
+      {Key? key, this.pickNative = true, this.onClose})
       : super(key: key);
 
-  final VoidCallback? onClose;
+  final Language2VoidFunc? onClose;
+  final bool pickNative;
 
   @override
   _ChooseLanguageState createState() => _ChooseLanguageState();
@@ -18,16 +20,12 @@ class ChooseLanguage extends StatefulWidget {
 
 class _ChooseLanguageState extends State<ChooseLanguage> {
   late SettingStore _settingStore;
-  late ProfilStore _profilStore;
-  late Language nativeLanguage;
-  late Language foreignLanguage;
+  late Language language;
 
   @override
   void initState() {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
-    _profilStore = Provider.of<ProfilStore>(context, listen: false);
-    nativeLanguage = _settingStore.nativeLanguage.value!;
-    foreignLanguage = _settingStore.foreignLanguage.value!;
+    language = widget.pickNative ? _settingStore.nativeLanguage.value! : _settingStore.foreignLanguage.value!;
     super.initState();
   }
   @override
@@ -41,10 +39,10 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
             ),
             child: Column(
               children: [
-                const Center(
+                Center(
                   child: Text(
-                      'What is your language ?',
-                      style: TextStyle(
+                      widget.pickNative ? 'What is your language ?' : 'Which language you want to learn ?',
+                      style: const TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 20
                       )
                   ),
@@ -57,7 +55,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                               child: DropdownButton(
                                 hint: Center(
                                     child: Text(
-                                      nativeLanguage.label ?? '',
+                                      language.label ?? '',
                                       style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
                                     )
                                 ),
@@ -73,12 +71,12 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                     );
                                   },
                                 ).toList() : List.empty(),
-                                onChanged: updateNativeLanguage,
+                                onChanged: _updateLanguage,
                               ),
                             )
                 ),
                 const SizedBox(height: 30),
-                IconTextButton(
+                Center(child: IconTextButton(
                   width: 90,
                   icon: Icons.save,
                   color: Theme
@@ -86,7 +84,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                       .primaryColor,
                   text: 'Save',
                   onPressed: _saveLanguage,
-                ),
+                )),
               ],
             )
         ));
@@ -98,24 +96,13 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
         border: Border.all(color: Theme.of(context).primaryColor, width: 2));
   }
 
-  void updateNativeLanguage(dynamic val){
+  void _updateLanguage(dynamic val){
     setState(() {
-      nativeLanguage = val;
-    });
-  }
-
-  void updateForeignLanguage(dynamic val){
-    setState(() {
-      foreignLanguage = val;
+      language = val;
     });
   }
 
   Future<void> _saveLanguage() async {
-    await Future.wait([
-      _settingStore.updateNativeLanguage(nativeLanguage),
-      _settingStore.updateForeignLanguage(foreignLanguage),
-    ]);
-    await _profilStore.refresh();
-    widget.onClose!();
+    widget.onClose!(language);
   }
 }

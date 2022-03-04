@@ -80,6 +80,7 @@ class MyApp extends StatelessWidget {
                             );
                           } else {
                             if(_profilStore.currentProfile.value!.hasDidMainOnBoarding){
+                              _cardListStore.fetchCard();
                               return const MainLayout();
                             } else {
                               return const StartLayout();
@@ -103,7 +104,6 @@ class MyApp extends StatelessWidget {
     _settingStore = SettingStore();
     await _settingStore.initLanguages();
     _cardListStore = CardListStore();
-    await _cardListStore.fetchCard();
     _interfaceStore = InterfaceStore();
 
   }
