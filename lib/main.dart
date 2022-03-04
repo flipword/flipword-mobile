@@ -8,7 +8,10 @@ import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/layouts/main_layout.dart';
+import 'package:flutter_flip_card/ui/layouts/start_layout.dart';
 import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'ui/themes/light_theme.dart';
 
@@ -70,7 +73,19 @@ class MyApp extends StatelessWidget {
                             const Icon(Icons.warning_amber_outlined),
                             Text('Error at application startup: ${snapshot.error} | StackTrace: ${snapshot.stackTrace.toString()}')
                           ]),
-                        )) : const MainLayout() : const Scaffold(
+                        )) : Observer(builder: (context) {
+                          if(_profilStore.currentProfile.status == FutureStatus.pending){
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            if(_profilStore.currentProfile.value!.hasDidMainOnBoarding){
+                              return const MainLayout();
+                            } else {
+                              return const StartLayout();
+                            }
+                          }
+                    }) : const Scaffold(
                       body: Center(
                         child: CircularProgressIndicator(),
                       ),

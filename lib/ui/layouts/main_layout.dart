@@ -50,7 +50,6 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
 
   @override
   Widget build(BuildContext context) {
-    return const OnBoarding();
     return Scaffold(
         body: GestureDetector(
           onTap: _closeOverlay,

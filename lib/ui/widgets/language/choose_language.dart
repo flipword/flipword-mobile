@@ -43,25 +43,14 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
               children: [
                 const Center(
                   child: Text(
-                      'Choose your languages',
+                      'What is your language ?',
                       style: TextStyle(
                           fontWeight: FontWeight.w400, fontSize: 20
                       )
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Expanded(
-                        child: Text(
-                            'Native language:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 16
-                            )
-                        )
-                    ),
-                    Expanded(
-                        child: Container(
+                Container(
                             height: 30,
                             decoration: _getBoxDecoration(),
                             child: DropdownButtonHideUnderline(
@@ -87,53 +76,8 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                 onChanged: updateNativeLanguage,
                               ),
                             )
-                        )
-                    ),
-                  ],
                 ),
                 const SizedBox(height: 30),
-                Row(
-                  children: [
-                    const Expanded(
-                        child: Text(
-                            'Foreign language:',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400, fontSize: 16
-                            )
-                        )
-                    ),
-                    Expanded(
-                        child: Container(
-                            height: 30,
-                            decoration: _getBoxDecoration(),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                hint: Center(
-                                    child: Text(
-                                      foreignLanguage.label ?? '',
-                                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                    )
-                                ),
-                                isExpanded: true,
-                                iconSize: 30,
-                                iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
-                                style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
-                                      (val) {
-                                    return DropdownMenuItem<Language>(
-                                      value: val,
-                                      child: Text(val.label!),
-                                    );
-                                  },
-                                ).toList() : List.empty(),
-                                onChanged: updateForeignLanguage,
-                              ),
-                            )
-                        )
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
                 IconTextButton(
                   width: 90,
                   icon: Icons.save,
