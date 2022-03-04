@@ -68,6 +68,44 @@ abstract class AbstractUserProfileService {
           .then((value) => _currentProfile.nbSuccessRequired = nbSuccessRequired);
   }
 
+  Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+      'hasChooseLanguage': true,
+      'nativeLanguageIsoCode': nativeLanguageIsoCode
+    })
+        .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
+  }
+
+  Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+      'hasChooseLanguage': true,
+      'foreignLanguageIsoCode': foreignLanguageIsoCode
+    })
+        .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
+  }
+
+  Future<void> changeMainOnBoardingStatus() async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+          'hasDidMainOnBoarding': true,
+    })
+        .then((value) => _currentProfile.hasDidMainOnBoarding = true);
+  }
+
+  Future<void> changeAddingOnBoardingStatus() async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+      'hasDidAddingOnBoarding': true,
+    })
+        .then((value) => _currentProfile.hasDidAddingOnBoarding = true);
+  }
+
   Future<void> signInWithGoogle() async {
     try {
       if (kIsWeb) {
@@ -164,26 +202,6 @@ abstract class AbstractUserProfileService {
     }
     userProfile.isConnected = !auth.currentUser!.isAnonymous;
     return userProfile;
-  }
-
-  Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) async {
-    return firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({
-          'hasChooseLanguage': true,
-          'nativeLanguageIsoCode': nativeLanguageIsoCode
-        })
-        .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
-  }
-
-  Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) async {
-    return firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({
-          'hasChooseLanguage': true,
-          'foreignLanguageIsoCode': foreignLanguageIsoCode
-        })
-        .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
   }
 
   String generateNonce([int length = 32]) {

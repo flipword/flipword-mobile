@@ -16,14 +16,14 @@ import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/add_word.dart';
 import 'package:provider/provider.dart';
 
-class Layout extends StatefulWidget {
-  const Layout({Key? key}) : super(key: key);
+class MainLayout extends StatefulWidget {
+  const MainLayout({Key? key}) : super(key: key);
 
   @override
-  LayoutState createState() => LayoutState();
+  MainLayoutState createState() => MainLayoutState();
 }
 
-class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
+class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMixin {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   late CardListStore _cardListStore;
@@ -50,7 +50,7 @@ class LayoutState extends State<Layout> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return OnBoarding();
+    return const OnBoarding();
     return Scaffold(
         body: GestureDetector(
           onTap: _closeOverlay,

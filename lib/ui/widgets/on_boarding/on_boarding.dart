@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:onboarding/onboarding.dart';
+import 'package:provider/provider.dart';
 
 import 'generic_on_boarding_page.dart';
 
-class OnBoarding extends StatelessWidget {
-  OnBoarding({Key? key}) : super(key: key);
+class OnBoarding extends StatefulWidget {
+  const OnBoarding({Key? key}) : super(key: key);
 
+  @override
+  State<OnBoarding> createState() => _OnBoardingState();
+}
+
+class _OnBoardingState extends State<OnBoarding> {
+  late ProfilStore _profilStore;
+
+  @override
+  void initState() {
+    _profilStore = Provider.of<ProfilStore>(context, listen: false);
+    super.initState();
+  }
   final onBoardingPagesList = [
     PageModel(
       widget: GenericOnBoardingPage(
@@ -35,7 +49,6 @@ class OnBoarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Onboarding(
       background: Theme.of(context).scaffoldBackgroundColor,
-      skipButtonStyle: SkipButtonStyle(),
       proceedButtonStyle: ProceedButtonStyle(
         proceedButtonColor: Theme.of(context).primaryColor,
         proceedpButtonText: const Text(
@@ -43,7 +56,7 @@ class OnBoarding extends StatelessWidget {
             style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.w600,)
         ),
         proceedButtonRoute: (context) {
-          return;
+          _profilStore.changeMainOnBoardingStatus();
         },
       ),
       pages: onBoardingPagesList,
