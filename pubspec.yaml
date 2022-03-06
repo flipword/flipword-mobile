@@ -78,6 +78,10 @@ flutter:
     - assets/earth.png
     - assets/list.png
     - assets/onboarding-logo.png
+    - assets/flags/french.png
+    - assets/flags/english.png
+    - assets/flags/german.png
+    - assets/flags/spain.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -46,7 +46,7 @@ class _OnBoardingState extends State<OnBoarding> {
         proceedButtonColor: Theme.of(context).primaryColor,
         proceedpButtonText: const Text(
             'Start',
-            style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.w600,)
+            style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.w600)
         ),
         proceedButtonRoute: (context) {
           widget.onClose();

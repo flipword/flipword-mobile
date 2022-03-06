@@ -75,9 +75,7 @@ class MyApp extends StatelessWidget {
                           ]),
                         )) : Observer(builder: (context) {
                           if(_profilStore.currentProfile.status == FutureStatus.pending){
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                            return const SizedBox();
                           } else {
                             if(_profilStore.currentProfile.value!.hasDidMainOnBoarding){
                               _cardListStore.fetchCard();

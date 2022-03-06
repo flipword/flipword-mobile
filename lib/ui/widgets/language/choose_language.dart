@@ -42,23 +42,34 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                 Center(
                   child: Text(
                       widget.pickNative ? 'What is your language ?' : 'Which language you want to learn ?',
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
-                          fontWeight: FontWeight.w400, fontSize: 20
+                        fontSize: 23,
+                        wordSpacing: 1,
+                        letterSpacing: 1.2,
+                        fontWeight: FontWeight.w800,
                       )
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
-                            height: 30,
+                ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 200),
+                  child: Container(
                             decoration: _getBoxDecoration(),
                             child: DropdownButtonHideUnderline(
                               child: DropdownButton(
-                                hint: Center(
-                                    child: Text(
-                                      language.label ?? '',
-                                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                    )
-                                ),
+                                hint: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          language.label ?? '',
+                                          style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w600),
+                                        ),
+                                        const SizedBox(width: 20),
+                                        Image.asset(language.flagPath!,
+                                            height: 35, width: 35),
+                                      ],
+                                    ),
                                 isExpanded: true,
                                 iconSize: 30,
                                 iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
@@ -67,14 +78,23 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
                                       (val) {
                                     return DropdownMenuItem<Language>(
                                       value: val,
-                                      child: Text(val.label!),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [Text(
+                                                  val.label ?? '',
+                                            style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w600),
+                                          ),
+                                          Image.asset(val.flagPath!,
+                                              height: 35, width: 35),
+                                        ],
+                                      ),
                                     );
                                   },
                                 ).toList() : List.empty(),
                                 onChanged: _updateLanguage,
                               ),
                             )
-                ),
+                )),
                 const SizedBox(height: 30),
                 Center(child: IconTextButton(
                   width: 90,

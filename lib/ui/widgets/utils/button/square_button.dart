@@ -55,10 +55,8 @@ class SquareButtonState extends State<SquareButton> {
                     )
                   : RotationTransition(
                       turns: const AlwaysStoppedAnimation(-45 / 360),
-                      child: Opacity(
-                        opacity: 0.7,
-                        child: widget.icon,
-                      )),
+                      child: widget.icon,
+                      ),
             )));
   }
 
