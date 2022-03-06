@@ -51,6 +51,7 @@ class UserProfileServiceM extends AbstractUserProfileService {
         'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
         'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
         'lastConnection': DateTime.now(),
+        'hasDidMainOnBoarding': true
       }, SetOptions(merge: true));
 
     } catch (exception) {

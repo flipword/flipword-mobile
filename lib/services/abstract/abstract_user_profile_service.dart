@@ -137,6 +137,7 @@ abstract class AbstractUserProfileService {
         'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage
             .isoCode,
         'lastConnection': DateTime.now(),
+        'hasDidMainOnBoarding': true
       }, SetOptions(merge: true));
     } catch (_) {
     }
