@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -6,13 +7,15 @@ import 'package:flutter_flip_card/services/abstract/abstract_user_profile_servic
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-AbstractUserProfileService getUserProfileService() => UserProfileServiceM._instance;
+AbstractUserProfileService getUserProfileService() =>
+    UserProfileServiceM._instance;
 
 // MOBILE SERVICE
 class UserProfileServiceM extends AbstractUserProfileService {
   UserProfileServiceM._privateConstructor();
 
-  static final UserProfileServiceM _instance = UserProfileServiceM._privateConstructor();
+  static final UserProfileServiceM _instance =
+      UserProfileServiceM._privateConstructor();
   static UserProfileServiceM get instance => _instance;
 
   @override
@@ -42,18 +45,20 @@ class UserProfileServiceM extends AbstractUserProfileService {
       await super.auth.signInWithCredential(oauthCredential);
 
       // Set firebase auth id as property in profile collection
-      await super.firestoreUserProfilRepository
+      await super
+          .firestoreUserProfilRepository
           .getUserProfilCollection(super.auth.currentUser!.uid)
           .set({
         'uid': super.auth.currentUser!.uid,
         'email': super.auth.currentUser!.email,
         'name': super.auth.currentUser!.displayName,
         'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
-        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage.isoCode,
+        'foreignLanguageIsoCode':
+            LanguageService.defaultForeignLanguage.isoCode,
         'lastConnection': DateTime.now(),
-        'hasDidMainOnBoarding': true
+        'hasDidMainOnBoarding': true,
+        'hasDidAddingOnBoarding': true,
       }, SetOptions(merge: true));
-
     } catch (exception) {
       await FirebaseCrashlytics.instance.recordError(exception, null);
     }
