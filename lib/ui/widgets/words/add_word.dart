@@ -236,14 +236,18 @@ class _State extends State<AddWord> {
                           Observer(builder: (context) {
                             if (!_profilStore.currentProfile.value!
                                     .hasDidAddingOnBoarding &&
-                                _interfaceStore.animationIsTerminated.value) {
+                                _interfaceStore.animationIsTerminated.value &&
+                                onBoardingStep < 3) {
                               return HelpingPopup(
-                                parentKey: _translateButtonKey,
+                                parentKey: onBoardingStep == 1
+                                    ? _swapKey
+                                    : _translateButtonKey,
                                 currentStep: onBoardingStep,
                                 totalStep: 2,
                                 msgToDisplay: onBoardingStep == 1
                                     ? 'Click to swap the translation direction'
                                     : 'Click to translate the word written in first box',
+                                onOk: _onBoardingNextStep,
                               );
                             } else {
                               return const SizedBox();
@@ -321,5 +325,14 @@ class _State extends State<AddWord> {
 
   void _onDragEnd(DragEndDetails dragEndDetails) {
     widget.onDragEnd!(dragEndDetails);
+  }
+
+  void _onBoardingNextStep() {
+    setState(() {
+      onBoardingStep += 1;
+    });
+    if (onBoardingStep > 2) {
+      _profilStore.changeAddingOnBoardingStatus();
+    }
   }
 }
