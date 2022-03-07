@@ -20,7 +20,8 @@ class MainLayout extends StatefulWidget {
   MainLayoutState createState() => MainLayoutState();
 }
 
-class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMixin {
+class MainLayoutState extends State<MainLayout>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   late CardListStore _cardListStore;
@@ -32,10 +33,9 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
   void initState() {
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
-    WidgetsBinding.instance!.addPostFrameCallback(
-        (_) {
-          Overlay.of(context)!.insert(_createOverlayEntry());
-        });
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Overlay.of(context)!.insert(_createOverlayEntry());
+    });
     dragOffset = 50;
     super.initState();
   }
@@ -45,8 +45,14 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
     return Scaffold(
         body: GestureDetector(
           onTap: _closeOverlay,
-          onVerticalDragUpdate: (defaultTargetPlatform == TargetPlatform.iOS) || (defaultTargetPlatform == TargetPlatform.android) ? _updateOverlay : null,
-          onVerticalDragEnd: (defaultTargetPlatform == TargetPlatform.iOS) || (defaultTargetPlatform == TargetPlatform.android) ? _onDragEnd : null,
+          onVerticalDragUpdate: (defaultTargetPlatform == TargetPlatform.iOS) ||
+                  (defaultTargetPlatform == TargetPlatform.android)
+              ? _updateOverlay
+              : null,
+          onVerticalDragEnd: (defaultTargetPlatform == TargetPlatform.iOS) ||
+                  (defaultTargetPlatform == TargetPlatform.android)
+              ? _onDragEnd
+              : null,
           child: _buildBody(context),
         ),
         floatingActionButton: SquareButton(
@@ -56,16 +62,14 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
               color: Theme.of(context).textTheme.bodyText1!.color,
             ),
             backgroundColor: Theme.of(context).primaryColor,
-            onPressed: _onFloatingButtonTapped
-        ),
+            onPressed: _onFloatingButtonTapped),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: _buildBottomNavigationBar(context));
   }
 
   Widget _buildBody(context) {
     return Navigator(
-        key: navigatorKey,
-        onGenerateRoute: RouterApp.generateRoute);
+        key: navigatorKey, onGenerateRoute: RouterApp.generateRoute);
   }
 
   Widget _buildBottomNavigationBar(BuildContext context) => FABBottomAppBar(
@@ -143,6 +147,7 @@ class MainLayoutState extends State<MainLayout> with SingleTickerProviderStateMi
               top: _interfaceStore.overlayIsDisplayed.value
                   ? _interfaceStore.addingPopupOffset.value
                   : -screenHeight,
+              onEnd: _interfaceStore.onAnimationTerminated,
               child: AddWord(onDragUp: _updateOverlay, onDragEnd: _onDragEnd),
             ));
   }
