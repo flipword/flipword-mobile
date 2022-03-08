@@ -11,6 +11,7 @@ import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
+import 'package:showcaseview/showcaseview.dart';
 
 class AddWord extends StatefulWidget {
   const AddWord({Key? key, this.onDragUp, this.onDragEnd}) : super(key: key);
@@ -44,6 +45,7 @@ class _State extends State<AddWord> {
 
   @override
   void initState() {
+    super.initState();
     focusNode = FocusNode();
     _baseWordController = TextEditingController();
     _translateWordController = TextEditingController();
@@ -51,7 +53,6 @@ class _State extends State<AddWord> {
     _settingStore = Provider.of<SettingStore>(context, listen: false);
     _profilStore = Provider.of<ProfilStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
-    super.initState();
   }
 
   @override
@@ -60,200 +61,257 @@ class _State extends State<AddWord> {
     return GestureDetector(
         onVerticalDragUpdate: _onDragStop,
         onVerticalDragEnd: _onDragEnd,
-        child: SizedBox(
-            width: screenSize,
-            child: Align(
-                alignment: Alignment.topCenter,
-                child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 800),
-                    child: Material(
-                        color: Theme.of(context).backgroundColor,
-                        elevation: 4,
-                        borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            bottomRight: Radius.circular(30)),
-                        child: Stack(children: [
-                          Column(children: [
-                            Stack(alignment: Alignment.topCenter, children: [
-                              Container(
-                                width: 500,
-                                height: 90,
-                                padding: const EdgeInsets.all(10),
-                                decoration: _getBoxDecoration(),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                        'assets/microsoft-translate.png',
-                                        height: 35,
-                                        width: 35),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Microsoft',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 23),
-                                    ),
-                                    const SizedBox(width: 5),
-                                    Text(
-                                      'Translate',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                          color: Theme.of(context)
-                                              .textTheme
-                                              .bodyText1!
-                                              .color,
-                                          fontWeight: FontWeight.w300,
-                                          fontSize: 23),
+        child: ShowCaseWidget(
+            onFinish: _onBoardingFinish,
+            builder: Builder(
+                builder: (context) => SizedBox(
+                    width: screenSize,
+                    child: Align(
+                        alignment: Alignment.topCenter,
+                        child: ConstrainedBox(
+                            constraints: const BoxConstraints(maxWidth: 800),
+                            child: Material(
+                                color: Theme.of(context).backgroundColor,
+                                elevation: 4,
+                                borderRadius: const BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30)),
+                                child: Stack(children: [
+                                  Column(children: [
+                                    Stack(
+                                        alignment: Alignment.topCenter,
+                                        children: [
+                                          Container(
+                                            width: 500,
+                                            height: 90,
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: _getBoxDecoration(),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Image.asset(
+                                                    'assets/microsoft-translate.png',
+                                                    height: 35,
+                                                    width: 35),
+                                                const SizedBox(width: 5),
+                                                Text(
+                                                  'Microsoft',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color,
+                                                      fontWeight:
+                                                          FontWeight.w400,
+                                                      fontSize: 23),
+                                                ),
+                                                const SizedBox(width: 5),
+                                                Text(
+                                                  'Translate',
+                                                  textAlign: TextAlign.center,
+                                                  style: TextStyle(
+                                                      color: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText1!
+                                                          .color,
+                                                      fontWeight:
+                                                          FontWeight.w300,
+                                                      fontSize: 23),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 250,
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            height: 40,
+                                            margin:
+                                                const EdgeInsets.only(top: 88),
+                                            decoration: _getBoxDecoration(),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                    child: Container(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    _settingStore
+                                                                .baseLanguage !=
+                                                            null
+                                                        ? _settingStore
+                                                            .baseLanguage!
+                                                            .label!
+                                                        : '',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color),
+                                                  ),
+                                                )),
+                                                Expanded(
+                                                  child: Container(
+                                                      alignment:
+                                                          Alignment.center,
+                                                      child:
+                                                          Showcase.withWidget(
+                                                        key: _swapKey,
+                                                        disableAnimation: true,
+                                                        container: HelpingPopup(
+                                                          currentStep: 1,
+                                                          totalStep: 2,
+                                                          msgToDisplay:
+                                                              'Click to swap the translation direction',
+                                                          onOk:
+                                                              ShowCaseWidget.of(
+                                                                      context)!
+                                                                  .next,
+                                                        ),
+                                                        width: 0,
+                                                        height: 0,
+                                                        child: FlatButton(
+                                                            minWidth: 60,
+                                                            height: 30,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColor,
+                                                            onPressed: _settingStore
+                                                                .reverseLanguage,
+                                                            child: Icon(
+                                                                Icons
+                                                                    .swap_horiz,
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodyText1!
+                                                                    .color,
+                                                                size: 20)),
+                                                      )),
+                                                ),
+                                                Expanded(
+                                                    child: Container(
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                    _settingStore
+                                                                .translateLanguage !=
+                                                            null
+                                                        ? _settingStore
+                                                            .translateLanguage!
+                                                            .label!
+                                                        : '',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1!
+                                                            .color),
+                                                  ),
+                                                ))
+                                              ],
+                                            ),
+                                          ),
+                                        ]),
+                                    Form(
+                                      key: _formKey,
+                                      child: Column(children: <Widget>[
+                                        const SizedBox(height: 10),
+                                        Container(
+                                          padding: const EdgeInsets.only(
+                                              left: 10, right: 10),
+                                          child: InputWord(
+                                            controller: _baseWordController,
+                                            label: _settingStore.baseLanguage !=
+                                                    null
+                                                ? _settingStore
+                                                    .baseLanguage!.label
+                                                : '',
+                                            focusNode: focusNode,
+                                            hintText: 'Enter your word',
+                                            onWordChanged: (_) => {},
+                                          ),
+                                        ),
+                                        const SizedBox(height: 15),
+                                        Showcase.withWidget(
+                                          key: _translateButtonKey,
+                                          disableAnimation: true,
+                                          overlayPadding:
+                                              const EdgeInsets.all(10),
+                                          container: HelpingPopup(
+                                            currentStep: 2,
+                                            totalStep: 2,
+                                            msgToDisplay:
+                                                'Click to translate the word written in first box',
+                                            onOk: ShowCaseWidget.of(context)!
+                                                .next,
+                                          ),
+                                          width: 0,
+                                          height: 0,
+                                          child: SquareButton(
+                                            onPressed: _translateWord,
+                                            icon: Icon(
+                                              Icons.translate_outlined,
+                                              size: 30,
+                                              color: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyText1!
+                                                  .color,
+                                            ),
+                                            backgroundColor:
+                                                Theme.of(context).primaryColor,
+                                            width: 45,
+                                            height: 45,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 5),
+                                        Container(
+                                            padding: const EdgeInsets.only(
+                                                left: 10, right: 10),
+                                            child: InputWord(
+                                              controller:
+                                                  _translateWordController,
+                                              label: _settingStore
+                                                          .translateLanguage !=
+                                                      null
+                                                  ? _settingStore
+                                                      .translateLanguage!.label
+                                                  : '',
+                                              onWordChanged: (_) => {},
+                                            )),
+                                        const SizedBox(height: 5),
+                                        IconTextButton(
+                                          width: 90,
+                                          icon: Icons.save,
+                                          color: Theme.of(context).primaryColor,
+                                          text: 'Save',
+                                          onPressed: _saveCard,
+                                        ),
+                                        const SizedBox(height: 5)
+                                      ]),
                                     )
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: 250,
-                                padding:
-                                    const EdgeInsets.only(left: 10, right: 10),
-                                height: 40,
-                                margin: const EdgeInsets.only(top: 88),
-                                decoration: _getBoxDecoration(),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Expanded(
-                                        child: Container(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        _settingStore.baseLanguage != null
-                                            ? _settingStore.baseLanguage!.label!
-                                            : '',
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    )),
-                                    Expanded(
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        child: FlatButton.icon(
-                                            key: _swapKey,
-                                            label: const Text(''),
-                                            icon: const Icon(Icons.swap_horiz),
-                                            textColor: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color,
-                                            onPressed: () => {
-                                                  _settingStore
-                                                      .reverseLanguage()
-                                                }),
-                                      ),
-                                    ),
-                                    Expanded(
-                                        child: Container(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        _settingStore.translateLanguage != null
-                                            ? _settingStore
-                                                .translateLanguage!.label!
-                                            : '',
-                                        style: TextStyle(
-                                            color: Theme.of(context)
-                                                .textTheme
-                                                .bodyText1!
-                                                .color),
-                                      ),
-                                    ))
-                                  ],
-                                ),
-                              ),
-                            ]),
-                            Form(
-                              key: _formKey,
-                              child: Column(children: <Widget>[
-                                const SizedBox(height: 10),
-                                Container(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 10),
-                                  child: InputWord(
-                                    controller: _baseWordController,
-                                    label: _settingStore.baseLanguage != null
-                                        ? _settingStore.baseLanguage!.label
-                                        : '',
-                                    focusNode: focusNode,
-                                    hintText: 'Enter your word',
-                                    onWordChanged: (_) => {},
-                                  ),
-                                ),
-                                const SizedBox(height: 15),
-                                SquareButton(
-                                  key: _translateButtonKey,
-                                  onPressed: _translateWord,
-                                  icon: Icon(
-                                    Icons.translate_outlined,
-                                    size: 30,
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyText1!
-                                        .color,
-                                  ),
-                                  backgroundColor:
-                                      Theme.of(context).primaryColor,
-                                  width: 45,
-                                  height: 45,
-                                ),
-                                const SizedBox(height: 5),
-                                Container(
-                                    padding: const EdgeInsets.only(
-                                        left: 10, right: 10),
-                                    child: InputWord(
-                                      controller: _translateWordController,
-                                      label: _settingStore.translateLanguage !=
-                                              null
-                                          ? _settingStore
-                                              .translateLanguage!.label
-                                          : '',
-                                      onWordChanged: (_) => {},
-                                    )),
-                                const SizedBox(height: 5),
-                                IconTextButton(
-                                  width: 90,
-                                  icon: Icons.save,
-                                  color: Theme.of(context).primaryColor,
-                                  text: 'Save',
-                                  onPressed: _saveCard,
-                                ),
-                                const SizedBox(height: 5)
-                              ]),
-                            )
-                          ]),
-                          Observer(builder: (context) {
-                            if (!_profilStore.currentProfile.value!
-                                    .hasDidAddingOnBoarding &&
-                                _interfaceStore.animationIsTerminated.value &&
-                                onBoardingStep < 3) {
-                              return HelpingPopup(
-                                parentKey: onBoardingStep == 1
-                                    ? _swapKey
-                                    : _translateButtonKey,
-                                currentStep: onBoardingStep,
-                                totalStep: 2,
-                                msgToDisplay: onBoardingStep == 1
-                                    ? 'Click to swap the translation direction'
-                                    : 'Click to translate the word written in first box',
-                                onOk: _onBoardingNextStep,
-                              );
-                            } else {
-                              return const SizedBox();
-                            }
-                          })
-                        ]))))));
+                                  ]),
+                                  Observer(builder: (context) {
+                                    if (_interfaceStore
+                                            .animationIsTerminated.value &&
+                                        _interfaceStore
+                                            .overlayIsDisplayed.value &&
+                                        !_profilStore.currentProfile.value!
+                                            .hasDidAddingOnBoarding) {
+                                      WidgetsBinding.instance!
+                                          .addPostFrameCallback(
+                                        (_) => ShowCaseWidget.of(context)!
+                                            .startShowCase([
+                                          _swapKey,
+                                          _translateButtonKey
+                                        ]),
+                                      );
+                                      return const SizedBox();
+                                    }
+                                    return const SizedBox();
+                                  })
+                                ]))))))));
   }
 
   void _translateWord() {
@@ -327,12 +385,7 @@ class _State extends State<AddWord> {
     widget.onDragEnd!(dragEndDetails);
   }
 
-  void _onBoardingNextStep() {
-    setState(() {
-      onBoardingStep += 1;
-    });
-    if (onBoardingStep > 2) {
-      _profilStore.changeAddingOnBoardingStatus();
-    }
+  void _onBoardingFinish() {
+    _profilStore.changeAddingOnBoardingStatus();
   }
 }

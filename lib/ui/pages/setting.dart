@@ -44,141 +44,188 @@ class _SettingPage extends State<SettingPage> {
                   right: 20,
                   left: 20),
               padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                  Widget>[
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Expanded(flex: 2, child: Text('Native language:')),
-                    Expanded(
-                        flex: 3,
-                        child: Container(
-                            height: 30,
-                            decoration: _getBoxDecoration(),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                hint: Center(
-                                    child: Text(
-                                      _settingStore.nativeLanguage.value != null ? _settingStore.nativeLanguage.value!.label! : '',
-                                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                    )
-                                ),
-                                isExpanded: true,
-                                iconSize: 30,
-                                iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
-                                style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
-                                      (val) {
-                                    return DropdownMenuItem<Language>(
-                                      value: val,
-                                      child: Text(val.label!),
-                                    );
-                                  },
-                                ).toList() : List.empty(),
-                                onChanged: updateNativeLanguage,
-                              ),
-                            )
-                        )
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Expanded(
+                            flex: 2, child: Text('Native language:')),
+                        Expanded(
+                            flex: 3,
+                            child: Container(
+                                height: 30,
+                                decoration: _getBoxDecoration(),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    hint: Center(
+                                        child: Text(
+                                      _settingStore.nativeLanguage.value != null
+                                          ? _settingStore
+                                              .nativeLanguage.value!.label!
+                                          : '',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .color,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                    isExpanded: true,
+                                    iconSize: 30,
+                                    iconEnabledColor: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color,
+                                        fontWeight: FontWeight.w500),
+                                    items: _settingStore.languages.value != null
+                                        ? _settingStore.languages.value!.map(
+                                            (val) {
+                                              return DropdownMenuItem<Language>(
+                                                value: val,
+                                                child: Text(val.label!),
+                                              );
+                                            },
+                                          ).toList()
+                                        : List.empty(),
+                                    onChanged: updateNativeLanguage,
+                                  ),
+                                ))),
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  children: [
-                    const Expanded(flex: 2, child: Text('Foreign language:')),
-                    Expanded(
-                        flex: 3,
-                        child: Container(
-                            height: 30,
-                            decoration: _getBoxDecoration(),
-                            child: DropdownButtonHideUnderline(
-                              child: DropdownButton(
-                                hint: Center(
-                                    child: Text(
-                                      _settingStore.foreignLanguage.value != null ? _settingStore.foreignLanguage.value!.label! : '',
-                                      style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                    )
-                                ),
-                                isExpanded: true,
-                                iconSize: 30,
-                                iconEnabledColor: Theme.of(context).textTheme.bodyText2!.color,
-                                style: TextStyle(color: Theme.of(context).textTheme.bodyText2!.color, fontWeight: FontWeight.w500),
-                                items: _settingStore.languages.value != null ? _settingStore.languages.value!.map(
-                                      (val) {
-                                    return DropdownMenuItem<Language>(
-                                      value: val,
-                                      child: Text(val.label!),
-                                    );
-                                  },
-                                ).toList() : List.empty(),
-                                onChanged: updateForeignLanguage,
-                              ),
-                            )
-                        )
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const Expanded(
+                            flex: 2, child: Text('Foreign language:')),
+                        Expanded(
+                            flex: 3,
+                            child: Container(
+                                height: 30,
+                                decoration: _getBoxDecoration(),
+                                child: DropdownButtonHideUnderline(
+                                  child: DropdownButton(
+                                    hint: Center(
+                                        child: Text(
+                                      _settingStore.foreignLanguage.value !=
+                                              null
+                                          ? _settingStore
+                                              .foreignLanguage.value!.label!
+                                          : '',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText2!
+                                              .color,
+                                          fontWeight: FontWeight.w500),
+                                    )),
+                                    isExpanded: true,
+                                    iconSize: 30,
+                                    iconEnabledColor: Theme.of(context)
+                                        .textTheme
+                                        .bodyText2!
+                                        .color,
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodyText2!
+                                            .color,
+                                        fontWeight: FontWeight.w500),
+                                    items: _settingStore.languages.value != null
+                                        ? _settingStore.languages.value!.map(
+                                            (val) {
+                                              return DropdownMenuItem<Language>(
+                                                value: val,
+                                                child: Text(val.label!),
+                                              );
+                                            },
+                                          ).toList()
+                                        : List.empty(),
+                                    onChanged: updateForeignLanguage,
+                                  ),
+                                ))),
+                      ],
                     ),
-                  ],
-                ),
-                const SizedBox(height: 10)
-              ]),
+                    const SizedBox(height: 10)
+                  ]),
             ),
             LegendCard(
                 legend: 'General',
-                margin: const EdgeInsets.only(
-                    right: 20,
-                    left: 20),
+                margin: const EdgeInsets.only(right: 20, left: 20),
                 padding: const EdgeInsets.only(left: 10, right: 10),
-                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                  Widget>[
-                    const SizedBox(height: 10),
-                    Row(
-                      children:  [
-                        const Expanded(flex: 4, child: Text('Number of success required:')),
-                        Expanded(child:
-                          Row(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          const Expanded(
+                              flex: 4,
+                              child: Text(
+                                  'Number of success required to delete word:')),
+                          Expanded(
+                              child: Row(
                             children: [
-                              Column(children: [
-                                SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: Container(
-                                      decoration: BoxDecoration(
+                              Column(
+                                children: [
+                                  SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: Container(
+                                        decoration: BoxDecoration(
                                           color: Theme.of(context).primaryColor,
                                           borderRadius: const BorderRadius.all(
                                             Radius.circular(4),
                                           ),
-                                      ),
-                                      child: IconButton(onPressed: () => {updateNbSuccessRequired(isUp: true)}, padding: const EdgeInsets.all(0), icon: const Icon(Icons.arrow_drop_up))
-                                  ),
-                                ),
-                                const SizedBox(height: 5),
-                                SizedBox(
-                                  height: 24,
-                                  width: 24,
-                                  child: Container(
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(4),
                                         ),
-                                      ),
-                                    child: IconButton(onPressed: updateNbSuccessRequired, padding: const EdgeInsets.all(0), icon: const Icon(Icons.arrow_drop_down))
+                                        child: IconButton(
+                                            onPressed: () => {
+                                                  updateNbSuccessRequired(
+                                                      isUp: true)
+                                                },
+                                            padding: const EdgeInsets.all(0),
+                                            icon: const Icon(
+                                                Icons.arrow_drop_up))),
                                   ),
-                                )
-                              ],),
+                                  const SizedBox(height: 5),
+                                  SizedBox(
+                                    height: 24,
+                                    width: 24,
+                                    child: Container(
+                                        decoration: BoxDecoration(
+                                          color: Theme.of(context).primaryColor,
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(4),
+                                          ),
+                                        ),
+                                        child: IconButton(
+                                            onPressed: updateNbSuccessRequired,
+                                            padding: const EdgeInsets.all(0),
+                                            icon: const Icon(
+                                                Icons.arrow_drop_down))),
+                                  )
+                                ],
+                              ),
                               const SizedBox(width: 5),
-                              Text(_profilStore.currentProfile.value!.nbSuccessRequired.toString(),
+                              Text(
+                                  _profilStore
+                                      .currentProfile.value!.nbSuccessRequired
+                                      .toString(),
                                   style: const TextStyle(
-                                  fontWeight: FontWeight.w400, fontSize: 20)
-                              )
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 20))
                             ],
-                          )
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 10)
-                  ]
-              )
-            )
+                          ))
+                        ],
+                      ),
+                      const SizedBox(height: 10)
+                    ]))
           ],
         ),
       );
@@ -191,19 +238,26 @@ class _SettingPage extends State<SettingPage> {
         border: Border.all(color: Theme.of(context).primaryColor, width: 2));
   }
 
-  void updateNativeLanguage(dynamic val){
-    _settingStore.updateNativeLanguage(val).then((_) => _cardListStore.fetchCard());
+  void updateNativeLanguage(dynamic val) {
+    _settingStore
+        .updateNativeLanguage(val)
+        .then((_) => _cardListStore.fetchCard());
   }
 
-  void updateForeignLanguage(dynamic val){
-    _settingStore.updateForeignLanguage(val).then((_) => _cardListStore.fetchCard());
+  void updateForeignLanguage(dynamic val) {
+    _settingStore
+        .updateForeignLanguage(val)
+        .then((_) => _cardListStore.fetchCard());
   }
 
-  void updateNbSuccessRequired({bool isUp = false}){
-    final currentNbSuccessRequired = _profilStore.currentProfile.value!.nbSuccessRequired;
-    final updatedNbSuccessRequired = isUp ? currentNbSuccessRequired! + 1 : currentNbSuccessRequired! - 1;
-    if(updatedNbSuccessRequired < 1) {
-      _toastService.toastError("You can't define the number of successes less than 1");
+  void updateNbSuccessRequired({bool isUp = false}) {
+    final currentNbSuccessRequired =
+        _profilStore.currentProfile.value!.nbSuccessRequired;
+    final updatedNbSuccessRequired =
+        isUp ? currentNbSuccessRequired! + 1 : currentNbSuccessRequired! - 1;
+    if (updatedNbSuccessRequired < 1) {
+      _toastService
+          .toastError("You can't define the number of successes less than 1");
     } else {
       _profilStore.updateNbSuccessRequired(updatedNbSuccessRequired);
     }

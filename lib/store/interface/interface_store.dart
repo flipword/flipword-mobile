@@ -52,7 +52,6 @@ abstract class _InterfaceStore with Store {
 
   @action
   void onAnimationTerminated() {
-    print('animation terminated');
     animationIsTerminated = Observable<bool>(true);
   }
 
