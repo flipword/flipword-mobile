@@ -20,74 +20,75 @@ class _DetailWordState extends State<DetailWord> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(
-      constraints: const BoxConstraints(maxWidth: 400),
-      child: Container(
-        height: 250,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: 25,
-              alignment: Alignment.topRight,
-              decoration: const BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                ),
-              ),
-              child: IconButton(
-                  icon: const Icon(Icons.clear),
-                  padding: const EdgeInsets.only(top: 5),
-                  onPressed: widget.onClose),
+        constraints: const BoxConstraints(maxWidth: 400),
+        child: Container(
+            height: 250,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
             ),
-            const SizedBox(height: 10),
-            Container(
-                padding: const EdgeInsets.only(left: 10, right: 10),
-                child: CardWord(
-                    nativeWord: widget.card!.nativeWord,
-                    foreignWord: widget.card!.foreignWord,
-                    color: Theme.of(context).primaryColor)),
-            Container(
-                padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                child: Row(children: [
-                  Expanded(
-                    child: CardWord(
-                      nativeWord: 'Errors',
-                      foreignWord: widget.card!.nbErrors.toString(),
-                      color: Theme.of(context).errorColor,
-                      height: 30,
+            child: Column(
+              children: [
+                Container(
+                  height: 25,
+                  alignment: Alignment.topRight,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
                     ),
                   ),
-                  const SizedBox(width: 5),
-                  Expanded(
-                      child: CardWord(
+                  child: IconButton(
+                      icon: const Icon(Icons.clear),
+                      padding: const EdgeInsets.only(top: 5),
+                      onPressed: widget.onClose),
+                ),
+                const SizedBox(height: 10),
+                Container(
+                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    child: CardWord(
+                        nativeWord: widget.card!.nativeWord,
+                        foreignWord: widget.card!.foreignWord,
+                        color: Theme.of(context).primaryColor)),
+                Container(
+                    padding:
+                        const EdgeInsets.only(left: 10, right: 10, top: 10),
+                    child: Row(children: [
+                      Expanded(
+                        child: CardWord(
+                          nativeWord: 'Errors',
+                          foreignWord: widget.card!.nbErrors.toString(),
+                          color: Theme.of(context).errorColor,
+                          height: 30,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Expanded(
+                          child: CardWord(
                         nativeWord: 'Vues',
-                        foreignWord: (widget.card!.nbErrors! + widget.card!.nbSuccess!)
-                            .toString(),
+                        foreignWord:
+                            (widget.card!.nbErrors! + widget.card!.nbSuccess!)
+                                .toString(),
                         color: Theme.of(context).primaryColor,
                         height: 30,
                       )),
-                  const SizedBox(width: 5),
-                  Expanded(
-                      child: CardWord(
+                      const SizedBox(width: 5),
+                      Expanded(
+                          child: CardWord(
                         nativeWord: 'Success',
                         foreignWord: widget.card!.nbSuccess.toString(),
                         color: Theme.of(context).indicatorColor,
                         height: 30,
                       ))
-                ])),
-            const SizedBox(height: 5),
-            IconTextButton(
-                text: 'Delete',
-                icon: Icons.delete,
-                width: 100,
-                color: Theme.of(context).errorColor,
-                onPressed: () => {widget.onDelete(widget.card!.id)}),
-            const SizedBox(height: 5),
-          ],
-        )
-    ));
+                    ])),
+                const SizedBox(height: 5),
+                IconTextButton(
+                    text: 'Delete',
+                    icon: Icons.delete,
+                    width: 100,
+                    color: Theme.of(context).errorColor,
+                    onPressed: () => {widget.onDelete(widget.card!.id)}),
+                const SizedBox(height: 5),
+              ],
+            )));
   }
 }

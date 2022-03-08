@@ -30,9 +30,7 @@ class IconTextButton extends StatelessWidget {
             color: color,
             padding:
                 const EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-            child: Opacity(
-              opacity: 0.7,
-              child: Row(
+            child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(text!,
@@ -43,6 +41,6 @@ class IconTextButton extends StatelessWidget {
                     Icon(icon,
                         size: 30, color: Theme.of(context).textTheme.bodyText1!.color)
                   ]),
-            )));
+            ));
   }
 }

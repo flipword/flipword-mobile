@@ -40,6 +40,8 @@ dependencies:
   flip_card: ^0.6.0
   device_preview: ^1.0.0-alpha.15
   firebase_crashlytics: ^2.3.0
+  onboarding: ^2.1.0
+  showcaseview: ^1.1.5
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -74,6 +76,13 @@ flutter:
     - assets/microsoft-translate.png
     - assets/google-logo.svg
     - assets/apple-logo.svg
+    - assets/earth.png
+    - assets/list.png
+    - assets/onboarding-logo.png
+    - assets/flags/french.png
+    - assets/flags/english.png
+    - assets/flags/german.png
+    - assets/flags/spain.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

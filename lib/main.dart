@@ -7,8 +7,11 @@ import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
-import 'package:flutter_flip_card/ui/layouts/layout.dart';
+import 'package:flutter_flip_card/ui/layouts/main_layout.dart';
+import 'package:flutter_flip_card/ui/layouts/start_layout.dart';
 import 'package:flutter_flip_card/ui/themes/dark_theme.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'ui/themes/light_theme.dart';
 
@@ -35,10 +38,10 @@ class MyApp extends StatelessWidget {
 
   MyApp({Key? key}) : super(key: key);
 
-  CardListStore? _cardListStore;
-  ProfilStore? _profilStore;
-  InterfaceStore? _interfaceStore;
-  SettingStore? _settingStore;
+  late CardListStore _cardListStore;
+  late ProfilStore _profilStore;
+  late InterfaceStore _interfaceStore;
+  late SettingStore _settingStore;
 
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -70,7 +73,18 @@ class MyApp extends StatelessWidget {
                             const Icon(Icons.warning_amber_outlined),
                             Text('Error at application startup: ${snapshot.error} | StackTrace: ${snapshot.stackTrace.toString()}')
                           ]),
-                        )) : const Layout() : const Scaffold(
+                        )) : Observer(builder: (context) {
+                          if(_profilStore.currentProfile.status == FutureStatus.pending){
+                            return const SizedBox();
+                          } else {
+                            if(_profilStore.currentProfile.value!.hasDidMainOnBoarding){
+                              _cardListStore.fetchCard();
+                              return const MainLayout();
+                            } else {
+                              return const StartLayout();
+                            }
+                          }
+                    }) : const Scaffold(
                       body: Center(
                         child: CircularProgressIndicator(),
                       ),
@@ -84,11 +98,10 @@ class MyApp extends StatelessWidget {
   Future<void> _initApp(context) async{
     await Firebase.initializeApp();
     _profilStore = ProfilStore();
-    await _profilStore!.refresh();
+    await _profilStore.refresh();
     _settingStore = SettingStore();
-    await _settingStore!.initLanguages();
+    await _settingStore.initLanguages();
     _cardListStore = CardListStore();
-    await _cardListStore!.fetchCard();
     _interfaceStore = InterfaceStore();
 
   }

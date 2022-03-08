@@ -25,6 +25,23 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
     });
   }
 
+  final _$animationIsTerminatedAtom =
+      Atom(name: '_InterfaceStore.animationIsTerminated');
+
+  @override
+  ObservableValue<bool> get animationIsTerminated {
+    _$animationIsTerminatedAtom.reportRead();
+    return super.animationIsTerminated;
+  }
+
+  @override
+  set animationIsTerminated(ObservableValue<bool> value) {
+    _$animationIsTerminatedAtom.reportWrite(value, super.animationIsTerminated,
+        () {
+      super.animationIsTerminated = value;
+    });
+  }
+
   final _$addingPopupOffsetAtom =
       Atom(name: '_InterfaceStore.addingPopupOffset');
 
@@ -130,6 +147,17 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   }
 
   @override
+  void onAnimationTerminated() {
+    final _$actionInfo = _$_InterfaceStoreActionController.startAction(
+        name: '_InterfaceStore.onAnimationTerminated');
+    try {
+      return super.onAnimationTerminated();
+    } finally {
+      _$_InterfaceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void setCurrentRoute(String route) {
     final _$actionInfo = _$_InterfaceStoreActionController.startAction(
         name: '_InterfaceStore.setCurrentRoute');
@@ -144,6 +172,7 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   String toString() {
     return '''
 overlayIsDisplayed: ${overlayIsDisplayed},
+animationIsTerminated: ${animationIsTerminated},
 addingPopupOffset: ${addingPopupOffset},
 currentRoute: ${currentRoute},
 searchBarValue: ${searchBarValue}

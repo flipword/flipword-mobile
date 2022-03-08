@@ -13,8 +13,8 @@ import 'package:flutter_flip_card/data/data_sources/remote_data_source/dio_roboh
 import 'package:flutter_flip_card/data/entities/user_profil.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
 import 'package:flutter_flip_card/services/stub/user_profile_service_stub.dart'
-  if (dart.library.io) 'package:flutter_flip_card/services/user_profile_service_m.dart'
-  if (dart.library.js) 'package:flutter_flip_card/services/user_profile_service_w.dart';
+    if (dart.library.io) 'package:flutter_flip_card/services/user_profile_service_m.dart'
+    if (dart.library.js) 'package:flutter_flip_card/services/user_profile_service_w.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 abstract class AbstractUserProfileService {
@@ -22,15 +22,17 @@ abstract class AbstractUserProfileService {
 
   static AbstractUserProfileService? _instance;
 
-  static AbstractUserProfileService get instance => _instance ??= getUserProfileService();
+  static AbstractUserProfileService get instance =>
+      _instance ??= getUserProfileService();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  final FirestoreUserProfilRepository firestoreUserProfilRepository = FirestoreUserProfilRepository.instance;
+  final FirestoreUserProfilRepository firestoreUserProfilRepository =
+      FirestoreUserProfilRepository.instance;
   final RobohashHelper robohashHelper = RobohashHelper.instance;
 
   UserProfil getUser() => _currentProfile;
 
   Future<UserProfil> login(SignInMethod signInMethod) async {
-    switch(signInMethod){
+    switch (signInMethod) {
       case SignInMethod.GOOGLE:
         await signInWithGoogle();
         break;
@@ -58,14 +60,48 @@ abstract class AbstractUserProfileService {
         .getUserProfilCollection(auth.currentUser!.uid)
         .get()
         .then((value) => _currentProfile.nbWordLearned =
-        UserProfil.fromJson(value.data() as Map<String, dynamic>).nbWordLearned ?? 0);
+            UserProfil.fromJson(value.data() as Map<String, dynamic>)
+                    .nbWordLearned ??
+                0);
   }
 
   Future<void> updateNbSuccessRequired(int nbSuccessRequired) async {
     return firestoreUserProfilRepository
-          .getUserProfilCollection(_currentProfile.uid)
-          .update({'nbSuccessRequired': nbSuccessRequired})
-          .then((value) => _currentProfile.nbSuccessRequired = nbSuccessRequired);
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({'nbSuccessRequired': nbSuccessRequired}).then(
+            (value) => _currentProfile.nbSuccessRequired = nbSuccessRequired);
+  }
+
+  Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({'nativeLanguageIsoCode': nativeLanguageIsoCode}).then(
+            (value) =>
+                _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
+  }
+
+  Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({'foreignLanguageIsoCode': foreignLanguageIsoCode}).then(
+            (value) => _currentProfile.foreignLanguageIsoCode =
+                foreignLanguageIsoCode);
+  }
+
+  Future<void> changeMainOnBoardingStatus() async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+      'hasDidMainOnBoarding': true,
+    }).then((value) => _currentProfile.hasDidMainOnBoarding = true);
+  }
+
+  Future<void> changeAddingOnBoardingStatus() async {
+    return firestoreUserProfilRepository
+        .getUserProfilCollection(_currentProfile.uid)
+        .update({
+      'hasDidAddingOnBoarding': true,
+    }).then((value) => _currentProfile.hasDidAddingOnBoarding = true);
   }
 
   Future<void> signInWithGoogle() async {
@@ -73,8 +109,7 @@ abstract class AbstractUserProfileService {
       if (kIsWeb) {
         // Web authentication via popup
         await auth.signInWithPopup(GoogleAuthProvider());
-      }
-      else{
+      } else {
         final googleUser = await GoogleSignIn().signIn();
 
         // Obtain the auth details from the request
@@ -98,12 +133,13 @@ abstract class AbstractUserProfileService {
         'email': auth.currentUser!.email,
         'name': auth.currentUser!.displayName,
         'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
-        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage
-            .isoCode,
+        'foreignLanguageIsoCode':
+            LanguageService.defaultForeignLanguage.isoCode,
         'lastConnection': DateTime.now(),
+        'hasDidMainOnBoarding': true,
+        'hasDidAddingOnBoarding': true,
       }, SetOptions(merge: true));
-    } catch (_) {
-    }
+    } catch (_) {}
   }
 
   Future<void> signInWithApple();
@@ -117,7 +153,7 @@ abstract class AbstractUserProfileService {
         await FirebaseCrashlytics.instance.recordError(error, null);
       }
     }
-    if(!auth.currentUser!.isAnonymous){
+    if (!auth.currentUser!.isAnonymous) {
       _currentProfile = await _getUserFromDatabase();
     } else {
       _currentProfile = await _getUserFromDatabase();
@@ -138,52 +174,34 @@ abstract class AbstractUserProfileService {
         'email': auth.currentUser!.email,
         'name': auth.currentUser!.displayName,
         'nativeLanguageIsoCode': LanguageService.defaultNativeLanguage.isoCode,
-        'foreignLanguageIsoCode': LanguageService.defaultForeignLanguage
-            .isoCode,
+        'foreignLanguageIsoCode':
+            LanguageService.defaultForeignLanguage.isoCode,
         'lastConnection': DateTime.now(),
       }, SetOptions(merge: true));
-    } catch (_) {
-    }
+    } catch (_) {}
   }
 
-  Future<UserProfil> _getUserProfileById(String userId){
-    return firestoreUserProfilRepository.getUserProfilById(userId).then((value) => UserProfil.fromJson(value.data() as Map<String, dynamic>));
+  Future<UserProfil> _getUserProfileById(String userId) {
+    return firestoreUserProfilRepository.getUserProfilById(userId).then(
+        (value) => UserProfil.fromJson(value.data() as Map<String, dynamic>));
   }
 
-  Future<UserProfil> _getUserFromDatabase() async{
+  Future<UserProfil> _getUserFromDatabase() async {
     UserProfil userProfile = new UserProfil();
-    if(auth.currentUser!.isAnonymous){
+    if (auth.currentUser!.isAnonymous) {
       userProfile = await _getUserProfileById(auth.currentUser!.uid);
     } else {
       final responses = await Future.wait([
         _getUserProfileById(auth.currentUser!.uid),
-        robohashHelper.getAvatarPath(auth.currentUser!.email!).then((value) => value)
+        robohashHelper
+            .getAvatarPath(auth.currentUser!.email!)
+            .then((value) => value)
       ]);
       userProfile = responses[0] as UserProfil;
       userProfile.avatarPath = responses[1] as String?;
     }
     userProfile.isConnected = !auth.currentUser!.isAnonymous;
     return userProfile;
-  }
-
-  Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) async {
-    return firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({
-          'hasChooseLanguage': true,
-          'nativeLanguageIsoCode': nativeLanguageIsoCode
-        })
-        .then((value) => _currentProfile.nativeLanguageIsoCode = nativeLanguageIsoCode);
-  }
-
-  Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) async {
-    return firestoreUserProfilRepository
-        .getUserProfilCollection(_currentProfile.uid)
-        .update({
-          'hasChooseLanguage': true,
-          'foreignLanguageIsoCode': foreignLanguageIsoCode
-        })
-        .then((value) => _currentProfile.foreignLanguageIsoCode = foreignLanguageIsoCode);
   }
 
   String generateNonce([int length = 32]) {

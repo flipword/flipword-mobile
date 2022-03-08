@@ -71,6 +71,28 @@ mixin _$ProfilStore on _ProfilStore, Store {
   }
 
   @override
+  Future<void> changeMainOnBoardingStatus() {
+    final _$actionInfo = _$_ProfilStoreActionController.startAction(
+        name: '_ProfilStore.changeMainOnBoardingStatus');
+    try {
+      return super.changeMainOnBoardingStatus();
+    } finally {
+      _$_ProfilStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  Future<void> changeAddingOnBoardingStatus() {
+    final _$actionInfo = _$_ProfilStoreActionController.startAction(
+        name: '_ProfilStore.changeAddingOnBoardingStatus');
+    try {
+      return super.changeAddingOnBoardingStatus();
+    } finally {
+      _$_ProfilStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 currentProfile: ${currentProfile}

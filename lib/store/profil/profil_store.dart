@@ -35,4 +35,16 @@ abstract class _ProfilStore with Store {
     return;
   });
 
+  @action
+  Future<void> changeMainOnBoardingStatus() => _userService.changeMainOnBoardingStatus().then((value){
+    currentProfile = ObservableFuture.value(currentProfile.value);
+    return;
+  });
+
+  @action
+  Future<void> changeAddingOnBoardingStatus() => _userService.changeAddingOnBoardingStatus().then((value){
+    currentProfile = ObservableFuture.value(currentProfile.value);
+    return;
+  });
+
 }
