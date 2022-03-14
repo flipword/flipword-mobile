@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
@@ -57,6 +58,7 @@ class _State extends State<AddWord> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     screenSize = MediaQuery.of(context).size.width;
     return GestureDetector(
         onVerticalDragUpdate: _onDragStop,
@@ -165,7 +167,7 @@ class _State extends State<AddWord> {
                                                           currentStep: 1,
                                                           totalStep: 2,
                                                           msgToDisplay:
-                                                              'Click to swap the translation direction',
+                                                              t.click_to_swap,
                                                           onOk:
                                                               ShowCaseWidget.of(
                                                                       context)!
@@ -229,7 +231,7 @@ class _State extends State<AddWord> {
                                                     .baseLanguage!.label
                                                 : '',
                                             focusNode: focusNode,
-                                            hintText: 'Enter your word',
+                                            hintText: t.enter_word,
                                             onWordChanged: (_) => {},
                                           ),
                                         ),
@@ -242,8 +244,7 @@ class _State extends State<AddWord> {
                                           container: HelpingPopup(
                                             currentStep: 2,
                                             totalStep: 2,
-                                            msgToDisplay:
-                                                'Click to translate the word written in first box',
+                                            msgToDisplay: t.translate_help,
                                             onOk: ShowCaseWidget.of(context)!
                                                 .next,
                                           ),
@@ -282,10 +283,9 @@ class _State extends State<AddWord> {
                                             )),
                                         const SizedBox(height: 5),
                                         IconTextButton(
-                                          width: 90,
                                           icon: Icons.save,
                                           color: Theme.of(context).primaryColor,
-                                          text: 'Save',
+                                          text: t.save,
                                           onPressed: _saveCard,
                                         ),
                                         const SizedBox(height: 5)
@@ -316,7 +316,7 @@ class _State extends State<AddWord> {
 
   void _translateWord() {
     if (_baseWordController!.text.isEmpty) {
-      _toastService.toastError('No word to translate');
+      _toastService.toastError(t.please_enter_word);
     } else {
       _translateButtonKey.currentState!.changeLoadingState();
       _settingStore
@@ -328,7 +328,7 @@ class _State extends State<AddWord> {
             _translateWordController!.text = value!;
           })
           .catchError(
-              (onError) => _toastService.toastError('Error on translate word'))
+              (onError) => _toastService.toastError(t.word_translate_error))
           .whenComplete(
               () => _translateButtonKey.currentState!.changeLoadingState());
     }
@@ -338,7 +338,7 @@ class _State extends State<AddWord> {
     try {
       if (_baseWordController!.text.isEmpty ||
           _translateWordController!.text.isEmpty) {
-        _toastService.toastError('Please enter a word');
+        _toastService.toastError(t.please_enter_word);
       } else {
         final baseWord = _formatWord(_baseWordController!.text);
         final translateWord = _formatWord(_translateWordController!.text);
@@ -350,11 +350,11 @@ class _State extends State<AddWord> {
         _baseWordController!.text = '';
         _translateWordController!.text = '';
         focusNode!.requestFocus();
-        _toastService.toastValidate('Word save');
+        _toastService.toastValidate(t.word_saved);
         await _cardListStore.fetchCard();
       }
     } catch (e) {
-      _toastService.toastError('Error on insert card');
+      _toastService.toastError(t.word_save_error);
     }
   }
 

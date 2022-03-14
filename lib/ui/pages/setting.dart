@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
@@ -37,7 +38,7 @@ class _SettingPage extends State<SettingPage> {
         child: Column(
           children: [
             LegendCard(
-              legend: 'Language',
+              legend: t.language,
               margin: EdgeInsets.only(
                   top: MediaQuery.of(context).size.height / 8,
                   bottom: 50,
@@ -50,8 +51,7 @@ class _SettingPage extends State<SettingPage> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Expanded(
-                            flex: 2, child: Text('Native language:')),
+                        Expanded(flex: 2, child: Text(t.native_language)),
                         Expanded(
                             flex: 3,
                             child: Container(
@@ -102,8 +102,7 @@ class _SettingPage extends State<SettingPage> {
                     const SizedBox(height: 10),
                     Row(
                       children: [
-                        const Expanded(
-                            flex: 2, child: Text('Foreign language:')),
+                        Expanded(flex: 2, child: Text(t.foreign_language)),
                         Expanded(
                             flex: 3,
                             child: Container(
@@ -156,7 +155,7 @@ class _SettingPage extends State<SettingPage> {
                   ]),
             ),
             LegendCard(
-                legend: 'General',
+                legend: t.general,
                 margin: const EdgeInsets.only(right: 20, left: 20),
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Column(
@@ -165,10 +164,7 @@ class _SettingPage extends State<SettingPage> {
                       const SizedBox(height: 10),
                       Row(
                         children: [
-                          const Expanded(
-                              flex: 4,
-                              child: Text(
-                                  'Number of success required to delete word:')),
+                          Expanded(flex: 4, child: Text(t.nb_success_required)),
                           Expanded(
                               child: Row(
                             children: [
@@ -256,8 +252,7 @@ class _SettingPage extends State<SettingPage> {
     final updatedNbSuccessRequired =
         isUp ? currentNbSuccessRequired! + 1 : currentNbSuccessRequired! - 1;
     if (updatedNbSuccessRequired < 1) {
-      _toastService
-          .toastError("You can't define the number of successes less than 1");
+      _toastService.toastError(t.nb_success_define_error);
     } else {
       _profilStore.updateNbSuccessRequired(updatedNbSuccessRequired);
     }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
@@ -32,6 +33,7 @@ class ListWordPageState extends State<ListWordPage> {
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
+    _cardList!.fetchCard();
     searchFocusNode = FocusNode();
     super.initState();
   }
@@ -40,57 +42,67 @@ class ListWordPageState extends State<ListWordPage> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     Widget? _widgetDisplayed;
-    return Scaffold(body: Observer(builder: (context) {
+    return Scaffold(body: Observer(
+      builder: (context) {
         switch (_cardList!.list.status) {
           case FutureStatus.pending:
-            _widgetDisplayed = const Center(
-              child: CircularProgressIndicator(),
-            );
+            _widgetDisplayed = const SizedBox();
             break;
           case FutureStatus.fulfilled:
             _widgetDisplayed = IgnorePointer(
-              ignoring: _interfaceStore.overlayIsDisplayed.value,
-              child: RefreshIndicator(
-              onRefresh: _refresh,
-              child: Center(
-              child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 600),
-                  child: Scaffold(
-                      body: _cardList!.length == 0
-                          ? GridView.count(
-                          crossAxisCount: 1,
-                          physics: _interfaceStore.overlayIsDisplayed.value
-                              ? const BouncingScrollPhysics()
-                              : const AlwaysScrollableScrollPhysics(),
-                          children: const [NoWord()])
-                          : GridView.count(
-                          padding: const EdgeInsets.all(10),
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 5,
-                          childAspectRatio: _calculElementDisplay(screenSize),
-                          crossAxisCount: 2,
-                          physics: _interfaceStore.overlayIsDisplayed.value
-                              ? const BouncingScrollPhysics()
-                              : const AlwaysScrollableScrollPhysics(),
-                          semanticChildCount: 10,
-                          children: List.generate(
-                              _cardList!.length,
-                                  (index) => IgnorePointer(
-                                ignoring:
-                                _interfaceStore.overlayIsDisplayed.value,
-                                child: GestureDetector(
-                                  onTap: () => {
-                                    _showModal(_cardList!.list.result[index])
-                                  },
-                                  child: CardWord(
-                                      nativeWord: _cardList!
-                                          .list.result[index].nativeWord,
-                                      foreignWord: _cardList!.list
-                                          .result[index].foreignWord,
-                                      color: Theme.of(context).primaryColorLight),
-                                ),
-                              ))))),
-            )));
+                ignoring: _interfaceStore.overlayIsDisplayed.value,
+                child: RefreshIndicator(
+                    onRefresh: _refresh,
+                    child: Center(
+                      child: ConstrainedBox(
+                          constraints: const BoxConstraints(maxWidth: 600),
+                          child: Scaffold(
+                              body: _cardList!.length == 0
+                                  ? GridView.count(
+                                      crossAxisCount: 1,
+                                      physics: _interfaceStore
+                                              .overlayIsDisplayed.value
+                                          ? const BouncingScrollPhysics()
+                                          : const AlwaysScrollableScrollPhysics(),
+                                      children: const [
+                                          NoWord()
+                                        ])
+                                  : GridView.count(
+                                      padding: const EdgeInsets.all(10),
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 5,
+                                      childAspectRatio:
+                                          _calculElementDisplay(screenSize),
+                                      crossAxisCount: 2,
+                                      physics: _interfaceStore
+                                              .overlayIsDisplayed.value
+                                          ? const BouncingScrollPhysics()
+                                          : const AlwaysScrollableScrollPhysics(),
+                                      semanticChildCount: 10,
+                                      children: List.generate(
+                                          _cardList!.length,
+                                          (index) => IgnorePointer(
+                                                ignoring: _interfaceStore
+                                                    .overlayIsDisplayed.value,
+                                                child: GestureDetector(
+                                                  onTap: () => {
+                                                    _showModal(_cardList!
+                                                        .list.result[index])
+                                                  },
+                                                  child: CardWord(
+                                                      nativeWord: _cardList!
+                                                          .list
+                                                          .result[index]
+                                                          .nativeWord,
+                                                      foreignWord: _cardList!
+                                                          .list
+                                                          .result[index]
+                                                          .foreignWord,
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight),
+                                                ),
+                                              ))))),
+                    )));
             break;
           case FutureStatus.rejected:
             _widgetDisplayed = const Center(
@@ -158,10 +170,9 @@ class ListWordPageState extends State<ListWordPage> {
   void _deleteWord(String? id) {
     _cardService
         .deleteCard(id)
-        .then((value) =>
-            {_toastService.toastValidate('Card delete with success')})
+        .then((value) => {_toastService.toastValidate(t.card_delete_success)})
         .catchError(
-            (onError) => {_toastService.toastError('Error on deleting card')})
+            (onError) => {_toastService.toastError(t.card_delete_error)})
         .whenComplete(() => Navigator.of(context, rootNavigator: true).pop());
     _cardList!
       ..resetIndex()

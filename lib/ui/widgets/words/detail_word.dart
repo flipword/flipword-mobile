@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 
@@ -55,7 +56,7 @@ class _DetailWordState extends State<DetailWord> {
                     child: Row(children: [
                       Expanded(
                         child: CardWord(
-                          nativeWord: 'Errors',
+                          nativeWord: t.word_error,
                           foreignWord: widget.card!.nbErrors.toString(),
                           color: Theme.of(context).errorColor,
                           height: 30,
@@ -64,7 +65,7 @@ class _DetailWordState extends State<DetailWord> {
                       const SizedBox(width: 5),
                       Expanded(
                           child: CardWord(
-                        nativeWord: 'Vues',
+                        nativeWord: t.word_views,
                         foreignWord:
                             (widget.card!.nbErrors! + widget.card!.nbSuccess!)
                                 .toString(),
@@ -74,7 +75,7 @@ class _DetailWordState extends State<DetailWord> {
                       const SizedBox(width: 5),
                       Expanded(
                           child: CardWord(
-                        nativeWord: 'Success',
+                        nativeWord: t.word_success,
                         foreignWord: widget.card!.nbSuccess.toString(),
                         color: Theme.of(context).indicatorColor,
                         height: 30,
@@ -82,7 +83,7 @@ class _DetailWordState extends State<DetailWord> {
                     ])),
                 const SizedBox(height: 5),
                 IconTextButton(
-                    text: 'Delete',
+                    text: t.delete,
                     icon: Icons.delete,
                     width: 100,
                     color: Theme.of(context).errorColor,

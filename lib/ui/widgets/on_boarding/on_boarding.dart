@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:onboarding/onboarding.dart';
 
 import 'generic_on_boarding_page.dart';
@@ -13,41 +14,42 @@ class OnBoarding extends StatefulWidget {
 }
 
 class _OnBoardingState extends State<OnBoarding> {
-  final onBoardingPagesList = [
-    PageModel(
-      widget: GenericOnBoardingPage(
-        title: 'Choose a language',
-        description: 'Choose a language you want to learn.',
-        imagePath: 'assets/earth.png',
-      ),
-    ),
-    PageModel(
-      widget: GenericOnBoardingPage(
-        title: 'Create word list',
-        description: 'Create your own personalized list by adding unknow words that met daily.',
-        imagePath: 'assets/list.png',
-        moreInfo: '*Automatic translation and Chrome extension is available to facilate this process.',
-      ),
-    ),
-    PageModel(
-      widget: GenericOnBoardingPage(
-        title: 'And...Flipword!',
-        description: 'Learn your word list thanks to flippable cards.',
-        imagePath: 'assets/onboarding-logo.png',
-      ),
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
+
+    final onBoardingPagesList = [
+      PageModel(
+        widget: GenericOnBoardingPage(
+          title: t.choose_language,
+          description: t.choose_language_desc,
+          imagePath: 'assets/earth.png',
+        ),
+      ),
+      PageModel(
+        widget: GenericOnBoardingPage(
+          title: t.create_word_list,
+          description: t.create_word_list_desc,
+          imagePath: 'assets/list.png',
+          moreInfo: t.create_word_list_more_info,
+        ),
+      ),
+      PageModel(
+        widget: GenericOnBoardingPage(
+          title: t.flipword_title,
+          description: t.flipword_desc,
+          imagePath: 'assets/onboarding-logo.png',
+        ),
+      ),
+    ];
+
     return Onboarding(
       background: Theme.of(context).scaffoldBackgroundColor,
       proceedButtonStyle: ProceedButtonStyle(
         proceedButtonColor: Theme.of(context).primaryColor,
-        proceedpButtonText: const Text(
-            'Start',
-            style: TextStyle(letterSpacing: 1, fontWeight: FontWeight.w600)
-        ),
+        proceedpButtonText: Text(t.start,
+            style:
+                const TextStyle(letterSpacing: 1, fontWeight: FontWeight.w600)),
         proceedButtonRoute: (context) {
           widget.onClose();
         },
@@ -55,14 +57,14 @@ class _OnBoardingState extends State<OnBoarding> {
       pages: onBoardingPagesList,
       isSkippable: false,
       indicator: Indicator(
-          activeIndicator: ActiveIndicator(color: Theme.of(context).primaryColor),
-          closedIndicator: ClosedIndicator(color: Theme.of(context).primaryColor),
+          activeIndicator:
+              ActiveIndicator(color: Theme.of(context).primaryColor),
+          closedIndicator:
+              ClosedIndicator(color: Theme.of(context).primaryColor),
           indicatorDesign: IndicatorDesign.polygon(
               polygonDesign: PolygonDesign(
-                polygon: DesignType.polygon_circle,
-              )
-          )
-      ),
+            polygon: DesignType.polygon_circle,
+          ))),
     );
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/const/constants.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
+import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_offline.dart';
 import 'package:flutter_flip_card/ui/widgets/profil/profil_online.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -26,6 +28,7 @@ class _ProfilePageState extends State<ProfilePage> {
   late ProfilStore _profilStore;
   late CardListStore _cardListStore;
   late InterfaceStore _interfaceStore;
+  late SettingStore _settingStore;
 
   String? userName;
   FileImage? image;
@@ -37,6 +40,7 @@ class _ProfilePageState extends State<ProfilePage> {
     _profilStore = Provider.of<ProfilStore>(context, listen: false);
     _cardListStore = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
+    _settingStore = Provider.of<SettingStore>(context, listen: false);
     super.initState();
   }
 
@@ -66,48 +70,52 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   onPressed:
                       _interfaceStore.overlayIsDisplayed.value ? null : _logout,
-                  child: const Text('Logout'),
+                  child: Text(t.logout),
                 )
               ]));
             } else {
               _widgetDisplayed = Center(
                   child: Column(children: [
-                    const ProfileOffline(),
-                    const SizedBox(height: 20), const SizedBox(height: 20),
-                    RaisedButton(
-                        textTheme: Theme.of(context).buttonTheme.textTheme,
-                        color: Theme.of(context).primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        onPressed: () => _login(SignInMethod.GOOGLE),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(googleLogoAsset,
-                                height: 25, width: 25),
-                            const SizedBox(width: 10),
-                            const Text('Login or Sign in with Google')
-                          ],
-                        )),
-                    const SizedBox(height: 10),
-                    if (defaultTargetPlatform != TargetPlatform.android) RaisedButton(
-                        textTheme: Theme.of(context).buttonTheme.textTheme,
-                        color: Theme.of(context).cardColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        onPressed: () => _login(SignInMethod.APPLE),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(appleLogoAsset,
-                                height: 25, width: 25),
-                            const SizedBox(width: 10),
-                            const Text('Login or Sign in with Apple')
-                          ],
-                        )) else const SizedBox(),
-                  ]));
+                const ProfileOffline(),
+                const SizedBox(height: 20),
+                const SizedBox(height: 20),
+                RaisedButton(
+                    textTheme: Theme.of(context).buttonTheme.textTheme,
+                    color: Theme.of(context).primaryColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    onPressed: () => _login(SignInMethod.GOOGLE),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(googleLogoAsset,
+                            height: 25, width: 25),
+                        const SizedBox(width: 10),
+                        Text(t.login_google)
+                      ],
+                    )),
+                const SizedBox(height: 10),
+                if (defaultTargetPlatform != TargetPlatform.android)
+                  RaisedButton(
+                      textTheme: Theme.of(context).buttonTheme.textTheme,
+                      color: Theme.of(context).cardColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      onPressed: () => _login(SignInMethod.APPLE),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(appleLogoAsset,
+                              height: 25, width: 25),
+                          const SizedBox(width: 10),
+                          Text(t.login_apple)
+                        ],
+                      ))
+                else
+                  const SizedBox(),
+              ]));
             }
             break;
           case FutureStatus.rejected:
@@ -124,7 +132,9 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _login(SignInMethod signInMethod) {
-    _profilStore.login(signInMethod).then((value) => _cardListStore.fetchCard());
+    _profilStore.login(signInMethod).then((value) {
+      _settingStore.initLanguages().then((value) => _cardListStore.fetchCard());
+    });
   }
 
   void _logout() {

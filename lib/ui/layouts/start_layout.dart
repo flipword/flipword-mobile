@@ -32,11 +32,14 @@ class StartLayoutState extends State<StartLayout> {
   @override
   Widget build(BuildContext context) {
     late Widget _widgetDisplayed;
-    switch(onBoardingStep){
+    switch (onBoardingStep) {
       case 1:
-        _widgetDisplayed = Center(child: ChooseLanguage(onClose: (language) {
+        _widgetDisplayed = Center(
+            child: ChooseLanguage(onPick: (language) {
+          nativeLanguage = language;
+          _saveNativeLanguage();
+        }, onClose: () {
           setState(() {
-            nativeLanguage = language;
             onBoardingStep += 1;
           });
         }));
@@ -49,10 +52,13 @@ class StartLayoutState extends State<StartLayout> {
         });
         break;
       case 3:
-        _widgetDisplayed = Center(child: ChooseLanguage(pickNative: false ,onClose: (language) {
-          foreignLanguage = language;
-          _savePicks();
-        }));
+        _widgetDisplayed = Center(
+            child: ChooseLanguage(
+                pickNative: false,
+                onPick: (language) {
+                  foreignLanguage = language;
+                },
+                onClose: _savePicks));
         break;
     }
     return Scaffold(body: _widgetDisplayed);
@@ -60,11 +66,13 @@ class StartLayoutState extends State<StartLayout> {
 
   Future<void> _savePicks() async {
     await Future.wait([
-      _settingStore.updateNativeLanguage(nativeLanguage),
       _settingStore.updateForeignLanguage(foreignLanguage),
       _profilStore.changeMainOnBoardingStatus()
     ]);
     await _profilStore.refresh();
   }
 
+  Future<void> _saveNativeLanguage() async {
+    await _settingStore.updateNativeLanguage(nativeLanguage);
+  }
 }

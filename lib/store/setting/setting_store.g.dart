@@ -166,6 +166,17 @@ mixin _$SettingStore on _SettingStore, Store {
   }
 
   @override
+  void loadTranslation() {
+    final _$actionInfo = _$_SettingStoreActionController.startAction(
+        name: '_SettingStore.loadTranslation');
+    try {
+      return super.loadTranslation();
+    } finally {
+      _$_SettingStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 languages: ${languages},
