@@ -1,0 +1,13 @@
+{
+  "choose_language": "Elige un idioma",
+  "choose_language_desc": "Elige un idioma que quieras aprender.",
+  "create_word_list": "Crear lista de palabras",
+  "create_word_list_desc": "Crea tu propia lista personalizada agregando palabras desconocidas que se encuentran a diario.",
+  "create_word_list_more_info": "*La traducción automática y la extensión de Chrome están disponibles para facilitar este proceso.",
+  "flipword_title": "Y...Flipword!",
+  "flipword_desc": "Aprende tu lista de palabras gracias a las tarjetas volteables.",
+  "start": "Comienzo",
+  "which_native_language": "Cuál es su idioma ?",
+  "which_foreign_language": "Qué idioma quieres aprender?",
+  "save": "Salvar"
+}

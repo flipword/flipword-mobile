@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/language/choose_language.dart';
@@ -32,11 +33,13 @@ class StartLayoutState extends State<StartLayout> {
   @override
   Widget build(BuildContext context) {
     late Widget _widgetDisplayed;
-    switch(onBoardingStep){
+    switch (onBoardingStep) {
       case 1:
         _widgetDisplayed = Center(child: ChooseLanguage(onClose: (language) {
           setState(() {
             nativeLanguage = language;
+            LocaleSettings.setLocale(
+                _getAppLocalFromLanguageIsoCode(language.isoCode!));
             onBoardingStep += 1;
           });
         }));
@@ -49,10 +52,13 @@ class StartLayoutState extends State<StartLayout> {
         });
         break;
       case 3:
-        _widgetDisplayed = Center(child: ChooseLanguage(pickNative: false ,onClose: (language) {
-          foreignLanguage = language;
-          _savePicks();
-        }));
+        _widgetDisplayed = Center(
+            child: ChooseLanguage(
+                pickNative: false,
+                onClose: (language) {
+                  foreignLanguage = language;
+                  _savePicks();
+                }));
         break;
     }
     return Scaffold(body: _widgetDisplayed);
@@ -67,4 +73,18 @@ class StartLayoutState extends State<StartLayout> {
     await _profilStore.refresh();
   }
 
+  AppLocale _getAppLocalFromLanguageIsoCode(String isoCode) {
+    switch (isoCode) {
+      case 'en':
+        return AppLocale.en;
+      case 'fr':
+        return AppLocale.fr;
+      case 'es':
+        return AppLocale.es;
+      case 'de':
+        return AppLocale.de;
+      default:
+        return AppLocale.en;
+    }
+  }
 }

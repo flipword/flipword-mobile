@@ -1,0 +1,13 @@
+{
+  "choose_language": "Choose language",
+  "choose_language_desc": "Choose a language you want to learn.",
+  "create_word_list": "Create word list",
+  "create_word_list_desc": "Create your own personalized list by adding unknow words that met daily.",
+  "create_word_list_more_info": "*Automatic translation and Chrome extension is available to facilate this process.",
+  "flipword_title": "And...Flipword!",
+  "flipword_desc": "Learn your word list thanks to flippable cards.",
+  "start": "Start",
+  "which_native_language": "What is your language ?",
+  "which_foreign_language": "Which language you want to learn ?",
+  "save": "Save"
+}
