@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/language.dart';
-import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/store/setting/setting_store.dart';
 import 'package:flutter_flip_card/ui/widgets/language/choose_language.dart';
@@ -38,8 +37,7 @@ class StartLayoutState extends State<StartLayout> {
         _widgetDisplayed = Center(child: ChooseLanguage(onClose: (language) {
           setState(() {
             nativeLanguage = language;
-            LocaleSettings.setLocale(
-                _getAppLocalFromLanguageIsoCode(language.isoCode!));
+            _saveNativeLanguage();
             onBoardingStep += 1;
           });
         }));
@@ -66,25 +64,13 @@ class StartLayoutState extends State<StartLayout> {
 
   Future<void> _savePicks() async {
     await Future.wait([
-      _settingStore.updateNativeLanguage(nativeLanguage),
       _settingStore.updateForeignLanguage(foreignLanguage),
       _profilStore.changeMainOnBoardingStatus()
     ]);
     await _profilStore.refresh();
   }
 
-  AppLocale _getAppLocalFromLanguageIsoCode(String isoCode) {
-    switch (isoCode) {
-      case 'en':
-        return AppLocale.en;
-      case 'fr':
-        return AppLocale.fr;
-      case 'es':
-        return AppLocale.es;
-      case 'de':
-        return AppLocale.de;
-      default:
-        return AppLocale.en;
-    }
+  Future<void> _saveNativeLanguage() async {
+    await _settingStore.updateNativeLanguage(nativeLanguage);
   }
 }

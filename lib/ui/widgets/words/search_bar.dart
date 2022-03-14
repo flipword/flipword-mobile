@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:provider/provider.dart';
 
@@ -83,11 +84,11 @@ class _State extends State<SearchBar> with WidgetsBindingObserver {
                     style: TextStyle(
                         fontSize: 17,
                         color: Theme.of(context).textTheme.bodyText2!.color),
-                    decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.only(bottom: 12),
+                    decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.only(bottom: 12),
                         border: InputBorder.none,
-                        hintText: 'Search word...',
-                        prefixIcon: Icon(Icons.search)),
+                        hintText: t.search_word,
+                        prefixIcon: const Icon(Icons.search)),
                   )),
               if (_interfaceStore.searchBarValue.value == '')
                 const SizedBox()

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 
 class NoWord extends StatelessWidget {
   const NoWord({Key? key}) : super(key: key);
@@ -8,14 +9,14 @@ class NoWord extends StatelessWidget {
         body: Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(
-            'No word',
-            style: TextStyle(fontSize: 25),
+            t.no_word,
+            style: const TextStyle(fontSize: 25),
           ),
           Text(
-            'Click on "+" to add a word',
-            style: TextStyle(fontSize: 15),
+            t.click_to_add_word,
+            style: const TextStyle(fontSize: 15),
           )
         ],
       ),

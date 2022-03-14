@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
 import 'package:flutter_flip_card/ui/widgets/words/card_word.dart';
 import 'package:provider/provider.dart';
@@ -28,31 +29,32 @@ class _ProfileOnline extends State<ProfileOnline> {
               children: [
                 SizedBox(height: screenSize.height > 600 ? 150 : 120),
                 Card(
-                    margin: const EdgeInsets.only(left: 20, right: 20, bottom: 5),
+                    margin:
+                        const EdgeInsets.only(left: 20, right: 20, bottom: 5),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
                       children: [
                         Container(
-                            padding:
-                            const EdgeInsets.only(left: 20, right: 20, top: 40),
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 40),
                             child: Text(
-                                'Email : ${_profilStore.currentProfile.value!.email}',
+                                '${t.mail} ${_profilStore.currentProfile.value!.email}',
                                 style: _buildTextStyle(screenSize))),
                         Container(
-                            padding:
-                            const EdgeInsets.only(left: 20, right: 20, top: 20),
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 20),
                             child: Text(
-                                'Username : ${_profilStore.currentProfile.value!.name == '' || _profilStore.currentProfile.value!.name == null ? 'no username' : _profilStore.currentProfile.value!.name}',
+                                '${t.username} ${_profilStore.currentProfile.value!.name == '' || _profilStore.currentProfile.value!.name == null ? 'no username' : _profilStore.currentProfile.value!.name}',
                                 style: _buildTextStyle(screenSize))),
                         Container(
                           padding: const EdgeInsets.only(
                               right: 40, left: 40, top: 15, bottom: 20),
                           child: CardWord(
-                              nativeWord: 'Learned words',
+                              nativeWord: t.learned_word,
                               foreignWord:
-                              '${_profilStore.currentProfile.value!.nbWordLearned}',
+                                  '${_profilStore.currentProfile.value!.nbWordLearned}',
                               color: Theme.of(context).primaryColorLight),
                         )
                       ],
@@ -84,11 +86,9 @@ class _ProfileOnline extends State<ProfileOnline> {
                         width: screenSize.height > 600 ? 180 : 140,
                         height: screenSize.height > 600 ? 180 : 140,
                       ),
-                    )
-                )),
+                    ))),
           ],
-        )
-    );
+        ));
   }
 
   TextStyle _buildTextStyle(dynamic screenSize) {

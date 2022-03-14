@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/data/entities/card.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/services/card_service.dart';
 import 'package:flutter_flip_card/services/toast_service.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
@@ -169,10 +170,9 @@ class ListWordPageState extends State<ListWordPage> {
   void _deleteWord(String? id) {
     _cardService
         .deleteCard(id)
-        .then((value) =>
-            {_toastService.toastValidate('Card delete with success')})
+        .then((value) => {_toastService.toastValidate(t.card_delete_success)})
         .catchError(
-            (onError) => {_toastService.toastError('Error on deleting card')})
+            (onError) => {_toastService.toastError(t.card_delete_error)})
         .whenComplete(() => Navigator.of(context, rootNavigator: true).pop());
     _cardList!
       ..resetIndex()

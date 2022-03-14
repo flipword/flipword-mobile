@@ -1,5 +1,6 @@
 import 'package:flip_card/flip_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_flip_card/i18n/flipword.g.dart';
 import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/store/profil/profil_store.dart';
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = Translations.of(context);
     final height = MediaQuery.of(context).size.height;
     late Widget _widgetDisplayed;
     return Observer(builder: (context) {
@@ -51,142 +53,143 @@ class _HomePageState extends State<HomePage> {
         case FutureStatus.rejected:
           _widgetDisplayed = Scaffold(
               body: Center(
-                child: Column(children: const [
-                  Icon(Icons.warning_amber_outlined),
-                  Text('An error occured : the connection was rejected')
-                ]),
-              ));
+            child: Column(children: const [
+              Icon(Icons.warning_amber_outlined),
+              Text('An error occured : the connection was rejected')
+            ]),
+          ));
           break;
         case FutureStatus.fulfilled:
           if (_cardListStore.length != 0) {
             _widgetDisplayed = Scaffold(
                 body: Center(
                     child: Column(children: [
-                  SizedBox(height: height / 10),
-                  Center(
-                      child: Text(
-                    _endOfSerie ? 'Click to restart' : _revealState ? 'Is it ok ?' : 'Try to guess :',
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w400, fontSize: 20),
-                  )),
-                  SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height < 600 ? 5 : 20),
-                  Container(
-                    constraints: const BoxConstraints(maxWidth: 400),
-                    child: FlipCard(
-                      key: cardKey,
-                      flipOnTouch: false,
-                      front: Container(
-                          height: MediaQuery.of(context).size.height / 2,
-                          width: (MediaQuery.of(context).size.width / 100) * 70,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                offset: const Offset(2, 3), //(x,y)
-                                blurRadius: 2,
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Text(
-                              _getTextOnFront()!,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w500, fontSize: 25),
+              SizedBox(height: height / 10),
+              Center(
+                  child: Text(
+                _endOfSerie
+                    ? t.restart
+                    : _revealState
+                        ? t.is_it_ok
+                        : t.try_to_guess,
+                style:
+                    const TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
+              )),
+              SizedBox(
+                  height: MediaQuery.of(context).size.height < 600 ? 5 : 20),
+              Container(
+                  constraints: const BoxConstraints(maxWidth: 400),
+                  child: FlipCard(
+                    key: cardKey,
+                    flipOnTouch: false,
+                    front: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: (MediaQuery.of(context).size.width / 100) * 70,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              offset: const Offset(2, 3), //(x,y)
+                              blurRadius: 2,
                             ),
-                          )),
-                      back: Container(
-                          height: MediaQuery.of(context).size.height / 2,
-                          width: (MediaQuery.of(context).size.width / 100) * 70,
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(15)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Theme.of(context).shadowColor,
-                                offset: const Offset(2, 3), //(x,y)
-                                blurRadius: 2,
-                              ),
-                            ],
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(
+                            _getTextOnFront()!,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 25),
                           ),
-                          child: Center(
-                              child: Text(
-                                _getTextOnBack()!,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 25),
-                              ))),
-                    )
-                  ),
-                  SizedBox(
-                      height:
-                          MediaQuery.of(context).size.height < 600 ? 20 : 45),
-                  if (_endOfSerie)
-                    SquareButton(
-                      onPressed: _interfaceStore.overlayIsDisplayed.value
-                          ? null
-                          : _restartSerie,
-                      icon: const Icon(Icons.restore, size: 30),
-                      backgroundColor: Theme.of(context).cardColor,
-                      borderColor: Theme.of(context).primaryColor,
-                      width: _getButtonSize(),
-                      height: _getButtonSize(),
-                    )
-                  else if (_revealState)
-                    ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 600),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          SquareButton(
-                            onPressed: _interfaceStore.overlayIsDisplayed.value
-                                ? null
-                                : _errorFind,
-                            icon: const Icon(Icons.clear, size: 30),
-                            backgroundColor: Theme.of(context).cardColor,
-                            borderColor: Theme.of(context).errorColor,
-                            width: _getButtonSize(),
-                            height: _getButtonSize(),
-                          ),
-                          SquareButton(
-                            onPressed: _interfaceStore.overlayIsDisplayed.value
-                                ? null
-                                : () => {reviewCard()},
-                            icon: const Icon(Icons.replay, size: 30),
-                            backgroundColor: Theme.of(context).cardColor,
-                            borderColor: Theme.of(context).primaryColor,
-                            width: _getButtonSize(),
-                            height: _getButtonSize(),
-                          ),
-                          SquareButton(
-                            onPressed: _interfaceStore.overlayIsDisplayed.value
-                                ? null
-                                : _successFind,
-                            icon: const Icon(Icons.check, size: 30),
-                            backgroundColor: Theme.of(context).cardColor,
-                            borderColor: Theme.of(context).indicatorColor,
-                            width: _getButtonSize(),
-                            height: _getButtonSize(),
-                          )
-                        ],
+                        )),
+                    back: Container(
+                        height: MediaQuery.of(context).size.height / 2,
+                        width: (MediaQuery.of(context).size.width / 100) * 70,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).shadowColor,
+                              offset: const Offset(2, 3), //(x,y)
+                              blurRadius: 2,
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                            child: Text(
+                          _getTextOnBack()!,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 25),
+                        ))),
+                  )),
+              SizedBox(
+                  height: MediaQuery.of(context).size.height < 600 ? 20 : 45),
+              if (_endOfSerie)
+                SquareButton(
+                  onPressed: _interfaceStore.overlayIsDisplayed.value
+                      ? null
+                      : _restartSerie,
+                  icon: const Icon(Icons.restore, size: 30),
+                  backgroundColor: Theme.of(context).cardColor,
+                  borderColor: Theme.of(context).primaryColor,
+                  width: _getButtonSize(),
+                  height: _getButtonSize(),
+                )
+              else if (_revealState)
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SquareButton(
+                        onPressed: _interfaceStore.overlayIsDisplayed.value
+                            ? null
+                            : _errorFind,
+                        icon: const Icon(Icons.clear, size: 30),
+                        backgroundColor: Theme.of(context).cardColor,
+                        borderColor: Theme.of(context).errorColor,
+                        width: _getButtonSize(),
+                        height: _getButtonSize(),
                       ),
-                    )
-                  else
-                    SquareButton(
-                      onPressed: _interfaceStore.overlayIsDisplayed.value
-                          ? null
-                          : _revealWord,
-                      icon: const Icon(Icons.remove_red_eye, size: 30),
-                      backgroundColor: Theme.of(context).cardColor,
-                      borderColor: Theme.of(context).primaryColor,
-                      width: _getButtonSize(),
-                      height: _getButtonSize(),
-                    )
-                ])));
+                      SquareButton(
+                        onPressed: _interfaceStore.overlayIsDisplayed.value
+                            ? null
+                            : () => {reviewCard()},
+                        icon: const Icon(Icons.replay, size: 30),
+                        backgroundColor: Theme.of(context).cardColor,
+                        borderColor: Theme.of(context).primaryColor,
+                        width: _getButtonSize(),
+                        height: _getButtonSize(),
+                      ),
+                      SquareButton(
+                        onPressed: _interfaceStore.overlayIsDisplayed.value
+                            ? null
+                            : _successFind,
+                        icon: const Icon(Icons.check, size: 30),
+                        backgroundColor: Theme.of(context).cardColor,
+                        borderColor: Theme.of(context).indicatorColor,
+                        width: _getButtonSize(),
+                        height: _getButtonSize(),
+                      )
+                    ],
+                  ),
+                )
+              else
+                SquareButton(
+                  onPressed: _interfaceStore.overlayIsDisplayed.value
+                      ? null
+                      : _revealWord,
+                  icon: const Icon(Icons.remove_red_eye, size: 30),
+                  backgroundColor: Theme.of(context).cardColor,
+                  borderColor: Theme.of(context).primaryColor,
+                  width: _getButtonSize(),
+                  height: _getButtonSize(),
+                )
+            ])));
           } else {
             _widgetDisplayed = const NoWord();
           }
@@ -196,29 +199,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   String? _getTextOnFront() {
-    return _foreignIsOnFront ? _cardListStore
-        .list
-        .result[_cardListStore.curentIndex.value]
-        .foreignWord : _cardListStore
-        .list
-        .result[_cardListStore.curentIndex.value]
-        .nativeWord;
+    return _foreignIsOnFront
+        ? _cardListStore
+            .list.result[_cardListStore.curentIndex.value].foreignWord
+        : _cardListStore
+            .list.result[_cardListStore.curentIndex.value].nativeWord;
   }
 
   String? _getTextOnBack() {
-    return _foreignIsOnFront ? _cardListStore
-        .list
-        .result[_cardListStore.curentIndex.value]
-        .nativeWord : _cardListStore
-        .list
-        .result[_cardListStore.curentIndex.value]
-        .foreignWord ;
+    return _foreignIsOnFront
+        ? _cardListStore
+            .list.result[_cardListStore.curentIndex.value].nativeWord
+        : _cardListStore
+            .list.result[_cardListStore.curentIndex.value].foreignWord;
   }
 
   void reviewCard() {
     cardKey.currentState!.toggleCard();
     _foreignIsOnFront = !_foreignIsOnFront;
   }
+
   void _revealWord() {
     setState(() {
       _revealState = true;
