@@ -17,30 +17,25 @@ class IconTextButton extends StatelessWidget {
   final double? width;
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: width,
+    return FittedBox(
         child: MaterialButton(
-            splashColor: Theme.of(context).accentColor,
-            elevation: 10,
-            highlightElevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            onPressed: () => {onPressed()},
-            color: color,
-            padding:
-                const EdgeInsets.only(top: 5, right: 10, bottom: 5, left: 10),
-            child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(text!,
-                        style: TextStyle(
-                            color:
-                                Theme.of(context).textTheme.bodyText1!.color)),
-                    const SizedBox(width: 5),
-                    Icon(icon,
-                        size: 30, color: Theme.of(context).textTheme.bodyText1!.color)
-                  ]),
-            ));
+      splashColor: Theme.of(context).accentColor,
+      elevation: 10,
+      highlightElevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      onPressed: () => {onPressed()},
+      color: color,
+      padding: const EdgeInsets.only(top: 5, right: 20, bottom: 5, left: 20),
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(text!,
+            style:
+                TextStyle(color: Theme.of(context).textTheme.bodyText1!.color)),
+        const SizedBox(width: 5),
+        Icon(icon,
+            size: 30, color: Theme.of(context).textTheme.bodyText1!.color)
+      ]),
+    ));
   }
 }

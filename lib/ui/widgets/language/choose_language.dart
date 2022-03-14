@@ -8,10 +8,12 @@ import 'package:provider/provider.dart';
 typedef Language2VoidFunc = void Function(Language);
 
 class ChooseLanguage extends StatefulWidget {
-  const ChooseLanguage({Key? key, this.pickNative = true, this.onClose})
+  const ChooseLanguage(
+      {Key? key, this.pickNative = true, this.onPick, this.onClose})
       : super(key: key);
 
-  final Language2VoidFunc? onClose;
+  final Language2VoidFunc? onPick;
+  final VoidCallback? onClose;
   final bool pickNative;
 
   @override
@@ -28,6 +30,7 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
     language = widget.pickNative
         ? _settingStore.nativeLanguage.value!
         : _settingStore.foreignLanguage.value!;
+    widget.onPick!(language);
     super.initState();
   }
 
@@ -141,10 +144,11 @@ class _ChooseLanguageState extends State<ChooseLanguage> {
   void _updateLanguage(dynamic val) {
     setState(() {
       language = val;
+      widget.onPick!(language);
     });
   }
 
   Future<void> _saveLanguage() async {
-    widget.onClose!(language);
+    widget.onClose!();
   }
 }

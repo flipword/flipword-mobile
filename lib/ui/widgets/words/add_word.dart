@@ -283,7 +283,6 @@ class _State extends State<AddWord> {
                                             )),
                                         const SizedBox(height: 5),
                                         IconTextButton(
-                                          width: 90,
                                           icon: Icons.save,
                                           color: Theme.of(context).primaryColor,
                                           text: t.save,

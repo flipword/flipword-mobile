@@ -34,10 +34,12 @@ class StartLayoutState extends State<StartLayout> {
     late Widget _widgetDisplayed;
     switch (onBoardingStep) {
       case 1:
-        _widgetDisplayed = Center(child: ChooseLanguage(onClose: (language) {
+        _widgetDisplayed = Center(
+            child: ChooseLanguage(onPick: (language) {
+          nativeLanguage = language;
+          _saveNativeLanguage();
+        }, onClose: () {
           setState(() {
-            nativeLanguage = language;
-            _saveNativeLanguage();
             onBoardingStep += 1;
           });
         }));
@@ -53,10 +55,10 @@ class StartLayoutState extends State<StartLayout> {
         _widgetDisplayed = Center(
             child: ChooseLanguage(
                 pickNative: false,
-                onClose: (language) {
+                onPick: (language) {
                   foreignLanguage = language;
-                  _savePicks();
-                }));
+                },
+                onClose: _savePicks));
         break;
     }
     return Scaffold(body: _widgetDisplayed);

@@ -51,14 +51,16 @@ class LanguageService {
 
   Future<void> updateNativeLanguage(String? nativeLanguageIsoCode) =>
       _userProfileService.updateNativeLanguage(nativeLanguageIsoCode).then(
-          (_) => _repository
+          (_) {
+            LocaleSettings.setLocale(
+                _getAppLocalFromLanguageIsoCode(nativeLanguageIsoCode!));
+            _repository
                   .getLanguageByIsoCode(nativeLanguageIsoCode)
                   .then((value) {
                 currentNativeLanguage =
                     Language.fromJson(value.data() as Map<String, dynamic>);
-                LocaleSettings.setLocale(
-                    _getAppLocalFromLanguageIsoCode(nativeLanguageIsoCode!));
-              }));
+                  });
+              });
 
   Future<void> updateForeignLanguage(String? foreignLanguageIsoCode) =>
       _userProfileService.updateForeignLanguage(foreignLanguageIsoCode).then(
@@ -72,6 +74,10 @@ class LanguageService {
 
   Future<String?> translate(String? from, String? to, String word) async =>
       _translateRepository.translate(from, to, word);
+
+  void refreshLanguage(String languageIsoCode) {
+    LocaleSettings.setLocale(_getAppLocalFromLanguageIsoCode(languageIsoCode));
+  }
 
   AppLocale _getAppLocalFromLanguageIsoCode(String isoCode) {
     switch (isoCode) {

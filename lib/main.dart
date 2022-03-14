@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
   late ProfilStore _profilStore;
   late InterfaceStore _interfaceStore;
   late SettingStore _settingStore;
+  Locale? locale;
 
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -64,8 +65,6 @@ class MyApp extends StatelessWidget {
             ],
             child: MaterialApp(
                 title: 'FlipWord',
-                // Initialize media query for preview builder
-                locale: TranslationProvider.of(context).flutterLocale,
                 supportedLocales: const [
                   Locale('en', ''),
                   Locale('es', ''),
