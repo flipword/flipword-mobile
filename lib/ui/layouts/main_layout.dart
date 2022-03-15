@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_flip_card/router/router_app.dart';
 import 'package:flutter_flip_card/services/language_service.dart';
-import 'package:flutter_flip_card/store/cards/card_list_store.dart';
 import 'package:flutter_flip_card/store/interface/interface_store.dart';
 import 'package:flutter_flip_card/ui/pages/home.dart';
 import 'package:flutter_flip_card/ui/pages/list_word.dart';
@@ -24,17 +23,17 @@ class MainLayoutState extends State<MainLayout>
     with SingleTickerProviderStateMixin {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-  late CardListStore _cardListStore;
   late InterfaceStore _interfaceStore;
   bool displayOverlay = false;
   LanguageService languageService = LanguageService.instance;
   double? dragOffset;
   @override
   void initState() {
-    _cardListStore = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
     WidgetsBinding.instance!.addPostFrameCallback((_) {
-      Overlay.of(context)!.insert(_createOverlayEntry());
+      if (!_interfaceStore.overlayIsBuilt.value) {
+        Overlay.of(context)!.insert(_createOverlayEntry());
+      }
     });
     dragOffset = 50;
     super.initState();
@@ -140,6 +139,7 @@ class MainLayoutState extends State<MainLayout>
 
   OverlayEntry _createOverlayEntry() {
     final screenHeight = MediaQuery.of(context).size.height;
+    _interfaceStore.buildOverlay();
     return OverlayEntry(
         builder: (context) => AnimatedPositioned(
               duration: const Duration(milliseconds: 500),

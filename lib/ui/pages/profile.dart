@@ -132,9 +132,9 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _login(SignInMethod signInMethod) {
-    _profilStore.login(signInMethod).then((value) {
-      _settingStore.initLanguages().then((value) => _cardListStore.fetchCard());
-    });
+    _profilStore
+        .login(signInMethod)
+        .then((value) => _settingStore.initLanguages());
   }
 
   void _logout() {
