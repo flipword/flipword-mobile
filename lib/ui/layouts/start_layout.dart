@@ -69,7 +69,6 @@ class StartLayoutState extends State<StartLayout> {
       _settingStore.updateForeignLanguage(foreignLanguage),
       _profilStore.changeMainOnBoardingStatus()
     ]);
-    await _profilStore.refresh();
   }
 
   Future<void> _saveNativeLanguage() async {

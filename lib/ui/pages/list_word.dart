@@ -33,8 +33,9 @@ class ListWordPageState extends State<ListWordPage> {
   void initState() {
     _cardList = Provider.of<CardListStore>(context, listen: false);
     _interfaceStore = Provider.of<InterfaceStore>(context, listen: false);
-    _cardList!.fetchCard();
     searchFocusNode = FocusNode();
+    WidgetsBinding.instance!
+        .addPostFrameCallback((_) => _cardList!.fetchCard());
     super.initState();
   }
 
