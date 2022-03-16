@@ -9,6 +9,9 @@ abstract class _InterfaceStore with Store {
   ObservableValue<bool> overlayIsDisplayed = Observable<bool>(false);
 
   @observable
+  ObservableValue<bool> overlayIsBuilt = Observable<bool>(false);
+
+  @observable
   ObservableValue<bool> animationIsTerminated = Observable<bool>(false);
 
   @observable
@@ -36,6 +39,11 @@ abstract class _InterfaceStore with Store {
   @action
   void resetAddingPopupOffset() {
     addingPopupOffset = Observable<double>(0);
+  }
+
+  @action
+  void buildOverlay() {
+    overlayIsBuilt = Observable<bool>(true);
   }
 
   @action

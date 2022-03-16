@@ -8,10 +8,10 @@ import 'language_service.dart';
 class CardService {
   CardService._privateConstructor();
 
-
   final FirestoreDictionaryRepository _repository =
       FirestoreDictionaryRepository.instance;
-  final AbstractUserProfileService _authService = AbstractUserProfileService.instance;
+  final AbstractUserProfileService _authService =
+      AbstractUserProfileService.instance;
   final LanguageService _languageService = LanguageService.instance;
 
   static final CardService _instance = CardService._privateConstructor();
@@ -27,9 +27,11 @@ class CardService {
   }
 
   Future<List<CardEntity>> getListCard() async {
+    print('GET card');
     final response = await getCardCollection().get();
     return response.docs.map((element) {
-      final entity = CardEntity.fromJson(element.data() as Map<String, dynamic>)..id = element.id;
+      final entity = CardEntity.fromJson(element.data() as Map<String, dynamic>)
+        ..id = element.id;
       return entity;
     }).toList();
   }
@@ -48,7 +50,7 @@ class CardService {
     } else {
       await getCardCollection().doc(card.id).update({
         success ? 'nbSuccess' : 'nbErrors':
-        success ? card.nbSuccess! + 1 : card.nbErrors! + 1
+            success ? card.nbSuccess! + 1 : card.nbErrors! + 1
       });
     }
   }
