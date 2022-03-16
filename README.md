@@ -1,7 +1,6 @@
 ![GitHaction badge](https://github.com/acroquelois/flip-word/actions/workflows/.github/workflows/dart.yml/badge.svg)
 
-# FlipWord
-
+# FlipWord - Learn Vocabulary
 
 <a href="https://www.producthunt.com/posts/flipword-2?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-flipword&#0045;2" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=309556&theme=light" alt="FlipWord - Foreign&#0032;vocabulary&#0032;learning&#0032;tool | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
@@ -16,11 +15,12 @@ You read a very interesting article in a foreign language but you do not underst
 
 ## Visit web site
 
-📱 [Flipword website](https://flipword.io)
+[Flipword website](https://flipword.io)
 
 ## Download app
 
 [Flipword android](https://play.google.com/store/apps/details?id=com.flutter_flip_card&pcampaignid=pcampaignidMKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+
 [Flipword iOS](https://apps.apple.com/us/app/flipword-learn-vocabulary/id1599752185)
 
 ## Download chrome extension
