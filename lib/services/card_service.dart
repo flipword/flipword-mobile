@@ -27,7 +27,6 @@ class CardService {
   }
 
   Future<List<CardEntity>> getListCard() async {
-    print('GET card');
     final response = await getCardCollection().get();
     return response.docs.map((element) {
       final entity = CardEntity.fromJson(element.data() as Map<String, dynamic>)
