@@ -11,6 +11,7 @@ import 'package:flutter_flip_card/ui/widgets/utils/button/icon_text_button.dart'
 import 'package:flutter_flip_card/ui/widgets/utils/button/square_button.dart';
 import 'package:flutter_flip_card/ui/widgets/words/input_word.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:showcaseview/showcaseview.dart';
 
@@ -92,13 +93,13 @@ class _State extends State<AddWord> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.center,
                                               children: [
-                                                Image.asset(
-                                                    'assets/microsoft-translate.png',
+                                                SvgPicture.asset(
+                                                    'assets/google-translate.svg',
                                                     height: 35,
                                                     width: 35),
-                                                const SizedBox(width: 5),
+                                                const SizedBox(width: 10),
                                                 Text(
-                                                  'Microsoft',
+                                                  'Google',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
                                                       color: Theme.of(context)
@@ -106,10 +107,10 @@ class _State extends State<AddWord> {
                                                           .bodyText1!
                                                           .color,
                                                       fontWeight:
-                                                          FontWeight.w400,
+                                                          FontWeight.w600,
                                                       fontSize: 23),
                                                 ),
-                                                const SizedBox(width: 5),
+                                                const SizedBox(width: 4),
                                                 Text(
                                                   'Translate',
                                                   textAlign: TextAlign.center,
