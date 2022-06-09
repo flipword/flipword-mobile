@@ -22,10 +22,10 @@ abstract class _SettingStore with Store {
   ObservableFuture<int?> nbSuccessRequired = ObservableFuture.value(null);
 
   @observable
-  Language? baseLanguage;
+  Observable<Language?> baseLanguage = Observable(null);
 
   @observable
-  Language? translateLanguage;
+  Observable<Language?> translateLanguage = Observable(null);
 
   @computed
   bool get isReverseLanguage => nativeLanguage.value != baseLanguage;
@@ -64,12 +64,12 @@ abstract class _SettingStore with Store {
 
   void _setNativeLanguage(Language language) {
     nativeLanguage = ObservableFuture.value(language);
-    baseLanguage = language;
+    baseLanguage = Observable(language);
   }
 
   void _setForeignLanguage(Language language) {
     foreignLanguage = ObservableFuture.value(language);
-    translateLanguage = language;
+    translateLanguage = Observable(language);
   }
 
   @action

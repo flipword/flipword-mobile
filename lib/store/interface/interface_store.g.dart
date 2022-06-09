@@ -25,6 +25,21 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
     });
   }
 
+  final _$overlayIsBuiltAtom = Atom(name: '_InterfaceStore.overlayIsBuilt');
+
+  @override
+  ObservableValue<bool> get overlayIsBuilt {
+    _$overlayIsBuiltAtom.reportRead();
+    return super.overlayIsBuilt;
+  }
+
+  @override
+  set overlayIsBuilt(ObservableValue<bool> value) {
+    _$overlayIsBuiltAtom.reportWrite(value, super.overlayIsBuilt, () {
+      super.overlayIsBuilt = value;
+    });
+  }
+
   final _$animationIsTerminatedAtom =
       Atom(name: '_InterfaceStore.animationIsTerminated');
 
@@ -125,6 +140,17 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   }
 
   @override
+  void buildOverlay() {
+    final _$actionInfo = _$_InterfaceStoreActionController.startAction(
+        name: '_InterfaceStore.buildOverlay');
+    try {
+      return super.buildOverlay();
+    } finally {
+      _$_InterfaceStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void closeOverlay() {
     final _$actionInfo = _$_InterfaceStoreActionController.startAction(
         name: '_InterfaceStore.closeOverlay');
@@ -172,6 +198,7 @@ mixin _$InterfaceStore on _InterfaceStore, Store {
   String toString() {
     return '''
 overlayIsDisplayed: ${overlayIsDisplayed},
+overlayIsBuilt: ${overlayIsBuilt},
 animationIsTerminated: ${animationIsTerminated},
 addingPopupOffset: ${addingPopupOffset},
 currentRoute: ${currentRoute},
