@@ -31,6 +31,8 @@ class _State extends State<AddWord> {
 
   final GlobalKey<SquareButtonState> _translateButtonKey =
       GlobalKey<SquareButtonState>();
+  final GlobalKey<SquareButtonState> _translateButtonKeyShowcase =
+      GlobalKey<SquareButtonState>();
   final _formKey = GlobalKey<FormState>();
   final GlobalKey _swapKey = GlobalKey();
 
@@ -66,7 +68,7 @@ class _State extends State<AddWord> {
         onVerticalDragEnd: _onDragEnd,
         child: ShowCaseWidget(
             onFinish: _onBoardingFinish,
-            builder: Builder(
+            builder: Observer(
                 builder: (context) => SizedBox(
                     width: screenSize,
                     child: Align(
@@ -142,11 +144,12 @@ class _State extends State<AddWord> {
                                                     child: Container(
                                                   alignment: Alignment.center,
                                                   child: Text(
-                                                    _settingStore
-                                                                .baseLanguage !=
+                                                    _settingStore.baseLanguage
+                                                                .value !=
                                                             null
                                                         ? _settingStore
-                                                            .baseLanguage!
+                                                            .baseLanguage
+                                                            .value!
                                                             .label!
                                                         : '',
                                                     style: TextStyle(
@@ -182,8 +185,9 @@ class _State extends State<AddWord> {
                                                             color: Theme.of(
                                                                     context)
                                                                 .primaryColor,
-                                                            onPressed: _settingStore
-                                                                .reverseLanguage,
+                                                            onPressed: () =>
+                                                                _settingStore
+                                                                    .reverseLanguage(),
                                                             child: Icon(
                                                                 Icons
                                                                     .swap_horiz,
@@ -200,10 +204,12 @@ class _State extends State<AddWord> {
                                                   alignment: Alignment.center,
                                                   child: Text(
                                                     _settingStore
-                                                                .translateLanguage !=
+                                                                .translateLanguage
+                                                                .value !=
                                                             null
                                                         ? _settingStore
-                                                            .translateLanguage!
+                                                            .translateLanguage
+                                                            .value!
                                                             .label!
                                                         : '',
                                                     style: TextStyle(
@@ -226,10 +232,11 @@ class _State extends State<AddWord> {
                                               left: 10, right: 10),
                                           child: InputWord(
                                             controller: _baseWordController,
-                                            label: _settingStore.baseLanguage !=
+                                            label: _settingStore
+                                                        .baseLanguage.value !=
                                                     null
                                                 ? _settingStore
-                                                    .baseLanguage!.label
+                                                    .baseLanguage.value!.label
                                                 : '',
                                             focusNode: focusNode,
                                             hintText: t.enter_word,
@@ -238,7 +245,7 @@ class _State extends State<AddWord> {
                                         ),
                                         const SizedBox(height: 15),
                                         Showcase.withWidget(
-                                          key: _translateButtonKey,
+                                          key: _translateButtonKeyShowcase,
                                           disableAnimation: true,
                                           overlayPadding:
                                               const EdgeInsets.all(10),
@@ -252,6 +259,7 @@ class _State extends State<AddWord> {
                                           width: 0,
                                           height: 0,
                                           child: SquareButton(
+                                            key: _translateButtonKey,
                                             onPressed: _translateWord,
                                             icon: Icon(
                                               Icons.translate_outlined,
@@ -275,10 +283,13 @@ class _State extends State<AddWord> {
                                               controller:
                                                   _translateWordController,
                                               label: _settingStore
-                                                          .translateLanguage !=
+                                                          .translateLanguage
+                                                          .value !=
                                                       null
                                                   ? _settingStore
-                                                      .translateLanguage!.label
+                                                      .translateLanguage
+                                                      .value!
+                                                      .label
                                                   : '',
                                               onWordChanged: (_) => {},
                                             )),
@@ -305,7 +316,7 @@ class _State extends State<AddWord> {
                                         (_) => ShowCaseWidget.of(context)!
                                             .startShowCase([
                                           _swapKey,
-                                          _translateButtonKey
+                                          _translateButtonKeyShowcase
                                         ]),
                                       );
                                       return const SizedBox();
@@ -322,8 +333,8 @@ class _State extends State<AddWord> {
       _translateButtonKey.currentState!.changeLoadingState();
       _settingStore
           .translate(
-              _settingStore.baseLanguage!.isoCode,
-              _settingStore.translateLanguage!.isoCode,
+              _settingStore.baseLanguage.value!.isoCode,
+              _settingStore.translateLanguage.value!.isoCode,
               _baseWordController!.text)
           .then((value) {
             _translateWordController!.text = value!;
