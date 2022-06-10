@@ -68,7 +68,7 @@ class _State extends State<AddWord> {
         onVerticalDragEnd: _onDragEnd,
         child: ShowCaseWidget(
             onFinish: _onBoardingFinish,
-            builder: Builder(
+            builder: Observer(
                 builder: (context) => SizedBox(
                     width: screenSize,
                     child: Align(

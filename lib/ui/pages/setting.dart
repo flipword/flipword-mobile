@@ -251,6 +251,7 @@ class _SettingPage extends State<SettingPage> {
         _profilStore.currentProfile.value!.nbSuccessRequired;
     final updatedNbSuccessRequired =
         isUp ? currentNbSuccessRequired! + 1 : currentNbSuccessRequired! - 1;
+    // TODO: put domain logic in store
     if (updatedNbSuccessRequired < 1) {
       _toastService.toastError(t.nb_success_define_error);
     } else {

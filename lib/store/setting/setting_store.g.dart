@@ -80,13 +80,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$baseLanguageAtom = Atom(name: '_SettingStore.baseLanguage');
 
   @override
-  Observable<Language?> get baseLanguage {
+  ObservableValue<Language?> get baseLanguage {
     _$baseLanguageAtom.reportRead();
     return super.baseLanguage;
   }
 
   @override
-  set baseLanguage(Observable<Language?> value) {
+  set baseLanguage(ObservableValue<Language?> value) {
     _$baseLanguageAtom.reportWrite(value, super.baseLanguage, () {
       super.baseLanguage = value;
     });
@@ -95,13 +95,13 @@ mixin _$SettingStore on _SettingStore, Store {
   final _$translateLanguageAtom = Atom(name: '_SettingStore.translateLanguage');
 
   @override
-  Observable<Language?> get translateLanguage {
+  ObservableValue<Language?> get translateLanguage {
     _$translateLanguageAtom.reportRead();
     return super.translateLanguage;
   }
 
   @override
-  set translateLanguage(Observable<Language?> value) {
+  set translateLanguage(ObservableValue<Language?> value) {
     _$translateLanguageAtom.reportWrite(value, super.translateLanguage, () {
       super.translateLanguage = value;
     });
